@@ -1,19 +1,13 @@
 import { GetStaticProps, type NextPage } from "next";
 import Link from "next/link";
 import allCites from "src/data/allCities.json";
-
-type DisciplineProps = {
-  style: string;
-  discipline: string;
-  city: string;
-  province: string;
-};
-
-type PathsArray = {
-  params: DisciplineProps;
-};
-
-type ObjectList = { [key: string]: string };
+import {
+  styles,
+  disciplines,
+  provinces,
+  provincesFull,
+} from "src/data/constants";
+import { DisciplineProps, PathsArray } from "@component/data/types";
 
 const DisciplinePage: NextPage<DisciplineProps> = ({
   style,
@@ -41,39 +35,6 @@ const DisciplinePage: NextPage<DisciplineProps> = ({
 
 const createPaths = (): Array<PathsArray> => {
   const finalArray: Array<PathsArray> = [];
-  const styles = ["pt", "ft"];
-  const disciplines = ["act", "sing", "dance", "mt"];
-  const provinces = [
-    "bc",
-    "ab",
-    "sk",
-    "mb",
-    "on",
-    "qc",
-    "nb",
-    "ns",
-    "nl",
-    "pe",
-    "yt",
-    "nu",
-    "nt",
-  ];
-
-  const provincesFull: ObjectList = {
-    bc: "british columbia",
-    ab: "alberta",
-    sk: "saskatchewan",
-    mb: "manitoba",
-    on: "ontario",
-    qc: "québec",
-    nb: "new brunswick",
-    ns: "nova scotia",
-    nl: "newfoundland",
-    pe: "prince edward island",
-    yt: "yukon",
-    nu: "nunavut",
-    nt: "northwest territories",
-  };
   styles.forEach((style) => {
     disciplines.forEach((discipline) => {
       provinces.forEach((province) => {
@@ -118,14 +79,5 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     },
   };
 };
-
-// DisciplinePage.getInitialProps = async () => {
-//   return {
-//     style: "style",
-//     discipline: "discipline",
-//     city: "city",
-//     province: "province",
-//   };
-// };
 
 export default DisciplinePage;

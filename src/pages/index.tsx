@@ -2,6 +2,8 @@ import { type NextPage } from "next";
 // import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
+import Picker from "./Picker";
+import { styles } from "@component/data/constants";
 // import { api } from "@component/utils/api";
 
 const Home: NextPage = () => {
@@ -16,7 +18,7 @@ const Home: NextPage = () => {
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
         <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-          Performer
+          What kind of program?
         </h1>
         <div
           style={{
@@ -25,7 +27,8 @@ const Home: NextPage = () => {
           }}
           className="rounded border-2 border-green-300"
         >
-          <Link href="/page1" style={{ padding: "2rem" }}>
+          <Picker buttonOptions={styles} currentLink="" last={false} />
+          {/* <Link href="/page1" style={{ padding: "2rem" }}>
             <button className="rounded border border-blue-500 bg-transparent px-4 py-2 font-semibold text-white hover:border-transparent hover:bg-blue-500 hover:text-white">
               Button 1
             </button>
@@ -39,7 +42,7 @@ const Home: NextPage = () => {
             <button className="rounded border border-blue-500 bg-transparent px-4 py-2 font-semibold text-white hover:border-transparent hover:bg-blue-500 hover:text-white">
               PT Acting Toronto
             </button>
-          </Link>
+          </Link> */}
         </div>
         {/* <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
           <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
