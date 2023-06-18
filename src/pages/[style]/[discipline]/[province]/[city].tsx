@@ -26,20 +26,13 @@ const DisciplinePage: NextPage<DisciplineProps> = ({
   pageData,
 }) => {
   const dataDisplay = pageData?.map((element) => {
-    // const {id, program} = element as FTDataProp
-    // const schoolID = allSchools[element.id].id
-    const { id, program, site } = element;
-    console.log(id);
-    console.log(program);
-    console.log(site);
-    // const schoolID = allSchoolsLocations;
-    // console.log(schoolID);
-    // const schoolObject = allSchools[id];
-    // console.log(schoolID);
+    const { id, program, site, school_location_id } = element;
+    // allSchoolsLocations: AllSchoolsLocations[]
+    const schoolId = allSchoolsLocations[school_location_id].school_id;
 
     return (
       <div key={id}>
-        {/* {schoolObject.name} */}
+        {allSchools[schoolId].name}
         {program}, {site}
       </div>
     );
@@ -96,21 +89,12 @@ export async function getStaticPaths() {
   };
 }
 
-// const DisciplinePage: NextPage<DisciplineProps> = ({
-//   style,
-//   discipline,
-//   city,
-//   province,
-// })
 const fetchPageData = (props: DisciplineProps) => {
   const { style, discipline, city, province } = props;
-  // const finalArray = []
-  // let allOfDiscipline
-  // let finalArray;
+
   let cityObject = Object.values(allCites).find(
     (element) => element.city === city
   );
-  // console.log(cityObject);
 
   if (style === "pt") {
     // // allOfDiscipline = Object.values(allPtPrograms).filter((element) => element.type === discipline)
@@ -161,52 +145,50 @@ const fetchPageData = (props: DisciplineProps) => {
     // //   .map((element) => element.site);
     // // finalArray = tempArray;
     // return tempArray;
-  }
-  if (style === "ft") {
-    // finalArray = Object.values(allFtPrograms)
-    //   .filter((element) => element.type === discipline)
-    //   .map((element) => element.site);
-    // allOfDiscipline = Object.values(allFtPrograms).filter((element) => element.type === discipline)
+    // console.log("fetching ft data");
+    // ///////////
+    // const tempArray: FTDataProp[] = [];
     // const allOfDiscipline = Object.values(allFtPrograms).filter(
     //   (element) => element.type === discipline
     // );
-    // const cityID = allCites.fin
+    // let allSchoolsAtLocation = Object.values(allSchoolsLocations)
+    //   .filter((element) => element.location_id === cityObject.id)
+    //   .map((school) => school.id);
+    // allSchoolsAtLocation.forEach((schoolObj) => {
+    //   const selectedSchool = allOfDiscipline.find(
+    //     (element) => element.school_location_id === schoolObj
+    //   );
+    //   if (selectedSchool) {
+    //     tempArray.push(selectedSchool);
+    //   }
+    // });
+    // return tempArray;
+  }
+  if (style === "ft") {
+    console.log("fetching ft data");
 
     ///////////
+    const tempArray: FTDataProp[] = [];
     const allOfDiscipline = Object.values(allFtPrograms).filter(
       (element) => element.type === discipline
     );
 
     let allSchoolsAtLocation = Object.values(allSchoolsLocations)
       .filter((element) => element.location_id === cityObject.id)
-      .map((element) => element.id);
+      .map((school) => school.id);
 
-    // console.log(allSchoolsAtLocation);
+    allSchoolsAtLocation.forEach((schoolObj) => {
+      // console.log(schoolObj);
 
-    const tempArray: FTDataProp[] = [];
-
-    allSchoolsAtLocation.forEach((schoolID) => {
       const selectedSchool = allOfDiscipline.find(
-        (element) => element.school_location_id === schoolID
+        (element) => element.school_location_id === schoolObj
       );
-      // console.log(selectedSchool);
       if (selectedSchool) {
         tempArray.push(selectedSchool);
       }
-      // tempArray.push(selectedSchool[0].site);
     });
-    // console.log(allOfDiscipline);
-    // finalArray = allOfDiscipline.filter((element) => element.)
 
-    // finalArray = Object.values(allPtPrograms)
-    //   .filter((element) => element.type === discipline)
-    //   .map((element) => element.site);
-    // finalArray = tempArray;
     return tempArray;
-
-    // const allSites = allSchoolsAtLocation.map((element) => {
-    //   return element
-    // })
   }
   // console.log(finalArray);
 

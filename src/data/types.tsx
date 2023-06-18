@@ -1,3 +1,11 @@
+export type AllSchoolsLocations = {
+  [key: string]: {
+    id: string;
+    school_id: string;
+    location_id: string;
+  };
+};
+
 export type DisciplineProps = {
   style: string;
   discipline?: string;

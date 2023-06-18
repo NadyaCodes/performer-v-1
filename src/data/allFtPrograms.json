@@ -1,1591 +1,1591 @@
 {
-  "98a3faf6-8c1e-48b0-a9cf-34e347d8db32": {
-    "id": "98a3faf6-8c1e-48b0-a9cf-34e347d8db32",
-    "school_location_id": "a5120862-2dd4-4abf-919c-82345f39a757",
+  "43f91c2a-3e20-490e-92b4-9882f3346215": {
+    "id": "43f91c2a-3e20-490e-92b4-9882f3346215",
+    "school_location_id": "28218496-03a6-4f6a-9250-961295bd95af",
     "site": "https://concordia.ab.ca",
     "type": "act",
     "program": "bachelor of arts concentration in drama",
     "style": "ft"
   },
-  "87fb0d60-2a72-4b4d-837e-b46684239b86": {
-    "id": "87fb0d60-2a72-4b4d-837e-b46684239b86",
-    "school_location_id": "0da29df5-2092-4023-b192-402f1dee0b00",
+  "8d50ddf5-303e-46cc-ad37-d5a8f6a71235": {
+    "id": "8d50ddf5-303e-46cc-ad37-d5a8f6a71235",
+    "school_location_id": "a8d4ac2a-61b6-4c4c-849a-79528877d1d5",
     "site": "https://www.gprc.ab.ca",
     "type": "act",
     "program": "drama - university transfer program (1st/2nd year)",
     "style": "ft"
   },
-  "4a974864-2587-49a7-9fc5-bd7e00dd7432": {
-    "id": "4a974864-2587-49a7-9fc5-bd7e00dd7432",
-    "school_location_id": "0bb2f713-1740-4bea-897a-e13a067bd341",
+  "49848a73-042a-49fd-8c4c-7cee869547fc": {
+    "id": "49848a73-042a-49fd-8c4c-7cee869547fc",
+    "school_location_id": "ba243411-c76e-4288-bd9c-466d02589f17",
     "site": "https://www.mhc.ab.ca",
     "type": "act",
     "program": "bachelor of arts university transfer options",
     "style": "ft"
   },
-  "7a526442-3fdd-4dd9-b634-53f870ba3a47": {
-    "id": "7a526442-3fdd-4dd9-b634-53f870ba3a47",
-    "school_location_id": "ba3dc134-1934-425f-a3df-61875690b653",
+  "2354c618-ba47-4e51-8131-5f7b2920ffa7": {
+    "id": "2354c618-ba47-4e51-8131-5f7b2920ffa7",
+    "school_location_id": "8fef110f-3569-44b1-87b4-b5bbc8f955db",
     "site": "http://rdc.ab.ca",
     "type": "act",
     "program": "bachelor of applied arts in film, theatre and live entertainment",
     "style": "ft"
   },
-  "5400abb1-218b-4d22-804e-a5cbc9eef48d": {
-    "id": "5400abb1-218b-4d22-804e-a5cbc9eef48d",
-    "school_location_id": "778b68b6-fc3a-4460-8628-6d9c35badbae",
+  "0ef3a0fa-0e34-469b-8eb6-cd5415a8e56c": {
+    "id": "0ef3a0fa-0e34-469b-8eb6-cd5415a8e56c",
+    "school_location_id": "004356d8-32c8-4bf4-94cf-9a4e579379f8",
     "site": "https://www.rosebudschoolofthearts.com",
     "type": "act",
     "program": "theatre foundations program",
     "style": "ft"
   },
-  "0a81ba46-5484-4b55-93c1-a5db6bba9ca2": {
-    "id": "0a81ba46-5484-4b55-93c1-a5db6bba9ca2",
-    "school_location_id": "965c2968-6187-4bec-bebb-28e6ab285444",
+  "7f578138-da5d-43a4-8493-05957b8abfaa": {
+    "id": "7f578138-da5d-43a4-8493-05957b8abfaa",
+    "school_location_id": "b845585f-184c-4b9b-9866-5fc4d54359ac",
     "site": "https://www.ualberta.ca",
     "type": "act",
     "program": "bachelor of arts in drama",
     "style": "ft"
   },
-  "88f6b566-af31-48c2-92ca-03fa68a670f5": {
-    "id": "88f6b566-af31-48c2-92ca-03fa68a670f5",
-    "school_location_id": "b82897a4-e25f-4717-9572-38e71f0ec33f",
+  "05204fea-537d-4709-a375-ba0c79f2236c": {
+    "id": "05204fea-537d-4709-a375-ba0c79f2236c",
+    "school_location_id": "b39d90a4-0927-4e19-954e-5ee13376e0e0",
     "site": "https://www.ualberta.ca/augustana/",
     "type": "act",
     "program": "bachelor of arts major in drama",
     "style": "ft"
   },
-  "3d25355d-fdf7-4733-a18c-86d5e7f37823": {
-    "id": "3d25355d-fdf7-4733-a18c-86d5e7f37823",
-    "school_location_id": "d077ea6d-7f25-4a8d-b4e6-9f165606af58",
+  "d5abe6f1-47f1-4018-bee3-b2b4a6ac44d3": {
+    "id": "d5abe6f1-47f1-4018-bee3-b2b4a6ac44d3",
+    "school_location_id": "fe6a071a-8f54-4c27-ad2b-72d4f70e7cc2",
     "site": "http://www.ucalgary.ca",
     "type": "act",
     "program": "bachelor of fine arts in drama",
     "style": "ft"
   },
-  "12cad819-799f-4409-8274-9784399ae876": {
-    "id": "12cad819-799f-4409-8274-9784399ae876",
-    "school_location_id": "4a52367c-d587-402b-b436-0e349251ff3a",
+  "ea304f92-6599-4d75-9b34-5cba7a7e5277": {
+    "id": "ea304f92-6599-4d75-9b34-5cba7a7e5277",
+    "school_location_id": "2d28e44b-4bf5-4578-b165-33cf43ec5f57",
     "site": "http://www.uleth.ca",
     "type": "act",
     "program": "bachelor of fine arts in dramatic arts (performance)",
     "style": "ft"
   },
-  "0c70f576-c785-4cb8-b3d5-54eb906d0e02": {
-    "id": "0c70f576-c785-4cb8-b3d5-54eb906d0e02",
-    "school_location_id": "7bac6e5c-6e5b-4461-823a-473864031f93",
+  "faeadd98-95ef-4271-8180-40a8e47e0083": {
+    "id": "faeadd98-95ef-4271-8180-40a8e47e0083",
+    "school_location_id": "b7b5c557-89cd-4d07-95c6-716fb430020e",
     "site": "https://www.artsumbrella.com/",
     "type": "act",
     "program": "theatre conservatory",
     "style": "ft"
   },
-  "8fd5245e-99b9-4c95-a5ec-d0338e80369a": {
-    "id": "8fd5245e-99b9-4c95-a5ec-d0338e80369a",
-    "school_location_id": "0576d1bc-8a4e-45d1-b2f7-b2dcb62a97f7",
+  "244bf124-ff48-47e8-948b-28f1909a6393": {
+    "id": "244bf124-ff48-47e8-948b-28f1909a6393",
+    "school_location_id": "a32d9f96-ba4a-4ff8-bd66-40fb841a238e",
     "site": "http://www.canadacfti.com",
     "type": "act",
     "program": "acting essentials",
     "style": "ft"
   },
-  "8faa18e4-ee98-46b3-92db-4e30c9b81bfc": {
-    "id": "8faa18e4-ee98-46b3-92db-4e30c9b81bfc",
-    "school_location_id": "7f0e8686-b302-4bf6-90b5-ebf719928e70",
+  "19108af3-c5f3-4281-bf77-c0b7712f45eb": {
+    "id": "19108af3-c5f3-4281-bf77-c0b7712f45eb",
+    "school_location_id": "4518fd71-fc47-4150-a137-ab1bfa57d9ad",
     "site": "http://www.capilanou.ca/",
     "type": "act",
     "program": "acting for stage and screen diploma",
     "style": "ft"
   },
-  "b30a400f-983f-42be-b92c-8d1d69cf2305": {
-    "id": "b30a400f-983f-42be-b92c-8d1d69cf2305",
-    "school_location_id": "9b7faf42-756a-4ecd-8d83-dfc3f79e3689",
+  "eb73a368-18b5-4dd0-b275-2f4219c15bb4": {
+    "id": "eb73a368-18b5-4dd0-b275-2f4219c15bb4",
+    "school_location_id": "443b143b-2956-4008-86de-3c74490f8bbd",
     "site": "https://www.douglascollege.ca/",
     "type": "act",
     "program": "performing and fine arts certificate",
     "style": "ft"
   },
-  "69533694-c677-4f9c-a107-e9e53075e18f": {
-    "id": "69533694-c677-4f9c-a107-e9e53075e18f",
-    "school_location_id": "687f60a2-d2af-4d07-9589-3565b5f35681",
+  "d21befdb-c85b-413b-8a84-d6983a2388af": {
+    "id": "d21befdb-c85b-413b-8a84-d6983a2388af",
+    "school_location_id": "35d42001-8a3b-44d5-8c6b-50386e031c12",
     "site": "https://langara.ca",
     "type": "act",
     "program": "film arts acting certificate",
     "style": "ft"
   },
-  "2c8b9772-2ef6-4412-a981-e23b97418547": {
-    "id": "2c8b9772-2ef6-4412-a981-e23b97418547",
-    "school_location_id": "73b9fa54-7aa7-4085-89f7-4fe13b629a56",
+  "ee7b5ecf-989c-4470-ac9b-6ff50ad77861": {
+    "id": "ee7b5ecf-989c-4470-ac9b-6ff50ad77861",
+    "school_location_id": "923e94a8-55ea-4ca6-8c45-3e2239021234",
     "site": "http://www.newimage.ca",
     "type": "act",
     "program": "film acting conservatory",
     "style": "ft"
   },
-  "ef0ddf92-6cb1-4e15-aab3-7a6a0fee2fe5": {
-    "id": "ef0ddf92-6cb1-4e15-aab3-7a6a0fee2fe5",
-    "school_location_id": "979ebd52-ac28-4148-bf3f-12c7e9fc6ca9",
+  "63872563-c529-48f3-8344-ca6eccd8fcfe": {
+    "id": "63872563-c529-48f3-8344-ca6eccd8fcfe",
+    "school_location_id": "8f25408f-22b5-4226-8d7d-d5a16e3ba7d3",
     "site": "https://www.sfu.ca",
     "type": "act",
     "program": "bachelor of fine arts in theatre (performance)",
     "style": "ft"
   },
-  "b3721462-4e62-4f66-8e0e-ff83889ae4bf": {
-    "id": "b3721462-4e62-4f66-8e0e-ff83889ae4bf",
-    "school_location_id": "6200b206-3957-427b-b67b-0f1a22c93b13",
+  "025e1170-bd56-4335-bcca-b271700b4a71": {
+    "id": "025e1170-bd56-4335-bcca-b271700b4a71",
+    "school_location_id": "e2a843ff-1cc8-4a57-87e1-e4081faf558c",
     "site": "https://www.tru.ca",
     "type": "act",
     "program": "theatre arts, bachelor of arts",
     "style": "ft"
   },
-  "60ef91ea-5c91-4fe7-b375-af42367efc7d": {
-    "id": "60ef91ea-5c91-4fe7-b375-af42367efc7d",
-    "school_location_id": "3d5623e6-58b8-4bad-a751-62c2d1a9fd20",
+  "e298e01e-364d-4891-9fc8-9a9078f9aa22": {
+    "id": "e298e01e-364d-4891-9fc8-9a9078f9aa22",
+    "school_location_id": "0aff2725-9cb7-4232-915a-63fa695b7122",
     "site": "https://www.twu.ca",
     "type": "act",
     "program": "bachelor of fine arts in acting",
     "style": "ft"
   },
-  "8a689f0d-65c1-4452-85b2-5ca8cb25aff1": {
-    "id": "8a689f0d-65c1-4452-85b2-5ca8cb25aff1",
-    "school_location_id": "1fc3f043-afef-46f1-82d9-782e87dfc5be",
+  "2e7a9645-ab6a-488f-8ce6-88fc470a8bfb": {
+    "id": "2e7a9645-ab6a-488f-8ce6-88fc470a8bfb",
+    "school_location_id": "1d9d7d01-9086-43a8-9acc-877a3cb1c85a",
     "site": "https://www.ubc.ca",
     "type": "act",
     "program": "bachelor of fine arts acting",
     "style": "ft"
   },
-  "2ae2bb17-3884-4e07-ba8c-39e73593af52": {
-    "id": "2ae2bb17-3884-4e07-ba8c-39e73593af52",
-    "school_location_id": "2a7c91bd-d84e-4f51-ba86-a625c2ab191b",
+  "a7c90166-4d83-4189-9704-716347ef2fb6": {
+    "id": "a7c90166-4d83-4189-9704-716347ef2fb6",
+    "school_location_id": "bd264a4f-445c-461b-afd3-2e66611b5884",
     "site": "http://www.calendar.ubc.ca/okanagan/",
     "type": "act",
     "program": "bachelor of fine arts major in interdisciplinary performance",
     "style": "ft"
   },
-  "63ee0301-dc1d-4f3d-8bb3-a3593cde9317": {
-    "id": "63ee0301-dc1d-4f3d-8bb3-a3593cde9317",
-    "school_location_id": "ec1caa43-4469-45cd-9fde-515d6e52f90a",
+  "7bc1d0b8-23c7-4dbf-91d7-51b9366e4ea0": {
+    "id": "7bc1d0b8-23c7-4dbf-91d7-51b9366e4ea0",
+    "school_location_id": "421d3e97-c0e4-4ea4-b918-f9f1d0cf630b",
     "site": "https://www.ufv.ca",
     "type": "act",
     "program": "associate of the arts - theatre",
     "style": "ft"
   },
-  "67eb7d3c-8ff2-4eb1-b6ba-203378bff2cd": {
-    "id": "67eb7d3c-8ff2-4eb1-b6ba-203378bff2cd",
-    "school_location_id": "db2eb7c9-8932-4204-bb90-b85732038a24",
+  "d62bf506-4033-46c0-9b1d-4080c4487574": {
+    "id": "d62bf506-4033-46c0-9b1d-4080c4487574",
+    "school_location_id": "94dc90fa-2e58-4238-a39d-b908d9c7ddd8",
     "site": "https://www.uvic.ca",
     "type": "act",
     "program": "bachelor of fine arts theatre major in performance",
     "style": "ft"
   },
-  "e98faa4b-a9ad-4cb5-a7cf-7acfda4ff25f": {
-    "id": "e98faa4b-a9ad-4cb5-a7cf-7acfda4ff25f",
-    "school_location_id": "7db74b21-6b8a-41ed-9e0c-a9d6ff3cb739",
+  "f1c9f3dc-5fb1-4d3f-ab19-87fc5523e69d": {
+    "id": "f1c9f3dc-5fb1-4d3f-ab19-87fc5523e69d",
+    "school_location_id": "1223612f-40b4-43ed-9c38-8ab4789b66ca",
     "site": "http://vadastudios.com",
     "type": "act",
     "program": "dramatic arts program diploma",
     "style": "ft"
   },
-  "a4eb676d-3022-4990-a52f-7e4f3b84d1dd": {
-    "id": "a4eb676d-3022-4990-a52f-7e4f3b84d1dd",
-    "school_location_id": "18dd5b06-39fa-4b2e-8ca4-19dfc17ef212",
+  "0936e3f9-e4ce-4822-99a6-7cc1e007f602": {
+    "id": "0936e3f9-e4ce-4822-99a6-7cc1e007f602",
+    "school_location_id": "c0731385-2a63-4f73-850c-7fa2ddfed01d",
     "site": "https://vfs.edu",
     "type": "act",
     "program": "acting for film and television",
     "style": "ft"
   },
-  "8c6053f3-b80b-4a17-9579-0fb8c34e188c": {
-    "id": "8c6053f3-b80b-4a17-9579-0fb8c34e188c",
-    "school_location_id": "349bb0fb-3de9-45e8-a8d8-b0feafd030fc",
+  "800cc224-0f7d-46dc-b09a-69a253a056e6": {
+    "id": "800cc224-0f7d-46dc-b09a-69a253a056e6",
+    "school_location_id": "77a59677-008d-481c-ae21-0155f24e3e6a",
     "site": "https://www.vanarts.com",
     "type": "act",
     "program": "acting for film and television",
     "style": "ft"
   },
-  "7723e49d-f963-4192-b006-df51e8bda167": {
-    "id": "7723e49d-f963-4192-b006-df51e8bda167",
-    "school_location_id": "f69cc8d9-f7a1-42f9-8828-c2fe017ba7e1",
+  "9f1aa6a6-234d-44b6-9057-8587c742df58": {
+    "id": "9f1aa6a6-234d-44b6-9057-8587c742df58",
+    "school_location_id": "ef921da2-a192-4c8b-8a0b-fd25c4370e99",
     "site": "https://www.viu.ca",
     "type": "act",
     "program": "bachelor of arts minor in theatre",
     "style": "ft"
   },
-  "83a1e2c7-ae65-443f-8b3b-cec3696542d9": {
-    "id": "83a1e2c7-ae65-443f-8b3b-cec3696542d9",
-    "school_location_id": "a180a4e5-70ee-437f-a2b2-2240a4ab2726",
+  "56552847-86fb-40f6-86a4-47c32b5cf874": {
+    "id": "56552847-86fb-40f6-86a4-47c32b5cf874",
+    "school_location_id": "a642f129-4429-4ca5-8bab-ae7c01553dc2",
     "site": "http://www.vadarts.com/",
     "type": "act",
     "program": "acting for film & tv career training",
     "style": "ft"
   },
-  "ad53fe11-e533-4735-9052-c250883ee39d": {
-    "id": "ad53fe11-e533-4735-9052-c250883ee39d",
-    "school_location_id": "84e4948a-4dbe-467d-b1f7-7faf4f7ab36b",
+  "b15dafc3-0b35-43d1-98c7-46cf7317952c": {
+    "id": "b15dafc3-0b35-43d1-98c7-46cf7317952c",
+    "school_location_id": "a677e19e-5726-49c4-a2ba-40a76e6477ba",
     "site": "https://www.brandonu.ca",
     "type": "act",
     "program": "bachelor of arts in creative arts (drama)",
     "style": "ft"
   },
-  "21934b8a-e55e-411e-992e-62e1aaaa884d": {
-    "id": "21934b8a-e55e-411e-992e-62e1aaaa884d",
-    "school_location_id": "12faa3c0-f575-4da8-9a1d-aa422f4442a2",
+  "1e6c6f57-f783-439c-86f8-7ce55fed4d0e": {
+    "id": "1e6c6f57-f783-439c-86f8-7ce55fed4d0e",
+    "school_location_id": "e0a51a3f-054d-46f3-8c79-9a551d3c6c11",
     "site": "http://umanitoba.ca",
     "type": "act",
     "program": "bachelor of arts in theatre",
     "style": "ft"
   },
-  "1e1fee67-b267-447e-bca5-b619ddb1b13f": {
-    "id": "1e1fee67-b267-447e-bca5-b619ddb1b13f",
-    "school_location_id": "f590b32f-f917-4c3a-9f1b-e56610ca2a0f",
+  "25a04558-0455-42bb-a30d-b204210c1fd0": {
+    "id": "25a04558-0455-42bb-a30d-b204210c1fd0",
+    "school_location_id": "c264b98f-06f3-41a1-9a43-a62735863d86",
     "site": "https://www.uwinnipeg.ca",
     "type": "act",
     "program": "bachelor of arts in acting and direction",
     "style": "ft"
   },
-  "3235e010-473e-452e-abf0-3f87e90fa4d9": {
-    "id": "3235e010-473e-452e-abf0-3f87e90fa4d9",
-    "school_location_id": "f91323ba-fb05-403d-8518-960a994b5ad1",
+  "63a52bde-6268-43ff-aab0-2736ea24b788": {
+    "id": "63a52bde-6268-43ff-aab0-2736ea24b788",
+    "school_location_id": "4bebb850-d877-44d9-97d1-eef9587c7f29",
     "site": "https://www.mta.ca/",
     "type": "act",
     "program": "bachelor of arts in drama studies",
     "style": "ft"
   },
-  "dc411756-f305-4f0c-ab27-8b9168aecafc": {
-    "id": "dc411756-f305-4f0c-ab27-8b9168aecafc",
-    "school_location_id": "5abbead5-aeb2-4acd-9805-e17d820eab29",
+  "61afd393-e6a1-421f-a668-b544da3004f9": {
+    "id": "61afd393-e6a1-421f-a668-b544da3004f9",
+    "school_location_id": "8cae67c2-3582-4f61-a0c4-a0be106b3f80",
     "site": "https://www.stu.ca/about/",
     "type": "act",
     "program": "acting for film and tv",
     "style": "ft"
   },
-  "c21dc91e-e248-4e9c-9c2b-5126b998f6f1": {
-    "id": "c21dc91e-e248-4e9c-9c2b-5126b998f6f1",
-    "school_location_id": "d4f398b5-b5d5-4709-ac08-44f7f849b9d3",
+  "57cc3b4b-fe2f-421d-8af4-469c3b63c06c": {
+    "id": "57cc3b4b-fe2f-421d-8af4-469c3b63c06c",
+    "school_location_id": "1fbf738c-ca03-46ec-b9fa-27284cf2b1e6",
     "site": "http://www.umoncton.ca/",
     "type": "act",
     "program": "bachelor of dramatic arts",
     "style": "ft"
   },
-  "13be9198-a474-4f44-a420-6982701e8893": {
-    "id": "13be9198-a474-4f44-a420-6982701e8893",
-    "school_location_id": "4fbbaf58-0873-46cd-b40f-f74664738ca1",
+  "a08b4e59-e8b3-41eb-bd89-03816cedda22": {
+    "id": "a08b4e59-e8b3-41eb-bd89-03816cedda22",
+    "school_location_id": "b1abab83-3c80-4001-96bb-af14dd3051de",
     "site": "http://www.unb.ca",
     "type": "act",
     "program": "bachelor of arts drama concentration (english major)",
     "style": "ft"
   },
-  "6d8cd63a-f669-41a6-b0fa-2c44f3a35385": {
-    "id": "6d8cd63a-f669-41a6-b0fa-2c44f3a35385",
-    "school_location_id": "54f5dacd-af5e-45d3-8577-e45101a7771a",
+  "850afb68-e919-4f49-a538-ddb221e8f354": {
+    "id": "850afb68-e919-4f49-a538-ddb221e8f354",
+    "school_location_id": "b0575716-3666-4fb8-833a-547acc735fa4",
     "site": "https://www.mun.ca",
     "type": "act",
     "program": "bachelor of fine arts in acting",
     "style": "ft"
   },
-  "39b7554d-2d73-4af9-be18-f52048489a8d": {
-    "id": "39b7554d-2d73-4af9-be18-f52048489a8d",
-    "school_location_id": "d0055aea-ad24-4a48-a3f9-af5e63412f4b",
+  "8151eab3-a71b-421c-aef4-37642be864ac": {
+    "id": "8151eab3-a71b-421c-aef4-37642be864ac",
+    "school_location_id": "e7930c54-e743-4f20-8b65-5a20a109131a",
     "site": "https://www2.acadiau.ca/index.php",
     "type": "act",
     "program": "bachelor of arts in theatre",
     "style": "ft"
   },
-  "1bfedcbd-70ce-4237-bdbc-5c7503258934": {
-    "id": "1bfedcbd-70ce-4237-bdbc-5c7503258934",
-    "school_location_id": "0c4f20d6-ab48-4dca-891b-364913a1f88d",
+  "bcc02d49-7c0c-43ba-b876-e4d102b3dcb2": {
+    "id": "bcc02d49-7c0c-43ba-b876-e4d102b3dcb2",
+    "school_location_id": "fdd36e9d-c1cf-45aa-a132-ab1e21e35774",
     "site": "https://www.cbu.ca",
     "type": "act",
     "program": "bachelor of arts in applied theatre",
     "style": "ft"
   },
-  "90ad4440-7f3e-4b30-967b-586f681a51d0": {
-    "id": "90ad4440-7f3e-4b30-967b-586f681a51d0",
-    "school_location_id": "1fda2bb7-633a-413b-b92c-b4573edba2b2",
+  "ff1e2181-4eb2-41b7-bd41-4a9985807de9": {
+    "id": "ff1e2181-4eb2-41b7-bd41-4a9985807de9",
+    "school_location_id": "12ef2339-dde3-4507-8891-75f2f963df77",
     "site": "https://www.dal.ca",
     "type": "act",
     "program": "bachelor of arts with honours in theatre (acting)",
     "style": "ft"
   },
-  "f5288ff5-075b-419a-b3b7-75db731698df": {
-    "id": "f5288ff5-075b-419a-b3b7-75db731698df",
-    "school_location_id": "46127844-3e43-4526-97d3-506fe6c7d18c",
+  "387126b7-8131-423b-9590-5d2819a3be62": {
+    "id": "387126b7-8131-423b-9590-5d2819a3be62",
+    "school_location_id": "d14330af-5fb9-48a3-9d08-b5b182a5fe48",
     "site": "http://www.algonquincollege.com",
     "type": "act",
     "program": "performing arts certificate",
     "style": "ft"
   },
-  "a864dbf9-5d0c-4159-b8bc-22a04670fd9c": {
-    "id": "a864dbf9-5d0c-4159-b8bc-22a04670fd9c",
-    "school_location_id": "bb14e87e-cbe3-4449-aae3-ce708cc8c08b",
+  "91e59404-4740-48ba-9e0c-ca542f92523a": {
+    "id": "91e59404-4740-48ba-9e0c-ca542f92523a",
+    "school_location_id": "da1c7d2c-1a69-4dc2-a758-9aa295f8a1f8",
     "site": "https://brocku.ca",
     "type": "act",
     "program": "bachelor of arts honours in dramatic arts",
     "style": "ft"
   },
-  "a97ea5bd-ea46-4758-993b-7bfc93fc14b4": {
-    "id": "a97ea5bd-ea46-4758-993b-7bfc93fc14b4",
-    "school_location_id": "7af27d47-5f5b-42c4-b7f1-abd85372dce6",
+  "1bb01fa0-7042-4c48-90ec-5f083e2a2ea2": {
+    "id": "1bb01fa0-7042-4c48-90ec-5f083e2a2ea2",
+    "school_location_id": "68de2766-6363-474d-ae86-9e698d29abe4",
     "site": "http://www.cfccreates.com",
     "type": "act",
     "program": "cbc actors conservatory",
     "style": "ft"
   },
-  "1cea31f4-e0e5-4518-a357-7416c0495449": {
-    "id": "1cea31f4-e0e5-4518-a357-7416c0495449",
-    "school_location_id": "82eae271-9cae-417f-8451-3920708ada99",
+  "35e4531c-4750-4381-a851-80beaf5452e9": {
+    "id": "35e4531c-4750-4381-a851-80beaf5452e9",
+    "school_location_id": "87160b22-34b7-4455-b11d-24083a02ab0f",
     "site": "https://www.canadorecollege.ca",
     "type": "act",
     "program": "acting for stage and screen",
     "style": "ft"
   },
-  "244d092f-4a79-4a40-be78-b28cd3459631": {
-    "id": "244d092f-4a79-4a40-be78-b28cd3459631",
-    "school_location_id": "28c4b0b6-28a3-4423-b6b2-f185f0ef6c3e",
+  "dfed3ea6-cf03-461f-a07a-0cae2a212a92": {
+    "id": "dfed3ea6-cf03-461f-a07a-0cae2a212a92",
+    "school_location_id": "50e30b50-1cef-445f-b024-edccaf81e6ee",
     "site": "https://www.centennialcollege.ca",
     "type": "act",
     "program": "theatre arts and performance",
     "style": "ft"
   },
-  "fe98a6bb-33b4-4d55-9caf-bc3ce11acfec": {
-    "id": "fe98a6bb-33b4-4d55-9caf-bc3ce11acfec",
-    "school_location_id": "dd7360cc-cf4d-4f8b-89cf-e4618ab40ae7",
+  "fd0867da-e800-4840-9980-65dccce505c0": {
+    "id": "fd0867da-e800-4840-9980-65dccce505c0",
+    "school_location_id": "16fe7fb3-cd56-4362-8f74-cc0d2487a4f4",
     "site": "https://www.indigenoustheatre.com/",
     "type": "act",
     "program": "3- and 4-year conservatory training program",
     "style": "ft"
   },
-  "56f301dd-43bf-4e0c-9028-e38a7f7eea75": {
-    "id": "56f301dd-43bf-4e0c-9028-e38a7f7eea75",
-    "school_location_id": "9108c6b4-07c6-434c-98d0-6a86cf6ee768",
+  "1a76e2ba-b1ee-4d52-aa00-1f2632383a97": {
+    "id": "1a76e2ba-b1ee-4d52-aa00-1f2632383a97",
+    "school_location_id": "ddb87eb2-d040-4dd0-8c40-720ac6ee8a90",
     "site": "https://www.fanshawec.ca",
     "type": "act",
     "program": "theatre arts: performance",
     "style": "ft"
   },
-  "27de5bc2-9bf4-4969-a642-1c85cdc8836a": {
-    "id": "27de5bc2-9bf4-4969-a642-1c85cdc8836a",
-    "school_location_id": "5416d888-8027-42ff-b2ed-41f936eec520",
+  "a1141812-7598-4ec9-ad11-6d7e5b798d0c": {
+    "id": "a1141812-7598-4ec9-ad11-6d7e5b798d0c",
+    "school_location_id": "5a4bcdbd-98b7-4a78-855e-e9a95f8e30d3",
     "site": "https://www.georgebrown.ca",
     "type": "act",
     "program": "theatre arts: preparation program",
     "style": "ft"
   },
-  "65ebcc26-d45f-4a8e-b123-9c17e22f6cf4": {
-    "id": "65ebcc26-d45f-4a8e-b123-9c17e22f6cf4",
-    "school_location_id": "bea77648-061a-422d-ac1e-07e75da9f652",
+  "3709fa6f-d793-4f17-8d62-356a398690b1": {
+    "id": "3709fa6f-d793-4f17-8d62-356a398690b1",
+    "school_location_id": "728aa20e-53e9-478c-88c5-00f578236247",
     "site": "http://www.glendon.yorku.ca",
     "type": "act",
     "program": "drama studies:",
     "style": "ft"
   },
-  "2ca4e470-a936-4815-b397-1e7c6f25bbb0": {
-    "id": "2ca4e470-a936-4815-b397-1e7c6f25bbb0",
-    "school_location_id": "90ae99e0-0b57-4a44-b699-6b0e80b7a6e5",
+  "c788a748-a7b4-4f92-9364-6489eb73b13e": {
+    "id": "c788a748-a7b4-4f92-9364-6489eb73b13e",
+    "school_location_id": "22476efb-791a-4744-b307-3b40a63436da",
     "site": "http://humber.ca",
     "type": "act",
     "program": "acting for film and television",
     "style": "ft"
   },
-  "475cf288-84dd-4852-b4c3-4a2eed0de55b": {
-    "id": "475cf288-84dd-4852-b4c3-4a2eed0de55b",
-    "school_location_id": "c080a851-85bf-45d2-b02e-fa95967f3ae1",
+  "3f9d39c1-f5c4-4097-aeeb-cba79f0546f7": {
+    "id": "3f9d39c1-f5c4-4097-aeeb-cba79f0546f7",
+    "school_location_id": "a51482d8-0f6a-4f8a-bcf7-e5fb9bd53acd",
     "site": "https://laurentian.ca",
     "type": "act",
     "program": "bachelor of fine arts specialization in theatre performance",
     "style": "ft"
   },
-  "9703e5be-d55a-401f-98a7-6ab1454f5505": {
-    "id": "9703e5be-d55a-401f-98a7-6ab1454f5505",
-    "school_location_id": "00b33f21-360a-478d-9428-3554826c55ed",
+  "c54f9bfe-a32c-4864-8060-9323d985028a": {
+    "id": "c54f9bfe-a32c-4864-8060-9323d985028a",
+    "school_location_id": "1d7fa075-5036-4dc9-98a6-9d2124f744cb",
     "site": "http://www.mcmaster.ca",
     "type": "act",
     "program": "bachelor of arts honours theatre and film studies",
     "style": "ft"
   },
-  "e725c5ea-3185-41f3-83a7-68c27d5eaf87": {
-    "id": "e725c5ea-3185-41f3-83a7-68c27d5eaf87",
-    "school_location_id": "f1945b3e-3e14-4246-af2e-61d54f4ae6f0",
+  "b3c40c5e-6476-4708-b3d0-3a3163adad83": {
+    "id": "b3c40c5e-6476-4708-b3d0-3a3163adad83",
+    "school_location_id": "04a1cb1a-f52f-415a-b0b4-2db4a31af050",
     "site": "http://www.niagaracollege.ca",
     "type": "act",
     "program": "acting for film and television diploma",
     "style": "ft"
   },
-  "c8316b55-a138-4d79-8452-f6beb8480c11": {
-    "id": "c8316b55-a138-4d79-8452-f6beb8480c11",
-    "school_location_id": "0b69d40f-ff82-4765-88b0-d509aa5fbceb",
+  "c81412b4-7438-4a30-8c86-aa6d96911ca0": {
+    "id": "c81412b4-7438-4a30-8c86-aa6d96911ca0",
+    "school_location_id": "68c0e9c1-686e-4446-8c5c-d53f148cfef3",
     "site": "http://www.queensu.ca/",
     "type": "act",
     "program": "bachelor of arts: drama",
     "style": "ft"
   },
-  "b46da49d-e5d6-45ca-8526-fb89f21caf26": {
-    "id": "b46da49d-e5d6-45ca-8526-fb89f21caf26",
-    "school_location_id": "7b0201a2-d1a3-4c8a-bcd8-a010de3a5066",
+  "40b6bc6c-dc13-4149-9771-70d8a9bb6ec2": {
+    "id": "40b6bc6c-dc13-4149-9771-70d8a9bb6ec2",
+    "school_location_id": "37fb7c62-ae41-4e10-8d00-9050c82cf071",
     "site": "https://www.redeemer.ca",
     "type": "act",
     "program": "bachelor of arts in theatre arts: performance",
     "style": "ft"
   },
-  "1d1c6848-1c37-4593-86f0-bea3846dc824": {
-    "id": "1d1c6848-1c37-4593-86f0-bea3846dc824",
-    "school_location_id": "6d68a15f-416f-42af-8116-366a6385b2fb",
+  "f91829c7-2182-4a21-abae-52faf8704e90": {
+    "id": "f91829c7-2182-4a21-abae-52faf8704e90",
+    "school_location_id": "a74731c1-c228-41d1-b2fc-fdc990ffa300",
     "site": "https://www.ryerson.ca",
     "type": "act",
     "program": "bachelor of fine arts performance: acting",
     "style": "ft"
   },
-  "bcf7ca43-52c5-4158-877a-c82df0a2e18a": {
-    "id": "bcf7ca43-52c5-4158-877a-c82df0a2e18a",
-    "school_location_id": "98d902d1-a175-453a-a569-0e8cf2453b13",
+  "0c66dad3-77d7-4504-82e6-248e11040cec": {
+    "id": "0c66dad3-77d7-4504-82e6-248e11040cec",
+    "school_location_id": "e837af52-06ff-4d59-866a-d92594abd092",
     "site": "https://www.sheridancollege.ca/",
     "type": "act",
     "program": "theatre and drama studies (bachelor of arts)",
     "style": "ft"
   },
-  "f0254ad7-e543-4c6c-acb9-90209521e3d4": {
-    "id": "f0254ad7-e543-4c6c-acb9-90209521e3d4",
-    "school_location_id": "25873452-dad8-4f97-b4ae-715594f7a4f3",
+  "7584c8bb-641b-4a31-ad43-14cb2935db4c": {
+    "id": "7584c8bb-641b-4a31-ad43-14cb2935db4c",
+    "school_location_id": "7bf3290d-6b8f-42c6-b766-9b20194ce3f1",
     "site": "http://www.senecacollege.ca/home.html",
     "type": "act",
     "program": "acting for camera and voice",
     "style": "ft"
   },
-  "14a4ef13-7600-4e61-bac0-225e2ed67e91": {
-    "id": "14a4ef13-7600-4e61-bac0-225e2ed67e91",
-    "school_location_id": "601b59e5-7f07-4ca1-b390-33e4f316141c",
+  "0f6b9cce-6779-47c9-82c7-14b04638aad1": {
+    "id": "0f6b9cce-6779-47c9-82c7-14b04638aad1",
+    "school_location_id": "dc3baaed-abb0-4316-9727-c711a491f444",
     "site": "http://www.torontofilmschool.ca",
     "type": "act",
     "program": "acting for film tv and the theatre diploma",
     "style": "ft"
   },
-  "7a6b2f20-6367-4040-bee1-a7c9f46dcbbb": {
-    "id": "7a6b2f20-6367-4040-bee1-a7c9f46dcbbb",
-    "school_location_id": "d53a3119-b5fc-45d7-9440-cfd31bd06e0f",
+  "4a743f23-ede5-4582-a370-af2e518bdfb6": {
+    "id": "4a743f23-ede5-4582-a370-af2e518bdfb6",
+    "school_location_id": "13909684-b50b-4fc1-b8c5-28b46b4d4b8d",
     "site": "https://www.uoguelph.ca",
     "type": "act",
     "program": "bachelor of arts in theatre studies",
     "style": "ft"
   },
-  "8d3c6e8b-7227-4a3c-81e5-655cc84adeba": {
-    "id": "8d3c6e8b-7227-4a3c-81e5-655cc84adeba",
-    "school_location_id": "ce7ff9ae-fedc-4ba9-9b34-fef71dfe7c88",
+  "54ffceab-2aad-4a7e-8bdd-f1d52c0cd7e6": {
+    "id": "54ffceab-2aad-4a7e-8bdd-f1d52c0cd7e6",
+    "school_location_id": "8be11be2-a210-456e-b6ac-d2b7cd1c2702",
     "site": "https://www.uottawa.ca/en",
     "type": "act",
     "program": "honours bachelor of arts in theatre",
     "style": "ft"
   },
-  "4cad0ba9-6362-4b23-8aea-558a2bcbf05f": {
-    "id": "4cad0ba9-6362-4b23-8aea-558a2bcbf05f",
-    "school_location_id": "1e82a194-3fd8-47b2-8e7a-1bc420607380",
+  "c355e868-49d9-4502-a01f-f6c98c1a2cc8": {
+    "id": "c355e868-49d9-4502-a01f-f6c98c1a2cc8",
+    "school_location_id": "bbc29ad0-7eee-4872-abd2-3042d3638e13",
     "site": "https://www.utoronto.ca",
     "type": "act",
     "program": "honours bachelor of arts in drama",
     "style": "ft"
   },
-  "ae5e646a-9f1e-447b-be45-432733de77cc": {
-    "id": "ae5e646a-9f1e-447b-be45-432733de77cc",
-    "school_location_id": "af891999-002f-473f-b362-4ecf147bcf7f",
+  "b8856dbc-8f0c-4d62-b6fb-fa146b4dbf39": {
+    "id": "b8856dbc-8f0c-4d62-b6fb-fa146b4dbf39",
+    "school_location_id": "8cc9fa5b-b3a4-4720-9f46-db64a47b9611",
     "site": "http://www.utm.utoronto.ca",
     "type": "act",
     "program": "theatre and drama studies specialist (joint program with sheridan)",
     "style": "ft"
   },
-  "4b82d4d5-1351-4334-bc09-45dde64848c1": {
-    "id": "4b82d4d5-1351-4334-bc09-45dde64848c1",
-    "school_location_id": "b2aaf507-64a5-4574-b872-6295363d5909",
+  "f26c1c73-c5a5-40ff-ab70-9319d381dc8c": {
+    "id": "f26c1c73-c5a5-40ff-ab70-9319d381dc8c",
+    "school_location_id": "dec4b347-e23c-4d79-90e9-d4c72a33db51",
     "site": "http://www.utsc.utoronto.ca/home/",
     "type": "act",
     "program": "theatre and performance studies: major",
     "style": "ft"
   },
-  "5e237bce-349b-4660-a226-9cd01453666a": {
-    "id": "5e237bce-349b-4660-a226-9cd01453666a",
-    "school_location_id": "232a0fc3-29f8-4956-a902-9a66c17521a1",
+  "3fafa236-ca57-4bc0-b3c1-e2d5b6bfb61f": {
+    "id": "3fafa236-ca57-4bc0-b3c1-e2d5b6bfb61f",
+    "school_location_id": "8fd7f56b-cfb1-4678-9da7-2d29520778a0",
     "site": "https://uwaterloo.ca",
     "type": "act",
     "program": "bachelor of arts honours theatre and performance",
     "style": "ft"
   },
-  "54abc275-0032-4e17-ae27-91f3399b8eb4": {
-    "id": "54abc275-0032-4e17-ae27-91f3399b8eb4",
-    "school_location_id": "fc63caf4-dbf5-48d4-9cf2-31f2ac9139d2",
+  "6efe2255-7061-4f40-9faa-150e355f314b": {
+    "id": "6efe2255-7061-4f40-9faa-150e355f314b",
+    "school_location_id": "ca3e8c0d-9114-4095-8986-b453f15644b1",
     "site": "http://www.uwo.ca",
     "type": "act",
     "program": "bachelor of arts major in theatre studies",
     "style": "ft"
   },
-  "7dd5b731-0e89-4f87-bee2-066f3a5475b7": {
-    "id": "7dd5b731-0e89-4f87-bee2-066f3a5475b7",
-    "school_location_id": "623747cc-1332-4a38-a12f-494c1740674b",
+  "0ae955e1-e7b8-4fc1-8c38-13bc723cb635": {
+    "id": "0ae955e1-e7b8-4fc1-8c38-13bc723cb635",
+    "school_location_id": "44684f56-05a9-4e8e-88a0-fb664d90610f",
     "site": "http://www.uwindsor.ca",
     "type": "act",
     "program": "bachelor of fine arts in acting",
     "style": "ft"
   },
-  "6b9bc904-c334-4ddf-b899-5bf643ffe0a3": {
-    "id": "6b9bc904-c334-4ddf-b899-5bf643ffe0a3",
-    "school_location_id": "647c6c42-e8ea-445c-bb00-35da6d9d88e7",
+  "01a4740d-4e9a-42c4-947c-42c9f8c2e43f": {
+    "id": "01a4740d-4e9a-42c4-947c-42c9f8c2e43f",
+    "school_location_id": "561d2c51-9e66-4662-a5d0-79d5eda2d08d",
     "site": "http://www.yorku.ca/index.html",
     "type": "act",
     "program": "bachelor of arts honours theatre studies",
     "style": "ft"
   },
-  "4ad341e0-95b0-41d2-81be-68ae71c6add9": {
-    "id": "4ad341e0-95b0-41d2-81be-68ae71c6add9",
-    "school_location_id": "2d59c646-33b7-4390-90b8-fb311500221d",
+  "8afec1a3-86f1-4c70-8771-947b72c2ed25": {
+    "id": "8afec1a3-86f1-4c70-8771-947b72c2ed25",
+    "school_location_id": "8a332f36-1da5-4186-80d3-962b6a9a3841",
     "site": "http://www.hollandcollege.com/school-of-performing-arts/",
     "type": "act",
     "program": "theatre performance",
     "style": "ft"
   },
-  "00e20d66-971f-4cb4-8412-8f7288e46ef4": {
-    "id": "00e20d66-971f-4cb4-8412-8f7288e46ef4",
-    "school_location_id": "768d6df6-0ba4-4ee7-a12b-0d3794621c21",
+  "517f0b88-2a9e-4dcd-8e65-c165dc77eb75": {
+    "id": "517f0b88-2a9e-4dcd-8e65-c165dc77eb75",
+    "school_location_id": "8eaed2bd-3c68-4e2e-b111-78ae228b6a66",
     "site": "https://www.upei.ca",
     "type": "act",
     "program": "bachelor of arts minor in theatre studies",
     "style": "ft"
   },
-  "93506144-ff47-42dc-aa78-4d5568802afd": {
-    "id": "93506144-ff47-42dc-aa78-4d5568802afd",
-    "school_location_id": "7b0d5c64-3fbd-420f-8564-433774537b6d",
+  "f87b1719-c89c-4066-895e-b44eed834a4e": {
+    "id": "f87b1719-c89c-4066-895e-b44eed834a4e",
+    "school_location_id": "4841e096-6cbb-4805-92d6-56925ab5c97e",
     "site": "http://www.ubishops.ca",
     "type": "act",
     "program": "bachelor of arts major in drama",
     "style": "ft"
   },
-  "56ff76e1-d820-49d9-8161-516d0f65db75": {
-    "id": "56ff76e1-d820-49d9-8161-516d0f65db75",
-    "school_location_id": "061da535-3796-47bb-a793-7550d8f4a74a",
+  "a5f45790-8c6a-44fe-8def-f98d36fc5db7": {
+    "id": "a5f45790-8c6a-44fe-8def-f98d36fc5db7",
+    "school_location_id": "2ae583cc-5ef7-4077-8f19-f1c352d880a6",
     "site": "http://www.conservatoire.gouv.qc.ca/",
     "type": "act",
     "program": "conservatory program",
     "style": "ft"
   },
-  "ee3e7c01-2a52-4bd8-bbf0-0570f6c57485": {
-    "id": "ee3e7c01-2a52-4bd8-bbf0-0570f6c57485",
-    "school_location_id": "afc86553-457e-43c1-bb9c-7d0f4f7ef536",
+  "1bcf0c2c-27d5-4087-b052-cc38a742375b": {
+    "id": "1bcf0c2c-27d5-4087-b052-cc38a742375b",
+    "school_location_id": "0d0c2a0a-0583-44f1-8130-e235f4530c5b",
     "site": "https://www.concordia.ca",
     "type": "act",
     "program": "bachelor of fine arts in acting for the theatre",
     "style": "ft"
   },
-  "f19d71c5-d59b-4354-b63e-36e1493eaf4f": {
-    "id": "f19d71c5-d59b-4354-b63e-36e1493eaf4f",
-    "school_location_id": "2e30d58a-5d9d-48d3-a7bc-453efcaea456",
+  "e7fda163-3ab3-48d2-91dc-650dfe201d88": {
+    "id": "e7fda163-3ab3-48d2-91dc-650dfe201d88",
+    "school_location_id": "f1a11cb1-48db-4e1d-9215-9245f03c2d47",
     "site": "http://www.johnabbott.qc.ca",
     "type": "act",
     "program": "professional theatre program",
     "style": "ft"
   },
-  "9d311414-f729-4a98-aeb2-656b5b322a28": {
-    "id": "9d311414-f729-4a98-aeb2-656b5b322a28",
-    "school_location_id": "96cdb365-ebe2-49a6-8777-5f0b2f72d693",
+  "9eef8c2a-dd6c-42f0-a3dd-1fc07749a86b": {
+    "id": "9eef8c2a-dd6c-42f0-a3dd-1fc07749a86b",
+    "school_location_id": "57328725-a9ac-438c-a1ba-3ea6c0e0e43b",
     "site": "https://etp.clg.qc.ca",
     "type": "act",
     "program": "interprétation théâtrale",
     "style": "ft"
   },
-  "8bbff7c0-767d-49e6-941c-e3c97da4e6c8": {
-    "id": "8bbff7c0-767d-49e6-941c-e3c97da4e6c8",
-    "school_location_id": "9b711609-c1f9-4b96-8577-5232db6a46c5",
+  "67128d72-f2cb-4f67-ae23-bfc11063b4b8": {
+    "id": "67128d72-f2cb-4f67-ae23-bfc11063b4b8",
+    "school_location_id": "c92b7500-d51d-4105-8058-6c031c40319b",
     "site": "https://ent-nts.ca/en",
     "type": "act",
     "program": "professional acting program",
     "style": "ft"
   },
-  "4d9acbb2-8674-4575-99d0-4ec1b6c9188e": {
-    "id": "4d9acbb2-8674-4575-99d0-4ec1b6c9188e",
-    "school_location_id": "6a9c0d1d-9723-4bf6-9244-f3ce46a9893f",
+  "2667aa3c-01c4-4191-855a-d7bf3d7ce6fb": {
+    "id": "2667aa3c-01c4-4191-855a-d7bf3d7ce6fb",
+    "school_location_id": "688d6333-9782-4bb6-b234-4c33cb48a243",
     "site": "http://campioncollege.ca",
     "type": "act",
     "program": "bachelor of arts in theatre",
     "style": "ft"
   },
-  "dbb7243f-80c4-4aa1-a720-a4c1a23b8c39": {
-    "id": "dbb7243f-80c4-4aa1-a720-a4c1a23b8c39",
-    "school_location_id": "dc48bd34-8e95-4a6d-85b6-b2ffa548e7ae",
+  "8d308a44-a5e0-4077-bf88-951ecc030ebb": {
+    "id": "8d308a44-a5e0-4077-bf88-951ecc030ebb",
+    "school_location_id": "abc32b1b-34a8-4a08-a2c9-2d7114db9de6",
     "site": "https://urconnected.uregina.ca/index.do",
     "type": "act",
     "program": "bachelor of arts: general studio",
     "style": "ft"
   },
-  "9ab71e0c-2181-490d-8ebc-24e2d0739ceb": {
-    "id": "9ab71e0c-2181-490d-8ebc-24e2d0739ceb",
-    "school_location_id": "de126af9-eb97-4e7c-bfd7-974b6206ecb6",
+  "4ab24273-d99d-4395-a2a1-7cd5a2a32c76": {
+    "id": "4ab24273-d99d-4395-a2a1-7cd5a2a32c76",
+    "school_location_id": "d6c2bcc1-4fe1-463a-b962-1c47f2848615",
     "site": "https://www.luthercollege.edu/university/",
     "type": "act",
     "program": "bachelor of arts in theatre and performance",
     "style": "ft"
   },
-  "997936ba-064c-4e51-8148-baf7c0be4418": {
-    "id": "997936ba-064c-4e51-8148-baf7c0be4418",
-    "school_location_id": "687a6253-3bfa-4dd9-9a31-5570acbbb84e",
+  "8b25733e-fab6-44e8-8df2-a4a138b20b01": {
+    "id": "8b25733e-fab6-44e8-8df2-a4a138b20b01",
+    "school_location_id": "efb77523-767f-4a50-a24c-8579fcf83d7a",
     "site": "https://www.usask.ca",
     "type": "act",
     "program": "bachelor of arts (four-year and three-year) in drama",
     "style": "ft"
   },
-  "b529e7dc-3984-42eb-8276-6ea7abe4d253": {
-    "id": "b529e7dc-3984-42eb-8276-6ea7abe4d253",
-    "school_location_id": "38e9da86-3aaa-4281-b334-7e9e27168d93",
+  "5387682c-a7f6-48d2-b40f-753dd2b49244": {
+    "id": "5387682c-a7f6-48d2-b40f-753dd2b49244",
+    "school_location_id": "a716b555-ec43-46c2-a69f-07c2e8ea1d74",
     "site": "http://www.decidedlyjazz.com/",
     "type": "dance",
     "program": "professional training program",
     "style": "ft"
   },
-  "11743210-3ef0-4b02-8151-740e1e0e260a": {
-    "id": "11743210-3ef0-4b02-8151-740e1e0e260a",
-    "school_location_id": "0bb2f713-1740-4bea-897a-e13a067bd341",
+  "dd4bab89-6050-4e08-9325-954d979b6e2d": {
+    "id": "dd4bab89-6050-4e08-9325-954d979b6e2d",
+    "school_location_id": "ba243411-c76e-4288-bd9c-466d02589f17",
     "site": "https://www.mhc.ab.ca",
     "type": "dance",
     "program": "bachelor of arts university transfer options",
     "style": "ft"
   },
-  "13c9951e-1210-47e6-8957-57a70f6b2872": {
-    "id": "13c9951e-1210-47e6-8957-57a70f6b2872",
-    "school_location_id": "6dc64888-92dc-4f16-a3ab-4da17673deed",
+  "f6990be9-aa6a-4752-ae34-03021fbeb888": {
+    "id": "f6990be9-aa6a-4752-ae34-03021fbeb888",
+    "school_location_id": "b188456d-d149-48ca-9a80-5c32a51bb3da",
     "site": "https://www.albertaballetschool.com/",
     "type": "dance",
     "program": "professional graduate program",
     "style": "ft"
   },
-  "8d4d1abb-9a4f-4c92-9832-8479a7643c7d": {
-    "id": "8d4d1abb-9a4f-4c92-9832-8479a7643c7d",
-    "school_location_id": "d077ea6d-7f25-4a8d-b4e6-9f165606af58",
+  "efd9f2b6-7e23-42ff-ba4e-61f4a8a233b4": {
+    "id": "efd9f2b6-7e23-42ff-ba4e-61f4a8a233b4",
+    "school_location_id": "fe6a071a-8f54-4c27-ad2b-72d4f70e7cc2",
     "site": "http://www.ucalgary.ca",
     "type": "dance",
     "program": "bachelor of arts in dance",
     "style": "ft"
   },
-  "8b0f2bed-c609-4248-bafe-2c36ee2c3bac": {
-    "id": "8b0f2bed-c609-4248-bafe-2c36ee2c3bac",
-    "school_location_id": "7bac6e5c-6e5b-4461-823a-473864031f93",
+  "f1506a6f-ffd5-447b-8e55-cb101e160939": {
+    "id": "f1506a6f-ffd5-447b-8e55-cb101e160939",
+    "school_location_id": "b7b5c557-89cd-4d07-95c6-716fb430020e",
     "site": "https://www.artsumbrella.com",
     "type": "dance",
     "program": "arts umbrella graduate program",
     "style": "ft"
   },
-  "9bd18a25-3134-4510-bcc4-28a37b67ad08": {
-    "id": "9bd18a25-3134-4510-bcc4-28a37b67ad08",
-    "school_location_id": "5b529cb1-6008-40b4-94a2-d59ded29eb14",
+  "7620ecdb-226e-42f2-85f5-3bd6def2e3e0": {
+    "id": "7620ecdb-226e-42f2-85f5-3bd6def2e3e0",
+    "school_location_id": "6724a0e6-f4a7-4b5f-96b9-52589ed1bf82",
     "site": "https://www.thebodyprojectdance.com",
     "type": "dance",
     "program": "2-year dance education program",
     "style": "ft"
   },
-  "5641363f-d873-4419-a620-0e500f00b107": {
-    "id": "5641363f-d873-4419-a620-0e500f00b107",
-    "school_location_id": "f932310d-866b-43f0-9a14-e0d1e93fbd3a",
+  "5f1d0938-d5ca-4d70-9c1d-d5cc8e44155d": {
+    "id": "5f1d0938-d5ca-4d70-9c1d-d5cc8e44155d",
+    "school_location_id": "a6bdac63-2bfd-4581-9a68-e98499e4889f",
     "site": "https://harbourdance.com/intensive-training-program",
     "type": "dance",
     "program": "intensive training program (itp)",
     "style": "ft"
   },
-  "28843ac6-153f-43b5-bd3b-863ceb3f0a23": {
-    "id": "28843ac6-153f-43b5-bd3b-863ceb3f0a23",
-    "school_location_id": "e3389073-ace5-44ec-aa0c-5a86b6250117",
+  "37502877-cad9-40a2-8f7f-5f702d23a841": {
+    "id": "37502877-cad9-40a2-8f7f-5f702d23a841",
+    "school_location_id": "bd0ced97-e460-479e-9b25-9ac27932120a",
     "site": "https://www.lamondance.com/training/",
     "type": "dance",
     "program": "two-year training program",
     "style": "ft"
   },
-  "c54fa545-78eb-479e-aba4-764da4cc8239": {
-    "id": "c54fa545-78eb-479e-aba4-764da4cc8239",
-    "school_location_id": "38ceab90-0951-4e09-8022-d08ee7ca80af",
+  "91ada648-c12e-424d-9720-14b2578d0c8e": {
+    "id": "91ada648-c12e-424d-9720-14b2578d0c8e",
+    "school_location_id": "0d349145-b440-4c10-aa09-55b5936be903",
     "site": "http://www.outinnerspace.ca/",
     "type": "dance",
     "program": "full-time program",
     "style": "ft"
   },
-  "e999783f-0654-4a6c-9d15-17d28765da34": {
-    "id": "e999783f-0654-4a6c-9d15-17d28765da34",
-    "school_location_id": "979ebd52-ac28-4148-bf3f-12c7e9fc6ca9",
+  "6f2b216a-9523-4f9d-8b9e-50b91e62ef4a": {
+    "id": "6f2b216a-9523-4f9d-8b9e-50b91e62ef4a",
+    "school_location_id": "8f25408f-22b5-4226-8d7d-d5a16e3ba7d3",
     "site": "https://www.sfu.ca",
     "type": "dance",
     "program": "bachelor of fine arts dance major",
     "style": "ft"
   },
-  "14c0ed8c-fa37-4cf5-b0d4-7197b5d4b572": {
-    "id": "14c0ed8c-fa37-4cf5-b0d4-7197b5d4b572",
-    "school_location_id": "de2eb521-0e42-4fa3-a315-e289b7b5f453",
+  "ed2a6044-e8fe-4e1f-9b2f-6b1f20b99312": {
+    "id": "ed2a6044-e8fe-4e1f-9b2f-6b1f20b99312",
+    "school_location_id": "23ba580b-1c06-4ddb-ae7e-c8e1e99697c8",
     "site": "http://www.vcc.ca",
     "type": "dance",
     "program": "dance diploma",
     "style": "ft"
   },
-  "0aaabc87-1f24-4f8b-8920-6db2eeb55b15": {
-    "id": "0aaabc87-1f24-4f8b-8920-6db2eeb55b15",
-    "school_location_id": "d9973bc7-c189-420d-b376-3c09328c9c4a",
+  "93bad700-c0c6-4d45-b773-dea5d6d1a49f": {
+    "id": "93bad700-c0c6-4d45-b773-dea5d6d1a49f",
+    "school_location_id": "955ab81d-80d9-41ef-b638-613db6318275",
     "site": "https://www.rwb.org/school",
     "type": "dance",
     "program": "aspirant program",
     "style": "ft"
   },
-  "0f8d711d-e556-4a28-9248-4ef30c57566d": {
-    "id": "0f8d711d-e556-4a28-9248-4ef30c57566d",
-    "school_location_id": "b9df44b0-654d-4149-ab83-75a67bdb5185",
+  "0551dc62-6cd2-45ff-b073-9035eae4e7b5": {
+    "id": "0551dc62-6cd2-45ff-b073-9035eae4e7b5",
+    "school_location_id": "38b8406f-980a-4611-930c-bf0e4dd79828",
     "site": "http://schoolofcontemporarydancers.ca",
     "type": "dance",
     "program": "professional program",
     "style": "ft"
   },
-  "3228a4aa-48c7-4ee0-899b-bfba0731db9e": {
-    "id": "3228a4aa-48c7-4ee0-899b-bfba0731db9e",
-    "school_location_id": "dd27e1e8-79d3-4d9a-bd69-b4799c9743d2",
+  "10df0342-01d7-4e43-a754-68df4815c870": {
+    "id": "10df0342-01d7-4e43-a754-68df4815c870",
+    "school_location_id": "accdf535-a154-440d-9f36-267ec8e98237",
     "site": "https://www.balletcreole.org",
     "type": "dance",
     "program": "nu-dance professional training program",
     "style": "ft"
   },
-  "c4cc6fb3-adaa-4630-9e39-05b15d6853fc": {
-    "id": "c4cc6fb3-adaa-4630-9e39-05b15d6853fc",
-    "school_location_id": "eed72468-b998-4126-8d6b-4a6dfcbf0b6b",
+  "3904ac28-0220-4ff8-a41b-cffd7b8f6ab8": {
+    "id": "3904ac28-0220-4ff8-a41b-cffd7b8f6ab8",
+    "school_location_id": "4bde4f5b-3d35-4d19-8387-1316affdf5a5",
     "site": "http://www.nbs-enb.ca/home",
     "type": "dance",
     "program": "post-secondary program",
     "style": "ft"
   },
-  "fb2cf2b3-444b-4be0-955d-6ffc9c33a8c9": {
-    "id": "fb2cf2b3-444b-4be0-955d-6ffc9c33a8c9",
-    "school_location_id": "28c4b0b6-28a3-4423-b6b2-f185f0ef6c3e",
+  "3fb1ec97-ec6a-4585-8f3f-03d3f862a8f7": {
+    "id": "3fb1ec97-ec6a-4585-8f3f-03d3f862a8f7",
+    "school_location_id": "50e30b50-1cef-445f-b024-edccaf81e6ee",
     "site": "https://www.centennialcollege.ca",
     "type": "dance",
     "program": "dance performance program",
     "style": "ft"
   },
-  "024a8b33-aa01-46b1-bd06-c236eb927edb": {
-    "id": "024a8b33-aa01-46b1-bd06-c236eb927edb",
-    "school_location_id": "dd7360cc-cf4d-4f8b-89cf-e4618ab40ae7",
+  "3815124b-76cf-49b9-be1d-e615815bc7a9": {
+    "id": "3815124b-76cf-49b9-be1d-e615815bc7a9",
+    "school_location_id": "16fe7fb3-cd56-4362-8f74-cc0d2487a4f4",
     "site": "https://www.indigenoustheatre.com/",
     "type": "dance",
     "program": "3- and 4-year conservatory training program",
     "style": "ft"
   },
-  "da7ee3be-929b-476a-8221-b051881d153e": {
-    "id": "da7ee3be-929b-476a-8221-b051881d153e",
-    "school_location_id": "788b2b6d-84a2-451b-9189-487749786114",
+  "a6b38fcc-d2ce-42d6-8916-f5f85a87f479": {
+    "id": "a6b38fcc-d2ce-42d6-8916-f5f85a87f479",
+    "school_location_id": "df242948-a771-450d-86ef-eabcdf1a976b",
     "site": "https://www.facebook.com/cobadance/",
     "type": "dance",
     "program": "professional training apprenticeship program",
     "style": "ft"
   },
-  "473de45b-1fbf-4511-bddc-cdd019863681": {
-    "id": "473de45b-1fbf-4511-bddc-cdd019863681",
-    "school_location_id": "156e2a5f-db13-4a01-b4ed-efd4cbbbf196",
+  "902d9760-1d50-4fa7-a0a0-c1aa08f12cbb": {
+    "id": "902d9760-1d50-4fa7-a0a0-c1aa08f12cbb",
+    "school_location_id": "4928c58c-017c-46dd-871a-26daf0e7c881",
     "site": "https://www.conteurdance.com",
     "type": "dance",
     "program": "post-secondary program",
     "style": "ft"
   },
-  "e8f35d93-3298-49dd-be33-067083c0db82": {
-    "id": "e8f35d93-3298-49dd-be33-067083c0db82",
-    "school_location_id": "5416d888-8027-42ff-b2ed-41f936eec520",
+  "b81ff028-6949-4dda-b8d2-306979db0cba": {
+    "id": "b81ff028-6949-4dda-b8d2-306979db0cba",
+    "school_location_id": "5a4bcdbd-98b7-4a78-855e-e9a95f8e30d3",
     "site": "https://www.georgebrown.ca",
     "type": "dance",
     "program": "dance performance preparation",
     "style": "ft"
   },
-  "0411ef76-9b86-4afb-b1e7-fafa72640329": {
-    "id": "0411ef76-9b86-4afb-b1e7-fafa72640329",
-    "school_location_id": "5a81a5c6-ce4c-4ef0-af4e-220d7a5166a0",
+  "8001461d-06af-4eb6-b957-17d8d7fd150d": {
+    "id": "8001461d-06af-4eb6-b957-17d8d7fd150d",
+    "school_location_id": "82e04e47-d5ba-480c-9641-47f3544374e7",
     "site": "https://intrepiddancecompany.ca/",
     "type": "dance",
     "program": "post secondary training program",
     "style": "ft"
   },
-  "4cd4659d-ae0b-4c12-8a91-9cc18c9c7b20": {
-    "id": "4cd4659d-ae0b-4c12-8a91-9cc18c9c7b20",
-    "school_location_id": "6d68a15f-416f-42af-8116-366a6385b2fb",
+  "7dd665e7-d6d4-4c42-a19d-f83c01ff205b": {
+    "id": "7dd665e7-d6d4-4c42-a19d-f83c01ff205b",
+    "school_location_id": "a74731c1-c228-41d1-b2fc-fdc990ffa300",
     "site": "https://www.ryerson.ca",
     "type": "dance",
     "program": "bachelor of fine arts performance: dance",
     "style": "ft"
   },
-  "dae3749d-66e8-493f-96f7-adf4b40fed8d": {
-    "id": "dae3749d-66e8-493f-96f7-adf4b40fed8d",
-    "school_location_id": "03b015a1-edeb-4862-a73b-4d1a9b08081e",
+  "14335490-937f-4a7a-b765-ad0c5d77d431": {
+    "id": "14335490-937f-4a7a-b765-ad0c5d77d431",
+    "school_location_id": "436a69c2-8e79-4338-9cbd-d8de3e2a1047",
     "site": "http://www.theschoolofdance.ca/",
     "type": "dance",
     "program": "contemporary dance diploma",
     "style": "ft"
   },
-  "1f1363b2-f78a-4f8f-93f7-ee9221bbf135": {
-    "id": "1f1363b2-f78a-4f8f-93f7-ee9221bbf135",
-    "school_location_id": "25f817b4-b7ac-4744-8355-1b09817044b7",
+  "f61a642d-b29b-4075-9978-5f6f874e6ad6": {
+    "id": "f61a642d-b29b-4075-9978-5f6f874e6ad6",
+    "school_location_id": "07e0feb7-099e-4b18-8a05-d13df2196d49",
     "site": "http://schooloftdt.org/",
     "type": "dance",
     "program": "professional training program",
     "style": "ft"
   },
-  "32fa0171-a21e-4713-a72b-4166c7937e11": {
-    "id": "32fa0171-a21e-4713-a72b-4166c7937e11",
-    "school_location_id": "fc63caf4-dbf5-48d4-9cf2-31f2ac9139d2",
+  "c15e1007-4146-442d-bbec-d54aeeafa12d": {
+    "id": "c15e1007-4146-442d-bbec-d54aeeafa12d",
+    "school_location_id": "ca3e8c0d-9114-4095-8986-b453f15644b1",
     "site": "http://www.uwo.ca",
     "type": "dance",
     "program": "minor in dance",
     "style": "ft"
   },
-  "7c305d7c-79e0-4189-8b9e-cc7f60151492": {
-    "id": "7c305d7c-79e0-4189-8b9e-cc7f60151492",
-    "school_location_id": "647c6c42-e8ea-445c-bb00-35da6d9d88e7",
+  "9eba7db0-c8ab-4a79-8dac-ec6eafde600c": {
+    "id": "9eba7db0-c8ab-4a79-8dac-ec6eafde600c",
+    "school_location_id": "561d2c51-9e66-4662-a5d0-79d5eda2d08d",
     "site": "http://www.yorku.ca/index.html",
     "type": "dance",
     "program": "bachelor of fine arts honours major in dance choreography/performance",
     "style": "ft"
   },
-  "9d950e9d-740f-49b0-88f4-5b94d5737a32": {
-    "id": "9d950e9d-740f-49b0-88f4-5b94d5737a32",
-    "school_location_id": "2d59c646-33b7-4390-90b8-fb311500221d",
+  "3d0ebbfb-a8cc-48f5-a0a2-f42f15e61217": {
+    "id": "3d0ebbfb-a8cc-48f5-a0a2-f42f15e61217",
+    "school_location_id": "8a332f36-1da5-4186-80d3-962b6a9a3841",
     "site": "http://www.hollandcollege.com/school-of-performing-arts/",
     "type": "dance",
     "program": "dance performance",
     "style": "ft"
   },
-  "6ad64d69-24ad-4dee-873b-ffd30270e662": {
-    "id": "6ad64d69-24ad-4dee-873b-ffd30270e662",
-    "school_location_id": "f601e422-a66f-4a38-941d-de344b30710c",
+  "d64d4c26-ec0d-4056-aea3-9a4fedd605f9": {
+    "id": "d64d4c26-ec0d-4056-aea3-9a4fedd605f9",
+    "school_location_id": "031c1f2c-4d45-4b18-9335-32873aa073ce",
     "site": "www.abm-ballet.com",
     "type": "dance",
     "program": "dance studies",
     "style": "ft"
   },
-  "0d39c833-3234-47a7-8390-76d04a2b7b66": {
-    "id": "0d39c833-3234-47a7-8390-76d04a2b7b66",
-    "school_location_id": "d9d9519f-55b4-44ea-a177-5604c9f1936a",
+  "06c0f5fa-e64c-4b3b-a35f-80635072d397": {
+    "id": "06c0f5fa-e64c-4b3b-a35f-80635072d397",
+    "school_location_id": "b9fd84ef-a7bd-4d07-93fb-60f54b16d1b8",
     "site": "http://www.balletdivertimento.com/en",
     "type": "dance",
     "program": "college program",
     "style": "ft"
   },
-  "51b20f6a-6cea-4804-9972-523c6d1eaca5": {
-    "id": "51b20f6a-6cea-4804-9972-523c6d1eaca5",
-    "school_location_id": "e29564e3-15d9-4608-84ea-0a9e486357a3",
+  "515c6ead-8fcd-4961-93c1-4b6544947c0b": {
+    "id": "515c6ead-8fcd-4961-93c1-4b6544947c0b",
+    "school_location_id": "2fff3381-1a05-4f49-a008-2e2bdfee159d",
     "site": "http://www.cndf.qc.ca/",
     "type": "dance",
     "program": "urban dance path",
     "style": "ft"
   },
-  "bf6662bd-29e9-43b7-ac5b-df19bee13052": {
-    "id": "bf6662bd-29e9-43b7-ac5b-df19bee13052",
-    "school_location_id": "514a2861-0750-4b00-b446-4f698d5c0fdb",
+  "1e0359ae-1733-427e-bd21-b7ccd3b0c34c": {
+    "id": "1e0359ae-1733-427e-bd21-b7ccd3b0c34c",
+    "school_location_id": "959fb2a3-fd0c-49c3-9ea0-f36641875533",
     "site": "https://www.concordia.ca",
     "type": "dance",
     "program": "bachelor of fine arts in contemporary dance",
     "style": "ft"
   },
-  "1e26448f-5a3c-49fd-9881-ec6d7022c671": {
-    "id": "1e26448f-5a3c-49fd-9881-ec6d7022c671",
-    "school_location_id": "debce037-a892-4673-b979-aa609f0b85c7",
+  "a8bae619-68d2-4689-a982-cbace0d3c5e0": {
+    "id": "a8bae619-68d2-4689-a982-cbace0d3c5e0",
+    "school_location_id": "de1ca9cf-7c35-4bb7-b563-ed4f21df5a72",
     "site": "https://www.edcm.ca/fr/formation-superieure/presentation",
     "type": "dance",
     "program": "diploma of collegial studies",
     "style": "ft"
   },
-  "ea8f11a9-9b50-40c4-85e7-79bc872ea5eb": {
-    "id": "ea8f11a9-9b50-40c4-85e7-79bc872ea5eb",
-    "school_location_id": "c47258d0-8e4a-4185-85e5-5ed5bebed7a1",
+  "cbd54c77-6e2e-42f6-b35c-9652d48997dc": {
+    "id": "cbd54c77-6e2e-42f6-b35c-9652d48997dc",
+    "school_location_id": "e97b2b4d-f3bc-4cc8-8719-801d639f3453",
     "site": "https://edqt.qc.ca/",
     "type": "dance",
     "program": "dance studies (withcégep de rimouski)",
     "style": "ft"
   },
-  "84973e9e-9df0-4bd1-ba15-bd03b9fc1f35": {
-    "id": "84973e9e-9df0-4bd1-ba15-bd03b9fc1f35",
-    "school_location_id": "f44ddf39-6c4e-4189-8da7-7c986aeb3567",
+  "d36a3723-b0cc-4471-a29a-d10b6cfbecc1": {
+    "id": "d36a3723-b0cc-4471-a29a-d10b6cfbecc1",
+    "school_location_id": "f4692326-1e43-4b43-85bf-97f7b45c79a1",
     "site": "http://ledq.qc.ca/en/",
     "type": "dance",
     "program": "contemporary dance program",
     "style": "ft"
   },
-  "23c3ec2e-bbf7-4b44-bf0d-41568b760baf": {
-    "id": "23c3ec2e-bbf7-4b44-bf0d-41568b760baf",
-    "school_location_id": "fd4a6788-639c-4713-a741-9e422dabfc9b",
+  "a9904b46-3ccb-4ab6-9d52-31e2584c5a71": {
+    "id": "a9904b46-3ccb-4ab6-9d52-31e2584c5a71",
+    "school_location_id": "a855f68a-ce7b-45cb-9b01-6b9215d93e4f",
     "site": "http://www.christianebelanger-danse.com/",
     "type": "dance",
     "program": "ballet studies with cégep garneau",
     "style": "ft"
   },
-  "96f715cc-7db7-4c9c-91e2-0ce2e5627e23": {
-    "id": "96f715cc-7db7-4c9c-91e2-0ce2e5627e23",
-    "school_location_id": "30100aa2-92c3-428a-a416-5d1062179fd3",
+  "f91dc6b0-877d-450b-b9a8-bbad96789acc": {
+    "id": "f91dc6b0-877d-450b-b9a8-bbad96789acc",
+    "school_location_id": "b967f93a-301a-42a8-a22e-314f5dd3fc09",
     "site": "https://www.esbq.ca/en",
     "type": "dance",
     "program": "professional program (college diploma)",
     "style": "ft"
   },
-  "295d3612-ecb2-42f1-a069-1de3abf03aff": {
-    "id": "295d3612-ecb2-42f1-a069-1de3abf03aff",
-    "school_location_id": "35662bfa-c8dc-41e5-a4d0-9cfc780b3167",
+  "459b3d58-42cb-42f8-92ae-309721aa2598": {
+    "id": "459b3d58-42cb-42f8-92ae-309721aa2598",
+    "school_location_id": "5f5de0c2-e879-4df2-95f8-e847fe9da916",
     "site": "https://danse.uqam.ca/",
     "type": "dance",
     "program": "bachelor of dance",
     "style": "ft"
   },
-  "8d0b0f52-d877-4673-82bf-2624157bc371": {
-    "id": "8d0b0f52-d877-4673-82bf-2624157bc371",
-    "school_location_id": "6bfdb893-aeb0-4144-b8b8-ee572b3eba5c",
+  "30e83c75-012a-4df7-a2fe-66251d2da7e1": {
+    "id": "30e83c75-012a-4df7-a2fe-66251d2da7e1",
+    "school_location_id": "91642bfd-16dc-4363-b1ff-9d0b751eb46d",
     "site": "http://www.macewan.ca/",
     "type": "mt",
     "program": "theatre arts program",
     "style": "ft"
   },
-  "2e2f5685-8e83-41d2-9241-51001616d038": {
-    "id": "2e2f5685-8e83-41d2-9241-51001616d038",
-    "school_location_id": "d399ba9c-8883-4cc0-83fb-29279dee6048",
+  "48793348-23f0-4050-b925-441dce7978fb": {
+    "id": "48793348-23f0-4050-b925-441dce7978fb",
+    "school_location_id": "9d049182-5621-4332-9902-94de7906f71c",
     "site": "http://www.ccpacanada.com/",
     "type": "mt",
     "program": "two year enriched performing arts program",
     "style": "ft"
   },
-  "97aa1a5d-822c-43f5-b2bf-acf742ed1dbb": {
-    "id": "97aa1a5d-822c-43f5-b2bf-acf742ed1dbb",
-    "school_location_id": "7f0e8686-b302-4bf6-90b5-ebf719928e70",
+  "9b13eddc-8df3-404f-a9a7-71c14848a335": {
+    "id": "9b13eddc-8df3-404f-a9a7-71c14848a335",
+    "school_location_id": "4518fd71-fc47-4150-a137-ab1bfa57d9ad",
     "site": "http://www.capilanou.ca/",
     "type": "mt",
     "program": "musical theatre diploma",
     "style": "ft"
   },
-  "087a6bf8-3416-40dd-8bfa-d9142070359b": {
-    "id": "087a6bf8-3416-40dd-8bfa-d9142070359b",
-    "school_location_id": "28c4b0b6-28a3-4423-b6b2-f185f0ef6c3e",
+  "70f1825d-c368-4d3c-98ae-f6f5c9fcf131": {
+    "id": "70f1825d-c368-4d3c-98ae-f6f5c9fcf131",
+    "school_location_id": "50e30b50-1cef-445f-b024-edccaf81e6ee",
     "site": "https://www.centennialcollege.ca",
     "type": "mt",
     "program": "performing arts fundamentals",
     "style": "ft"
   },
-  "bc2e92be-e639-4403-b20c-9090ff1c7bc0": {
-    "id": "bc2e92be-e639-4403-b20c-9090ff1c7bc0",
-    "school_location_id": "dd7360cc-cf4d-4f8b-89cf-e4618ab40ae7",
+  "1f9ab27b-90ff-444a-9a81-547268f662b2": {
+    "id": "1f9ab27b-90ff-444a-9a81-547268f662b2",
+    "school_location_id": "16fe7fb3-cd56-4362-8f74-cc0d2487a4f4",
     "site": "https://www.indigenoustheatre.com/",
     "type": "mt",
     "program": "3- and 4-year conservatory training program",
     "style": "ft"
   },
-  "fc321f22-deda-4d2e-a0a0-71458a79edb9": {
-    "id": "fc321f22-deda-4d2e-a0a0-71458a79edb9",
-    "school_location_id": "0b69d40f-ff82-4765-88b0-d509aa5fbceb",
+  "6f3b39c4-aee8-463f-9781-be40fcd2acd5": {
+    "id": "6f3b39c4-aee8-463f-9781-be40fcd2acd5",
+    "school_location_id": "68c0e9c1-686e-4446-8c5c-d53f148cfef3",
     "site": "http://www.queensu.ca/",
     "type": "mt",
     "program": "bachelor of music theatre",
     "style": "ft"
   },
-  "a5e05862-31fe-444a-b071-ad38cfd0480a": {
-    "id": "a5e05862-31fe-444a-b071-ad38cfd0480a",
-    "school_location_id": "40be382c-f658-4549-85d7-c2904c45a45d",
+  "e74e9245-cc21-4262-80c3-da65f8905482": {
+    "id": "e74e9245-cc21-4262-80c3-da65f8905482",
+    "school_location_id": "49d2d14b-2855-4474-b76a-980e23bbd8b5",
     "site": "https://www.randolphcollege.ca",
     "type": "mt",
     "program": "college program",
     "style": "ft"
   },
-  "b8ac3e15-d375-4a7e-80eb-883b60737cb3": {
-    "id": "b8ac3e15-d375-4a7e-80eb-883b60737cb3",
-    "school_location_id": "98d902d1-a175-453a-a569-0e8cf2453b13",
+  "2a074048-a645-47fb-8e6f-6575cc6784f3": {
+    "id": "2a074048-a645-47fb-8e6f-6575cc6784f3",
+    "school_location_id": "e837af52-06ff-4d59-866a-d92594abd092",
     "site": "https://www.sheridancollege.ca/",
     "type": "mt",
     "program": "bachelor of music theatre performance",
     "style": "ft"
   },
-  "81a89bb9-0673-4456-9c6f-283954909df5": {
-    "id": "81a89bb9-0673-4456-9c6f-283954909df5",
-    "school_location_id": "9a1c25ec-5ceb-482f-bb15-08d307eaa318",
+  "5aa31900-419b-4939-a0a0-2a24c7e67b3b": {
+    "id": "5aa31900-419b-4939-a0a0-2a24c7e67b3b",
+    "school_location_id": "622343f2-82cd-481b-88e9-65a28b3e3649",
     "site": "http://www.stclaircollege.ca/",
     "type": "mt",
     "program": "music theatre performance advanced diploma",
     "style": "ft"
   },
-  "05fb4806-cc29-48aa-a80a-46e491a9005e": {
-    "id": "05fb4806-cc29-48aa-a80a-46e491a9005e",
-    "school_location_id": "15725a36-0aea-4b74-8199-938d5e5c0df0",
+  "d3c48816-46b9-4f36-8b4a-6ffd387b3d51": {
+    "id": "d3c48816-46b9-4f36-8b4a-6ffd387b3d51",
+    "school_location_id": "60d915a2-698d-44fc-a713-0c9f54679d48",
     "site": "http://www.stlawrencecollege.ca/",
     "type": "mt",
     "program": "music theatre: performance",
     "style": "ft"
   },
-  "52c14fb5-0a21-4db8-a4ba-c1ce99eb78bd": {
-    "id": "52c14fb5-0a21-4db8-a4ba-c1ce99eb78bd",
-    "school_location_id": "96cdb365-ebe2-49a6-8777-5f0b2f72d693",
+  "ba6af692-a768-4dea-bf9d-2b583c988dbe": {
+    "id": "ba6af692-a768-4dea-bf9d-2b583c988dbe",
+    "school_location_id": "57328725-a9ac-438c-a1ba-3ea6c0e0e43b",
     "site": "https://etp.clg.qc.ca",
     "type": "mt",
     "program": "interprétation en théâtre musical",
     "style": "ft"
   },
-  "0d612e67-bc8c-40c5-aa52-57ec1b8298b1": {
-    "id": "0d612e67-bc8c-40c5-aa52-57ec1b8298b1",
-    "school_location_id": "5abbead5-aeb2-4acd-9805-e17d820eab29",
+  "6d954f31-fb6e-4023-9a5c-cc9d60ff683a": {
+    "id": "6d954f31-fb6e-4023-9a5c-cc9d60ff683a",
+    "school_location_id": "8cae67c2-3582-4f61-a0c4-a0be106b3f80",
     "site": "https://www.stu.ca/about/",
     "type": "mt",
     "program": "musical theatre training",
     "style": "ft"
   },
-  "b80d20f9-a471-42c3-b2e3-f406cb152997": {
-    "id": "b80d20f9-a471-42c3-b2e3-f406cb152997",
-    "school_location_id": "1fda2bb7-633a-413b-b92c-b4573edba2b2",
+  "db793d15-7dd0-475e-af3d-750569725c95": {
+    "id": "db793d15-7dd0-475e-af3d-750569725c95",
+    "school_location_id": "12ef2339-dde3-4507-8891-75f2f963df77",
     "site": "https://www.dal.ca",
     "type": "mt",
     "program": "bachelor of arts combined honours in theatre and music",
     "style": "ft"
   },
-  "692fba86-6d2d-47c8-9506-bab5f03926d4": {
-    "id": "692fba86-6d2d-47c8-9506-bab5f03926d4",
-    "school_location_id": "2d59c646-33b7-4390-90b8-fb311500221d",
+  "45f65766-3cf8-4f6a-b323-3fb89755cac5": {
+    "id": "45f65766-3cf8-4f6a-b323-3fb89755cac5",
+    "school_location_id": "8a332f36-1da5-4186-80d3-962b6a9a3841",
     "site": "http://www.hollandcollege.com/school-of-performing-arts/",
     "type": "mt",
     "program": "theatre performance",
     "style": "ft"
   },
-  "267017b5-bb44-4fa6-b267-ca1a79dc7b01": {
-    "id": "267017b5-bb44-4fa6-b267-ca1a79dc7b01",
-    "school_location_id": "be604476-c62e-478d-a719-345af13cfdc2",
+  "697f3a29-24e5-4abb-816d-ae505e705bec": {
+    "id": "697f3a29-24e5-4abb-816d-ae505e705bec",
+    "school_location_id": "7fc4a110-2fcb-45b6-90ab-7d49afeb7e6e",
     "site": "https://ambrose.edu/",
     "type": "sing",
     "program": "bachelor of music",
     "style": "ft"
   },
-  "80e5f9a8-b1cc-4d84-b81d-229df7e03f59": {
-    "id": "80e5f9a8-b1cc-4d84-b81d-229df7e03f59",
-    "school_location_id": "a5120862-2dd4-4abf-919c-82345f39a757",
+  "e7c2b65c-10e9-4594-976d-8329351ab879": {
+    "id": "e7c2b65c-10e9-4594-976d-8329351ab879",
+    "school_location_id": "28218496-03a6-4f6a-9250-961295bd95af",
     "site": "https://concordia.ab.ca",
     "type": "sing",
     "program": "bachelor of arts major in music",
     "style": "ft"
   },
-  "af64f8fa-2ba9-4849-96ed-2bc0f6756844": {
-    "id": "af64f8fa-2ba9-4849-96ed-2bc0f6756844",
-    "school_location_id": "0da29df5-2092-4023-b192-402f1dee0b00",
+  "c60abf4e-fb82-45b5-baf0-ec89cff4a817": {
+    "id": "c60abf4e-fb82-45b5-baf0-ec89cff4a817",
+    "school_location_id": "a8d4ac2a-61b6-4c4c-849a-79528877d1d5",
     "site": "https://www.gprc.ab.ca",
     "type": "sing",
     "program": "music: university transfer program (1st/2nd year)",
     "style": "ft"
   },
-  "831a33a8-920b-408c-a7b7-0dc74f278981": {
-    "id": "831a33a8-920b-408c-a7b7-0dc74f278981",
-    "school_location_id": "6bfdb893-aeb0-4144-b8b8-ee572b3eba5c",
+  "95821229-d9f0-4844-98ae-e23c6a45d5d2": {
+    "id": "95821229-d9f0-4844-98ae-e23c6a45d5d2",
+    "school_location_id": "91642bfd-16dc-4363-b1ff-9d0b751eb46d",
     "site": "http://www.macewan.ca/",
     "type": "sing",
     "program": "bachelor of music in jazz and contemporary pop music",
     "style": "ft"
   },
-  "1b4a9db9-6251-41c5-b2a8-5b60d53c90a9": {
-    "id": "1b4a9db9-6251-41c5-b2a8-5b60d53c90a9",
-    "school_location_id": "0bb2f713-1740-4bea-897a-e13a067bd341",
+  "9991e102-51d6-4664-a3bf-bb384426c94a": {
+    "id": "9991e102-51d6-4664-a3bf-bb384426c94a",
+    "school_location_id": "ba243411-c76e-4288-bd9c-466d02589f17",
     "site": "https://www.mhc.ab.ca",
     "type": "sing",
     "program": "bachelor of arts university transfer options",
     "style": "ft"
   },
-  "77011aaf-5a41-49d0-956e-d5999e05460e": {
-    "id": "77011aaf-5a41-49d0-956e-d5999e05460e",
-    "school_location_id": "ba3dc134-1934-425f-a3df-61875690b653",
+  "e16f6874-c06e-4b41-8460-14962a543323": {
+    "id": "e16f6874-c06e-4b41-8460-14962a543323",
+    "school_location_id": "8fef110f-3569-44b1-87b4-b5bbc8f955db",
     "site": "http://rdc.ab.ca",
     "type": "sing",
     "program": "music diploma",
     "style": "ft"
   },
-  "f4cd167d-490a-41be-8d6c-37cedc8a858c": {
-    "id": "f4cd167d-490a-41be-8d6c-37cedc8a858c",
-    "school_location_id": "965c2968-6187-4bec-bebb-28e6ab285444",
+  "a98d7843-4cbf-4be9-b5c9-078388364420": {
+    "id": "a98d7843-4cbf-4be9-b5c9-078388364420",
+    "school_location_id": "b845585f-184c-4b9b-9866-5fc4d54359ac",
     "site": "https://www.ualberta.ca",
     "type": "sing",
     "program": "bachelor of music",
     "style": "ft"
   },
-  "150dd075-5a60-4e99-929c-b0b01ac07ca8": {
-    "id": "150dd075-5a60-4e99-929c-b0b01ac07ca8",
-    "school_location_id": "b82897a4-e25f-4717-9572-38e71f0ec33f",
+  "b4e44d22-2586-47d8-8f60-bb0d35d7cbdb": {
+    "id": "b4e44d22-2586-47d8-8f60-bb0d35d7cbdb",
+    "school_location_id": "b39d90a4-0927-4e19-954e-5ee13376e0e0",
     "site": "https://www.ualberta.ca/augustana/",
     "type": "sing",
     "program": "bachelor of music major in voice",
     "style": "ft"
   },
-  "f3570a99-2f3e-4394-8f51-fc421c46f573": {
-    "id": "f3570a99-2f3e-4394-8f51-fc421c46f573",
-    "school_location_id": "d077ea6d-7f25-4a8d-b4e6-9f165606af58",
+  "a60da1f7-f6c2-4549-b75b-c5e8c3b2674b": {
+    "id": "a60da1f7-f6c2-4549-b75b-c5e8c3b2674b",
+    "school_location_id": "fe6a071a-8f54-4c27-ad2b-72d4f70e7cc2",
     "site": "http://www.ucalgary.ca",
     "type": "sing",
     "program": "bachelor of music",
     "style": "ft"
   },
-  "40dcd3e7-2f93-4281-b472-73dcafe3cef0": {
-    "id": "40dcd3e7-2f93-4281-b472-73dcafe3cef0",
-    "school_location_id": "4a52367c-d587-402b-b436-0e349251ff3a",
+  "445258ff-c5b2-46b5-82dd-c9a9ed521613": {
+    "id": "445258ff-c5b2-46b5-82dd-c9a9ed521613",
+    "school_location_id": "2d28e44b-4bf5-4578-b165-33cf43ec5f57",
     "site": "http://www.uleth.ca",
     "type": "sing",
     "program": "bachelor of music",
     "style": "ft"
   },
-  "9e5fa310-4392-4481-b03d-991220e263bb": {
-    "id": "9e5fa310-4392-4481-b03d-991220e263bb",
-    "school_location_id": "7f0e8686-b302-4bf6-90b5-ebf719928e70",
+  "93fed794-8924-48d2-83e0-53b29c275555": {
+    "id": "93fed794-8924-48d2-83e0-53b29c275555",
+    "school_location_id": "4518fd71-fc47-4150-a137-ab1bfa57d9ad",
     "site": "http://www.capilanou.ca/",
     "type": "sing",
     "program": "bachelor of music in jazz studies",
     "style": "ft"
   },
-  "debbb00a-9bc3-479d-a817-cd1772f378f8": {
-    "id": "debbb00a-9bc3-479d-a817-cd1772f378f8",
-    "school_location_id": "9b7faf42-756a-4ecd-8d83-dfc3f79e3689",
+  "98ae5377-5a1b-4b31-b294-39c90d808a7b": {
+    "id": "98ae5377-5a1b-4b31-b294-39c90d808a7b",
+    "school_location_id": "443b143b-2956-4008-86de-3c74490f8bbd",
     "site": "https://www.douglascollege.ca/",
     "type": "sing",
     "program": "performing and fine arts certificate",
     "style": "ft"
   },
-  "b634e361-6d9d-46e5-9391-d599c9fc4dfb": {
-    "id": "b634e361-6d9d-46e5-9391-d599c9fc4dfb",
-    "school_location_id": "8ccdd706-0426-4e67-8b13-eabd00fcff01",
+  "3c092ebb-5f62-4175-892f-4c9e1c50a874": {
+    "id": "3c092ebb-5f62-4175-892f-4c9e1c50a874",
+    "school_location_id": "835d98f9-c400-4897-9bc2-f464b7e90f34",
     "site": "http://www.kpu.ca",
     "type": "sing",
     "program": "bachelor of music in musical arts",
     "style": "ft"
   },
-  "8f26b946-f20c-4a23-88a4-706a9a106fa4": {
-    "id": "8f26b946-f20c-4a23-88a4-706a9a106fa4",
-    "school_location_id": "fa7564bd-97ce-485d-bf9b-26420f923485",
+  "0a8967bc-4761-455e-8532-c311d22bc6f6": {
+    "id": "0a8967bc-4761-455e-8532-c311d22bc6f6",
+    "school_location_id": "9abd5c4c-e358-421c-ab95-ce09d6822d9b",
     "site": "http://www.selkirk.ca/",
     "type": "sing",
     "program": "diploma in contemporary music and technology",
     "style": "ft"
   },
-  "f6a4bea1-9b97-463c-a1b4-48df60366ebe": {
-    "id": "f6a4bea1-9b97-463c-a1b4-48df60366ebe",
-    "school_location_id": "979ebd52-ac28-4148-bf3f-12c7e9fc6ca9",
+  "5b85c789-311c-4cd2-9f1f-544c752ece47": {
+    "id": "5b85c789-311c-4cd2-9f1f-544c752ece47",
+    "school_location_id": "8f25408f-22b5-4226-8d7d-d5a16e3ba7d3",
     "site": "https://www.sfu.ca",
     "type": "sing",
     "program": "bachelor of fine arts in music",
     "style": "ft"
   },
-  "ec89eed7-f184-4af5-b3d3-0a87e7c4ad04": {
-    "id": "ec89eed7-f184-4af5-b3d3-0a87e7c4ad04",
-    "school_location_id": "3d5623e6-58b8-4bad-a751-62c2d1a9fd20",
+  "46f8243d-a3b0-4032-9ade-441a5907a65a": {
+    "id": "46f8243d-a3b0-4032-9ade-441a5907a65a",
+    "school_location_id": "0aff2725-9cb7-4232-915a-63fa695b7122",
     "site": "https://www.twu.ca",
     "type": "sing",
     "program": "bachelor of arts in music",
     "style": "ft"
   },
-  "07ef6e86-4e69-4441-b6de-a10d0d9a4040": {
-    "id": "07ef6e86-4e69-4441-b6de-a10d0d9a4040",
-    "school_location_id": "1fc3f043-afef-46f1-82d9-782e87dfc5be",
+  "2d321b50-4323-494d-b6c3-aa659f1548fa": {
+    "id": "2d321b50-4323-494d-b6c3-aa659f1548fa",
+    "school_location_id": "1d9d7d01-9086-43a8-9acc-877a3cb1c85a",
     "site": "https://www.ubc.ca",
     "type": "sing",
     "program": "bachelor of music in opera",
     "style": "ft"
   },
-  "aff61d6b-5d3f-411a-a683-7ae069cbebdb": {
-    "id": "aff61d6b-5d3f-411a-a683-7ae069cbebdb",
-    "school_location_id": "db2eb7c9-8932-4204-bb90-b85732038a24",
+  "ab1bf409-03fa-4d76-a01c-91833ebad901": {
+    "id": "ab1bf409-03fa-4d76-a01c-91833ebad901",
+    "school_location_id": "94dc90fa-2e58-4238-a39d-b908d9c7ddd8",
     "site": "https://www.uvic.ca",
     "type": "sing",
     "program": "bachelor of music in music arts",
     "style": "ft"
   },
-  "0b8495a0-8e76-4820-9aed-3a9fe5955780": {
-    "id": "0b8495a0-8e76-4820-9aed-3a9fe5955780",
-    "school_location_id": "de2eb521-0e42-4fa3-a315-e289b7b5f453",
+  "df438c6d-67e6-4a8c-aad6-024e964d8bbe": {
+    "id": "df438c6d-67e6-4a8c-aad6-024e964d8bbe",
+    "school_location_id": "23ba580b-1c06-4ddb-ae7e-c8e1e99697c8",
     "site": "http://www.vcc.ca",
     "type": "sing",
     "program": "bachelor of applied music",
     "style": "ft"
   },
-  "2f332c1e-80c0-45f8-9dd4-371e30ff21d3": {
-    "id": "2f332c1e-80c0-45f8-9dd4-371e30ff21d3",
-    "school_location_id": "f69cc8d9-f7a1-42f9-8828-c2fe017ba7e1",
+  "88ceb418-c1c8-4be5-89a9-07d7df052c38": {
+    "id": "88ceb418-c1c8-4be5-89a9-07d7df052c38",
+    "school_location_id": "ef921da2-a192-4c8b-8a0b-fd25c4370e99",
     "site": "https://www.viu.ca",
     "type": "sing",
     "program": "bachelor of music in jazz studies",
     "style": "ft"
   },
-  "25d409b4-390e-4e0b-a5da-bf7694fbeb7e": {
-    "id": "25d409b4-390e-4e0b-a5da-bf7694fbeb7e",
-    "school_location_id": "45b535d1-41c5-4a53-bdf7-3c8efaeba500",
+  "e785aae3-bae3-455e-9991-f11e6ec6eefc": {
+    "id": "e785aae3-bae3-455e-9991-f11e6ec6eefc",
+    "school_location_id": "3c99d759-f723-493b-8cb8-06cafc0246ca",
     "site": "http://vcm.bc.ca",
     "type": "sing",
     "program": "diploma in music performance",
     "style": "ft"
   },
-  "57ccdd99-b7d9-433c-9af7-776574d349c4": {
-    "id": "57ccdd99-b7d9-433c-9af7-776574d349c4",
-    "school_location_id": "84e4948a-4dbe-467d-b1f7-7faf4f7ab36b",
+  "6ce62baa-ad60-48c6-a5ab-4a7c0d075e4e": {
+    "id": "6ce62baa-ad60-48c6-a5ab-4a7c0d075e4e",
+    "school_location_id": "a677e19e-5726-49c4-a2ba-40a76e6477ba",
     "site": "https://www.brandonu.ca",
     "type": "sing",
     "program": "bachelor of music (honours)",
     "style": "ft"
   },
-  "73bf9f47-9c65-400b-94ee-cc263972c39d": {
-    "id": "73bf9f47-9c65-400b-94ee-cc263972c39d",
-    "school_location_id": "4b076b96-5b3d-4c2a-b62c-2c1d77308217",
+  "a7ca451f-e2ba-4fbc-8003-16f2b739ca55": {
+    "id": "a7ca451f-e2ba-4fbc-8003-16f2b739ca55",
+    "school_location_id": "81f223de-f961-456e-97e9-63dd64726628",
     "site": "http://www.cmu.ca/",
     "type": "sing",
     "program": "bachelor of music",
     "style": "ft"
   },
-  "b80ac1f1-f4cf-46df-ab7e-a2fd87b9eccd": {
-    "id": "b80ac1f1-f4cf-46df-ab7e-a2fd87b9eccd",
-    "school_location_id": "12faa3c0-f575-4da8-9a1d-aa422f4442a2",
+  "4ca9bbbf-c920-43bb-9280-afe47511737d": {
+    "id": "4ca9bbbf-c920-43bb-9280-afe47511737d",
+    "school_location_id": "e0a51a3f-054d-46f3-8c79-9a551d3c6c11",
     "site": "http://umanitoba.ca",
     "type": "sing",
     "program": "bachelor of music",
     "style": "ft"
   },
-  "f5f2d62d-7d6c-4c1d-b936-962169350a4a": {
-    "id": "f5f2d62d-7d6c-4c1d-b936-962169350a4a",
-    "school_location_id": "f91323ba-fb05-403d-8518-960a994b5ad1",
+  "4350e257-0b07-452c-ae04-545ed0c1c418": {
+    "id": "4350e257-0b07-452c-ae04-545ed0c1c418",
+    "school_location_id": "4bebb850-d877-44d9-97d1-eef9587c7f29",
     "site": "https://www.mta.ca/",
     "type": "sing",
     "program": "bachelor of music",
     "style": "ft"
   },
-  "efc9df70-734d-4091-90cc-5e7aabb6e339": {
-    "id": "efc9df70-734d-4091-90cc-5e7aabb6e339",
-    "school_location_id": "5abbead5-aeb2-4acd-9805-e17d820eab29",
+  "c345bb75-08f7-40e4-a143-fe92503de2f9": {
+    "id": "c345bb75-08f7-40e4-a143-fe92503de2f9",
+    "school_location_id": "8cae67c2-3582-4f61-a0c4-a0be106b3f80",
     "site": "https://www.stu.ca/about/",
     "type": "sing",
     "program": "minor in music",
     "style": "ft"
   },
-  "c3b45491-1a58-41d0-bc05-0c1eecdfe72e": {
-    "id": "c3b45491-1a58-41d0-bc05-0c1eecdfe72e",
-    "school_location_id": "d4f398b5-b5d5-4709-ac08-44f7f849b9d3",
+  "1de411d1-f8c1-4a37-af61-6c9b865c8422": {
+    "id": "1de411d1-f8c1-4a37-af61-6c9b865c8422",
+    "school_location_id": "1fbf738c-ca03-46ec-b9fa-27284cf2b1e6",
     "site": "http://www.umoncton.ca/",
     "type": "sing",
     "program": "bachelor of music (performance)",
     "style": "ft"
   },
-  "c0b50ec1-d9fa-481f-83d8-148098af251c": {
-    "id": "c0b50ec1-d9fa-481f-83d8-148098af251c",
-    "school_location_id": "4fbbaf58-0873-46cd-b40f-f74664738ca1",
+  "258aa578-bf03-4c1b-af76-c76d66e5e9b2": {
+    "id": "258aa578-bf03-4c1b-af76-c76d66e5e9b2",
+    "school_location_id": "b1abab83-3c80-4001-96bb-af14dd3051de",
     "site": "http://www.unb.ca",
     "type": "sing",
     "program": "bachelor of arts music minor",
     "style": "ft"
   },
-  "47b8bf62-2925-4c08-9f92-dc57c826ea9d": {
-    "id": "47b8bf62-2925-4c08-9f92-dc57c826ea9d",
-    "school_location_id": "daa254aa-6002-4e16-b642-3ab323f76d0b",
+  "9edf741e-cb60-409e-81c8-308b3a5dc18a": {
+    "id": "9edf741e-cb60-409e-81c8-308b3a5dc18a",
+    "school_location_id": "9b1b39a0-db46-4a08-a383-87dbb7f9d9f7",
     "site": "https://www.mun.ca",
     "type": "sing",
     "program": "bachelor of music",
     "style": "ft"
   },
-  "fa014cdb-e000-44bc-b57a-f9cc1374386a": {
-    "id": "fa014cdb-e000-44bc-b57a-f9cc1374386a",
-    "school_location_id": "d0055aea-ad24-4a48-a3f9-af5e63412f4b",
+  "071595a8-afde-4a03-9697-29a715f5451d": {
+    "id": "071595a8-afde-4a03-9697-29a715f5451d",
+    "school_location_id": "e7930c54-e743-4f20-8b65-5a20a109131a",
     "site": "https://www2.acadiau.ca/index.php",
     "type": "sing",
     "program": "bachelor of music",
     "style": "ft"
   },
-  "f05ecc3b-4f48-4716-b2ce-b553186730a0": {
-    "id": "f05ecc3b-4f48-4716-b2ce-b553186730a0",
-    "school_location_id": "1fda2bb7-633a-413b-b92c-b4573edba2b2",
+  "908e7c77-b785-4ac0-ac34-41c157c9af84": {
+    "id": "908e7c77-b785-4ac0-ac34-41c157c9af84",
+    "school_location_id": "12ef2339-dde3-4507-8891-75f2f963df77",
     "site": "https://www.dal.ca",
     "type": "sing",
     "program": "bachelor of music",
     "style": "ft"
   },
-  "ee23a528-a016-4efc-99ee-d72af4405984": {
-    "id": "ee23a528-a016-4efc-99ee-d72af4405984",
-    "school_location_id": "3e1de379-e1ad-45c3-939a-3869f902ce8f",
+  "677432d9-3fb5-464c-a7d0-9ef73d59cb6b": {
+    "id": "677432d9-3fb5-464c-a7d0-9ef73d59cb6b",
+    "school_location_id": "8fa7392a-93ba-4530-a1ff-30760e0b16ed",
     "site": "https://www.nscc.ca/",
     "type": "sing",
     "program": "music arts",
     "style": "ft"
   },
-  "62a8513d-0448-4bd7-97de-10cd225b4130": {
-    "id": "62a8513d-0448-4bd7-97de-10cd225b4130",
-    "school_location_id": "6785816e-3d3d-4c75-9a43-9a7bf7bfc027",
+  "fc447eef-2d99-4d55-a298-e22488048e86": {
+    "id": "fc447eef-2d99-4d55-a298-e22488048e86",
+    "school_location_id": "e8b77243-6918-48b4-994d-6b780dd4797a",
     "site": "https://www.stfx.ca",
     "type": "sing",
     "program": "bachelor of music",
     "style": "ft"
   },
-  "934857ff-d6ad-4c62-8096-57c407d33615": {
-    "id": "934857ff-d6ad-4c62-8096-57c407d33615",
-    "school_location_id": "27601b3d-9c67-4e2e-8506-ae581a4cf77e",
+  "dbfd1199-00ba-4a07-a252-20f4e061eaf3": {
+    "id": "dbfd1199-00ba-4a07-a252-20f4e061eaf3",
+    "school_location_id": "88039cff-2e73-4e6b-823a-fc0a7570bdc4",
     "site": "https://www.algomau.ca",
     "type": "sing",
     "program": "bachelor of arts in music",
     "style": "ft"
   },
-  "f23ae636-4607-4e03-b6e4-9a4ca0d30a4e": {
-    "id": "f23ae636-4607-4e03-b6e4-9a4ca0d30a4e",
-    "school_location_id": "46127844-3e43-4526-97d3-506fe6c7d18c",
+  "23e06ea7-24ee-4259-a383-c0a3f380db13": {
+    "id": "23e06ea7-24ee-4259-a383-c0a3f380db13",
+    "school_location_id": "d14330af-5fb9-48a3-9d08-b5b182a5fe48",
     "site": "http://www.algonquincollege.com",
     "type": "sing",
     "program": "introduction to music industry arts",
     "style": "ft"
   },
-  "d1fdd4b3-70f4-4c90-8e25-9c7cfa80ce8b": {
-    "id": "d1fdd4b3-70f4-4c90-8e25-9c7cfa80ce8b",
-    "school_location_id": "bb14e87e-cbe3-4449-aae3-ce708cc8c08b",
+  "8337b730-ce0d-423c-a075-0bd233394682": {
+    "id": "8337b730-ce0d-423c-a075-0bd233394682",
+    "school_location_id": "da1c7d2c-1a69-4dc2-a758-9aa295f8a1f8",
     "site": "https://brocku.ca",
     "type": "sing",
     "program": "bachelor of music",
     "style": "ft"
   },
-  "a7017d87-78d2-4980-a3ee-3b5d93b8c262": {
-    "id": "a7017d87-78d2-4980-a3ee-3b5d93b8c262",
-    "school_location_id": "617c4c42-2e8e-4e46-acb1-1cafa8d7b176",
+  "93baced9-1177-49c9-b44e-a8ebdf614d69": {
+    "id": "93baced9-1177-49c9-b44e-a8ebdf614d69",
+    "school_location_id": "411edc43-6be8-4e56-949c-9fc5bc817655",
     "site": "http://cambriancollege.ca",
     "type": "sing",
     "program": "music: performance diploma",
     "style": "ft"
   },
-  "022014cf-58a2-47c3-87fc-1d8462b124aa": {
-    "id": "022014cf-58a2-47c3-87fc-1d8462b124aa",
-    "school_location_id": "c7bb912b-7229-4342-bcf2-43807c693fa5",
+  "884fdaa7-67bf-4b7a-b8d6-4bf002f44952": {
+    "id": "884fdaa7-67bf-4b7a-b8d6-4bf002f44952",
+    "school_location_id": "bab8a272-8841-467c-b1da-07bd9edd6b22",
     "site": "https://carleton.ca",
     "type": "sing",
     "program": "bachelor of music honours",
     "style": "ft"
   },
-  "e0707264-4dd7-4b73-a870-05fa0a511ec8": {
-    "id": "e0707264-4dd7-4b73-a870-05fa0a511ec8",
-    "school_location_id": "28c4b0b6-28a3-4423-b6b2-f185f0ef6c3e",
+  "a0e478c0-da99-43c1-99e4-ae6593d1fe2c": {
+    "id": "a0e478c0-da99-43c1-99e4-ae6593d1fe2c",
+    "school_location_id": "50e30b50-1cef-445f-b024-edccaf81e6ee",
     "site": "https://www.centennialcollege.ca",
     "type": "sing",
     "program": "music industry arts and performance",
     "style": "ft"
   },
-  "c7cd8b0b-b175-480d-be71-153fbae0e449": {
-    "id": "c7cd8b0b-b175-480d-be71-153fbae0e449",
-    "school_location_id": "dd7360cc-cf4d-4f8b-89cf-e4618ab40ae7",
+  "b32a1bad-5621-4910-b7c1-471a911a4fe0": {
+    "id": "b32a1bad-5621-4910-b7c1-471a911a4fe0",
+    "school_location_id": "16fe7fb3-cd56-4362-8f74-cc0d2487a4f4",
     "site": "https://www.indigenoustheatre.com/",
     "type": "sing",
     "program": "3- and 4-year conservatory training program",
     "style": "ft"
   },
-  "cfdad307-7884-45fc-a8e3-4eb48b512502": {
-    "id": "cfdad307-7884-45fc-a8e3-4eb48b512502",
-    "school_location_id": "21911a77-2f56-475a-8f3e-0f767736bcb2",
+  "9f72d4a5-6548-497e-9abb-2733f4bec1ce": {
+    "id": "9f72d4a5-6548-497e-9abb-2733f4bec1ce",
+    "school_location_id": "55d3f2b9-c525-498c-a7d4-747dae7a6f4a",
     "site": "http://ggs.rcmusic.ca",
     "type": "sing",
     "program": "bachelor of music, performance (honours)",
     "style": "ft"
   },
-  "94477338-86f0-4c0f-95bb-9238cd99aae3": {
-    "id": "94477338-86f0-4c0f-95bb-9238cd99aae3",
-    "school_location_id": "90ae99e0-0b57-4a44-b699-6b0e80b7a6e5",
+  "840e36f8-3e4c-48aa-9253-f32097cf461c": {
+    "id": "840e36f8-3e4c-48aa-9253-f32097cf461c",
+    "school_location_id": "22476efb-791a-4744-b307-3b40a63436da",
     "site": "http://humber.ca",
     "type": "sing",
     "program": "jazz performance: introduction to commercial jazz",
     "style": "ft"
   },
-  "cdf915a5-343e-4313-b3ec-42bdc4face38": {
-    "id": "cdf915a5-343e-4313-b3ec-42bdc4face38",
-    "school_location_id": "a9098155-cad3-474e-91b7-ed288007b3aa",
+  "9b3392dd-747a-4c0a-87f8-80db29834fe9": {
+    "id": "9b3392dd-747a-4c0a-87f8-80db29834fe9",
+    "school_location_id": "5bdf149c-ffb7-4c1a-bc93-9338916d9ac4",
     "site": "https://www.lakeheadu.ca",
     "type": "sing",
     "program": "honours bachelor of music",
     "style": "ft"
   },
-  "2cc71506-d223-4910-b083-88f43b3da11f": {
-    "id": "2cc71506-d223-4910-b083-88f43b3da11f",
-    "school_location_id": "c080a851-85bf-45d2-b02e-fa95967f3ae1",
+  "103f1b98-cefa-4ee2-85f1-4a6610baf419": {
+    "id": "103f1b98-cefa-4ee2-85f1-4a6610baf419",
+    "school_location_id": "a51482d8-0f6a-4f8a-bcf7-e5fb9bd53acd",
     "site": "https://laurentian.ca",
     "type": "sing",
     "program": "bachelor of fine arts in music",
     "style": "ft"
   },
-  "4d12dbaf-71cb-425b-8430-aa384386ad5c": {
-    "id": "4d12dbaf-71cb-425b-8430-aa384386ad5c",
-    "school_location_id": "00b33f21-360a-478d-9428-3554826c55ed",
+  "ecc084cb-9f41-400b-8325-bf9167ba6ec4": {
+    "id": "ecc084cb-9f41-400b-8325-bf9167ba6ec4",
+    "school_location_id": "1d7fa075-5036-4dc9-98a6-9d2124f744cb",
     "site": "http://www.mcmaster.ca",
     "type": "sing",
     "program": "bachelor of music honours in music",
     "style": "ft"
   },
-  "9bac1e34-889f-4bc7-93ae-7f40020f4d4c": {
-    "id": "9bac1e34-889f-4bc7-93ae-7f40020f4d4c",
-    "school_location_id": "d42f2e97-4bed-43a8-8ecb-aff6cbef5cfc",
+  "a41f5a97-2b40-4b1f-91d6-9c278d121970": {
+    "id": "a41f5a97-2b40-4b1f-91d6-9c278d121970",
+    "school_location_id": "424afe86-5d9c-4979-8b00-8602a87011ca",
     "site": "https://www.metalworksinstitute.com",
     "type": "sing",
     "program": "music performance and technology",
     "style": "ft"
   },
-  "2cb51452-3661-454e-b7a3-8f94ce3e7f54": {
-    "id": "2cb51452-3661-454e-b7a3-8f94ce3e7f54",
-    "school_location_id": "954c1efb-b1e8-443f-a867-59e54518c8d3",
+  "d3240b0a-e59f-4ad7-9911-4dcea97464a5": {
+    "id": "d3240b0a-e59f-4ad7-9911-4dcea97464a5",
+    "school_location_id": "bcfca284-6e9b-4cc8-a59f-01ce344f0213",
     "site": "https://www.mohawkcollege.ca",
     "type": "sing",
     "program": "applied music (classical voice) diploma",
     "style": "ft"
   },
-  "727dd4b3-6c80-468e-922a-3f5502863038": {
-    "id": "727dd4b3-6c80-468e-922a-3f5502863038",
-    "school_location_id": "0b69d40f-ff82-4765-88b0-d509aa5fbceb",
+  "b4493281-74dc-496b-bdeb-c3025510d806": {
+    "id": "b4493281-74dc-496b-bdeb-c3025510d806",
+    "school_location_id": "68c0e9c1-686e-4446-8c5c-d53f148cfef3",
     "site": "http://www.queensu.ca/",
     "type": "sing",
     "program": "bachelor of music",
     "style": "ft"
   },
-  "0f7da9f9-3288-464c-a246-f069d7f74497": {
-    "id": "0f7da9f9-3288-464c-a246-f069d7f74497",
-    "school_location_id": "7b0201a2-d1a3-4c8a-bcd8-a010de3a5066",
+  "11edd836-8b16-4835-a51d-6cd57433e5cc": {
+    "id": "11edd836-8b16-4835-a51d-6cd57433e5cc",
+    "school_location_id": "37fb7c62-ae41-4e10-8d00-9050c82cf071",
     "site": "https://www.redeemer.ca",
     "type": "sing",
     "program": "bachelor of arts major in music",
     "style": "ft"
   },
-  "d9d22c40-c584-4e38-9944-26dcf64afeb7": {
-    "id": "d9d22c40-c584-4e38-9944-26dcf64afeb7",
-    "school_location_id": "25873452-dad8-4f97-b4ae-715594f7a4f3",
+  "eeb607e4-2809-41f9-9e4d-146de0b8d205": {
+    "id": "eeb607e4-2809-41f9-9e4d-146de0b8d205",
+    "school_location_id": "7bf3290d-6b8f-42c6-b766-9b20194ce3f1",
     "site": "http://www.senecacollege.ca/home.html",
     "type": "sing",
     "program": "independent songwriting and performance",
     "style": "ft"
   },
-  "efc28f6f-4413-466b-85db-b8eda6284436": {
-    "id": "efc28f6f-4413-466b-85db-b8eda6284436",
-    "school_location_id": "7122e3ec-014d-41ea-aedd-98ad34817cb2",
+  "2fb3971c-8ab0-4d53-a792-18c84bb87bf5": {
+    "id": "2fb3971c-8ab0-4d53-a792-18c84bb87bf5",
+    "school_location_id": "d6b4056e-21e6-444a-a9e0-649b71d06473",
     "site": "http://www.stlawrencecollege.ca/",
     "type": "sing",
     "program": "music and digital media program",
     "style": "ft"
   },
-  "d7c3a655-cf80-4022-97c8-af06206e87fa": {
-    "id": "d7c3a655-cf80-4022-97c8-af06206e87fa",
-    "school_location_id": "d53a3119-b5fc-45d7-9440-cfd31bd06e0f",
+  "7ad0c72b-be70-4118-a95f-28f095803a44": {
+    "id": "7ad0c72b-be70-4118-a95f-28f095803a44",
+    "school_location_id": "13909684-b50b-4fc1-b8c5-28b46b4d4b8d",
     "site": "https://www.uoguelph.ca",
     "type": "sing",
     "program": "bachelor of arts major in music",
     "style": "ft"
   },
-  "50376a02-5b90-43e1-a659-49d580f9a9f8": {
-    "id": "50376a02-5b90-43e1-a659-49d580f9a9f8",
-    "school_location_id": "ce7ff9ae-fedc-4ba9-9b34-fef71dfe7c88",
+  "c14841a5-143f-443d-a708-342af7b90a19": {
+    "id": "c14841a5-143f-443d-a708-342af7b90a19",
+    "school_location_id": "8be11be2-a210-456e-b6ac-d2b7cd1c2702",
     "site": "https://www.uottawa.ca/en",
     "type": "sing",
     "program": "bachelor of music",
     "style": "ft"
   },
-  "2b9f130c-ba15-48e3-95f1-9b54a35d9641": {
-    "id": "2b9f130c-ba15-48e3-95f1-9b54a35d9641",
-    "school_location_id": "1e82a194-3fd8-47b2-8e7a-1bc420607380",
+  "d6a34cf9-84b0-4e93-9c05-d4b41691c632": {
+    "id": "d6a34cf9-84b0-4e93-9c05-d4b41691c632",
+    "school_location_id": "bbc29ad0-7eee-4872-abd2-3042d3638e13",
     "site": "https://www.utoronto.ca",
     "type": "sing",
     "program": "honours bachelor of arts specialist in music",
     "style": "ft"
   },
-  "bec5dd25-6063-4c00-97e8-c20198490fe1": {
-    "id": "bec5dd25-6063-4c00-97e8-c20198490fe1",
-    "school_location_id": "232a0fc3-29f8-4956-a902-9a66c17521a1",
+  "6cc6eeb5-4bca-4e12-b915-a6ee72ff127e": {
+    "id": "6cc6eeb5-4bca-4e12-b915-a6ee72ff127e",
+    "school_location_id": "8fd7f56b-cfb1-4678-9da7-2d29520778a0",
     "site": "https://uwaterloo.ca",
     "type": "sing",
     "program": "bachelor of arts honours music",
     "style": "ft"
   },
-  "8c445bf4-4617-46fa-8583-5867820e5a45": {
-    "id": "8c445bf4-4617-46fa-8583-5867820e5a45",
-    "school_location_id": "fc63caf4-dbf5-48d4-9cf2-31f2ac9139d2",
+  "627d516a-c349-499d-ae4a-7d7697078d9a": {
+    "id": "627d516a-c349-499d-ae4a-7d7697078d9a",
+    "school_location_id": "ca3e8c0d-9114-4095-8986-b453f15644b1",
     "site": "http://www.uwo.ca",
     "type": "sing",
     "program": "bachelor of music",
     "style": "ft"
   },
-  "8838cb11-b17a-43b9-982d-1898dbd517cd": {
-    "id": "8838cb11-b17a-43b9-982d-1898dbd517cd",
-    "school_location_id": "623747cc-1332-4a38-a12f-494c1740674b",
+  "26bc1649-3a59-4d1f-a3d9-fc61b0395d82": {
+    "id": "26bc1649-3a59-4d1f-a3d9-fc61b0395d82",
+    "school_location_id": "44684f56-05a9-4e8e-88a0-fb664d90610f",
     "site": "http://www.uwindsor.ca",
     "type": "sing",
     "program": "bachelor of music",
     "style": "ft"
   },
-  "e35e4cd0-69b3-46ba-9a99-f31c62b86a12": {
-    "id": "e35e4cd0-69b3-46ba-9a99-f31c62b86a12",
-    "school_location_id": "fadbb121-743f-4035-8603-96d9699cb76b",
+  "18374ac2-61a5-4c96-9c92-4eb9731cab28": {
+    "id": "18374ac2-61a5-4c96-9c92-4eb9731cab28",
+    "school_location_id": "c1e2eb84-6e44-4bf0-aa54-51b15da515c5",
     "site": "https://www.wlu.ca",
     "type": "sing",
     "program": "bachelor of music",
     "style": "ft"
   },
-  "5fee87c0-9554-4351-ae16-308c1533f78e": {
-    "id": "5fee87c0-9554-4351-ae16-308c1533f78e",
-    "school_location_id": "647c6c42-e8ea-445c-bb00-35da6d9d88e7",
+  "807645de-92fb-4f7c-9846-58c0da4673bf": {
+    "id": "807645de-92fb-4f7c-9846-58c0da4673bf",
+    "school_location_id": "561d2c51-9e66-4662-a5d0-79d5eda2d08d",
     "site": "http://www.yorku.ca/index.html",
     "type": "sing",
     "program": "bachelor of arts honours major in music",
     "style": "ft"
   },
-  "230b185b-048f-4d7d-8c7f-3000544d6f90": {
-    "id": "230b185b-048f-4d7d-8c7f-3000544d6f90",
-    "school_location_id": "2d59c646-33b7-4390-90b8-fb311500221d",
+  "017ce4ee-af83-4bbf-8ff4-d70575e3ae55": {
+    "id": "017ce4ee-af83-4bbf-8ff4-d70575e3ae55",
+    "school_location_id": "8a332f36-1da5-4186-80d3-962b6a9a3841",
     "site": "https://hollandcollege.com/programs/music-performance.html",
     "type": "sing",
     "program": "music performance",
     "style": "ft"
   },
-  "43062b7a-58df-4a68-a9a7-117f979771f5": {
-    "id": "43062b7a-58df-4a68-a9a7-117f979771f5",
-    "school_location_id": "768d6df6-0ba4-4ee7-a12b-0d3794621c21",
+  "689953c1-b8a3-43b3-9625-3d1188d86432": {
+    "id": "689953c1-b8a3-43b3-9625-3d1188d86432",
+    "school_location_id": "8eaed2bd-3c68-4e2e-b111-78ae228b6a66",
     "site": "https://www.upei.ca",
     "type": "sing",
     "program": "bachelor of music",
     "style": "ft"
   },
-  "2e0d7d56-af79-4806-a60b-7cc44049177e": {
-    "id": "2e0d7d56-af79-4806-a60b-7cc44049177e",
-    "school_location_id": "7b0d5c64-3fbd-420f-8564-433774537b6d",
+  "ca88d278-1227-4dd3-a14b-bf1ff2fc4c58": {
+    "id": "ca88d278-1227-4dd3-a14b-bf1ff2fc4c58",
+    "school_location_id": "4841e096-6cbb-4805-92d6-56925ab5c97e",
     "site": "http://www.ubishops.ca",
     "type": "sing",
     "program": "bachelor of arts honours in music",
     "style": "ft"
   },
-  "c7563711-6e62-4b85-b567-8da65064ac29": {
-    "id": "c7563711-6e62-4b85-b567-8da65064ac29",
-    "school_location_id": "061da535-3796-47bb-a793-7550d8f4a74a",
+  "40cfa4e2-2407-4dd4-a75a-2f5b539cb419": {
+    "id": "40cfa4e2-2407-4dd4-a75a-2f5b539cb419",
+    "school_location_id": "2ae583cc-5ef7-4077-8f19-f1c352d880a6",
     "site": "http://www.conservatoire.gouv.qc.ca/",
     "type": "sing",
     "program": "certificate of college studies in music",
     "style": "ft"
   },
-  "131cc40c-6d42-42ac-ae33-248fdcdcbeef": {
-    "id": "131cc40c-6d42-42ac-ae33-248fdcdcbeef",
-    "school_location_id": "afc86553-457e-43c1-bb9c-7d0f4f7ef536",
+  "cef36ddb-d2bb-415a-963b-d0263e65b60a": {
+    "id": "cef36ddb-d2bb-415a-963b-d0263e65b60a",
+    "school_location_id": "0d0c2a0a-0583-44f1-8130-e235f4530c5b",
     "site": "https://www.concordia.ca",
     "type": "sing",
     "program": "bachelor of fine arts major in music",
     "style": "ft"
   },
-  "5198fafe-d6ae-4b0b-82f5-c759f971374a": {
-    "id": "5198fafe-d6ae-4b0b-82f5-c759f971374a",
-    "school_location_id": "5de10c22-6f12-4d01-8e49-97baeb9ee7a0",
+  "d9904eee-a05e-4ca8-a459-8b5afe9a47a1": {
+    "id": "d9904eee-a05e-4ca8-a459-8b5afe9a47a1",
+    "school_location_id": "3b609016-a41e-4243-a3e0-d711449ed75c",
     "site": "http://enchanson.ca/lecole/",
     "type": "sing",
     "program": "songwriting training program",
     "style": "ft"
   },
-  "90834fa6-d12d-4140-8a62-1d3899913799": {
-    "id": "90834fa6-d12d-4140-8a62-1d3899913799",
-    "school_location_id": "bfc49467-8787-45a0-a6cc-1a35b5d1227a",
+  "2b047cb2-97b9-4a8e-81e8-d05e9b129816": {
+    "id": "2b047cb2-97b9-4a8e-81e8-d05e9b129816",
+    "school_location_id": "9082fabb-2300-4861-b9f5-a797bbd3368f",
     "site": "http://www.mcgill.ca",
     "type": "sing",
     "program": "bachelor of music in early music (voice)",
     "style": "ft"
   },
-  "08f293b0-a54d-4495-9754-5721ebda2655": {
-    "id": "08f293b0-a54d-4495-9754-5721ebda2655",
-    "school_location_id": "6a9c0d1d-9723-4bf6-9244-f3ce46a9893f",
+  "dfe2ca81-3160-42da-8e61-cb3b8ad17a02": {
+    "id": "dfe2ca81-3160-42da-8e61-cb3b8ad17a02",
+    "school_location_id": "688d6333-9782-4bb6-b234-4c33cb48a243",
     "site": "http://campioncollege.ca",
     "type": "sing",
     "program": "bachelor of music",
     "style": "ft"
   },
-  "084ef405-aeea-4cd9-85d2-728f2d637e71": {
-    "id": "084ef405-aeea-4cd9-85d2-728f2d637e71",
-    "school_location_id": "dc48bd34-8e95-4a6d-85b6-b2ffa548e7ae",
+  "81003bf1-faa7-4827-9eed-c68985df21cb": {
+    "id": "81003bf1-faa7-4827-9eed-c68985df21cb",
+    "school_location_id": "abc32b1b-34a8-4a08-a2c9-2d7114db9de6",
     "site": "https://urconnected.uregina.ca/index.do",
     "type": "sing",
     "program": "bachelor of music: performance major",
     "style": "ft"
   },
-  "0c1e6264-4f7f-4b5b-96fd-92508ec733d3": {
-    "id": "0c1e6264-4f7f-4b5b-96fd-92508ec733d3",
-    "school_location_id": "de126af9-eb97-4e7c-bfd7-974b6206ecb6",
+  "2bf87916-11fe-431f-86b6-a6712bef2a1b": {
+    "id": "2bf87916-11fe-431f-86b6-a6712bef2a1b",
+    "school_location_id": "d6c2bcc1-4fe1-463a-b962-1c47f2848615",
     "site": "https://www.luthercollege.edu/university/",
     "type": "sing",
     "program": "bachelor of music",
     "style": "ft"
   },
-  "8d52308f-0064-4437-9a88-1b0f6b93cc2a": {
-    "id": "8d52308f-0064-4437-9a88-1b0f6b93cc2a",
-    "school_location_id": "687a6253-3bfa-4dd9-9a31-5570acbbb84e",
+  "f40f29df-f7c1-4f73-858d-14f6b65878b5": {
+    "id": "f40f29df-f7c1-4f73-858d-14f6b65878b5",
+    "school_location_id": "efb77523-767f-4a50-a24c-8579fcf83d7a",
     "site": "https://www.usask.ca",
     "type": "sing",
     "program": "bachelor of music performance honours",
