@@ -4,7 +4,7 @@ import allCites from "src/data/allCities.json";
 import allPtPrograms from "src/data/allPtPrograms.json";
 import allFtPrograms from "src/data/allFtPrograms.json";
 import allSchoolsLocations from "src/data/allSchoolsLocations.json";
-import allSchools from "src/data/allSchools.json";
+
 import {
   styles,
   disciplines,
@@ -13,9 +13,10 @@ import {
 } from "src/data/constants";
 import {
   DisciplineProps,
-  FTDataProp,
-  ObjectList,
+  ProgramDataProp,
   PathsArray,
+  AllSchoolsLocations,
+  AllSchools,
 } from "@component/data/types";
 
 const DisciplinePage: NextPage<DisciplineProps> = ({
@@ -25,15 +26,20 @@ const DisciplinePage: NextPage<DisciplineProps> = ({
   province,
   pageData,
 }) => {
+  const allSchoolsLocations: AllSchoolsLocations = require("src/data/allSchoolsLocations.json");
+  const allSchools: AllSchools = require("src/data/allSchools.json");
+
   const dataDisplay = pageData?.map((element) => {
     const { id, program, site, school_location_id } = element;
-    // allSchoolsLocations: AllSchoolsLocations[]
-    const schoolId = allSchoolsLocations[school_location_id].school_id;
+    const schoolId = allSchoolsLocations[school_location_id]?.school_id ?? null;
 
     return (
-      <div key={id}>
-        {allSchools[schoolId].name}
-        {program}, {site}
+      <div key={id} className="p-6">
+        <div className="text-xl font-bold capitalize">
+          {schoolId ? allSchools[schoolId]?.name : "n/a"}
+        </div>
+        <div className="capitalize italic">{program && program}</div>
+        <div>{site}</div>
       </div>
     );
   });
@@ -90,96 +96,25 @@ export async function getStaticPaths() {
 }
 
 const fetchPageData = (props: DisciplineProps) => {
-  const { style, discipline, city, province } = props;
+  const { style, discipline, city } = props;
 
   let cityObject = Object.values(allCites).find(
     (element) => element.city === city
   );
 
   if (style === "pt") {
-    // // allOfDiscipline = Object.values(allPtPrograms).filter((element) => element.type === discipline)
-    // const allOfDiscipline = Object.values(allPtPrograms).filter(
-    //   (element) => element.type === discipline
-    // );
-    // let allSchoolsAtLocation = Object.values(allSchoolsLocations)
-    //   .filter((element) => element.location_id === cityObject.id)
-    //   .map((element) => element.id);
-    // console.log(allSchoolsAtLocation);
-    // const tempArray = [];
-    // allSchoolsAtLocation.forEach((schoolID) => {
-    //   const selectedSchool = allOfDiscipline.find(
-    //     (element) => element.school_location_id === schoolID
-    //   );
-    //   console.log(selectedSchool);
-    //   // tempArray.push(selectedSchool[0].site);
-    // });
-    // // console.log(allOfDiscipline);
-    // // finalArray = allOfDiscipline.filter((element) => element.)
-    // // finalArray = Object.values(allPtPrograms)
-    // //   .filter((element) => element.type === discipline)
-    // //   .map((element) => element.site);
-    // finalArray = tempArray;
-    ///////////
-    // const allOfDiscipline = Object.values(allPtPrograms).filter(
-    //   (element) => element.type === discipline
-    // );
-    // let allSchoolsAtLocation = Object.values(allSchoolsLocations)
-    //   .filter((element) => element.location_id === cityObject.id)
-    //   .map((element) => element.id);
-    // console.log(allSchoolsAtLocation);
-    // // const tempArray: string[] = [];
-    // allSchoolsAtLocation.forEach((schoolID) => {
-    //   const selectedSchool = allOfDiscipline.find(
-    //     (element) => element.school_location_id === schoolID
-    //   );
-    //   console.log(selectedSchool);
-    //   if (selectedSchool) {
-    //     tempArray.push(selectedSchool.site);
-    //   }
-    //   // tempArray.push(selectedSchool[0].site);
-    // });
-    // // console.log(allOfDiscipline);
-    // // finalArray = allOfDiscipline.filter((element) => element.)
-    // // finalArray = Object.values(allPtPrograms)
-    // //   .filter((element) => element.type === discipline)
-    // //   .map((element) => element.site);
-    // // finalArray = tempArray;
-    // return tempArray;
-    // console.log("fetching ft data");
-    // ///////////
-    // const tempArray: FTDataProp[] = [];
-    // const allOfDiscipline = Object.values(allFtPrograms).filter(
-    //   (element) => element.type === discipline
-    // );
-    // let allSchoolsAtLocation = Object.values(allSchoolsLocations)
-    //   .filter((element) => element.location_id === cityObject.id)
-    //   .map((school) => school.id);
-    // allSchoolsAtLocation.forEach((schoolObj) => {
-    //   const selectedSchool = allOfDiscipline.find(
-    //     (element) => element.school_location_id === schoolObj
-    //   );
-    //   if (selectedSchool) {
-    //     tempArray.push(selectedSchool);
-    //   }
-    // });
-    // return tempArray;
-  }
-  if (style === "ft") {
-    console.log("fetching ft data");
-
-    ///////////
-    const tempArray: FTDataProp[] = [];
-    const allOfDiscipline = Object.values(allFtPrograms).filter(
+    const tempArray: ProgramDataProp[] = [];
+    const allOfDiscipline = Object.values(allPtPrograms).filter(
       (element) => element.type === discipline
     );
 
     let allSchoolsAtLocation = Object.values(allSchoolsLocations)
-      .filter((element) => element.location_id === cityObject.id)
+      .filter(
+        (element) => element.location_id === (cityObject && cityObject.id)
+      )
       .map((school) => school.id);
 
     allSchoolsAtLocation.forEach((schoolObj) => {
-      // console.log(schoolObj);
-
       const selectedSchool = allOfDiscipline.find(
         (element) => element.school_location_id === schoolObj
       );
@@ -190,17 +125,36 @@ const fetchPageData = (props: DisciplineProps) => {
 
     return tempArray;
   }
-  // console.log(finalArray);
+  if (style === "ft") {
+    const tempArray: ProgramDataProp[] = [];
+    const allOfDiscipline = Object.values(allFtPrograms).filter(
+      (element) => element.type === discipline
+    );
 
-  // allOfDiscipline.forEach((element) => {
-  //   if (allOfDiscipline.)
-  // })
+    let allSchoolsAtLocation = Object.values(allSchoolsLocations)
+      .filter(
+        (element) => element.location_id === (cityObject && cityObject.id)
+      )
+      .map((school) => school.id);
 
-  // return finalArray;
+    allSchoolsAtLocation.forEach((schoolObj) => {
+      const selectedSchool = allOfDiscipline.find(
+        (element) => element.school_location_id === schoolObj
+      );
+      if (selectedSchool) {
+        tempArray.push(selectedSchool);
+      }
+    });
+
+    return tempArray;
+  }
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const { style, discipline, city, province } = params as DisciplineProps;
+  const { style, discipline, city, province } = {
+    ...(params || { style: "n/a" }),
+    style: params?.style || "n/a",
+  } as DisciplineProps;
   const propsObject = { style, discipline, city, province };
   const pageData = fetchPageData(propsObject);
 

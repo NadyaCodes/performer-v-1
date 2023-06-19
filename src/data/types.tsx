@@ -6,22 +6,30 @@ export type AllSchoolsLocations = {
   };
 };
 
+export type AllSchools = {
+  [key: string]: {
+    id: string;
+    name: string;
+    site: string;
+  };
+};
+
 export type DisciplineProps = {
   style: string;
   discipline?: string;
   city?: string;
   province?: string;
   citiesList?: string[];
-  pageData?: FTDataProp[];
+  pageData?: ProgramDataProp[];
 };
 
-export type FTDataProp = {
+export type ProgramDataProp = {
   id: string;
   school_location_id: string;
   site: string;
   type: string;
-  program: string;
   style: string;
+  program?: string;
 };
 
 export type PageDataProps = {
