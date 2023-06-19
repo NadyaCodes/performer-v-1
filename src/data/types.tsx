@@ -14,6 +14,15 @@ export type AllSchools = {
   };
 };
 
+export type AllCities = {
+  [key: string]: {
+    id: string;
+    city: string;
+    province: string;
+    area: string;
+  };
+};
+
 export type DisciplineProps = {
   style: string;
   discipline?: string;
@@ -21,6 +30,7 @@ export type DisciplineProps = {
   province?: string;
   citiesList?: string[];
   pageData?: ProgramDataProp[];
+  allProgramsInType?: ProgramDataProp[];
 };
 
 export type ProgramDataProp = {

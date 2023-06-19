@@ -33,3 +33,19 @@ export const provincesFull: ObjectList = {
   nu: "nunavut",
   nt: "northwest territories",
 };
+
+export const provincesFullReverse: ObjectList = {
+  "british columbia": "bc",
+  alberta: "ab",
+  saskatchewan: "sk",
+  manitoba: "mb",
+  ontario: "on",
+  québec: "qc",
+  "new brunswick": "nb",
+  "nova scotia": "ns",
+  newfoundland: "nl",
+  "prince edward island": "pe",
+  yukon: "yt",
+  nunavut: "nu",
+  "northwest territories": "nt",
+};
