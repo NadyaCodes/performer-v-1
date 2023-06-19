@@ -52,7 +52,11 @@ export async function getStaticPaths() {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const { style } = params as DisciplineProps;
+  // const { style } = params as DisciplineProps;
+  const { style } = {
+    ...(params || { style: "n/a" }),
+    style: params?.style || "n/a",
+  } as DisciplineProps;
 
   return {
     props: {

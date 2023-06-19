@@ -28,6 +28,7 @@ const DisciplinePage: NextPage<DisciplineProps> = ({
 }) => {
   const allSchoolsLocations: AllSchoolsLocations = require("src/data/allSchoolsLocations.json");
   const allSchools: AllSchools = require("src/data/allSchools.json");
+  const backLink = `/${style}/${discipline}/${province}/select-next`;
 
   const dataDisplay = pageData?.map((element) => {
     const { id, program, site, school_location_id } = element;
@@ -49,14 +50,24 @@ const DisciplinePage: NextPage<DisciplineProps> = ({
         {style} {discipline} programs in {city}, {province}
       </h1>
       <div className="m-10 text-white"> {dataDisplay}</div>
-      <Link href="/">
-        <button
-          style={{ margin: "2rem" }}
-          className="rounded border border-blue-500 bg-transparent px-4 py-2 font-semibold text-white hover:border-transparent hover:bg-blue-500 hover:text-white"
-        >
-          Home
-        </button>
-      </Link>
+      <div>
+        <Link href={backLink}>
+          <button
+            style={{ margin: "2rem" }}
+            className="rounded border border-blue-500 bg-transparent px-4 py-2 font-semibold text-white hover:border-transparent hover:bg-blue-500 hover:text-white"
+          >
+            Back
+          </button>
+        </Link>
+        <Link href="/">
+          <button
+            style={{ margin: "2rem" }}
+            className="rounded border border-blue-500 bg-transparent px-4 py-2 font-semibold text-white hover:border-transparent hover:bg-blue-500 hover:text-white"
+          >
+            Home
+          </button>
+        </Link>
+      </div>
     </main>
   );
 };
