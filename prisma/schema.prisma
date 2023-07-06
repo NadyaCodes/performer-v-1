@@ -19,6 +19,7 @@ model Example {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+    string    String
 }
 
 // Necessary for Next auth
