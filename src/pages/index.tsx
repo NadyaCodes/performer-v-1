@@ -31,56 +31,18 @@ const Home: NextPage = () => {
     });
   };
 
-  // const removeElement = async (elementID: string) => {
-  // };
-  // const removeElement = (elementID: string) => {
-  //   try {
-  //     api.example.delete.useMutation(elementID); // Assuming your API library provides a remove mutation for examples
-  //     utils.example.getAll.invalidate();
-  //   } catch (error) {
-  //     console.error("removeElement error: ", error);
-  //   }
-  // };
+  const { mutate: deleteExample } = api.example.delete.useMutation({
+    async onSuccess() {
+      await utils.example.getAll.invalidate();
+    },
+    onError(error) {
+      console.log("removeExample error: ", error);
+    },
+  });
 
-  // const removeElement = async (elementID: string) => {
-  //   try {
-  //     await api.example.delete.mutation({
-  //       input: { id: elementID },
-  //     });
-
-  //     utils.example.getAll.invalidate();
-  //   } catch (error) {
-  //     console.error("removeElement error: ", error);
-  //   }
-  // };
-
-  // const removeElement = async (elementID: string) => {
-  //   try {
-  //     await api.example.delete.mutate({ id: elementID });
-
-  //     utils.example.getAll.invalidate();
-  //   } catch (error) {
-  //     console.error("removeElement error: ", error);
-  //   }
-  // };
-
-  // const removeElement = async (elementID: string) => {
-  //   try {
-  //     await utils.example.mutate(elementID, { remove: true }); // Assuming your API library uses mutate to perform mutations with options
-  //     await utils.example.getAll.invalidate();
-  //   } catch (error) {
-  //     console.error("removeElement error: ", error);
-  //   }
-  // };
-
-  // const removeElement = async (elementID: string) => {
-  //   try {
-  //     await api.example.remove.useMutation(elementID);
-  //     await utils.example.getAll.invalidate();
-  //   } catch (error) {
-  //     console.error("removeElement error: ", error);
-  //   }
-  // };
+  const removeExample = (value: string) => {
+    deleteExample({ id: value });
+  };
 
   const exampleDisplay = exampleData?.map((element) => {
     return (
@@ -88,12 +50,12 @@ const Home: NextPage = () => {
         <div key={element.id} className="w-10rem">
           {element.string}
         </div>
-        {/* <button
+        <button
           className="w-fit rounded border-2 border-red-600 p-1"
-          onClick={() => removeElement(element.id)}
+          onClick={() => removeExample(element.id)}
         >
           X
-        </button> */}
+        </button>
       </div>
     );
   });

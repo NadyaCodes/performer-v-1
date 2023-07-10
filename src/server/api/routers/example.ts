@@ -34,25 +34,16 @@ export const exampleRouter = createTRPCRouter({
     }
   ),
 
-  // delete: publicProcedure
-  // .input(z.object({ text: z.string() }))
-  // .mutation(async ({ input, ctx }) => {
-  //   return await ctx.prisma.example.delete({
-  //     // where: {
-  //     //   id: input.id,
-  //     // },
-  //   });
-  // }
-  // delete: publicProcedure
-  // .input(z.object({ id: z.string() })) // Assuming the input parameter is 'id' instead of 'text'
-  // .mutation(async ({ input, ctx }) => {
-  //   return await ctx.prisma.example.delete({
-  //     where: {
-  //       id: input.id,
-  //     },
-  //   });
-  // }
+  delete: publicProcedure
+  .input(z.object({ id: z.string() }))
+  .mutation(async ({ input, ctx }) => {
+    return await ctx.prisma.example.delete({
+      where: {
+        id: input.id,
+      },
+    });
+  }
 
-// )
+)
 
 });
