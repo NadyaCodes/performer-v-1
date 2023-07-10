@@ -5,6 +5,7 @@ import Link from "next/link";
 import Picker from "./Picker";
 import { styles } from "@component/data/constants";
 import { api } from "@component/utils/api";
+import { useState } from "react";
 
 const Home: NextPage = () => {
   const utils = api.useContext();
@@ -14,7 +15,7 @@ const Home: NextPage = () => {
       await utils.example.getAll.invalidate();
     },
     onError(error) {
-      console.log("createBuyOrder error: ", error);
+      console.log("createExample error: ", error);
     },
   });
 
@@ -24,6 +25,81 @@ const Home: NextPage = () => {
     });
   };
 
+  const addCustom = (value: string) => {
+    createExample({
+      text: value,
+    });
+  };
+
+  // const removeElement = async (elementID: string) => {
+  // };
+  // const removeElement = (elementID: string) => {
+  //   try {
+  //     api.example.delete.useMutation(elementID); // Assuming your API library provides a remove mutation for examples
+  //     utils.example.getAll.invalidate();
+  //   } catch (error) {
+  //     console.error("removeElement error: ", error);
+  //   }
+  // };
+
+  // const removeElement = async (elementID: string) => {
+  //   try {
+  //     await api.example.delete.mutation({
+  //       input: { id: elementID },
+  //     });
+
+  //     utils.example.getAll.invalidate();
+  //   } catch (error) {
+  //     console.error("removeElement error: ", error);
+  //   }
+  // };
+
+  // const removeElement = async (elementID: string) => {
+  //   try {
+  //     await api.example.delete.mutate({ id: elementID });
+
+  //     utils.example.getAll.invalidate();
+  //   } catch (error) {
+  //     console.error("removeElement error: ", error);
+  //   }
+  // };
+
+  // const removeElement = async (elementID: string) => {
+  //   try {
+  //     await utils.example.mutate(elementID, { remove: true }); // Assuming your API library uses mutate to perform mutations with options
+  //     await utils.example.getAll.invalidate();
+  //   } catch (error) {
+  //     console.error("removeElement error: ", error);
+  //   }
+  // };
+
+  // const removeElement = async (elementID: string) => {
+  //   try {
+  //     await api.example.remove.useMutation(elementID);
+  //     await utils.example.getAll.invalidate();
+  //   } catch (error) {
+  //     console.error("removeElement error: ", error);
+  //   }
+  // };
+
+  const exampleDisplay = exampleData?.map((element) => {
+    return (
+      <div className="flex">
+        <div key={element.id} className="w-10rem">
+          {element.string}
+        </div>
+        {/* <button
+          className="w-fit rounded border-2 border-red-600 p-1"
+          onClick={() => removeElement(element.id)}
+        >
+          X
+        </button> */}
+      </div>
+    );
+  });
+
+  const [text, setText] = useState("");
+
   return (
     <>
       <Head>
@@ -32,8 +108,29 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <button onClick={addExample}>Add Example</button>
-      <div>{exampleData?.length}</div>
+      <div className="flex flex-col">
+        <button
+          onClick={addExample}
+          className="w-fit rounded border-2 border-blue-400 p-1"
+        >
+          Add Hello
+        </button>
+        <div className="flex">
+          <input
+            type="text"
+            className="block w-80 rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+          ></input>
+          <button
+            className="w-fit rounded border-2 border-blue-400 p-1"
+            onClick={() => addCustom(text)}
+          >
+            Add Custom
+          </button>
+        </div>
+      </div>
+      <div>{exampleDisplay}</div>
 
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
         <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
@@ -47,21 +144,6 @@ const Home: NextPage = () => {
           className="rounded border-2 border-green-300"
         >
           <Picker buttonOptions={styles} currentLink="" last={false} />
-          {/* <Link href="/page1" style={{ padding: "2rem" }}>
-            <button className="rounded border border-blue-500 bg-transparent px-4 py-2 font-semibold text-white hover:border-transparent hover:bg-blue-500 hover:text-white">
-              Button 1
-            </button>
-          </Link>
-          <Link href="/page2" style={{ padding: "2rem" }}>
-            <button className="rounded border border-blue-500 bg-transparent px-4 py-2 font-semibold text-white hover:border-transparent hover:bg-blue-500 hover:text-white">
-              Button 2
-            </button>
-          </Link>
-          <Link href="/pt/act/on/toronto" style={{ padding: "2rem" }}>
-            <button className="rounded border border-blue-500 bg-transparent px-4 py-2 font-semibold text-white hover:border-transparent hover:bg-blue-500 hover:text-white">
-              PT Acting Toronto
-            </button>
-          </Link> */}
         </div>
         {/* <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
           <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
