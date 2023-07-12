@@ -6,6 +6,7 @@ import Picker from "./Picker";
 import { styles } from "@component/data/constants";
 import { api } from "@component/utils/api";
 import { useState } from "react";
+import { Example } from "@prisma/client";
 
 const Home: NextPage = () => {
   const utils = api.useContext();
@@ -44,19 +45,67 @@ const Home: NextPage = () => {
     deleteExample({ id: value });
   };
 
-  const exampleDisplay = exampleData?.map((element) => {
+  const { mutate: updExample } = api.example.update.useMutation({
+    async onSuccess() {
+      await utils.example.getAll.invalidate();
+    },
+    onError(error) {
+      console.log("updExample error: ", error);
+    },
+  });
+
+  const updateExample = (text: string, elementID: string) => {
+    updExample({ id: elementID, text: text });
+  };
+
+  const ExampleItem = ({
+    element,
+    updateExample,
+    removeExample,
+  }: {
+    element: Example;
+    updateExample: Function;
+    removeExample: Function;
+  }) => {
+    const [updatedText, setUpdatedText] = useState(element.string);
+
+    const handleUpdate = () => {
+      updateExample(updatedText, element.id);
+    };
+
     return (
       <div className="flex">
-        <div key={element.id} className="w-10rem">
-          {element.string}
-        </div>
+        <div className="w-10rem">{element.string}</div>
         <button
           className="w-fit rounded border-2 border-red-600 p-1"
           onClick={() => removeExample(element.id)}
         >
           X
         </button>
+        <input
+          type="text"
+          className="block w-80 rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+          value={updatedText}
+          onChange={(e) => setUpdatedText(e.target.value)}
+        ></input>
+        <button
+          className="w-fit rounded border-2 border-green-600 p-1"
+          onClick={handleUpdate}
+        >
+          Update
+        </button>
       </div>
+    );
+  };
+
+  const exampleDisplay = exampleData?.map((element) => {
+    return (
+      <ExampleItem
+        key={element.id}
+        element={element}
+        updateExample={updateExample}
+        removeExample={removeExample}
+      />
     );
   });
 

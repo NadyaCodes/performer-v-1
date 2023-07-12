@@ -15,7 +15,10 @@ export const exampleRouter = createTRPCRouter({
     }),
 
   getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.example.findMany();
+    return ctx.prisma.example.findMany({orderBy: {
+      id: "desc"
+    }
+});
   }),
 
   getSecretMessage: protectedProcedure.query(() => {
@@ -42,8 +45,18 @@ export const exampleRouter = createTRPCRouter({
         id: input.id,
       },
     });
-  }
-
-)
+  }),
+  update: publicProcedure
+  .input(z.object({ id: z.string(), text: z.string() }))
+  .mutation(async ({ input, ctx }) => {
+    return await ctx.prisma.example.update({
+      where: {
+        id: input.id,
+      },
+      data: {
+        string: input.text,
+      },
+    });
+  }),
 
 });
