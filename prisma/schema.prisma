@@ -69,3 +69,45 @@ model VerificationToken {
 
     @@unique([identifier, token])
 }
+
+model School {
+    id             String           @id @default(cuid())
+    name           String
+    SchoolLocation SchoolLocation[]
+}
+
+model Location {
+    id             String           @id @default(cuid())
+    city           String
+    Province       String
+    Area           String?
+    SchoolLocation SchoolLocation[]
+}
+
+model SchoolLocation {
+    id         String      @id @default(cuid())
+    schoolId   String
+    school     School      @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+    locationId String
+    location   Location    @relation(fields: [locationId], references: [id], onDelete: Cascade)
+    website    String
+    PTProgram  PTProgram[]
+    FTProgram  FTProgram[]
+}
+
+model PTProgram {
+    id               String         @id @default(cuid())
+    SchoolLocationId String
+    schoolLocation   SchoolLocation @relation(fields: [SchoolLocationId], references: [id], onDelete: Cascade)
+    website          String
+    discipline       String
+}
+
+model FTProgram {
+    id               String         @id @default(cuid())
+    SchoolLocationId String
+    schoolLocation   SchoolLocation @relation(fields: [SchoolLocationId], references: [id], onDelete: Cascade)
+    website          String
+    discipline       String
+    name             String
+}
