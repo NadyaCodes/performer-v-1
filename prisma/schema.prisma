@@ -79,8 +79,8 @@ model School {
 model Location {
     id             String           @id @default(cuid())
     city           String
-    Province       String
-    Area           String?
+    province       String
+    area           String?
     SchoolLocation SchoolLocation[]
 }
 
@@ -97,16 +97,16 @@ model SchoolLocation {
 
 model PTProgram {
     id               String         @id @default(cuid())
-    SchoolLocationId String
-    schoolLocation   SchoolLocation @relation(fields: [SchoolLocationId], references: [id], onDelete: Cascade)
+    schoolLocationId String
+    SchoolLocation   SchoolLocation @relation(fields: [schoolLocationId], references: [id], onDelete: Cascade)
     website          String
     discipline       String
 }
 
 model FTProgram {
     id               String         @id @default(cuid())
-    SchoolLocationId String
-    schoolLocation   SchoolLocation @relation(fields: [SchoolLocationId], references: [id], onDelete: Cascade)
+    schoolLocationId String
+    SchoolLocation   SchoolLocation @relation(fields: [schoolLocationId], references: [id], onDelete: Cascade)
     website          String
     discipline       String
     name             String
