@@ -3,6 +3,7 @@ const { School } = pkg;
 const { Location } = pkg;
 const { SchoolLocation } = pkg;
 const { PTProgram } = pkg;
+const { FTProgram } = pkg;
 
 import { PrismaClient, Prisma } from "@prisma/client";
 
@@ -12,6 +13,7 @@ import allSchools from "./src/data/allSchools.json" assert { type: "json" };
 import allCities from "./src/data/allCities.json" assert { type: "json" };
 import allSchoolsLocations from "./src/data/allSchoolsLocations.json" assert { type: "json" };
 import allPTPrograms from "./src/data/allPtPrograms.json" assert { type: "json" };
+import allFTPrograms from "./src/data/allFtPrograms.json" assert { type: "json" };
 
 try {
   ///////////////import Schools////////////
@@ -136,72 +138,136 @@ try {
   // });
 
   ///////////////import PT Programs////////////
-  const allPTProgramValues = Object.values(allPTPrograms);
+  // const allPTProgramValues = Object.values(allPTPrograms);
 
-  const createPTSchoolsData = async () => {
-    const dataArray = [];
-    for (const value of allPTProgramValues) {
-      const schoolLoc = allSchoolsLocationsValues.find(
-        (schoolLoc) => schoolLoc.id === value?.school_location_id
-      );
-      const schoolID = schoolLoc?.school_id;
-      const schoolObj = allSchoolValues.find((school) => school.id == schoolID);
+  // const createPTSchoolsData = async () => {
+  //   const dataArray = [];
+  //   for (const value of allPTProgramValues) {
+  //     const schoolLoc = allSchoolsLocationsValues.find(
+  //       (schoolLoc) => schoolLoc.id === value?.school_location_id
+  //     );
+  //     const schoolID = schoolLoc?.school_id;
+  //     const schoolObj = allSchoolValues.find((school) => school.id == schoolID);
 
-      const prismaSchool = await prisma.school.findFirst({
-        where: {
-          name: {
-            equals: schoolObj?.name,
-          },
-        },
-      });
+  //     const prismaSchool = await prisma.school.findFirst({
+  //       where: {
+  //         name: {
+  //           equals: schoolObj?.name,
+  //         },
+  //       },
+  //     });
 
-      const locID = schoolLoc?.location_id;
-      const locationObj = allCityValues.find((city) => city.id === locID);
+  //     const locID = schoolLoc?.location_id;
+  //     const locationObj = allCityValues.find((city) => city.id === locID);
 
-      const prismaCity = await prisma.location.findFirst({
-        where: {
-          city: {
-            equals: locationObj?.city,
-          },
-          province: {
-            equals: locationObj?.province,
-          },
-        },
-      });
+  //     const prismaCity = await prisma.location.findFirst({
+  //       where: {
+  //         city: {
+  //           equals: locationObj?.city,
+  //         },
+  //         province: {
+  //           equals: locationObj?.province,
+  //         },
+  //       },
+  //     });
 
-      const schoolLocation = await prisma.schoolLocation.findFirst({
-        where: {
-          schoolId: {
-            equals: prismaSchool?.id,
-          },
-          locationId: {
-            equals: prismaCity?.id,
-          },
-        },
-      });
+  //     const schoolLocation = await prisma.schoolLocation.findFirst({
+  //       where: {
+  //         schoolId: {
+  //           equals: prismaSchool?.id,
+  //         },
+  //         locationId: {
+  //           equals: prismaCity?.id,
+  //         },
+  //       },
+  //     });
 
-      const PTProgramObj = {
-        schoolLocationId: schoolLocation?.id || "SCHOOL LOCATION ID MISSING",
-        website: value.site || "WEBSITE MISSING",
-        discipline: value.type || "DISCIPLINE MISSING",
-      };
-      console.log(PTProgramObj);
-      dataArray.push(PTProgramObj);
-    }
+  //     const PTProgramObj = {
+  //       schoolLocationId: schoolLocation?.id || "SCHOOL LOCATION ID MISSING",
+  //       website: value.site || "WEBSITE MISSING",
+  //       discipline: value.type || "DISCIPLINE MISSING",
+  //     };
+  //     console.log(PTProgramObj);
+  //     dataArray.push(PTProgramObj);
+  //   }
 
-    return dataArray;
-  };
+  //   return dataArray;
+  // };
 
-  const PTProgramDataArray = await createPTSchoolsData();
+  // const PTProgramDataArray = await createPTSchoolsData();
 
-  const createMany = await prisma.pTProgram.createMany({
-    data: PTProgramDataArray,
-    skipDuplicates: true,
-  });
+  // const createMany = await prisma.pTProgram.createMany({
+  //   data: PTProgramDataArray,
+  //   skipDuplicates: true,
+  // });
 
   // const deleteAll = await prisma.pTProgram.deleteMany();
 
   ///////////////import FT Programs////////////
+
+  const allFTProgramValues = Object.values(allFTPrograms);
+
+  // const createPTSchoolsData = async () => {
+  //   const dataArray = [];
+  //   for (const value of allFTProgramValues) {
+  //     const schoolLoc = allSchoolsLocationsValues.find(
+  //       (schoolLoc) => schoolLoc.id === value?.school_location_id
+  //     );
+  //     const schoolID = schoolLoc?.school_id;
+  //     const schoolObj = allSchoolValues.find((school) => school.id == schoolID);
+
+  //     const prismaSchool = await prisma.school.findFirst({
+  //       where: {
+  //         name: {
+  //           equals: schoolObj?.name,
+  //         },
+  //       },
+  //     });
+
+  //     const locID = schoolLoc?.location_id;
+  //     const locationObj = allCityValues.find((city) => city.id === locID);
+
+  //     const prismaCity = await prisma.location.findFirst({
+  //       where: {
+  //         city: {
+  //           equals: locationObj?.city,
+  //         },
+  //         province: {
+  //           equals: locationObj?.province,
+  //         },
+  //       },
+  //     });
+
+  //     const schoolLocation = await prisma.schoolLocation.findFirst({
+  //       where: {
+  //         schoolId: {
+  //           equals: prismaSchool?.id,
+  //         },
+  //         locationId: {
+  //           equals: prismaCity?.id,
+  //         },
+  //       },
+  //     });
+
+  //     const FTProgramObj = {
+  //       schoolLocationId: schoolLocation?.id || "SCHOOL LOCATION ID MISSING",
+  //       website: value.site || "WEBSITE MISSING",
+  //       discipline: value.type || "DISCIPLINE MISSING",
+  //       name: value.program,
+  //     };
+  //     console.log(FTProgramObj);
+  //     dataArray.push(FTProgramObj);
+  //   }
+
+  //   return dataArray;
+  // };
+
+  // const FTProgramDataArray = await createPTSchoolsData();
+
+  // const createMany = await prisma.fTProgram.createMany({
+  //   data: FTProgramDataArray,
+  //   skipDuplicates: true,
+  // });
 } catch (error) {
   console.error("Error reading JSON file:", error);
 }
