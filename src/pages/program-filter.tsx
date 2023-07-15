@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { NextPage } from "next";
 import { api } from "@component/utils/api";
 import { FTProgram, PTProgram, School } from "@prisma/client";
@@ -69,8 +70,39 @@ const programFilter: NextPage = () => {
   const ptProgramDisplay = ptProgramData?.map((element) => {
     return <ProgramItem key={element.id} element={element} type="pt" />;
   });
+  const typeMenu = <div>Type Menu</div>;
+  const disciplineMenu = <div>Discipline Menu</div>;
+  const locationMenu = <div>Location Menu</div>;
+
+  const options = [
+    { option: "type", menu: typeMenu },
+    { option: "discipline", menu: disciplineMenu },
+    { option: "location", menu: locationMenu },
+  ];
+
+  const buttonFilter = options.map((element) => {
+    const [menu, setMenu] = useState(false);
+    return (
+      <div className="m-2">
+        <button
+          className="rounded border-2 border-blue-300 p-2 capitalize"
+          onClick={() => setMenu(!menu)}
+        >
+          {element.option}
+        </button>
+        {menu && (
+          <div>
+            <div>Pick Your {element.option.toUpperCase()}</div>
+            <div>{element.menu}</div>
+          </div>
+        )}
+      </div>
+    );
+  });
+
   return (
     <div>
+      <div className="flex">{buttonFilter}</div>
       <div className="h2">Here are your programs:</div>
       <div className="mx-40">
         {ftProgramDisplay}
