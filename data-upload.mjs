@@ -33,7 +33,7 @@ try {
 
   ///////////////import Schools Locations////////////
 
-  // const allSchoolsLocationsValues = Object.values(allSchoolsLocations);
+  const allSchoolsLocationsValues = Object.values(allSchoolsLocations);
   // const createSchoolsData = async () => {
   //   const dataArray = [];
   //   for (const value of allSchoolsLocationsValues) {
@@ -102,6 +102,37 @@ try {
   // const deleteAll = await prisma.schoolLocation.deleteMany();
 
   ///////////////Fix Montreal vs. Montréal////////////
+
+  //Montréal prisma id: clk1z32qr001xuld1aiig1hi1
+  //Montreal prisma id: clk1z32qr0019uld1yjya4pz6
+
+  // const montrealSchoolLocations = await prisma.schoolLocation.findMany({
+  //   where: {
+  //     locationId: {
+  //       equals: "clk1z32qr0019uld1yjya4pz6",
+  //     },
+  //   },
+  // });
+
+  // const updateMontreal = await prisma.schoolLocation.updateMany({
+  //   where: {
+  //     locationId: {
+  //       equals: "clk1z32qr0019uld1yjya4pz6",
+  //     },
+  //   },
+  //   data: {
+  //     locationId: "clk1z32qr001xuld1aiig1hi1",
+  //   },
+  // });
+
+  // console.log(montrealSchoolLocations);
+
+  // const deleteMontreal = await prisma.location.delete({
+  //   where: {
+  //     id: "clk1z32qr0019uld1yjya4pz6",
+  //   },
+  // });
+
   ///////////////import PT Programs////////////
   ///////////////import FT Programs////////////
 } catch (error) {
