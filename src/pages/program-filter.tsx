@@ -10,6 +10,12 @@ const programFilter: NextPage = () => {
   const { data: schools } = api.school.getAll.useQuery();
   const { data: locations } = api.location.getAll.useQuery();
 
+  const [displayFilter, setDisplayFilter] = useState({
+    type: "",
+    discipline: "",
+    location: "",
+  });
+
   const ProgramItem = ({
     element,
     type,
@@ -70,7 +76,32 @@ const programFilter: NextPage = () => {
   const ptProgramDisplay = ptProgramData?.map((element) => {
     return <ProgramItem key={element.id} element={element} type="pt" />;
   });
-  const typeMenu = <div>Type Menu</div>;
+
+  const updateFilter = (element: string, value: string) => {
+    setDisplayFilter({ ...displayFilter, [element]: value });
+  };
+  const typeMenu = (
+    <div className="flex flex-col">
+      <button
+        className="m-1 rounded border-2 border-green-300 p-2 capitalize"
+        onClick={() => updateFilter("type", "pt")}
+      >
+        Part Time
+      </button>
+      <button
+        className="m-1 rounded border-2 border-green-300 p-2 capitalize"
+        onClick={() => updateFilter("type", "ft")}
+      >
+        Full Time
+      </button>
+      <button
+        className="m-1 rounded border-2 border-red-600 p-2 capitalize"
+        onClick={() => updateFilter("type", "")}
+      >
+        RESET
+      </button>
+    </div>
+  );
   const disciplineMenu = <div>Discipline Menu</div>;
   const locationMenu = <div>Location Menu</div>;
 
@@ -103,10 +134,13 @@ const programFilter: NextPage = () => {
   return (
     <div>
       <div className="flex">{buttonFilter}</div>
+      <div>
+        {displayFilter.type} {displayFilter.discipline} {displayFilter.location}
+      </div>
       <div className="h2">Here are your programs:</div>
       <div className="mx-40">
-        {ftProgramDisplay}
-        {ptProgramDisplay}
+        {displayFilter.type === "pt" ? null : ftProgramDisplay}
+        {displayFilter.type === "ft" ? null : ptProgramDisplay}
       </div>
     </div>
   );
