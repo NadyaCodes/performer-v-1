@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import TypeMenu from "./TypeMenu";
 import DisciplineMenu from "./DisciplineMenu";
 import LocationMenu from "./LocationMenu";
-import { FilterContext } from "./ProgramFilter";
+import { FilterContext, LocationObject } from "./ProgramFilter";
 
 export default function FilterMenu() {
   const filterContext = useContext(FilterContext);
@@ -11,13 +11,12 @@ export default function FilterMenu() {
 
   const updateFilter = (
     element: string,
-    inputtedValue: string,
+    inputtedValue: string | LocationObject,
     subValue?: string
   ) => {
     if (selectedOptions && setSelectedOptions) {
       !subValue &&
         setSelectedOptions({ ...selectedOptions, [element]: inputtedValue });
-
       subValue &&
         setSelectedOptions({
           ...selectedOptions,

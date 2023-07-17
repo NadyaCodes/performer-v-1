@@ -5,10 +5,16 @@ import ProgramItem from "./ProgramItem";
 import FilterMenu from "./FilterMenu";
 import { Location, School } from "@prisma/client";
 
+export type LocationObject = {
+  city: string;
+  province: string;
+  area: string;
+};
+
 export type FilterContextValue = {
   type: string;
   discipline: string;
-  location: { province: ""; city: ""; area: "" };
+  location: LocationObject;
 };
 
 export type ProgramWithInfo = {
@@ -104,6 +110,20 @@ const ProgramFilter: NextPage = () => {
       if (selectedOptions.discipline) {
         tempFilteredPrograms = tempFilteredPrograms?.filter((program) => {
           return program?.discipline === selectedOptions.discipline;
+        });
+      }
+
+      if (selectedOptions.location.province) {
+        tempFilteredPrograms = tempFilteredPrograms?.filter((program) => {
+          return (
+            program?.cityObj?.province === selectedOptions.location.province
+          );
+        });
+      }
+
+      if (selectedOptions.location.city) {
+        tempFilteredPrograms = tempFilteredPrograms?.filter((program) => {
+          return program?.cityObj?.city === selectedOptions.location.city;
         });
       }
 
