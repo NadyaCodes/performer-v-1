@@ -268,6 +268,17 @@ try {
   //   data: FTProgramDataArray,
   //   skipDuplicates: true,
   // });
+
+  ///////////////Find all Provinces////////////
+
+  const provincesArray = [];
+
+  allCityValues.forEach((element) => {
+    if (!provincesArray.includes(element.province)) {
+      provincesArray.push(element.province);
+    }
+  });
+  console.log(provincesArray);
 } catch (error) {
   console.error("Error reading JSON file:", error);
 }
