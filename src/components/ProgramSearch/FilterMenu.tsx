@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import TypeMenu from "./TypeMenu";
 import DisciplineMenu from "./DisciplineMenu";
+import LocationMenu from "./LocationMenu";
 import { FilterContext } from "./ProgramFilter";
 
 export default function FilterMenu() {
@@ -8,20 +9,30 @@ export default function FilterMenu() {
   const selectedOptions = filterContext?.selectedOptions;
   const setSelectedOptions = filterContext?.setSelectedOptions;
 
-  const updateFilter = (element: string, value: string) => {
-    selectedOptions &&
-      setSelectedOptions &&
-      setSelectedOptions({ ...selectedOptions, [element]: value });
+  const updateFilter = (
+    element: string,
+    inputtedValue: string,
+    subValue?: string
+  ) => {
+    if (selectedOptions && setSelectedOptions) {
+      !subValue &&
+        setSelectedOptions({ ...selectedOptions, [element]: inputtedValue });
+
+      subValue &&
+        setSelectedOptions({
+          ...selectedOptions,
+          location: { ...selectedOptions.location, [subValue]: inputtedValue },
+        });
+    }
   };
 
-  const locationMenu = <div>Location Menu</div>;
   const options = [
     { option: "type", menu: <TypeMenu updateFilter={updateFilter} /> },
     {
       option: "discipline",
       menu: <DisciplineMenu updateFilter={updateFilter} />,
     },
-    { option: "location", menu: locationMenu },
+    { option: "location", menu: <LocationMenu updateFilter={updateFilter} /> },
   ];
 
   const buttonFilter = options.map((element) => {

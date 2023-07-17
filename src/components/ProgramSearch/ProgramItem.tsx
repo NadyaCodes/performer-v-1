@@ -1,20 +1,7 @@
 import React from "react";
-import { api } from "@component/utils/api";
-import { ProgramWithType } from "./ProgramFilter";
+import { ProgramWithInfo } from "./ProgramFilter";
 
-export default function ProgramItem({ element }: { element: ProgramWithType }) {
-  const { data: schoolLocationData } = api.schoolLocation.getAll.useQuery();
-  const { data: schools } = api.school.getAll.useQuery();
-  const { data: locations } = api.location.getAll.useQuery();
-
-  const schoolLocObj = schoolLocationData?.find(
-    (schoolLoc) => schoolLoc.id === element.schoolLocationId
-  );
-  const cityObj = locations?.find((loc) => loc.id === schoolLocObj?.locationId);
-  const schoolObj = schools?.find(
-    (school) => school.id === schoolLocObj?.schoolId
-  );
-
+export default function ProgramItem({ element }: { element: ProgramWithInfo }) {
   let disciplineText;
 
   switch (element.discipline) {
@@ -40,9 +27,11 @@ export default function ProgramItem({ element }: { element: ProgramWithType }) {
       <div className="text-xl font-bold capitalize">
         {"name" in element && element.name && <div>{element.name}</div>}
       </div>
-      <div className="text-lg font-bold capitalize">{schoolObj?.name}</div>
+      <div className="text-lg font-bold capitalize">
+        {element.schoolObj?.name}
+      </div>
       <div className="text-md font-normal capitalize">
-        {cityObj?.city}, {cityObj?.province}
+        {element.cityObj?.city}, {element.cityObj?.province}
       </div>
 
       <div className="italic">{element.website}</div>
