@@ -9,6 +9,7 @@ const Locations: NextPage = () => {
     return (
       <div className="flex flex-col">
         <div>______________</div>
+        {element.id}
         <div className="w-10rem">
           {element.city}, {element.province}
         </div>
