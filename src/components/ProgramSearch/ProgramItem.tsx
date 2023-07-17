@@ -1,14 +1,8 @@
 import React from "react";
-import { FTProgram, PTProgram } from "@prisma/client";
 import { api } from "@component/utils/api";
+import { ProgramWithType } from "./ProgramFilter";
 
-export default function ProgramItem({
-  element,
-  type,
-}: {
-  element: FTProgram | PTProgram;
-  type: String;
-}) {
+export default function ProgramItem({ element }: { element: ProgramWithType }) {
   const { data: schoolLocationData } = api.schoolLocation.getAll.useQuery();
   const { data: schools } = api.school.getAll.useQuery();
   const { data: locations } = api.location.getAll.useQuery();
@@ -39,6 +33,7 @@ export default function ProgramItem({
     default:
       disciplineText = "Performance";
   }
+
   return (
     <div className="m-10 flex flex-col items-center border-2 border-purple-200">
       <div className="text-sm italic">{element.id}</div>
@@ -52,7 +47,7 @@ export default function ProgramItem({
 
       <div className="italic">{element.website}</div>
       <div>
-        {type === "ft" ? "Full Time " : "Part Time "} {disciplineText}{" "}
+        {element.type === "ft" ? "Full Time " : "Part Time "} {disciplineText}{" "}
       </div>
     </div>
   );
