@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import TypeMenu from "./TypeMenu";
 import DisciplineMenu from "./DisciplineMenu";
 import LocationMenu from "./LocationMenu";
+import Search from "./Search";
 import { FilterContext, LocationObject } from "./ProgramFilter";
 
 export default function FilterMenu() {
@@ -53,5 +54,10 @@ export default function FilterMenu() {
       </div>
     );
   });
-  return <div className="flex">{buttonFilter}</div>;
+  return (
+    <div className="flex">
+      {buttonFilter}
+      <Search />
+    </div>
+  );
 }

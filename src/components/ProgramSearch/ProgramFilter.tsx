@@ -32,6 +32,7 @@ export type FilterContextState = {
   selectedOptions: FilterContextValue;
   setSelectedOptions(selectedOptions: FilterContextValue): void;
   filteredPrograms: ProgramWithInfo[];
+  setFilteredPrograms(filteredPrograms: ProgramWithInfo[]): void;
 };
 
 const defaultFilterContext: FilterContextValue = {
@@ -139,6 +140,16 @@ const ProgramFilter: NextPage = () => {
     }
   }, [selectedOptions, allPrograms]);
 
+  useEffect(() => {
+    const tempProgramDisplay: JSX.Element[] = filteredPrograms.map(
+      (element) => {
+        return <ProgramItem key={element.id} element={element} />;
+      }
+    );
+
+    setProgramDisplay(tempProgramDisplay);
+  }, [filteredPrograms]);
+
   return (
     <div>
       <FilterContext.Provider
@@ -146,6 +157,7 @@ const ProgramFilter: NextPage = () => {
           selectedOptions,
           setSelectedOptions,
           filteredPrograms,
+          setFilteredPrograms,
         }}
       >
         <FilterMenu />
