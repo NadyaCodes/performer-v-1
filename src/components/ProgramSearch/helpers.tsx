@@ -11,6 +11,18 @@ export const displayDisciplineText = (discipline: string) => {
   return disciplineObject[discipline];
 };
 
+export const displayLocation = (locationObject: LocationObject) => {
+  let finalString = "";
+  if (locationObject.city) {
+    finalString += locationObject.city + ", ";
+  }
+  if (locationObject.province) {
+    finalString += locationObject.province;
+  }
+
+  return finalString;
+};
+
 export const updateFilter = (
   element: string,
   inputtedValue: string | LocationObject,

@@ -19,7 +19,8 @@ export default function TypeMenu() {
         }
         key={element}
       >
-        {element}
+        {element === "pt" && "Part Time"}
+        {element === "ft" && "Full Time"}
       </button>
     );
   });

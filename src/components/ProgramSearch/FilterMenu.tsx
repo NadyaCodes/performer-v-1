@@ -4,7 +4,7 @@ import DisciplineMenu from "./DisciplineMenu";
 import LocationMenu from "./LocationMenu";
 import Search from "./Search";
 import { FilterContext } from "./ProgramFilter";
-import { LocationObject } from "./types";
+import { displayLocation } from "./helpers";
 
 export default function FilterMenu() {
   const filterContext = useContext(FilterContext);
@@ -18,21 +18,26 @@ export default function FilterMenu() {
     { option: "location", menu: <LocationMenu /> },
   ];
 
-  const displayLocation = (locationObject: LocationObject, element: string) => {
-    let finalString = "";
-    if (locationObject.city && locationObject.province) {
-      finalString += `: ${locationObject.city}, ${locationObject.province}`;
-    } else if (locationObject.province) {
-      finalString += `: ${locationObject.province}`;
-    } else if (locationObject.city) {
-      finalString += `: ${locationObject.city}`;
-    }
-
-    return finalString;
-  };
-
   const buttonFilter = options.map((element) => {
     const [menu, setMenu] = useState(false);
+    let currentSelection;
+    if (
+      selectedOptions &&
+      typeof selectedOptions[element.option as keyof typeof selectedOptions] ===
+        "string"
+    ) {
+      currentSelection =
+        selectedOptions[element.option as keyof typeof selectedOptions];
+      if (currentSelection === "pt") {
+        currentSelection = "Part Time";
+      }
+      if (currentSelection === "ft") {
+        currentSelection = "Full Time";
+      }
+    } else if (selectedOptions) {
+      currentSelection = displayLocation(selectedOptions.location);
+    }
+
     return (
       <div className="m-2" key={element.option}>
         <button
@@ -41,15 +46,7 @@ export default function FilterMenu() {
         >
           {element.option}
 
-          {selectedOptions &&
-            (selectedOptions[element.option as keyof typeof selectedOptions] &&
-            element.option !== "location"
-              ? `: ${
-                  selectedOptions[
-                    element.option as keyof typeof selectedOptions
-                  ]
-                }`
-              : displayLocation(selectedOptions.location, element.option))}
+          {currentSelection && `: ${currentSelection}`}
         </button>
         {menu && (
           <div>
