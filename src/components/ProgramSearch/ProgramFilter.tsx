@@ -113,12 +113,13 @@ const ProgramFilter: NextPage = () => {
         }}
       >
         <FilterMenu />
+
+        <div className="h2">
+          There are {programDisplay.length} programs that fit your queries:
+        </div>
         <div>
           {selectedOptions.type} {selectedOptions.discipline}{" "}
           {selectedOptions.location.province}
-        </div>
-        <div className="h2">
-          There are {programDisplay.length} programs that fit your queries:
         </div>
         <div className="mx-40">{programDisplay}</div>
       </FilterContext.Provider>

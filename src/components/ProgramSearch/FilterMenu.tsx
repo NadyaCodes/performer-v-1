@@ -1,19 +1,26 @@
 import React, { useState, useContext } from "react";
-import TypeMenu from "./TypeMenu";
-import DisciplineMenu from "./DisciplineMenu";
 import LocationMenu from "./LocationMenu";
 import Search from "./Search";
 import { FilterContext } from "./ProgramFilter";
 import { displayLocation } from "./helpers";
+import Menu from "./Menu";
 
 export default function FilterMenu() {
   const filterContext = useContext(FilterContext);
   const selectedOptions = filterContext?.selectedOptions;
   const options = [
-    { option: "type", menu: <TypeMenu /> },
+    {
+      option: "type",
+      menu: <Menu menuType="type" valueArray={["ft", "pt"]} />,
+    },
     {
       option: "discipline",
-      menu: <DisciplineMenu />,
+      menu: (
+        <Menu
+          menuType="discipline"
+          valueArray={["act", "sing", "dance", "mt"]}
+        />
+      ),
     },
     { option: "location", menu: <LocationMenu /> },
   ];
@@ -41,25 +48,20 @@ export default function FilterMenu() {
     return (
       <div className="m-2" key={element.option}>
         <button
-          className="rounded border-2 border-blue-300 p-2 capitalize"
+          className="w-96 rounded border-2 border-blue-300 p-2 capitalize"
           onClick={() => setMenu(!menu)}
         >
           {element.option}
 
           {currentSelection && `: ${currentSelection}`}
         </button>
-        {menu && (
-          <div>
-            <div>Pick Your {element.option.toUpperCase()}</div>
-            <div>{element.menu}</div>
-          </div>
-        )}
+        {menu && <div className="w-96">{element.menu}</div>}
       </div>
     );
   });
   return (
-    <div className="flex">
-      {buttonFilter}
+    <div className="flex flex-col">
+      <div className="flex flex-col">{buttonFilter}</div>
       <Search />
     </div>
   );

@@ -41,7 +41,7 @@ export default function Search() {
   };
 
   return (
-    <div className="m-2 flex">
+    <div className="m-2 flex w-96">
       <input
         className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
         id="username"
