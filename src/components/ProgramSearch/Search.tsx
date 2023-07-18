@@ -30,6 +30,7 @@ export default function Search() {
         (program): program is ProgramWithInfo => program !== null
       );
       setFilteredPrograms(filteredProgramsArray);
+      setSearchTerm("");
     }
   };
 
@@ -40,6 +41,7 @@ export default function Search() {
         id="username"
         type="text"
         placeholder="Search"
+        value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
       <button
