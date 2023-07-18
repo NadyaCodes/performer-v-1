@@ -1,13 +1,11 @@
 import React, { useContext } from "react";
 import { FilterContext } from "./ProgramFilter";
+import { updateFilter } from "./helpers";
 
-export default function TypeMenu({
-  updateFilter,
-}: {
-  updateFilter: (element: string, value: string) => void;
-}) {
+export default function TypeMenu() {
   const filterContext = useContext(FilterContext);
   const selectedOptions = filterContext?.selectedOptions;
+  const setSelectedOptions = filterContext?.setSelectedOptions;
 
   const typeButtons = ["ft", "pt"].map((element) => {
     const bgColor = element === selectedOptions?.type ? "bg-green-400" : "";
@@ -16,7 +14,9 @@ export default function TypeMenu({
     return (
       <button
         className={classString}
-        onClick={() => updateFilter("type", element)}
+        onClick={() =>
+          updateFilter("type", element, selectedOptions, setSelectedOptions)
+        }
         key={element}
       >
         {element}
@@ -29,7 +29,9 @@ export default function TypeMenu({
       {typeButtons}
       <button
         className="m-1 rounded border-2 border-red-600 p-2 capitalize"
-        onClick={() => updateFilter("type", "")}
+        onClick={() =>
+          updateFilter("type", "", selectedOptions, setSelectedOptions)
+        }
       >
         RESET
       </button>

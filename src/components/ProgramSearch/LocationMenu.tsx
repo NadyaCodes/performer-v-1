@@ -1,18 +1,12 @@
 import React, { useEffect, useContext, useState } from "react";
-import { FilterContext, LocationObject } from "./ProgramFilter";
+import { FilterContext } from "./ProgramFilter";
+import { updateFilter } from "./helpers";
 
-export default function LocationMenu({
-  updateFilter,
-}: {
-  updateFilter: (
-    element: string,
-    inputtedValue: LocationObject | string,
-    subValue?: string
-  ) => void;
-}) {
+export default function LocationMenu() {
   const filterContext = useContext(FilterContext);
   const filteredPrograms = filterContext?.filteredPrograms;
   const selectedOptions = filterContext?.selectedOptions;
+  const setSelectedOptions = filterContext?.setSelectedOptions;
 
   const [provinces, setProvinces] = useState<string[]>([]);
   const [cities, setCities] = useState<string[]>([]);
@@ -52,7 +46,15 @@ export default function LocationMenu({
     return (
       <button
         className={classString}
-        onClick={() => updateFilter("location", element, "province")}
+        onClick={() =>
+          updateFilter(
+            "location",
+            element,
+            selectedOptions,
+            setSelectedOptions,
+            "province"
+          )
+        }
         key={element}
       >
         {element}
@@ -68,7 +70,15 @@ export default function LocationMenu({
     return (
       <button
         className={classString}
-        onClick={() => updateFilter("location", element, "city")}
+        onClick={() =>
+          updateFilter(
+            "location",
+            element,
+            selectedOptions,
+            setSelectedOptions,
+            "city"
+          )
+        }
         key={element}
       >
         {element}
@@ -83,7 +93,12 @@ export default function LocationMenu({
       <button
         className="m-1 rounded border-2 border-red-600 p-2 capitalize"
         onClick={() => {
-          updateFilter("location", { province: "", city: "", area: "" });
+          updateFilter(
+            "location",
+            { province: "", city: "", area: "" },
+            selectedOptions,
+            setSelectedOptions
+          );
         }}
       >
         RESET

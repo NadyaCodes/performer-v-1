@@ -1,16 +1,22 @@
 import React, { useState, useContext } from "react";
 import { FilterContext } from "./ProgramFilter";
-import { ProgramWithInfo } from "./ProgramFilter";
+import { ProgramWithInfo } from "./types";
+import { filterPrograms } from "./helpers";
 
 export default function Search() {
   const filterContext = useContext(FilterContext);
-  const filteredPrograms = filterContext?.filteredPrograms;
   const setFilteredPrograms = filterContext?.setFilteredPrograms;
+  const allPrograms = filterContext?.allPrograms;
+  const selectedOptions = filterContext?.selectedOptions;
   const [searchTerm, setSearchTerm] = useState("");
 
   const searchForValue = (value: string) => {
-    if (filteredPrograms && setFilteredPrograms) {
-      const newFilteredPrograms = filteredPrograms.map((program) => {
+    if (setFilteredPrograms && allPrograms && selectedOptions) {
+      const resetSearchFilterPrograms = filterPrograms(
+        allPrograms,
+        selectedOptions
+      );
+      const newFilteredPrograms = resetSearchFilterPrograms.map((program) => {
         if (
           program?.website?.includes(value.toLowerCase()) ||
           program?.name?.includes(value.toLowerCase()) ||
