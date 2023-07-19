@@ -43,5 +43,5 @@ export type NewSchoolLocationSubmission = {
 
 export type NewProgramSubmission = {
   schoolName: string;
-  schoolLocation: NewSchoolLocationSubmission[];
+  programInfo: NewSchoolLocationSubmission[];
 };
