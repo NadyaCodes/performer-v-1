@@ -33,9 +33,6 @@ export default function Menu({
   };
 
   const buttonList = valueArray.map((element) => {
-    if (element === valueArray[0]) {
-      return;
-    }
     const bgColor = element === selectedOptions?.type ? "bg-green-400" : "";
 
     const classString = `w-full p-2 capitalize ${bgColor} hover:bg-green-400`;
@@ -61,7 +58,7 @@ export default function Menu({
     <div className="w-100 flex w-full flex-col items-center bg-green-100 shadow-lg">
       {locationType === "city" && (
         <div className="flex w-full justify-center bg-green-500 p-2 capitalize">
-          {valueArray[0]}
+          {selectedOptions?.location.province}
         </div>
       )}
       {buttonList}
