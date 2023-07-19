@@ -3,36 +3,12 @@ import { NextPage } from "next";
 import { api } from "@component/utils/api";
 import ProgramItem from "./ProgramItem";
 import FilterMenu from "./FilterMenu";
-import { Location, School } from "@prisma/client";
-
-export type LocationObject = {
-  city: string;
-  province: string;
-  area: string;
-};
-
-export type FilterContextValue = {
-  type: string;
-  discipline: string;
-  location: LocationObject;
-};
-
-export type ProgramWithInfo = {
-  id: string;
-  schoolLocationId: string;
-  website: string;
-  discipline: string;
-  name?: string;
-  type: string;
-  cityObj?: Location;
-  schoolObj?: School;
-};
-
-export type FilterContextState = {
-  selectedOptions: FilterContextValue;
-  setSelectedOptions(selectedOptions: FilterContextValue): void;
-  filteredPrograms: ProgramWithInfo[];
-};
+import { filterPrograms } from "./helpers";
+import {
+  FilterContextValue,
+  FilterContextState,
+  ProgramWithInfo,
+} from "./types";
 
 const defaultFilterContext: FilterContextValue = {
   type: "",
@@ -100,36 +76,11 @@ const ProgramFilter: NextPage = () => {
   //filter and display correct data
   useEffect(() => {
     if (allPrograms) {
-      let tempFilteredPrograms = [...allPrograms];
-      if (selectedOptions.type) {
-        tempFilteredPrograms = tempFilteredPrograms?.filter((program) => {
-          return program?.type === selectedOptions.type;
-        });
-      }
+      const newFilteredPrograms = filterPrograms(allPrograms, selectedOptions);
 
-      if (selectedOptions.discipline) {
-        tempFilteredPrograms = tempFilteredPrograms?.filter((program) => {
-          return program?.discipline === selectedOptions.discipline;
-        });
-      }
+      setFilteredPrograms(newFilteredPrograms);
 
-      if (selectedOptions.location.province) {
-        tempFilteredPrograms = tempFilteredPrograms?.filter((program) => {
-          return (
-            program?.cityObj?.province === selectedOptions.location.province
-          );
-        });
-      }
-
-      if (selectedOptions.location.city) {
-        tempFilteredPrograms = tempFilteredPrograms?.filter((program) => {
-          return program?.cityObj?.city === selectedOptions.location.city;
-        });
-      }
-
-      setFilteredPrograms(tempFilteredPrograms);
-
-      const tempProgramDisplay: JSX.Element[] = tempFilteredPrograms.map(
+      const tempProgramDisplay: JSX.Element[] = newFilteredPrograms.map(
         (element) => {
           return <ProgramItem key={element.id} element={element} />;
         }
@@ -139,6 +90,16 @@ const ProgramFilter: NextPage = () => {
     }
   }, [selectedOptions, allPrograms]);
 
+  useEffect(() => {
+    const tempProgramDisplay: JSX.Element[] = filteredPrograms.map(
+      (element) => {
+        return <ProgramItem key={element.id} element={element} />;
+      }
+    );
+
+    setProgramDisplay(tempProgramDisplay);
+  }, [filteredPrograms]);
+
   return (
     <div>
       <FilterContext.Provider
@@ -146,15 +107,19 @@ const ProgramFilter: NextPage = () => {
           selectedOptions,
           setSelectedOptions,
           filteredPrograms,
+          setFilteredPrograms,
+          allPrograms,
+          setProgramDisplay,
         }}
       >
         <FilterMenu />
+
+        <div className="h2">
+          There are {programDisplay.length} programs that fit your queries:
+        </div>
         <div>
           {selectedOptions.type} {selectedOptions.discipline}{" "}
           {selectedOptions.location.province}
-        </div>
-        <div className="h2">
-          There are {programDisplay.length} programs that fit your queries:
         </div>
         <div className="mx-40">{programDisplay}</div>
       </FilterContext.Provider>
