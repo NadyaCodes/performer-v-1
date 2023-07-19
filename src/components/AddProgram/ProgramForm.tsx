@@ -43,6 +43,13 @@ export default function ProgramForm() {
     setFormData(formDataCopy);
   };
 
+  const addCopy = () => {
+    const formDataCopy = JSON.parse(JSON.stringify(formData));
+    const lastEntry = formDataCopy[formDataCopy.length - 1];
+    formDataCopy.push(lastEntry);
+    setFormData(formDataCopy);
+  };
+
   const formDisplay = formData.map((elementData, index) => {
     return (
       <Form elementData={elementData} index={index} updateForm={updateForm} />
@@ -57,7 +64,10 @@ export default function ProgramForm() {
       <div className="flex flex-col border-2">
         {formDisplay}
         <div className="flex justify-center">
-          <button className="mx-10 mb-5 place-self-end rounded bg-blue-100 p-4 font-bold text-gray-800 hover:shadow-xl">
+          <button
+            className="mx-10 mb-5 place-self-end rounded bg-blue-100 p-4 font-bold text-gray-800 hover:shadow-xl"
+            onClick={() => addCopy()}
+          >
             Add Similar Program
           </button>
           <button
