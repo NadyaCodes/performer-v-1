@@ -47,11 +47,7 @@ export default function LocationMenu() {
       )}
 
       {provinces.length === 1 && (
-        <Menu
-          valueArray={provinces.concat(cities)}
-          menuType="location"
-          locationType="city"
-        />
+        <Menu valueArray={cities} menuType="location" locationType="city" />
       )}
     </div>
   );
