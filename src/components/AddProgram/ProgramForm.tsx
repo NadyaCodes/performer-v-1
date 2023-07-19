@@ -1,20 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NewProgramSubmission } from "../ProgramSearch/types";
 
 export default function ProgramForm() {
-  const [formData, setFormData] = useState<NewProgramSubmission>({
-    schoolName: "",
-    programInfo: [
-      {
-        city: "",
-        province: "",
-        website: "",
-        discipline: [],
-        type: [],
-        programName: "",
-      },
-    ],
-  });
+  const [formData, setFormData] = useState<NewProgramSubmission[]>([
+    {
+      schoolName: "",
+      city: "",
+      province: "",
+      website: "",
+      discipline: { act: false, sing: false, dance: false, mt: false },
+      type: { pt: false, ft: false },
+      programName: "",
+    },
+  ]);
+
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
+
+  const updateForm = (
+    value: boolean | string,
+    field: string,
+    index: number,
+    subField?: string
+  ) => {
+    const newFormData = JSON.parse(JSON.stringify(formData));
+
+    if (subField) {
+      console.log(
+        "newFormData[index][field][subField]: ",
+        newFormData[index][field][subField]
+      );
+      console.log("value: ", value);
+      newFormData[index][field][subField] = value;
+    } else {
+      newFormData[index][field] = value;
+    }
+
+    setFormData(newFormData);
+  };
 
   const submitForm = () => {};
   return (
@@ -34,6 +58,8 @@ export default function ProgramForm() {
                 id="school-name"
                 type="text"
                 placeholder="Name"
+                value={formData[0]?.schoolName}
+                onChange={(e) => updateForm(e.target.value, "schoolName", 0)}
               />
             </div>
           </div>
@@ -50,6 +76,8 @@ export default function ProgramForm() {
                 id="school-city"
                 type="text"
                 placeholder="City"
+                value={formData[0]?.city}
+                onChange={(e) => updateForm(e.target.value, "city", 0)}
               />
               <p className="text-xs italic text-gray-600">
                 For multiple locations, please "Add similar program" below
@@ -66,6 +94,8 @@ export default function ProgramForm() {
                 <select
                   className="block w-full appearance-none rounded border border-gray-200 bg-gray-200 px-4 py-3 pr-8 capitalize leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
                   id="school-province"
+                  value={formData[0]?.province}
+                  onChange={(e) => updateForm(e.target.value, "province", 0)}
                 >
                   <option value="">Select a province</option>
                   <option value="alberta">Alberta</option>
@@ -113,6 +143,8 @@ export default function ProgramForm() {
                 id="school-website"
                 type="text"
                 placeholder="Website"
+                value={formData[0]?.website}
+                onChange={(e) => updateForm(e.target.value, "website", 0)}
               />
             </div>
           </div>
@@ -122,11 +154,25 @@ export default function ProgramForm() {
                 <label className="block font-bold text-gray-500">
                   Program Type
                   <label className="block font-bold text-gray-500 md:w-2/3">
-                    <input className="mr-2 leading-tight" type="checkbox" />
+                    <input
+                      className="mr-2 leading-tight"
+                      type="checkbox"
+                      checked={formData[0]?.type.pt || false}
+                      onChange={(e) =>
+                        updateForm(e.target.checked, "type", 0, "pt")
+                      }
+                    />
                     <span className="text-sm">Part Time</span>
                   </label>
                   <label className="block font-bold text-gray-500 md:w-2/3">
-                    <input className="mr-2 leading-tight" type="checkbox" />
+                    <input
+                      className="mr-2 leading-tight"
+                      type="checkbox"
+                      checked={formData[0]?.type.ft || false}
+                      onChange={(e) =>
+                        updateForm(e.target.checked, "type", 0, "ft")
+                      }
+                    />
                     <span className="text-sm">Full Time</span>
                   </label>
                 </label>
@@ -138,19 +184,47 @@ export default function ProgramForm() {
                   <label className="block font-bold text-gray-500">
                     Disciplines Offered
                     <label className="block font-bold text-gray-500">
-                      <input className="mr-2 leading-tight" type="checkbox" />
+                      <input
+                        className="mr-2 leading-tight"
+                        type="checkbox"
+                        checked={formData[0]?.discipline.act || false}
+                        onChange={(e) =>
+                          updateForm(e.target.checked, "discipline", 0, "act")
+                        }
+                      />
                       <span className="text-sm">Acting</span>
                     </label>
                     <label className="block font-bold text-gray-500">
-                      <input className="mr-2 leading-tight" type="checkbox" />
+                      <input
+                        className="mr-2 leading-tight"
+                        type="checkbox"
+                        checked={formData[0]?.discipline.sing || false}
+                        onChange={(e) =>
+                          updateForm(e.target.checked, "discipline", 0, "sing")
+                        }
+                      />
                       <span className="text-sm">Singing</span>
                     </label>
                     <label className="block font-bold text-gray-500">
-                      <input className="mr-2 leading-tight" type="checkbox" />
+                      <input
+                        className="mr-2 leading-tight"
+                        type="checkbox"
+                        checked={formData[0]?.discipline.dance || false}
+                        onChange={(e) =>
+                          updateForm(e.target.checked, "discipline", 0, "dance")
+                        }
+                      />
                       <span className="text-sm">Dancing</span>
                     </label>
                     <label className="block font-bold text-gray-500">
-                      <input className="mr-2 leading-tight" type="checkbox" />
+                      <input
+                        className="mr-2 leading-tight"
+                        type="checkbox"
+                        checked={formData[0]?.discipline.mt || false}
+                        onChange={(e) =>
+                          updateForm(e.target.checked, "discipline", 0, "mt")
+                        }
+                      />
                       <span className="text-sm">Musical Theatre</span>
                     </label>
                   </label>
@@ -171,6 +245,8 @@ export default function ProgramForm() {
                 id="program-name"
                 type="text"
                 placeholder="Name"
+                value={formData[0]?.programName}
+                onChange={(e) => updateForm(e.target.value, "programName", 0)}
               />
             </div>
           </div>
