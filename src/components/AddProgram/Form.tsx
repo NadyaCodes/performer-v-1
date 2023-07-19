@@ -5,10 +5,12 @@ export default function Form({
   elementData,
   index,
   updateForm,
+  deleteForm,
 }: {
   elementData: NewProgramSubmission;
   index: number;
   updateForm: Function;
+  deleteForm: Function;
 }) {
   return (
     <div className="m-7 flex flex-col border-2 p-2">
@@ -227,7 +229,10 @@ export default function Form({
           </div>
         </div>
       </form>
-      <button className="m-3 justify-end place-self-end rounded bg-red-300 p-4 font-bold hover:shadow-md md:w-1/3">
+      <button
+        className="m-3 justify-end place-self-end rounded bg-red-300 p-4 font-bold hover:shadow-md md:w-1/3"
+        onClick={() => deleteForm(index)}
+      >
         Delete This Entry
       </button>
     </div>
