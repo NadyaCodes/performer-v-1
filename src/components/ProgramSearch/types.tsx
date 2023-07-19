@@ -32,14 +32,14 @@ export type FilterContextState = {
   setProgramDisplay(programDisplay: JSX.Element[]): void;
 };
 
-type DisciplineObject = {
+export type DisciplineObject = {
   act: boolean;
   sing: boolean;
   dance: boolean;
   mt: boolean;
 };
 
-type TypeObject = {
+export type TypeObject = {
   pt: boolean;
   ft: boolean;
 };
@@ -52,4 +52,15 @@ export type NewProgramSubmission = {
   discipline: DisciplineObject;
   type: TypeObject;
   programName?: string;
+  tempId: string;
+};
+
+export type FormErrorObject = {
+  schoolName: boolean;
+  city: boolean;
+  province: boolean;
+  website: boolean;
+  discipline: boolean;
+  type: boolean;
+  tempId: string;
 };
