@@ -3,7 +3,7 @@ import { School, Location } from "@prisma/client";
 export type LocationObject = {
   city: string;
   province: string;
-  area: string;
+  area?: string;
 };
 
 export type FilterContextValue = {
@@ -30,4 +30,18 @@ export type FilterContextState = {
   setFilteredPrograms(filteredPrograms: ProgramWithInfo[]): void;
   allPrograms: ProgramWithInfo[];
   setProgramDisplay(programDisplay: JSX.Element[]): void;
+};
+
+export type NewSchoolLocationSubmission = {
+  city: string;
+  province: string;
+  website: string;
+  discipline: ("sing" | "dance" | "act" | "mt")[];
+  type: ("pt" | "ft")[];
+  programName?: string;
+};
+
+export type NewProgramSubmission = {
+  schoolName: string;
+  schoolLocation: NewSchoolLocationSubmission[];
 };
