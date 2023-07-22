@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { NewProgramSubmission } from "../ProgramSearch/types";
 import { LocationObject } from "../ProgramSearch/types";
 import { api } from "@component/utils/api";
+import DOMPurify from "isomorphic-dompurify";
 import { useEffectOnce } from "./helpers";
-import { Location, School } from "@prisma/client";
+import { Location, School, SchoolLocation } from "@prisma/client";
 
 interface SingleProgramResultProps {
   schoolObject: NewProgramSubmission;
@@ -19,17 +20,16 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
   const utils = api.useContext();
   const { schoolName, city, province, website, discipline, type, programName } =
     schoolObject;
-  const [prismaLocationObject, setPrismaLocationObject] = useState<Location>({
-    city: "",
-    province: "",
-    area: "",
-    id: "",
-  });
 
-  const [prismaSchoolObject, setPrismaSchoolObject] = useState<School>({
-    id: "",
-    name: "",
-  });
+  const [prismaLocationObject, setPrismaLocationObject] =
+    useState<Location | null>(null);
+
+  const [prismaSchoolObject, setPrismaSchoolObject] = useState<School | null>(
+    null
+  );
+
+  const [prismaSchoolLocationObject, setPrismaSchoolLocationObject] =
+    useState<SchoolLocation | null>(null);
 
   //FETCHING AND ADDING LOCATION
   const findPrismaLocation = async (cityProv: LocationObject) => {
@@ -71,9 +71,11 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
   };
 
   const fetchDataAndAddLocation = async () => {
+    const cleanCity = DOMPurify.sanitize(city.toLowerCase());
+    const cleanProvince = DOMPurify.sanitize(province.toLowerCase());
     const locationObject = {
-      city: schoolObject.city.toLowerCase(),
-      province: schoolObject.province.toLowerCase(),
+      city: cleanCity,
+      province: cleanProvince,
     };
 
     try {
@@ -135,15 +137,16 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
   };
 
   const fetchDataAndAddSchool = async () => {
+    const cleanName = DOMPurify.sanitize(schoolName.toLowerCase());
     try {
-      const prismaSchool = await findPrismaSchool(schoolName);
+      const prismaSchool = await findPrismaSchool(cleanName);
       if (!prismaSchool) {
-        console.log(`Need to add school ${schoolName}`);
-        const addedSchool = await addPrismaSchool(schoolName);
-        console.log("Added school:", schoolName);
+        console.log(`Need to add school ${cleanName}`);
+        const addedSchool = await addPrismaSchool(cleanName);
+        console.log("Added school:", cleanName);
         return addedSchool; // Return the added location
       } else {
-        console.log("Location already exists:", schoolName);
+        console.log("Location already exists:", cleanName);
         setPrismaSchoolObject(prismaSchool);
         return prismaSchool; // Return the existing location
       }
@@ -153,37 +156,167 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
     }
   };
 
+  //FETCHING AND ADDING SCHOOL LOCATION
+  const findPrismaSchoolLocation = async ({
+    schoolId,
+    locationId,
+  }: {
+    schoolId: string;
+    locationId: string;
+  }) => {
+    try {
+      const prismaSchoolLocation = await utils.schoolLocation.getOne.fetch({
+        schoolId,
+        locationId,
+      });
+      return prismaSchoolLocation;
+    } catch (error) {
+      console.error("Error fetching Prisma school location:", error);
+      return null;
+    }
+  };
+
+  const { mutate: createSchoolLocation } = api.schoolLocation.add.useMutation({
+    async onSuccess(data) {
+      await utils.schoolLocation.getAll.invalidate();
+      setPrismaSchoolLocationObject(data);
+      return data;
+    },
+    onError(error) {
+      console.log("createSchoolLocation error: ", error);
+    },
+  });
+
+  const addSchoolLocation = ({
+    schoolId,
+    locationId,
+    website,
+  }: {
+    schoolId: string;
+    locationId: string;
+    website: string;
+  }) => {
+    return createSchoolLocation({ schoolId, locationId, website });
+  };
+
+  const addPrismaSchoolLocation = async ({
+    schoolId,
+    locationId,
+    website,
+  }: {
+    schoolId: string;
+    locationId: string;
+    website: string;
+  }) => {
+    try {
+      const data = await addSchoolLocation({ schoolId, locationId, website }); // Await the mutation here
+      // Now, fetch the updated location data
+      const prismaSchoolLocation = await findPrismaSchoolLocation({
+        schoolId,
+        locationId,
+      });
+      return prismaSchoolLocation;
+    } catch (error) {
+      console.error("Error fetching Prisma school location:", error);
+      return null;
+    }
+  };
+
+  const fetchDataAndAddSchoolLocation = async () => {
+    const cleanWebsite = DOMPurify.sanitize(website.toLowerCase());
+    console.log("starting  add school location");
+    console.log(
+      "location: ",
+      prismaLocationObject,
+      "school: ",
+      prismaSchoolObject
+    );
+    if (prismaSchoolObject && prismaLocationObject) {
+      console.log("running if statement line 229");
+      try {
+        const prismaSchoolLocation = await findPrismaSchoolLocation({
+          schoolId: prismaSchoolObject.id,
+          locationId: prismaLocationObject.id,
+        });
+        if (!prismaSchoolLocation) {
+          console.log(
+            `Need to add school location for SchoolId: ${prismaSchoolObject?.id}, LocationId: ${prismaLocationObject?.id}`
+          );
+          const addedSchoolLocation = await addPrismaSchoolLocation({
+            schoolId: prismaSchoolObject?.id,
+            locationId: prismaLocationObject?.id,
+            website: cleanWebsite,
+          });
+          console.log(
+            `Added school location for SchoolId: ${prismaSchoolObject?.id}, LocationId: ${prismaLocationObject?.id}`
+          );
+          return addedSchoolLocation; // Return the added location
+        } else {
+          console.log(
+            `Location already exists for SchoolId: ${prismaSchoolObject?.id}, LocationId: ${prismaLocationObject?.id}`
+          );
+          setPrismaSchoolLocationObject(prismaSchoolLocation);
+          return prismaSchoolLocation; // Return the existing location
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        throw error; // Throw the error to propagate it to the caller
+      }
+    }
+  };
+
+  //CREATE FINAL SCHOOL AND LOCATION
   useEffectOnce(() => {
     console.log("Fetching prisma locations");
     fetchDataAndAddLocation()
       .then((locationResult) => {
         console.log("Location Result:", locationResult);
-        fetchDataAndAddSchool().then((schoolResult) =>
-          console.log("School Add Result: ", schoolResult)
-        );
+        fetchDataAndAddSchool().then((schoolResult) => {
+          console.log("School Add Result: ", schoolResult);
+        });
       })
       .catch((error) => {
         console.error("Error:", error);
       });
   });
 
+  //CREATE FINAL SCHOOL LOCATION
   useEffect(() => {
-    if (prismaLocationObject.id && prismaSchoolObject.id) {
-      setCurrentProgram(currentProgram + 1);
+    if (prismaLocationObject && prismaSchoolObject) {
+      fetchDataAndAddSchoolLocation().then((schoolLocationResult) => {
+        console.log("School Location Result: ", schoolLocationResult);
+      });
     }
   }, [prismaLocationObject, prismaSchoolObject]);
+
+  useEffect(() => {
+    if (
+      prismaLocationObject &&
+      prismaSchoolObject &&
+      prismaSchoolLocationObject
+    ) {
+      setCurrentProgram(currentProgram + 1);
+    }
+  }, [prismaLocationObject, prismaSchoolObject, prismaSchoolLocationObject]);
 
   return (
     <div>
       {schoolName}, {programName && programName}
       <div>
         Location:
-        {prismaLocationObject.id}, {prismaLocationObject.city},{" "}
-        {prismaLocationObject.province}
+        {prismaLocationObject?.id}, {prismaLocationObject?.city},{" "}
+        {prismaLocationObject?.province}
       </div>
       <div>
         School:
-        {prismaSchoolObject.id}, {prismaSchoolObject.name}
+        {prismaSchoolObject?.id}, {prismaSchoolObject?.name}
+      </div>
+      <div>
+        School Location:
+        {prismaSchoolLocationObject?.id},{" "}
+        {prismaSchoolLocationObject?.locationId},{" "}
+        {prismaSchoolLocationObject?.schoolId},{" "}
+        {prismaSchoolLocationObject?.website}
       </div>
       <div>__________________________</div>
     </div>
