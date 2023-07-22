@@ -28,7 +28,7 @@ interface ProgramFormProps {
 export default function ProgramForm({ findLocation }: ProgramFormProps) {
   const utils = api.useContext();
   let firstId = uuidv4();
-  const [submissionComplete, setSubmissionComplete] = useState(false);
+  // const [submissionComplete, setSubmissionComplete] = useState(false);
 
   const blankSchool = {
     schoolName: "",
@@ -60,7 +60,7 @@ export default function ProgramForm({ findLocation }: ProgramFormProps) {
     const newFormData = JSON.parse(JSON.stringify(formData));
 
     if (subField) {
-      newFormData[index][field][subField] = value.toString();
+      newFormData[index][field][subField] = value;
     } else {
       newFormData[index][field] = value.toString();
     }
@@ -328,7 +328,7 @@ export default function ProgramForm({ findLocation }: ProgramFormProps) {
     console.log("prismaLocation", prismaLocation);
   };
 
-  const submitForm = () => {
+  const submitForm = (formData: NewProgramSubmission[]) => {
     const errorsArray: FormErrorObject[] = [];
     let safeToSubmit = true;
     formData.forEach((dataObject) => {
@@ -340,7 +340,22 @@ export default function ProgramForm({ findLocation }: ProgramFormProps) {
     });
     setFormErrors(errorsArray);
     if (safeToSubmit) {
-      setSubmissionComplete(true);
+      const newFormData = formData.map((dataObject) => {
+        const newDataObject = JSON.parse(JSON.stringify(dataObject));
+        if (!newDataObject.programName) {
+          delete newDataObject.programName;
+        }
+        return newDataObject;
+      });
+      // After successful form submission, create the link to /submission-result with the data as query parameters
+      const linkToSubmissionResult = `/add-program-result?objectToPassToNextURL=${encodeURIComponent(
+        JSON.stringify(newFormData)
+      )}`;
+
+      console.log(newFormData);
+      // Navigate to the new URL
+      window.location.href = linkToSubmissionResult;
+      // setSubmissionComplete(true);
       // setTimeout(() => {
       //   setSubmissionComplete(false)
       // })
@@ -360,8 +375,8 @@ export default function ProgramForm({ findLocation }: ProgramFormProps) {
       // })
     }
 
-    console.log("safeToSubmit: ", safeToSubmit);
-    console.log("errors Array: ", errorsArray);
+    // console.log("safeToSubmit: ", safeToSubmit);
+    // console.log("errors Array: ", errorsArray);
 
     safeToSubmit && console.log("submitted!");
     // const clean = DOMPurify.sanitize(dirty);
@@ -369,9 +384,7 @@ export default function ProgramForm({ findLocation }: ProgramFormProps) {
 
   return (
     <div className="flex flex-col content-center justify-center">
-      {submissionComplete && <SubmissionComplete formData={formData} />}
       <div className="flex flex-col border-2">
-        {/* {locationData && locationData.city} */}
         {formDisplay}
         <div className="flex justify-center">
           <button
@@ -390,7 +403,10 @@ export default function ProgramForm({ findLocation }: ProgramFormProps) {
       </div>
       <button
         className="m-5 mx-10 place-self-end rounded bg-green-100 p-4 font-bold text-gray-800 hover:shadow-xl"
-        onClick={() => submitForm()}
+        onClick={(e) => {
+          e.preventDefault();
+          submitForm(formData);
+        }}
       >
         Submit
       </button>
