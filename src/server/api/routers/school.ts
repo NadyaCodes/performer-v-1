@@ -27,11 +27,11 @@ export const schoolRouter = createTRPCRouter({
   }),
 
   add: publicProcedure
-    .input(z.object({ text: z.string() }))
+    .input(z.object({ name: z.string() }))
     .mutation(async ({ input, ctx }) => {
       return await ctx.prisma.school.create({
         data: {
-          name: input.text,
+          name: input.name,
         },
       });
     }
