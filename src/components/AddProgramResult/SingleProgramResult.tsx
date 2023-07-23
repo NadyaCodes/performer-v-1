@@ -1,13 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { NewProgramSubmission } from "../ProgramSearch/types";
 import { LocationObject } from "../ProgramSearch/types";
 import { api } from "@component/utils/api";
 import DOMPurify from "isomorphic-dompurify";
 import { useEffectOnce } from "./helpers";
-import { Location, School, SchoolLocation } from "@prisma/client";
+import {
+  FTProgram,
+  Location,
+  PTProgram,
+  School,
+  SchoolLocation,
+} from "@prisma/client";
+import { SingleProgramSubmission } from "./AddProgramResultComponent";
 
 interface SingleProgramResultProps {
-  schoolObject: NewProgramSubmission;
+  schoolObject: SingleProgramSubmission;
   setCurrentProgram: Function;
   currentProgram: number;
 }
@@ -30,6 +37,10 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
 
   const [prismaSchoolLocationObject, setPrismaSchoolLocationObject] =
     useState<SchoolLocation | null>(null);
+
+  const [prismaProgram, setPrismaProgram] = useState<
+    (PTProgram | FTProgram) | null
+  >(null);
 
   //FETCHING AND ADDING LOCATION
   const findPrismaLocation = async (cityProv: LocationObject) => {
@@ -265,6 +276,176 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
     }
   };
 
+  //FETCHING AND ADDING PROGRAM
+  const findPrismaProgram = async ({
+    schoolLocationId,
+    discipline,
+    type,
+    name,
+  }: {
+    schoolLocationId: string;
+    discipline: string;
+    type: string;
+    name?: string;
+  }) => {
+    let programName = name || "* No Name *";
+    try {
+      let prismaProgram;
+      if (type === "pt") {
+        prismaProgram = await utils.ptProgram.getOne.fetch({
+          schoolLocationId,
+          discipline,
+        });
+      }
+
+      if (type === "ft") {
+        prismaProgram = await utils.ftProgram.getOne.fetch({
+          schoolLocationId,
+          discipline,
+          name: programName,
+        });
+      }
+      return prismaProgram;
+    } catch (error) {
+      console.error("Error fetching Prisma program:", error);
+      return null;
+    }
+  };
+
+  const { mutate: createPtProgram } = api.ptProgram.add.useMutation({
+    async onSuccess(data) {
+      await utils.ptProgram.getAll.invalidate();
+      setPrismaProgram(data);
+      return data;
+    },
+    onError(error) {
+      console.log("createPtProgram error: ", error);
+    },
+  });
+
+  const { mutate: createFtProgram } = api.ftProgram.add.useMutation({
+    async onSuccess(data) {
+      await utils.ftProgram.getAll.invalidate();
+      setPrismaProgram(data);
+      return data;
+    },
+    onError(error) {
+      console.log("createFtProgram error: ", error);
+    },
+  });
+
+  const addProgram = ({
+    schoolLocationId,
+    discipline,
+    type,
+    website,
+    name,
+  }: {
+    schoolLocationId: string;
+    discipline: string;
+    type: string;
+    website: string;
+    name?: string;
+  }) => {
+    let programName = name || "* No Name *";
+    if (type === "pt") {
+      return createPtProgram({ schoolLocationId, website, discipline });
+    }
+    if (type === "ft") {
+      return createFtProgram({
+        schoolLocationId,
+        website,
+        discipline,
+        name: programName,
+      });
+    }
+  };
+
+  const addPrismaProgram = async ({
+    schoolLocationId,
+    discipline,
+    type,
+    website,
+    name,
+  }: {
+    schoolLocationId: string;
+    discipline: string;
+    type: string;
+    website: string;
+    name?: string;
+  }) => {
+    try {
+      const data = await addProgram({
+        schoolLocationId,
+        discipline,
+        type,
+        website,
+        name,
+      }); // Await the mutation here
+      // Now, fetch the updated location data
+      const prismaProgram = await findPrismaProgram({
+        schoolLocationId,
+        discipline,
+        type,
+        name,
+      });
+      return prismaProgram;
+    } catch (error) {
+      console.error("Error fetching Prisma program:", error);
+      return null;
+    }
+  };
+
+  const fetchDataAndAddProgram = async () => {
+    const cleanWebsite = DOMPurify.sanitize(website.toLowerCase());
+    const cleanName = programName
+      ? DOMPurify.sanitize(programName.toLowerCase())
+      : null;
+    console.log("starting add program");
+
+    if (
+      prismaSchoolObject &&
+      prismaLocationObject &&
+      prismaSchoolLocationObject
+    ) {
+      try {
+        const prismaProgram = await findPrismaProgram({
+          schoolLocationId: prismaSchoolLocationObject.id,
+          discipline,
+          type,
+          name: programName,
+        });
+        if (!prismaProgram) {
+          console.log(
+            `Need to add program for SchoolLocationId: ${prismaSchoolLocationObject.id}, website: ${prismaSchoolLocationObject.website}`
+          );
+
+          const addedProgram = await addPrismaProgram({
+            schoolLocationId: prismaSchoolLocationObject.id,
+            discipline,
+            type,
+            website: cleanWebsite,
+            name: cleanName ? cleanName : undefined,
+          });
+          console.log(
+            `Added program for SchoolLocationId: ${prismaSchoolLocationObject.id}, website: ${prismaSchoolLocationObject.website}`
+          );
+          return addedProgram; // Return the added location
+        } else {
+          console.log(
+            `Program already exists for SchoolLocationId: ${prismaSchoolLocationObject.id}, website: ${prismaSchoolLocationObject.website}`
+          );
+
+          setPrismaProgram(prismaProgram);
+          return prismaProgram; // Return the existing location
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        throw error; // Throw the error to propagate it to the caller
+      }
+    }
+  };
+
   //CREATE FINAL SCHOOL AND LOCATION
   useEffectOnce(() => {
     console.log("Fetching prisma locations");
@@ -289,15 +470,31 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
     }
   }, [prismaLocationObject, prismaSchoolObject]);
 
+  //CREATE PROGRAM
+
+  useEffect(() => {
+    if (prismaSchoolLocationObject) {
+      fetchDataAndAddProgram().then((programResult) => {
+        console.log("Program result: ", programResult);
+      });
+    }
+  }, [prismaSchoolLocationObject]);
+
   useEffect(() => {
     if (
       prismaLocationObject &&
       prismaSchoolObject &&
-      prismaSchoolLocationObject
+      prismaSchoolLocationObject &&
+      prismaProgram
     ) {
       setCurrentProgram(currentProgram + 1);
     }
-  }, [prismaLocationObject, prismaSchoolObject, prismaSchoolLocationObject]);
+  }, [
+    prismaLocationObject,
+    prismaSchoolObject,
+    prismaSchoolLocationObject,
+    prismaProgram,
+  ]);
 
   return (
     <div>
