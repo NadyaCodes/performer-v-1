@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { FilterContext } from "./ProgramFilter";
+import { FilterContext } from "./ProgramSearchComponent";
 import { ProgramWithInfo } from "./types";
 import { filterPrograms } from "./helpers";
 

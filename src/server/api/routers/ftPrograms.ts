@@ -11,6 +11,24 @@ export const ftProgramRouter = createTRPCRouter({
     return ctx.prisma.fTProgram.findMany();
   }),
 
+  getOne: publicProcedure
+  .input(z.object({ schoolLocationId: z.string(), discipline: z.string(), name: z.string() }))
+  .query(async ({ input, ctx }) => {
+    return ctx.prisma.fTProgram.findFirst({
+      where: {
+        schoolLocationId: {
+          equals: input.schoolLocationId,
+        },
+        discipline: {
+          equals: input.discipline
+        },
+        name: {
+          equals: input.name
+        }
+      },
+    });
+  }),
+
   add: publicProcedure
     .input(z.object({ schoolLocationId: z.string(), website: z.string(), discipline: z.string(), name: z.string() }))
     .mutation(async ({ input, ctx }) => {

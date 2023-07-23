@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { updateFilter } from "./helpers";
-import { FilterContext } from "./ProgramFilter";
+import { FilterContext } from "./ProgramSearchComponent";
 
 export default function Menu({
   valueArray,

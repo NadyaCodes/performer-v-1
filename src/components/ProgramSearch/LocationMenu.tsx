@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState } from "react";
-import { FilterContext } from "./ProgramFilter";
+import { FilterContext } from "./ProgramSearchComponent";
 import Menu from "./Menu";
 
 export default function LocationMenu() {

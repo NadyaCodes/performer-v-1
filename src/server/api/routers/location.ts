@@ -14,8 +14,23 @@ export const locationRouter = createTRPCRouter({
     });
   }),
 
+  getOne: publicProcedure
+  .input(z.object({ city: z.string(), province: z.string(), area: z.string().optional() }))
+  .query(async ({ input, ctx }) => {
+    return ctx.prisma.location.findFirst({
+      where: {
+        city: {
+          equals: input.city,
+        },
+        province: {
+          equals: input.province,
+        },
+      },
+    });
+  }),
+
   add: publicProcedure
-    .input(z.object({ city: z.string(), province: z.string(), area: z.string() }))
+    .input(z.object({ city: z.string(), province: z.string(), area: z.string().optional() }))
     .mutation(async ({ input, ctx }) => {
       return await ctx.prisma.location.create({
         data: {

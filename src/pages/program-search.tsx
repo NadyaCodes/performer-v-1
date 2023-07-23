@@ -1,8 +1,8 @@
-import ProgramFilter from "@component/components/ProgramSearch/ProgramFilter";
+import ProgramSearchComponent from "@component/components/ProgramSearch/ProgramSearchComponent";
 import { NextPage } from "next";
 
 const ProgramSearch: NextPage = () => {
-  return <ProgramFilter />;
+  return <ProgramSearchComponent />;
 };
 
 export default ProgramSearch;
