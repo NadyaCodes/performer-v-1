@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import LocationMenu from "./LocationMenu";
 import Search from "./Search";
-import { FilterContext } from "./ProgramFilter";
+import { FilterContext } from "./ProgramSearchComponent";
 import { displayLocation } from "./helpers";
 import Menu from "./Menu";
 

@@ -17,13 +17,13 @@ const Schools: NextPage = () => {
 
   const addSchool = () => {
     createSchool({
-      text: "hello",
+      name: "hello",
     });
   };
 
   const addCustom = (value: string) => {
     createSchool({
-      text: value,
+      name: value,
     });
   };
 
