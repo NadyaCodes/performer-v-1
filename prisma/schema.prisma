@@ -53,13 +53,14 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
+    id            String       @id @default(cuid())
     name          String?
-    email         String?   @unique
+    email         String?      @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]
     sessions      Session[]
+    favPrograms   FavProgram[]
 }
 
 model VerificationToken {
@@ -101,6 +102,7 @@ model PTProgram {
     SchoolLocation   SchoolLocation @relation(fields: [schoolLocationId], references: [id], onDelete: Cascade)
     website          String
     discipline       String
+    favPrograms      FavProgram[]
 }
 
 model FTProgram {
@@ -110,4 +112,15 @@ model FTProgram {
     website          String
     discipline       String
     name             String
+    favPrograms      FavProgram[]
+}
+
+model FavProgram {
+    id          String     @id @default(cuid())
+    userId      String
+    User        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+    ftProgramId String?
+    FTProgram   FTProgram? @relation(fields: [ftProgramId], references: [id], onDelete: Cascade)
+    ptProgramId String?
+    PTProgram   PTProgram? @relation(fields: [ptProgramId], references: [id], onDelete: Cascade)
 }
