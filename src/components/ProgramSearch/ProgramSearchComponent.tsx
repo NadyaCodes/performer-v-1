@@ -9,6 +9,7 @@ import {
   FilterContextState,
   ProgramWithInfo,
 } from "./types";
+import { useSession } from "next-auth/react";
 
 const defaultFilterContext: FilterContextValue = {
   type: "",
@@ -24,6 +25,8 @@ const ProgramSearchComponent: NextPage = () => {
   const { data: schoolLocationData } = api.schoolLocation.getAll.useQuery();
   const { data: schools } = api.school.getAll.useQuery();
   const { data: locations } = api.location.getAll.useQuery();
+  const { data: sessionData } = useSession();
+  const utils = api.useContext();
 
   const [allPrograms, setAllPrograms] = useState<ProgramWithInfo[]>([]);
   const [selectedOptions, setSelectedOptions] =
@@ -33,6 +36,7 @@ const ProgramSearchComponent: NextPage = () => {
   const [filteredPrograms, setFilteredPrograms] = useState<ProgramWithInfo[]>(
     []
   );
+  const [userFavs, setUserFavs] = useState<string[] | null>(null);
 
   //Capture all program data, and add type to object
   useEffect(() => {
@@ -82,7 +86,15 @@ const ProgramSearchComponent: NextPage = () => {
 
       const tempProgramDisplay: JSX.Element[] = newFilteredPrograms.map(
         (element) => {
-          return <ProgramItem key={element.id} element={element} />;
+          return (
+            <ProgramItem
+              key={element.id}
+              element={element}
+              fav={userFavs?.includes(element.id) || false}
+              findUserFavs={findUserFavs}
+              setUserFavs={setUserFavs}
+            />
+          );
         }
       );
 
@@ -93,12 +105,45 @@ const ProgramSearchComponent: NextPage = () => {
   useEffect(() => {
     const tempProgramDisplay: JSX.Element[] = filteredPrograms.map(
       (element) => {
-        return <ProgramItem key={element.id} element={element} />;
+        return (
+          <ProgramItem
+            key={element.id}
+            element={element}
+            fav={userFavs?.includes(element.id) || false}
+            findUserFavs={findUserFavs}
+            setUserFavs={setUserFavs}
+          />
+        );
       }
     );
 
     setProgramDisplay(tempProgramDisplay);
-  }, [filteredPrograms]);
+  }, [filteredPrograms, userFavs]);
+
+  //FAVE PROGRAMS
+
+  const findUserFavs = async (userId: string) => {
+    const allUserFavs = utils.favs.getAllForUser.fetch({ userId });
+    const userFavIds = (await allUserFavs).map((element) => {
+      if (element.ftProgramId) {
+        return element.ftProgramId;
+      }
+      if (element.ptProgramId) {
+        return element.ptProgramId;
+      }
+    });
+    return userFavIds;
+  };
+
+  useEffect(() => {
+    if (sessionData) {
+      findUserFavs(sessionData.user.id).then((result) =>
+        result
+          ? setUserFavs(result.filter((fav) => fav !== undefined) as string[])
+          : setUserFavs([])
+      );
+    }
+  }, [sessionData]);
 
   return (
     <div>
