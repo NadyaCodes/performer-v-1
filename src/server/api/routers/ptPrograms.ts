@@ -11,7 +11,19 @@ export const ptProgramRouter = createTRPCRouter({
     return ctx.prisma.pTProgram.findMany();
   }),
 
-  getOne: publicProcedure
+  getOneById: publicProcedure
+  .input(z.object({ id: z.string() }))
+  .query(async ({ input, ctx }) => {
+    return ctx.prisma.pTProgram.findFirst({
+      where: {
+        id: {
+          equals: input.id,
+        },
+      },
+    });
+  }),
+
+  getOneByLocationObject: publicProcedure
   .input(z.object({ schoolLocationId: z.string(), discipline: z.string() }))
   .query(async ({ input, ctx }) => {
     return ctx.prisma.pTProgram.findFirst({

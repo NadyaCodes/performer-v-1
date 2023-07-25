@@ -265,14 +265,14 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
     try {
       let prismaProgram;
       if (type === "pt") {
-        prismaProgram = await utils.ptProgram.getOne.fetch({
+        prismaProgram = await utils.ptProgram.getOneByLocationObject.fetch({
           schoolLocationId,
           discipline,
         });
       }
 
       if (type === "ft") {
-        prismaProgram = await utils.ftProgram.getOne.fetch({
+        prismaProgram = await utils.ftProgram.getOneByLocationObject.fetch({
           schoolLocationId,
           discipline,
           name: programName,

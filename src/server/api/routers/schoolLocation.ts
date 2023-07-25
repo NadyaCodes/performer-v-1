@@ -29,6 +29,18 @@ export const schoolLocationRouter = createTRPCRouter({
     });
   }),
 
+  getOneById: publicProcedure
+  .input(z.object({ id: z.string() }))
+  .query(async ({ input, ctx }) => {
+    return ctx.prisma.schoolLocation.findFirst({
+      where: {
+        id: {
+          equals: input.id,
+        },
+      },
+    });
+  }),
+
   add: publicProcedure
     .input(z.object({ schoolId: z.string(), locationId: z.string(),  website: z.string()}))
     .mutation(async ({ input, ctx }) => {
