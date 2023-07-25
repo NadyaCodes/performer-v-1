@@ -49,3 +49,15 @@ export const provincesFullReverse: ObjectList = {
   nunavut: "nu",
   "northwest territories": "nt",
 };
+
+export const stylesFull: ObjectList = {
+  pt: "Part Time",
+  ft: "Full Time",
+};
+
+export const disciplinesFull: ObjectList = {
+  act: "Acting",
+  sing: "Singing",
+  dance: "Dance",
+  mt: "Musical Theatre",
+};
