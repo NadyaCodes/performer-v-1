@@ -41,6 +41,36 @@ export const schoolLocationRouter = createTRPCRouter({
     });
   }),
 
+  getAllForLocation: publicProcedure
+  .input(z.object({ locationId: z.string() }))
+  .query(async ({ input, ctx }) => {
+    return ctx.prisma.schoolLocation.findMany({
+      where: {
+        locationId: {
+          equals: input.locationId,
+        },
+      },
+    });
+  }),
+
+  getAllForLocationPlusInfo: publicProcedure
+  .input(z.object({ locationId: z.string() }))
+  .query(async ({ input, ctx }) => {
+    return ctx.prisma.schoolLocation.findMany({
+      where: {
+        locationId: {
+          equals: input.locationId,
+        },
+      },
+      include: {
+        school: true,
+        PTProgram: true,
+        FTProgram: true,
+        location: true,
+      }
+    });
+  }),
+
   add: publicProcedure
     .input(z.object({ schoolId: z.string(), locationId: z.string(),  website: z.string()}))
     .mutation(async ({ input, ctx }) => {
