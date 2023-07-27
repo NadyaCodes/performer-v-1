@@ -25,15 +25,9 @@ export default function ProgramItem({
   const type = element.type;
 
   const [animateStar, setAnimateStar] = useState(false);
-  const starAnimation = animateStar ? "rotate .8s linear infinite" : "none";
-
-  const keyframes = `
-    @keyframes rotate {
-      0% { transform: rotate(0deg) scale(1); }
-      50% { transform: rotate(180deg) scale(1.2); }
-      100% { transform: rotate(360deg) scale(1); }
-    }
-  `;
+  const starAnimation = animateStar
+    ? "rotateSwell .8s linear infinite"
+    : "none";
 
   const findFav = async (
     type: string,
@@ -124,7 +118,6 @@ export default function ProgramItem({
     <div className="m-10 flex flex-col border-2 border-purple-200">
       {sessionData?.user && (
         <div className="mx-5 my-2 place-self-end">
-          <style>{keyframes}</style>
           <div
             style={{
               animation: starAnimation,

@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  padding: 20px 20px 60px;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+
+@keyframes rotateSwell {
+0% { transform: rotate(0deg) scale(1); }
+50% { transform: rotate(180deg) scale(1.2); }
+ 100% { transform: rotate(360deg) scale(1); }
+}
+
+
+
+@keyframes rotate {
+  0% { transform: rotate(0deg) }
+  50% { transform: rotate(180deg) }
+   100% { transform: rotate(360deg) }
+  }
