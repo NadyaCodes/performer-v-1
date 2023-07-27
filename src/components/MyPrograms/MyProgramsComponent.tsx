@@ -27,8 +27,8 @@ export default function MyProgramsComponent() {
 
   const findProgramObject = async (id: string) => {
     if (userId) {
-      const ptProgramObject = utils.ptProgram.getOneById.fetch({ id });
-      const ftProgramObject = utils.ftProgram.getOneById.fetch({ id });
+      const ptProgramObject = await utils.ptProgram.getOneById.fetch({ id });
+      const ftProgramObject = await utils.ftProgram.getOneById.fetch({ id });
       if (ftProgramObject) {
         return ftProgramObject;
       }
@@ -66,7 +66,6 @@ export default function MyProgramsComponent() {
     const schoolLocationObject = await utils.schoolLocation.getOneById.fetch({
       id,
     });
-    console.log(schoolLocationObject);
     return schoolLocationObject;
   };
 
