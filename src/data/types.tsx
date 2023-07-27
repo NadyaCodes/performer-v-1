@@ -23,11 +23,12 @@ export type AllCities = {
   };
 };
 
-export type DisciplineProps = {
+export type SelectNextProps = {
   style: string;
   discipline?: string;
   city?: string;
   province?: string;
+  provincesList?: string[];
   citiesList?: string[];
   pageData?: ProgramDataProp[];
   allProgramsInType?: ProgramDataProp[];
@@ -50,7 +51,7 @@ export type PageDataProps = {
 };
 
 export type PathsArray = {
-  params: DisciplineProps;
+  params: SelectNextProps;
 };
 
 export type ObjectList = { [key: string]: string };

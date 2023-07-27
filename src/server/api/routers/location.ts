@@ -29,6 +29,18 @@ export const locationRouter = createTRPCRouter({
     });
   }),
 
+  getLocationsByProvince: publicProcedure
+  .input(z.object({ province: z.string() }))
+  .query(async ({ input, ctx }) => {
+    return ctx.prisma.location.findMany({
+      where: {
+        province: {
+          equals: input.province,
+        },
+      },
+    });
+  }),
+
   getOneById: publicProcedure
   .input(z.object({ id: z.string() }))
   .query(async ({ input, ctx }) => {
