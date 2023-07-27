@@ -3,24 +3,24 @@ import { disciplines } from "@component/data/constants";
 import { PathsArray, SelectNextProps } from "@component/data/types";
 import { styles } from "@component/data/constants";
 import SelectNext from "@component/components/ProgramDisplay/SelectNext";
+import { stylesFull } from "@component/data/constants";
 
 const StylePage: NextPage<SelectNextProps> = ({ style }) => {
   const link = `/${style}`;
   const backLink = `/${style}`;
+
+  let titleString = `${stylesFull[style]} programs in Canada` || "";
 
   const selectNextOptions = {
     style,
     link,
     backLink,
     nextValue: "discipline",
+    buttonList: disciplines || [],
+    titleString,
   };
 
-  return (
-    <SelectNext
-      selectNextOptions={selectNextOptions}
-      buttonList={disciplines || []}
-    />
-  );
+  return <SelectNext selectNextOptions={selectNextOptions} />;
 };
 
 const createPaths = (): Array<PathsArray> => {

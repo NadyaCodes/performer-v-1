@@ -1,5 +1,10 @@
 import { type NextPage, GetStaticProps } from "next";
-import { disciplines, provincesFullReverse } from "@component/data/constants";
+import {
+  disciplines,
+  disciplinesFull,
+  provincesFullReverse,
+  stylesFull,
+} from "@component/data/constants";
 import { PathsArray, SelectNextProps } from "@component/data/types";
 import { styles } from "@component/data/constants";
 import SelectNext from "@component/components/ProgramDisplay/SelectNext";
@@ -14,6 +19,12 @@ const DisciplinePage: NextPage<SelectNextProps> = ({
 }) => {
   const link = `/${style}/${discipline}/`;
   const backLink = `/${style}/select-next`;
+  let titleString = "";
+  if (discipline) {
+    titleString = `${stylesFull[style]} ${disciplinesFull[discipline]} programs in Canada`;
+  } else {
+    titleString = `${stylesFull[style]} programs in Canada`;
+  }
 
   const selectNextOptions = {
     style,
@@ -21,14 +32,11 @@ const DisciplinePage: NextPage<SelectNextProps> = ({
     link,
     backLink,
     nextValue: "province",
+    buttonList: provincesList || [],
+    titleString,
   };
 
-  return (
-    <SelectNext
-      selectNextOptions={selectNextOptions}
-      buttonList={provincesList || []}
-    />
-  );
+  return <SelectNext selectNextOptions={selectNextOptions} />;
 };
 
 const createPaths = async (): Promise<Array<PathsArray>> => {

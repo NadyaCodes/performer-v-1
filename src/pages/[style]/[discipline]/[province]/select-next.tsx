@@ -5,6 +5,9 @@ import {
   styles,
   disciplines,
   provincesFullReverse,
+  stylesFull,
+  disciplinesFull,
+  provincesFull,
 } from "@component/data/constants";
 
 import { PrismaClient } from "@prisma/client";
@@ -19,6 +22,17 @@ const ProvincePage: NextPage<SelectNextProps> = ({
   const link = `/${style}/${discipline}/${province}`;
   const backLink = `/${style}/${discipline}/select-next`;
 
+  let titleString = "";
+  if (discipline && province) {
+    titleString = `${stylesFull[style]} ${disciplinesFull[discipline]} programs in ${provincesFull[province]}`;
+  } else if (discipline) {
+    titleString = `${stylesFull[style]} ${disciplinesFull[discipline]} programs in Canada`;
+  } else if (province) {
+    titleString = `${stylesFull[style]} programs in Canada`;
+  } else {
+    titleString = `${stylesFull[style]} programs in Canada`;
+  }
+
   const selectNextOptions = {
     style,
     discipline,
@@ -26,14 +40,11 @@ const ProvincePage: NextPage<SelectNextProps> = ({
     link,
     backLink,
     nextValue: "city",
+    buttonList: citiesList || [],
+    titleString,
   };
 
-  return (
-    <SelectNext
-      selectNextOptions={selectNextOptions}
-      buttonList={citiesList || []}
-    />
-  );
+  return <SelectNext selectNextOptions={selectNextOptions} />;
 };
 
 const createPaths = async (): Promise<Array<PathsArray>> => {
