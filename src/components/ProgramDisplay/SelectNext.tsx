@@ -33,7 +33,7 @@ const SelectNext: React.FC<SelectNextProps> = ({
         <Picker
           buttonOptions={buttonList}
           currentLink={selectNextOptions.link}
-          last={true}
+          last={selectNextOptions.nextValue === "city" ? true : false}
         />
       </div>
       <Link href={selectNextOptions.backLink} className="p-2">

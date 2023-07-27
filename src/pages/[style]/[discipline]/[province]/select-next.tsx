@@ -10,7 +10,7 @@ import {
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-const DisciplinePage: NextPage<DisciplineProps> = ({
+const ProvincePage: NextPage<DisciplineProps> = ({
   style,
   discipline,
   province,
@@ -149,4 +149,4 @@ export const getStaticProps: GetStaticProps = async (context) => {
   };
 };
 
-export default DisciplinePage;
+export default ProvincePage;

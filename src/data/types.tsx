@@ -28,6 +28,7 @@ export type DisciplineProps = {
   discipline?: string;
   city?: string;
   province?: string;
+  provincesList?: string[];
   citiesList?: string[];
   pageData?: ProgramDataProp[];
   allProgramsInType?: ProgramDataProp[];

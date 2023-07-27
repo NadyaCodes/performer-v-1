@@ -1,114 +1,100 @@
 import { type NextPage, GetStaticProps } from "next";
-import Link from "next/link";
-import Picker from "@component/components/ProgramDisplay/Picker";
 import { disciplines, provincesFullReverse } from "@component/data/constants";
-import {
-  PathsArray,
-  DisciplineProps,
-  AllSchoolsLocations,
-  AllCities,
-} from "@component/data/types";
+import { PathsArray, DisciplineProps } from "@component/data/types";
 import { styles } from "@component/data/constants";
-import allPtPrograms from "src/data/allPtPrograms.json";
-import allFtPrograms from "src/data/allFtPrograms.json";
-// import allCities from "src/data/allCities.json";
-// import allSchoolsLocations from "src/data/allSchoolsLocations.json";
+import SelectNext from "@component/components/ProgramDisplay/SelectNext";
+
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
 const DisciplinePage: NextPage<DisciplineProps> = ({
   style,
   discipline,
-  allProgramsInType,
+  provincesList,
 }) => {
-  const link = `/${style}/${discipline}`;
+  const link = `/${style}/${discipline}/`;
   const backLink = `/${style}/select-next`;
 
-  const allSchoolsLocations: AllSchoolsLocations = require("src/data/allSchoolsLocations.json");
-  const allCities: AllCities = require("src/data/allCities.json");
-
-  const schoolLocationOptions = allProgramsInType?.map(
-    (schoolLoc) => schoolLoc.school_location_id
-  );
-  const allLocationIds = schoolLocationOptions?.map(
-    (location) => allSchoolsLocations[location]?.location_id!
-  );
-
-  const provincesWithSchools: string[] = [];
-
-  allLocationIds?.forEach((loc) => {
-    let locationProvince = allCities[loc]?.province ?? null;
-    if (locationProvince) {
-      locationProvince = provincesFullReverse[locationProvince] || null;
-    }
-    if (
-      locationProvince !== null &&
-      !provincesWithSchools.includes(locationProvince)
-    ) {
-      provincesWithSchools.push(locationProvince);
-    }
-  });
+  const selectNextOptions = {
+    style,
+    discipline,
+    link,
+    backLink,
+    nextValue: "province",
+  };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-      <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-        Which Province?
-      </h1>
-      <div
-        style={{
-          display: "flex",
-          margin: "2rem",
-        }}
-        className="rounded border-2 border-green-300"
-      >
-        <Picker
-          buttonOptions={provincesWithSchools}
-          currentLink={link}
-          last={false}
-        />
-      </div>
-      <Link href={backLink} className="p-2">
-        <button className="rounded border border-blue-500 bg-transparent px-4 py-2 font-semibold text-white hover:border-transparent hover:bg-blue-500 hover:text-white">
-          Back
-        </button>
-      </Link>
-    </div>
+    <SelectNext
+      selectNextOptions={selectNextOptions}
+      buttonList={provincesList || []}
+    />
   );
 };
 
-const createPaths = (): Array<PathsArray> => {
+const createPaths = async (): Promise<Array<PathsArray>> => {
   const finalArray: Array<PathsArray> = [];
+  const allLocations = await prisma.location.findMany();
+  const allSchoolLocations = await prisma.schoolLocation.findMany();
 
-  styles.forEach((style) => {
-    disciplines.forEach((discipline) => {
-      // let allProgramsInType = [
-      //   { id: "", school_location_id: "", site: "", type: "", style: "" },
-      // ];
+  for (const style of styles) {
+    for (const discipline of disciplines) {
+      let allProgramsInType;
 
-      // if (style === "pt") {
-      //   allProgramsInType = Object.values(allPtPrograms).filter(
-      //     (element) => element.type === discipline
-      //   );
-      // }
+      if (style === "pt") {
+        allProgramsInType = await prisma.pTProgram.findMany({
+          where: {
+            discipline: {
+              equals: discipline,
+            },
+          },
+        });
+      }
 
-      // if (style === "ft") {
-      //   allProgramsInType = Object.values(allFtPrograms).filter(
-      //     (element) => element.type === discipline
-      //   );
-      // }
+      if (style === "ft") {
+        allProgramsInType = await prisma.fTProgram.findMany({
+          where: {
+            discipline: {
+              equals: discipline,
+            },
+          },
+        });
+      }
+
+      const provinceArray: string[] = [];
+
+      allProgramsInType?.forEach((program) => {
+        const schoolLocation = allSchoolLocations.find(
+          (location) => location.id === program.schoolLocationId
+        );
+
+        if (schoolLocation) {
+          const location = allLocations.find(
+            (loc) => loc.id === schoolLocation.locationId
+          );
+          if (location) {
+            const province = provincesFullReverse[location.province] || "N/A";
+
+            if (!provinceArray.includes(province)) {
+              provinceArray.push(province);
+            }
+          }
+        }
+      });
       finalArray.push({
         params: {
           style: style,
           discipline: discipline,
-          // allProgramsInType: allProgramsInType,
+          provincesList: provinceArray || [],
         },
       });
-    });
-  });
-  console.log(finalArray);
+    }
+  }
+
   return finalArray;
 };
 
 export async function getStaticPaths() {
-  const paths = createPaths();
+  const paths = await createPaths();
 
   return {
     paths,
@@ -116,32 +102,25 @@ export async function getStaticPaths() {
   };
 }
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  // const { style, discipline } = params as DisciplineProps;
+export const getStaticProps: GetStaticProps = async (context) => {
+  const { params } = context;
   const { style, discipline } = {
     ...(params || { style: "n/a" }),
     style: params?.style || "n/a",
   } as DisciplineProps;
 
-  let allProgramsInType;
-
-  if (style === "pt") {
-    allProgramsInType = Object.values(allPtPrograms).filter(
-      (element) => element.type === discipline
-    );
-  }
-
-  if (style === "ft") {
-    allProgramsInType = Object.values(allFtPrograms).filter(
-      (element) => element.type === discipline
-    );
-  }
+  const paths = await createPaths();
+  const targetPath = paths.find(
+    (path) =>
+      path.params.style === style && path.params.discipline === discipline
+  );
+  const provincesList = targetPath ? targetPath.params.provincesList : [];
 
   return {
     props: {
       style,
       discipline,
-      allProgramsInType,
+      provincesList,
     },
   };
 };
