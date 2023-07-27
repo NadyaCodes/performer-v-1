@@ -1,6 +1,6 @@
 import { type NextPage, GetStaticProps } from "next";
 import SelectNext from "@component/components/ProgramDisplay/SelectNext";
-import { PathsArray, DisciplineProps } from "@component/data/types";
+import { PathsArray, SelectNextProps } from "@component/data/types";
 import {
   styles,
   disciplines,
@@ -10,7 +10,7 @@ import {
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-const ProvincePage: NextPage<DisciplineProps> = ({
+const ProvincePage: NextPage<SelectNextProps> = ({
   style,
   discipline,
   province,
@@ -128,7 +128,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const { style, discipline, province } = {
     ...(params || { style: "n/a" }),
     style: params?.style || "n/a",
-  } as DisciplineProps;
+  } as SelectNextProps;
 
   const paths = await createPaths();
   const targetPath = paths.find(
