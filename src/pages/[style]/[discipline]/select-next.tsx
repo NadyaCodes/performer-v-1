@@ -1,6 +1,6 @@
 import { type NextPage, GetStaticProps } from "next";
 import Link from "next/link";
-import Picker from "@component/pages/Picker";
+import Picker from "@component/components/ProgramDisplay/Picker";
 import { disciplines, provincesFullReverse } from "@component/data/constants";
 import {
   PathsArray,

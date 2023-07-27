@@ -1,6 +1,6 @@
 import { type NextPage, GetStaticProps } from "next";
 import Link from "next/link";
-import Picker from "../Picker";
+import Picker from "../../components/ProgramDisplay/Picker";
 import { disciplines } from "@component/data/constants";
 import { PathsArray, DisciplineProps } from "@component/data/types";
 import { styles } from "@component/data/constants";

@@ -3,7 +3,7 @@ import { type NextPage } from "next";
 import { api } from "@component/utils/api";
 import Head from "next/head";
 // import Link from "next/link";
-import Picker from "./Picker";
+import Picker from "../components/ProgramDisplay/Picker";
 import { styles } from "@component/data/constants";
 import Menu from "@component/components/Menu/Menu";
 

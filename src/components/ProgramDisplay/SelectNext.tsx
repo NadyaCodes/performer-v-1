@@ -1,5 +1,5 @@
-import React from "react";
-import Picker from "@component/pages/Picker";
+import React, { useState } from "react";
+import Picker from "@component/components/ProgramDisplay/Picker";
 import Link from "next/link";
 
 interface SelectNextProps {

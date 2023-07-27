@@ -27,6 +27,7 @@ const DisciplinePage: NextPage<DisciplineProps> = ({
     backLink,
     nextValue: "city",
   };
+
   return (
     <SelectNext
       selectNextOptions={selectNextOptions}

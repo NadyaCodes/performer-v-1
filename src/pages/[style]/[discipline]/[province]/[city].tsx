@@ -1,12 +1,6 @@
 import { GetStaticProps, type NextPage } from "next";
-import allCites from "src/data/allCities.json";
 
-import {
-  styles,
-  disciplines,
-  provinces,
-  provincesFull,
-} from "src/data/constants";
+import { styles, disciplines, provincesFullReverse } from "src/data/constants";
 import { DisciplineProps, PathsArray } from "@component/data/types";
 
 import {
@@ -28,6 +22,9 @@ export interface ProgramInfo extends SchoolLocation {
 
 export type ProgramInfoArray = ProgramInfo[];
 
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
+
 const DisplayPage: NextPage<DisciplineProps> = ({
   style,
   discipline,
@@ -44,16 +41,70 @@ const DisplayPage: NextPage<DisciplineProps> = ({
   );
 };
 
-const createPaths = (): Array<PathsArray> => {
+const createPaths = async (): Promise<Array<PathsArray>> => {
   const finalArray: Array<PathsArray> = [];
-  styles.forEach((style) => {
-    disciplines.forEach((discipline) => {
-      provinces.forEach((province) => {
-        const citiesInCategory = Object.values(allCites)
-          .filter((element) => element.province === provincesFull[province])
-          .map((element) => element.city);
+  const allLocations = await prisma.location.findMany();
+  const allSchoolLocations = await prisma.schoolLocation.findMany();
 
-        citiesInCategory.forEach((city) => {
+  for (const style of styles) {
+    for (const discipline of disciplines) {
+      let allProgramsInType;
+
+      if (style === "pt") {
+        allProgramsInType = await prisma.pTProgram.findMany({
+          where: {
+            discipline: {
+              equals: discipline,
+            },
+          },
+        });
+      }
+
+      if (style === "ft") {
+        allProgramsInType = await prisma.fTProgram.findMany({
+          where: {
+            discipline: {
+              equals: discipline,
+            },
+          },
+        });
+      }
+
+      const provinceArray: string[] = [];
+      const cityMap: { [province: string]: string[] } = {};
+
+      allProgramsInType?.forEach((program) => {
+        const schoolLocation = allSchoolLocations.find(
+          (location) => location.id === program.schoolLocationId
+        );
+
+        if (schoolLocation) {
+          const location = allLocations.find(
+            (loc) => loc.id === schoolLocation.locationId
+          );
+          if (location) {
+            const province = provincesFullReverse[location.province] || "N/A";
+
+            if (!provinceArray.includes(province)) {
+              provinceArray.push(province);
+            }
+
+            if (!cityMap[province]) {
+              cityMap[province] = [];
+            }
+            if (
+              cityMap[province] &&
+              location.city &&
+              !cityMap[province]!.includes(location.city)
+            ) {
+              cityMap[province]!.push(location.city);
+            }
+          }
+        }
+      });
+
+      provinceArray.forEach((province) => {
+        cityMap[province]?.forEach((city) => {
           finalArray.push({
             params: {
               style: style,
@@ -64,14 +115,14 @@ const createPaths = (): Array<PathsArray> => {
           });
         });
       });
-    });
-  });
+    }
+  }
+
   return finalArray;
 };
 
 export async function getStaticPaths() {
-  const paths = createPaths();
-
+  const paths = await createPaths();
   return {
     paths,
     fallback: false,
@@ -83,6 +134,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     ...(params || { style: "n/a" }),
     style: params?.style || "n/a",
   } as DisciplineProps;
+
   return {
     props: {
       style,
