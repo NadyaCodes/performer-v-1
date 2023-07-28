@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Picker from "@component/components/ProgramDisplay/Picker";
 import Link from "next/link";
 import Menu from "../Menu/Menu";
+import LoadingLines from "../Loading/LoadingLines";
 
 interface SelectNextProps {
   selectNextOptions: {
@@ -19,6 +20,11 @@ interface SelectNextProps {
 const SelectNext: React.FC<SelectNextProps> = ({ selectNextOptions }) => {
   const { buttonList, titleString, link, backLink, nextValue } =
     selectNextOptions;
+  const [loading, setLoading] = useState(false);
+
+  //   useEffect(() => {
+  // setLoading(false)
+  //   }, [])
 
   return (
     <div>
@@ -27,27 +33,34 @@ const SelectNext: React.FC<SelectNextProps> = ({ selectNextOptions }) => {
         <h1 className="m-20 text-5xl font-extrabold capitalize tracking-tight text-white sm:text-[3rem]">
           {titleString}
         </h1>
-        <h2 className="text-5xl font-extrabold capitalize tracking-tight text-white sm:text-[5rem]">
-          Which {nextValue}?
-        </h2>
-        <div
-          style={{
-            display: "flex",
-            margin: "2rem",
-          }}
-          className="rounded border-2 border-green-300"
-        >
-          <Picker
-            buttonOptions={buttonList}
-            currentLink={link}
-            last={nextValue === "city" ? true : false}
-          />
-        </div>
-        <Link href={backLink} className="p-2">
-          <button className="rounded border border-blue-500 bg-transparent px-4 py-2 font-semibold text-white hover:border-transparent hover:bg-blue-500 hover:text-white">
-            Back
-          </button>
-        </Link>
+        {loading ? (
+          <LoadingLines />
+        ) : (
+          <>
+            <h2 className="text-5xl font-extrabold capitalize tracking-tight text-white sm:text-[5rem]">
+              Which {nextValue}?
+            </h2>
+            <div
+              style={{
+                display: "flex",
+                margin: "2rem",
+              }}
+              className="rounded border-2 border-green-300"
+            >
+              <Picker
+                buttonOptions={buttonList}
+                currentLink={link}
+                last={nextValue === "city" ? true : false}
+                setLoading={setLoading}
+              />
+            </div>
+            <Link href={backLink} className="p-2">
+              <button className="rounded border border-blue-500 bg-transparent px-4 py-2 font-semibold text-white hover:border-transparent hover:bg-blue-500 hover:text-white">
+                Back
+              </button>
+            </Link>
+          </>
+        )}
       </div>
     </div>
   );

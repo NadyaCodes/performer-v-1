@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Loading({ dotColor }: { dotColor: string }) {
+export default function LoadingDotBounce({ dotColor }: { dotColor: string }) {
   const circleClass = `circle ${dotColor}-circle`;
   return (
     <div className="flex flex-col items-center">

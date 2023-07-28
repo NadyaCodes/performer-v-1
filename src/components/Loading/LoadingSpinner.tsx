@@ -8,7 +8,7 @@ const sizeObject: ObjectList = {
   xl: "h-52 w-52",
 } as const;
 
-export default function Loading({
+export default function LoadingSpinner({
   iconColor,
   iconSize,
   strokeWidth,
