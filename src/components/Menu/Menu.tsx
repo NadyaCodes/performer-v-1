@@ -15,6 +15,12 @@ export default function Menu() {
       <AuthShowcase />
       <div className="flex w-10/12 justify-between">
         <Link
+          href={"/"}
+          className="flex rounded border border-blue-500 bg-transparent px-4 py-2 font-semibold text-white hover:border-transparent hover:bg-blue-500 hover:text-white"
+        >
+          <button className="">Home</button>
+        </Link>
+        <Link
           href={sessionData ? "/course-selector" : "#"}
           className="flex rounded border border-blue-500 bg-transparent px-4 py-2 font-semibold text-white hover:border-transparent hover:bg-blue-500 hover:text-white"
         >

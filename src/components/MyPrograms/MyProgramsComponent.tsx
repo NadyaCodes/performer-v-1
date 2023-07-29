@@ -4,6 +4,7 @@ import { api } from "@component/utils/api";
 import { PTProgram, FTProgram } from "@prisma/client";
 import { ProgramWithInfo } from "../ProgramSearch/types";
 import SingleProgram from "./SingleProgram";
+import LoadingLines from "../Loading/LoadingLines";
 
 export type ProgramWithType = {
   id: string;
@@ -20,10 +21,11 @@ export default function MyProgramsComponent() {
   const userId = sessionData?.user.id;
 
   const [userFavs, setUserFavs] = useState<
-    (ProgramWithType | ProgramWithType | undefined)[] | []
-  >([]);
+    (ProgramWithType | ProgramWithType | undefined)[] | [] | null
+  >(null);
 
   const [displayData, setDisplayData] = useState<ProgramWithInfo[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const findProgramObject = async (id: string) => {
     if (userId) {
@@ -89,7 +91,7 @@ export default function MyProgramsComponent() {
 
   useEffect(() => {
     const fetchDisplayData = async () => {
-      if (userFavs.length > 0) {
+      if (userFavs && userFavs.length > 0) {
         const newData = await Promise.all(
           userFavs.map(async (element) => {
             if (element) {
@@ -119,6 +121,7 @@ export default function MyProgramsComponent() {
         setDisplayData(
           newData.filter((item) => item !== undefined) as ProgramWithInfo[]
         );
+        setLoading(false);
       }
     };
 
@@ -134,6 +137,11 @@ export default function MyProgramsComponent() {
       <h1 className="flex justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] p-5 text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
         My Programs
       </h1>
+      {loading && (
+        <div className="m-20">
+          <LoadingLines />
+        </div>
+      )}
       <div>{programDisplay}</div>
     </div>
   );

@@ -6,17 +6,21 @@ import { FavProgram } from "@prisma/client";
 import { Dispatch } from "react";
 
 import { displayDisciplineText } from "./helpers";
+import Link from "next/link";
+import LoadingSpinner from "../Loading/LoadingSpinner";
 
 export default function ProgramItem({
   element,
   fav,
   findUserFavs,
   setUserFavs,
+  loadingFavs,
 }: {
   element: ProgramWithInfo;
   fav: boolean;
   findUserFavs: Function;
   setUserFavs: Dispatch<SetStateAction<string[] | null>>;
+  loadingFavs: boolean;
 }) {
   const { data: sessionData } = useSession();
   const utils = api.useContext();
@@ -25,15 +29,9 @@ export default function ProgramItem({
   const type = element.type;
 
   const [animateStar, setAnimateStar] = useState(false);
-  const starAnimation = animateStar ? "rotate .8s linear infinite" : "none";
-
-  const keyframes = `
-    @keyframes rotate {
-      0% { transform: rotate(0deg) scale(1); }
-      50% { transform: rotate(180deg) scale(1.2); }
-      100% { transform: rotate(360deg) scale(1); }
-    }
-  `;
+  const starAnimation = animateStar
+    ? "rotateSwell .8s linear infinite"
+    : "none";
 
   const findFav = async (
     type: string,
@@ -122,9 +120,8 @@ export default function ProgramItem({
 
   return (
     <div className="m-10 flex flex-col border-2 border-purple-200">
-      {sessionData?.user && (
+      {sessionData?.user && !loadingFavs && (
         <div className="mx-5 my-2 place-self-end">
-          <style>{keyframes}</style>
           <div
             style={{
               animation: starAnimation,
@@ -149,6 +146,11 @@ export default function ProgramItem({
           </div>
         </div>
       )}
+      {loadingFavs && (
+        <div className="mx-5 my-2 place-self-end">
+          <LoadingSpinner iconSize="small" />
+        </div>
+      )}
       <div className="flex flex-col items-center">
         <div className="text-sm italic">{element.id}</div>
         <div className="text-xl font-bold capitalize">
@@ -161,7 +163,11 @@ export default function ProgramItem({
           {element.cityObj?.city}, {element.cityObj?.province}
         </div>
 
-        <div className="italic">{element.website}</div>
+        <div className="italic">
+          <Link href={element.website} target="blank">
+            {element.website}
+          </Link>
+        </div>
         <div>
           {element.type === "ft" ? "Full Time " : "Part Time "}{" "}
           {displayDisciplineText(element.discipline)}{" "}
