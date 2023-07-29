@@ -26,6 +26,7 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
   const { style, discipline, city, province } = dataObject;
   const [itemArray, setItemArray] = useState<ProgramWithInfo[] | null>(null);
   const [userFavs, setUserFavs] = useState<string[] | null>(null);
+  const [loadingFavs, setLoadingFavs] = useState(true);
   const { data: sessionData } = useSession();
 
   const utils = api.useContext();
@@ -177,6 +178,7 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
         return element.ptProgramId;
       }
     });
+    setLoadingFavs(false);
     return userFavIds;
   };
 
@@ -197,6 +199,7 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
         fav={userFavs?.includes(program.id) || false}
         findUserFavs={findUserFavs}
         setUserFavs={setUserFavs}
+        loadingFavs={loadingFavs}
       />
     );
   });

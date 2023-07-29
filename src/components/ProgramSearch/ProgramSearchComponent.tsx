@@ -40,6 +40,7 @@ const ProgramSearchComponent: NextPage = () => {
     []
   );
   const [userFavs, setUserFavs] = useState<string[] | null>(null);
+  const [loadingFavs, setLoadingFavs] = useState(true);
 
   //Capture all program data, and add type to object
   useEffect(() => {
@@ -102,6 +103,7 @@ const ProgramSearchComponent: NextPage = () => {
               fav={userFavs?.includes(element.id) || false}
               findUserFavs={findUserFavs}
               setUserFavs={setUserFavs}
+              loadingFavs={loadingFavs}
             />
           );
         }
@@ -121,6 +123,7 @@ const ProgramSearchComponent: NextPage = () => {
             fav={userFavs?.includes(element.id) || false}
             findUserFavs={findUserFavs}
             setUserFavs={setUserFavs}
+            loadingFavs={loadingFavs}
           />
         );
       }
@@ -141,6 +144,7 @@ const ProgramSearchComponent: NextPage = () => {
         return element.ptProgramId;
       }
     });
+    setLoadingFavs(false);
     return userFavIds;
   };
 

@@ -9,22 +9,17 @@ const sizeObject: ObjectList = {
 } as const;
 
 export default function LoadingSpinner({
-  iconColor,
   iconSize,
   strokeWidth,
 }: {
-  iconColor: string;
   iconSize: keyof typeof sizeObject;
   strokeWidth?: number;
 }) {
-  const color = `text-${iconColor}`;
-  const className = `${color} w-fit`;
-
   const size = sizeObject[iconSize];
 
   return (
-    <div className={className}>
-      <div style={{ animation: "rotate 2s linear infinite" }}>
+    <div className="w-fit text-purple-500">
+      <div style={{ animation: "rotate 1s linear infinite" }}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

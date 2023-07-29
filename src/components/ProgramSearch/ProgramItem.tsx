@@ -7,17 +7,20 @@ import { Dispatch } from "react";
 
 import { displayDisciplineText } from "./helpers";
 import Link from "next/link";
+import LoadingSpinner from "../Loading/LoadingSpinner";
 
 export default function ProgramItem({
   element,
   fav,
   findUserFavs,
   setUserFavs,
+  loadingFavs,
 }: {
   element: ProgramWithInfo;
   fav: boolean;
   findUserFavs: Function;
   setUserFavs: Dispatch<SetStateAction<string[] | null>>;
+  loadingFavs: boolean;
 }) {
   const { data: sessionData } = useSession();
   const utils = api.useContext();
@@ -117,7 +120,7 @@ export default function ProgramItem({
 
   return (
     <div className="m-10 flex flex-col border-2 border-purple-200">
-      {sessionData?.user && (
+      {sessionData?.user && !loadingFavs && (
         <div className="mx-5 my-2 place-self-end">
           <div
             style={{
@@ -141,6 +144,11 @@ export default function ProgramItem({
               />
             </svg>
           </div>
+        </div>
+      )}
+      {loadingFavs && (
+        <div className="mx-5 my-2 place-self-end">
+          <LoadingSpinner iconSize="small" />
         </div>
       )}
       <div className="flex flex-col items-center">
