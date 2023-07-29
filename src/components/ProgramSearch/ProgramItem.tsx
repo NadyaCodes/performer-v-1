@@ -6,6 +6,7 @@ import { FavProgram } from "@prisma/client";
 import { Dispatch } from "react";
 
 import { displayDisciplineText } from "./helpers";
+import Link from "next/link";
 
 export default function ProgramItem({
   element,
@@ -154,7 +155,11 @@ export default function ProgramItem({
           {element.cityObj?.city}, {element.cityObj?.province}
         </div>
 
-        <div className="italic">{element.website}</div>
+        <div className="italic">
+          <Link href={element.website} target="blank">
+            {element.website}
+          </Link>
+        </div>
         <div>
           {element.type === "ft" ? "Full Time " : "Part Time "}{" "}
           {displayDisciplineText(element.discipline)}{" "}

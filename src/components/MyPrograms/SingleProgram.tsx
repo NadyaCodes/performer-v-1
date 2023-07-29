@@ -1,6 +1,7 @@
 import React from "react";
 import { ProgramWithInfo } from "../ProgramSearch/types";
 import { displayDisciplineText } from "../ProgramSearch/helpers";
+import Link from "next/link";
 
 type SingleProgramProps = {
   program: ProgramWithInfo;
@@ -55,7 +56,11 @@ const SingleProgram: React.FC<SingleProgramProps> = ({ program }) => {
           {program.cityObj?.city}, {program.cityObj?.province}
         </div>
 
-        <div className="italic">{program.website}</div>
+        <div className="italic">
+          <Link href={program.website} target="blank">
+            {program.website}
+          </Link>
+        </div>
         <div>
           {program.type === "ft" ? "Full Time " : "Part Time "}{" "}
           {displayDisciplineText(program.discipline)}{" "}
