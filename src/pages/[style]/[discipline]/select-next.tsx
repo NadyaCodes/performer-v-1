@@ -88,6 +88,13 @@ const createPaths = async (): Promise<Array<PathsArray>> => {
           }
         }
       });
+
+      provinceArray.sort((a, b) => {
+        const nameA = a || "";
+        const nameB = b || "";
+
+        return nameA.localeCompare(nameB);
+      });
       finalArray.push({
         params: {
           style: style,

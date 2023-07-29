@@ -10,6 +10,7 @@ import {
   ProgramWithInfo,
 } from "./types";
 import { useSession } from "next-auth/react";
+import LoadingLines from "../Loading/LoadingLines";
 
 const defaultFilterContext: FilterContextValue = {
   type: "",
@@ -32,7 +33,9 @@ const ProgramSearchComponent: NextPage = () => {
   const [selectedOptions, setSelectedOptions] =
     useState<FilterContextValue>(defaultFilterContext);
 
-  const [programDisplay, setProgramDisplay] = useState<JSX.Element[]>([]);
+  const [programDisplay, setProgramDisplay] = useState<JSX.Element[] | null>(
+    null
+  );
   const [filteredPrograms, setFilteredPrograms] = useState<ProgramWithInfo[]>(
     []
   );
@@ -74,6 +77,12 @@ const ProgramSearchComponent: NextPage = () => {
     let tempArray: ProgramWithInfo[] = [];
     ftLabelled && (tempArray = tempArray.concat(ftLabelled));
     ptLabelled && (tempArray = tempArray.concat(ptLabelled));
+    tempArray.sort((a, b) => {
+      const nameA = a.schoolObj?.name || "";
+      const nameB = b.schoolObj?.name || "";
+
+      return nameA.localeCompare(nameB);
+    });
     setAllPrograms(tempArray);
   }, [ftProgramData, ptProgramData]);
 
@@ -158,10 +167,17 @@ const ProgramSearchComponent: NextPage = () => {
         }}
       >
         <FilterMenu />
+        {programDisplay && programDisplay.length > 0 ? (
+          <div className="h2">
+            There are {programDisplay.length} programs that fit your queries:
+          </div>
+        ) : (
+          <div>
+            Searching for Applicable Programs
+            <LoadingLines />
+          </div>
+        )}
 
-        <div className="h2">
-          There are {programDisplay.length} programs that fit your queries:
-        </div>
         <div>
           {selectedOptions.type} {selectedOptions.discipline}{" "}
           {selectedOptions.location.province}

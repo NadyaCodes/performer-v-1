@@ -110,6 +110,15 @@ const createPaths = async (): Promise<Array<PathsArray>> => {
       });
 
       provinceArray.forEach((province) => {
+        cityMap[province]?.sort((a, b) => {
+          const nameA = a || "";
+          const nameB = b || "";
+
+          return nameA.localeCompare(nameB);
+        });
+      });
+
+      provinceArray.forEach((province) => {
         finalArray.push({
           params: {
             style: style,
