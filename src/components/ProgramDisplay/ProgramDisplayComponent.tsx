@@ -9,6 +9,7 @@ import { ProgramWithInfo } from "@component/components/ProgramSearch/types";
 import ProgramItem from "@component/components/ProgramSearch/ProgramItem";
 
 import { stylesFull, disciplinesFull } from "src/data/constants";
+import LoadingLines from "../Loading/LoadingLines";
 
 interface ProgramDisplayProps {
   dataObject: {
@@ -23,7 +24,7 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
   dataObject,
 }) => {
   const { style, discipline, city, province } = dataObject;
-  const [itemArray, setItemArray] = useState<ProgramWithInfo[]>([]);
+  const [itemArray, setItemArray] = useState<ProgramWithInfo[] | null>(null);
   const [userFavs, setUserFavs] = useState<string[] | null>(null);
   const { data: sessionData } = useSession();
 
@@ -189,7 +190,7 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
     }
   }, [sessionData]);
 
-  const displayArray = itemArray.map((program) => {
+  const displayArray = itemArray?.map((program) => {
     return (
       <ProgramItem
         element={program}
@@ -205,7 +206,13 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
       <h1 className="flex justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] p-10 text-5xl font-extrabold capitalize text-white sm:text-[3rem]">
         {titleString}
       </h1>
-      {displayArray}
+      {itemArray ? (
+        displayArray
+      ) : (
+        <div className="m-20">
+          <LoadingLines />
+        </div>
+      )}
     </div>
   );
 };
