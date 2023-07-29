@@ -1,13 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ProgramWithInfo } from "../ProgramSearch/types";
 import { displayDisciplineText } from "../ProgramSearch/helpers";
 import Link from "next/link";
+import { Note } from "@prisma/client";
+import { useSession } from "next-auth/react";
+import { api } from "@component/utils/api";
 
 type SingleProgramProps = {
   program: ProgramWithInfo;
 };
 
 const SingleProgram: React.FC<SingleProgramProps> = ({ program }) => {
+  const { data: sessionData } = useSession();
+  const utils = api.useContext();
+  const userId = sessionData?.user.id;
+
+  const [notes, setNotes] = useState<Note[] | [] | null>(null);
+
+  const fetchNotes = async () => {
+    if (program.favId) {
+      const notesForProgram = await utils.notes.getAllForFavProgramId.fetch({
+        favId: program.favId,
+      });
+      return notesForProgram;
+    }
+  };
+
+  useEffect(() => {
+    fetchNotes().then((result) => result && setNotes(result));
+    // notesForProgram && setNotes(notesForProgram);
+  }, []);
+
   return (
     <div className="m-10 flex flex-col border-2 border-purple-200">
       <div className="flex justify-between">
@@ -63,7 +86,7 @@ const SingleProgram: React.FC<SingleProgramProps> = ({ program }) => {
         </div>
         <div>
           {program.type === "ft" ? "Full Time " : "Part Time "}{" "}
-          {displayDisciplineText(program.discipline)}{" "}
+          {displayDisciplineText(program.discipline)}
         </div>
       </div>
     </div>

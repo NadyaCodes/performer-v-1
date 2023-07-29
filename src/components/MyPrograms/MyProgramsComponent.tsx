@@ -13,6 +13,7 @@ export type ProgramWithType = {
   discipline: string;
   name?: string;
   type: string;
+  favProgramId: string;
 };
 
 export default function MyProgramsComponent() {
@@ -50,13 +51,17 @@ export default function MyProgramsComponent() {
           const program = (await findProgramObject(
             element.ftProgramId
           )) as FTProgram;
-          return { ...program, type: "ft" } || undefined;
+          return (
+            { ...program, type: "ft", favProgramId: element.id } || undefined
+          );
         }
         if (element.ptProgramId) {
           const program = (await findProgramObject(
             element.ptProgramId
           )) as PTProgram;
-          return { ...program, type: "pt" } || undefined;
+          return (
+            { ...program, type: "pt", favProgramId: element.id } || undefined
+          );
         }
         return undefined;
       })
@@ -110,6 +115,7 @@ export default function MyProgramsComponent() {
                   type: element.type,
                   cityObj: locationObject,
                   schoolObj: schoolObject,
+                  favId: element.favProgramId,
                 };
               }
             }

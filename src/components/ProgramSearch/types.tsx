@@ -21,6 +21,7 @@ export type ProgramWithInfo = {
   type: string;
   cityObj?: Location;
   schoolObj?: School;
+  favId?: string;
 };
 
 export type FilterContextState = {
