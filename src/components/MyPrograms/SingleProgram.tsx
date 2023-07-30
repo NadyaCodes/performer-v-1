@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Note } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { api } from "@component/utils/api";
+import NoteComponent from "./NoteComponent";
 
 type SingleProgramProps = {
   program: ProgramWithInfo;
@@ -36,6 +37,7 @@ const SingleProgram: React.FC<SingleProgramProps> = ({ program }) => {
     async onSuccess(data) {
       await utils.notes.getAll.invalidate();
       setNoteInput(false);
+      setInputText("");
       fetchNotes().then((result) => result && setNotes(result));
       return data;
     },
@@ -48,33 +50,9 @@ const SingleProgram: React.FC<SingleProgramProps> = ({ program }) => {
     return createNote({ userId, favId, text });
   };
 
-  const { mutate: deleteNote } = api.notes.deleteById.useMutation({
-    async onSuccess(data) {
-      await utils.notes.getAll.invalidate();
-      setNoteInput(false);
-      fetchNotes().then((result) => result && setNotes(result));
-      return data;
-    },
-    onError(error) {
-      console.log("createExample error: ", error);
-    },
-  });
-
-  const removeNote = (id: string) => {
-    return deleteNote({ id });
-  };
-
   const notesDisplay = notes?.map((note) => {
     return (
-      <div className="m-2 flex">
-        <li className="place-self-center">{note.text}</li>
-        <button
-          className="ml-10 rounded px-1 text-xs outline"
-          onClick={() => removeNote(note.id)}
-        >
-          X
-        </button>
-      </div>
+      <NoteComponent note={note} setNotes={setNotes} fetchNotes={fetchNotes} />
     );
   });
 
@@ -117,13 +95,16 @@ const SingleProgram: React.FC<SingleProgramProps> = ({ program }) => {
       {noteInput ? (
         <button
           className="m-4 w-20 place-self-end rounded p-1 outline"
-          onClick={() => setNoteInput(false)}
+          onClick={() => {
+            setNoteInput(false);
+            setInputText("");
+          }}
         >
           Cancel
         </button>
       ) : (
         <button
-          className="m-4 w-20 place-self-end rounded p-1 outline"
+          className="mr-4 flex place-self-end rounded border border-blue-500 bg-transparent px-4 py-2 font-semibold text-blue-600 hover:border-transparent hover:bg-blue-500 hover:text-white"
           onClick={() => setNoteInput(true)}
         >
           Add Note
@@ -174,8 +155,8 @@ const SingleProgram: React.FC<SingleProgramProps> = ({ program }) => {
         </div>
         <div className="w-48 border-b-2 border-cyan-500 p-2"></div>
         {notesDisplay && notesDisplay.length > 0 ? (
-          <div>
-            <ul className="list-disc">{notesDisplay}</ul>
+          <div className="flex w-full content-center justify-center">
+            <ul className="w-6/12">{notesDisplay}</ul>
           </div>
         ) : (
           <div>No Notes</div>
