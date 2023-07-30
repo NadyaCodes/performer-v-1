@@ -16,6 +16,8 @@ const SingleProgram: React.FC<SingleProgramProps> = ({ program }) => {
   const userId = sessionData?.user.id;
 
   const [notes, setNotes] = useState<Note[] | [] | null>(null);
+  const [noteInput, setNoteInput] = useState<boolean>(false);
+  const [inputText, setInputText] = useState<string>("");
 
   const fetchNotes = async () => {
     if (program.favId) {
@@ -28,8 +30,53 @@ const SingleProgram: React.FC<SingleProgramProps> = ({ program }) => {
 
   useEffect(() => {
     fetchNotes().then((result) => result && setNotes(result));
-    // notesForProgram && setNotes(notesForProgram);
   }, []);
+
+  const { mutate: createNote } = api.notes.add.useMutation({
+    async onSuccess(data) {
+      await utils.notes.getAll.invalidate();
+      setNoteInput(false);
+      fetchNotes().then((result) => result && setNotes(result));
+      return data;
+    },
+    onError(error) {
+      console.log("createExample error: ", error);
+    },
+  });
+
+  const addNote = (userId: string, favId: string, text: string) => {
+    return createNote({ userId, favId, text });
+  };
+
+  const { mutate: deleteNote } = api.notes.deleteById.useMutation({
+    async onSuccess(data) {
+      await utils.notes.getAll.invalidate();
+      setNoteInput(false);
+      fetchNotes().then((result) => result && setNotes(result));
+      return data;
+    },
+    onError(error) {
+      console.log("createExample error: ", error);
+    },
+  });
+
+  const removeNote = (id: string) => {
+    return deleteNote({ id });
+  };
+
+  const notesDisplay = notes?.map((note) => {
+    return (
+      <div className="m-2 flex">
+        <li className="place-self-center">{note.text}</li>
+        <button
+          className="ml-10 rounded px-1 text-xs outline"
+          onClick={() => removeNote(note.id)}
+        >
+          X
+        </button>
+      </div>
+    );
+  });
 
   return (
     <div className="m-10 flex flex-col border-2 border-purple-200">
@@ -67,7 +114,44 @@ const SingleProgram: React.FC<SingleProgramProps> = ({ program }) => {
           </svg>
         </div>
       </div>
-      <div className="flex flex-col items-center">
+      {noteInput ? (
+        <button
+          className="m-4 w-20 place-self-end rounded p-1 outline"
+          onClick={() => setNoteInput(false)}
+        >
+          Cancel
+        </button>
+      ) : (
+        <button
+          className="m-4 w-20 place-self-end rounded p-1 outline"
+          onClick={() => setNoteInput(true)}
+        >
+          Add Note
+        </button>
+      )}
+
+      {noteInput && (
+        <div className="flex w-7/12 place-self-center">
+          <input
+            type="text"
+            value={inputText}
+            onChange={(e) => setInputText(e.target.value)}
+            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+          />
+          <button
+            className="mx-5 rounded p-2 outline"
+            onClick={() =>
+              userId &&
+              program.favId &&
+              addNote(userId, program.favId, inputText)
+            }
+          >
+            +
+          </button>
+        </div>
+      )}
+
+      <div className="flex flex-col items-center p-2">
         <div className="text-sm italic">{program.id}</div>
         <div className="text-xl font-bold capitalize">
           {"name" in program && program.name && <div>{program.name}</div>}
@@ -88,6 +172,14 @@ const SingleProgram: React.FC<SingleProgramProps> = ({ program }) => {
           {program.type === "ft" ? "Full Time " : "Part Time "}{" "}
           {displayDisciplineText(program.discipline)}
         </div>
+        <div className="w-48 border-b-2 border-cyan-500 p-2"></div>
+        {notesDisplay && notesDisplay.length > 0 ? (
+          <div>
+            <ul className="list-disc">{notesDisplay}</ul>
+          </div>
+        ) : (
+          <div>No Notes</div>
+        )}
       </div>
     </div>
   );
