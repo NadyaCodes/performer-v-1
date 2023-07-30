@@ -6,9 +6,9 @@ import { Note } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { api } from "@component/utils/api";
 import NoteComponent from "./NoteComponent";
-import { plusIcon, purpleStar } from "@component/data/svgs";
-import LoadingLines from "../Loading/LoadingLines";
+import { cautionCircle, plusIcon, purpleStar } from "@component/data/svgs";
 import LoadingSpinner from "../Loading/LoadingSpinner";
+import { sanitize } from "isomorphic-dompurify";
 
 type SingleProgramProps = {
   program: ProgramWithInfo;
@@ -23,6 +23,7 @@ const SingleProgram: React.FC<SingleProgramProps> = ({ program }) => {
   const [noteInput, setNoteInput] = useState<boolean>(false);
   const [inputText, setInputText] = useState<string>("");
   const [loadingNotes, setLoadingNotes] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const fetchNotes = async () => {
     if (program.favId) {
@@ -53,9 +54,31 @@ const SingleProgram: React.FC<SingleProgramProps> = ({ program }) => {
   });
 
   const addNote = (userId: string, favId: string, text: string) => {
+    if (!text) {
+      setTimeout(() => setErrorMessage(""), 3000);
+      return setErrorMessage("Notes must have text");
+    }
+    if (text.length > 300) {
+      setTimeout(() => setErrorMessage(""), 3000);
+      return setErrorMessage("Notes must be 300 characters or less");
+    }
+
+    if (text.includes("</" || "/>")) {
+      setTimeout(() => setErrorMessage(""), 3000);
+      return setErrorMessage("Notes cannot contain HTML");
+    }
+
+    if (/[^\w\s().,!?\-]/.test(text)) {
+      setTimeout(() => setErrorMessage(""), 4000);
+      setErrorMessage(
+        "Notes can only contain letters, numbers and the following special characters: ().,!?"
+      );
+      return;
+    }
+    const sanitizedText = sanitize(text);
     setLoadingNotes(true);
     setNoteInput(false);
-    return createNote({ userId, favId, text });
+    return createNote({ userId, favId, text: sanitizedText });
   };
 
   const notesDisplay = notes?.map((note) => {
@@ -71,6 +94,13 @@ const SingleProgram: React.FC<SingleProgramProps> = ({ program }) => {
         {loadingNotes && (
           <div className="mt-7">
             <LoadingSpinner iconSize="medium" />
+          </div>
+        )}
+        {errorMessage && (
+          <div className="absolute left-1/2 m-2 flex -translate-x-1/2 transform flex-row items-center bg-pink-100 p-2 text-pink-700">
+            {cautionCircle}
+            <div className="mx-5">{errorMessage}</div>
+            {cautionCircle}
           </div>
         )}
         <div className="mx-5 my-2">{purpleStar}</div>
