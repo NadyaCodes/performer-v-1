@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { api } from "@component/utils/api";
-import { PTProgram, FTProgram } from "@prisma/client";
+import { PTProgram, FTProgram, CustomProgram } from "@prisma/client";
 import { ProgramWithInfo } from "../ProgramSearch/types";
 import SingleProgram from "./SingleProgram";
 import LoadingLines from "../Loading/LoadingLines";
 import { backArrow, plusIcon } from "@component/data/svgs";
 import NewCustomProgram from "./NewCustomProgram";
+import SingleCustom from "./SingleCustom";
 
 export type ProgramWithType = {
   id: string;
@@ -30,6 +31,7 @@ export default function MyProgramsComponent() {
   const [displayData, setDisplayData] = useState<ProgramWithInfo[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [showAddProgram, setShowAddProgram] = useState<boolean>(false);
+  const [displayCustom, setDisplayCustom] = useState<CustomProgram[]>([]);
 
   const findProgramObject = async (id: string) => {
     if (userId) {
@@ -137,8 +139,25 @@ export default function MyProgramsComponent() {
     fetchDisplayData();
   }, [userFavs]);
 
+  const findCustomPrograms = async () => {
+    if (userId) {
+      const allCustomPrograms = await utils.customProgram.getAllForUser.fetch({
+        userId,
+      });
+      return allCustomPrograms;
+    }
+  };
+
+  useEffect(() => {
+    findCustomPrograms().then((data) => data && setDisplayCustom(data));
+  }, []);
+
   const programDisplay = displayData.map((element: ProgramWithInfo) => {
     return <SingleProgram program={element} key={element.id} />;
+  });
+
+  const customProgramDisplay = displayCustom.map((element) => {
+    return <SingleCustom program={element} key={element.id} />;
   });
 
   return (
@@ -179,15 +198,20 @@ export default function MyProgramsComponent() {
 
       {showAddProgram ? (
         <div className="w-8/12 place-self-center">
-          <NewCustomProgram setShowAddProgram={setShowAddProgram} />
+          <NewCustomProgram
+            setShowAddProgram={setShowAddProgram}
+            findCustomPrograms={findCustomPrograms}
+            setDisplayCustom={setDisplayCustom}
+          />
         </div>
       ) : (
         <div className="-mt-10">
           <div>{programDisplay}</div>
-          <div className="flex justify-center">
+          <div className="flex flex-col items-center">
             <h2 className="text-5xl font-extrabold capitalize tracking-tight text-gray-800 sm:text-[3rem]">
               Custom Programs
             </h2>
+            <div className="w-full">{customProgramDisplay}</div>
           </div>
         </div>
       )}

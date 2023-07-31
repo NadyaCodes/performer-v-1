@@ -2,6 +2,7 @@ import React, { Dispatch, useState } from "react";
 import { api } from "@component/utils/api";
 import { useSession } from "next-auth/react";
 import { SetStateAction } from "react";
+import { CustomProgram } from "@prisma/client";
 
 type UserInputType = {
   name: string;
@@ -40,8 +41,12 @@ export type CustomProgramSubmission = {
 
 export default function NewCustomProgram({
   setShowAddProgram,
+  findCustomPrograms,
+  setDisplayCustom,
 }: {
   setShowAddProgram: Dispatch<SetStateAction<boolean>>;
+  findCustomPrograms: Function;
+  setDisplayCustom: Function;
 }) {
   const { data: sessionData } = useSession();
   const userId = sessionData?.user.id;
@@ -71,6 +76,10 @@ export default function NewCustomProgram({
     async onSuccess(data) {
       setShowAddProgram(false);
       setUserInput(emptyUserInput);
+      findCustomPrograms().then(
+        (customData: CustomProgram[]) =>
+          customData && setDisplayCustom(customData)
+      );
       return data;
     },
     onError(error) {
