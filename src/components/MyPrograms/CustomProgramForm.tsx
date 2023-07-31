@@ -4,9 +4,8 @@ import { useSession } from "next-auth/react";
 import { SetStateAction } from "react";
 import { CustomProgram } from "@prisma/client";
 import { cautionCircle } from "@component/data/svgs";
-import { sanitize } from "isomorphic-dompurify";
-import LoadingLines from "../Loading/LoadingLines";
 import LoadingSpinner from "../Loading/LoadingSpinner";
+import { validateInput } from "./helpers";
 
 export type StringInputs = {
   name?: string;
@@ -112,35 +111,6 @@ export default function CustomProgramForm({
     },
   });
 
-  const validateInput = (text: string): string | null => {
-    if (!text) {
-      setTimeout(() => setErrorMessage(""), 3000);
-      setErrorMessage("Notes must have text");
-      return null;
-    }
-    if (text.length > 300) {
-      setTimeout(() => setErrorMessage(""), 3000);
-      setErrorMessage("Notes must be 300 characters or less");
-      return null;
-    }
-
-    if (text.includes("</" || "/>")) {
-      setTimeout(() => setErrorMessage(""), 3000);
-      setErrorMessage("Notes cannot contain HTML");
-      return null;
-    }
-
-    if (/[^\w\s().,!?/:\-]/.test(text)) {
-      setTimeout(() => setErrorMessage(""), 4000);
-      setErrorMessage(
-        "Notes can only contain letters, numbers and the following special characters: ().,!?/:"
-      );
-      return null;
-    }
-    const sanitizedText = sanitize(text);
-    return sanitizedText;
-  };
-
   const submitCustomProgram = async () => {
     setLoading(true);
     const allKeys = Object.keys(emptyUserInput);
@@ -155,7 +125,8 @@ export default function CustomProgramForm({
           (userInput[key as keyof InputObject] as string).length > 0
         ) {
           const validatedText = validateInput(
-            userInput[key as keyof InputObject] as string
+            userInput[key as keyof InputObject] as string,
+            setErrorMessage
           );
           if (!validatedText) {
             validated = false;
@@ -181,6 +152,9 @@ export default function CustomProgramForm({
         const updatedObject = { ...submissionObject, id: currentProgram.id };
         const update = await updateProgram(updatedObject);
         return update;
+      }
+      if (!validated) {
+        setLoading(false);
       }
     }
   };

@@ -8,7 +8,7 @@ import { api } from "@component/utils/api";
 import NoteComponent from "./NoteComponent";
 import { cautionCircle, plusIcon, purpleStar } from "@component/data/svgs";
 import LoadingSpinner from "../Loading/LoadingSpinner";
-import { sanitize } from "isomorphic-dompurify";
+import { validateInput } from "./helpers";
 
 type SingleProgramProps = {
   program: ProgramWithInfo;
@@ -54,31 +54,12 @@ const SingleProgram: React.FC<SingleProgramProps> = ({ program }) => {
   });
 
   const addNote = (userId: string, favId: string, text: string) => {
-    if (!text) {
-      setTimeout(() => setErrorMessage(""), 3000);
-      return setErrorMessage("Notes must have text");
+    const sanitizedText = validateInput(text, setErrorMessage);
+    if (sanitizedText) {
+      setLoadingNotes(true);
+      setNoteInput(false);
+      return createNote({ userId, favId, text: sanitizedText });
     }
-    if (text.length > 300) {
-      setTimeout(() => setErrorMessage(""), 3000);
-      return setErrorMessage("Notes must be 300 characters or less");
-    }
-
-    if (text.includes("</" || "/>")) {
-      setTimeout(() => setErrorMessage(""), 3000);
-      return setErrorMessage("Notes cannot contain HTML");
-    }
-
-    if (/[^\w\s().,!?\-]/.test(text)) {
-      setTimeout(() => setErrorMessage(""), 4000);
-      setErrorMessage(
-        "Notes can only contain letters, numbers and the following special characters: ().,!?"
-      );
-      return;
-    }
-    const sanitizedText = sanitize(text);
-    setLoadingNotes(true);
-    setNoteInput(false);
-    return createNote({ userId, favId, text: sanitizedText });
   };
 
   const notesDisplay = notes?.map((note) => {
