@@ -3,6 +3,8 @@ import { api } from "@component/utils/api";
 import { useSession } from "next-auth/react";
 import { SetStateAction } from "react";
 import { CustomProgram } from "@prisma/client";
+import { cautionCircle } from "@component/data/svgs";
+import { sanitize } from "isomorphic-dompurify";
 
 type UserInputType = {
   name: string;
@@ -71,6 +73,7 @@ export default function NewCustomProgram({
   };
 
   const [userInput, setUserInput] = useState(emptyUserInput);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const { mutate: addProgram } = api.customProgram.add.useMutation({
     async onSuccess(data) {
@@ -87,6 +90,36 @@ export default function NewCustomProgram({
     },
   });
 
+  const validateInput = (text: string) => {
+    if (!text) {
+      setTimeout(() => setErrorMessage(""), 3000);
+      setErrorMessage("Notes must have text");
+      return;
+    }
+    if (text.length > 300) {
+      setTimeout(() => setErrorMessage(""), 3000);
+      setErrorMessage("Notes must be 300 characters or less");
+      return;
+    }
+
+    if (text.includes("</" || "/>")) {
+      setTimeout(() => setErrorMessage(""), 3000);
+      setErrorMessage("Notes cannot contain HTML");
+      return;
+    }
+
+    if (/[^\w\s().,!?/:\-]/.test(text)) {
+      // Add : and / to the character class
+      setTimeout(() => setErrorMessage(""), 4000);
+      setErrorMessage(
+        "Notes can only contain letters, numbers and the following special characters: ().,!?/:"
+      );
+      return;
+    }
+    const sanitizedText = sanitize(text);
+    return sanitizedText;
+  };
+
   const submitCustomProgram = async () => {
     const allStringKeys: (keyof UserInputType & keyof typeof userInput)[] = [
       "name",
@@ -98,6 +131,7 @@ export default function NewCustomProgram({
     ];
 
     if (userId) {
+      let validated = true;
       const tempStringObject: { [key: string]: string | boolean | undefined } =
         {};
 
@@ -106,7 +140,11 @@ export default function NewCustomProgram({
           typeof userInput[key] === "string" &&
           (userInput[key] as string).length > 0
         ) {
-          tempStringObject[key] = userInput[key] as string;
+          const validatedText = validateInput(userInput[key] as string);
+          if (!validatedText) {
+            validated = false;
+          }
+          tempStringObject[key] = validatedText;
         }
       });
 
@@ -134,8 +172,10 @@ export default function NewCustomProgram({
 
       submissionObject.userId = userId;
 
-      const submitNewProgram = await addProgram(submissionObject);
-      return submitNewProgram;
+      if (validated) {
+        const submitNewProgram = await addProgram(submissionObject);
+        return submitNewProgram;
+      }
     }
   };
 
@@ -151,6 +191,7 @@ export default function NewCustomProgram({
           database.
         </p>
       </div>
+
       <div className="m-4 w-9/12">
         <div className="m-6">
           <label
@@ -379,7 +420,16 @@ export default function NewCustomProgram({
           </div>
         </div>
       </div>
+
       <div>
+        {errorMessage && (
+          <div className="absolute left-1/2 -m-2 flex -translate-x-1/2 transform flex-row items-center bg-pink-100 p-2 text-pink-700">
+            {cautionCircle}
+            <div className="mx-5">{errorMessage}</div>
+            {cautionCircle}
+          </div>
+        )}
+
         <button
           onClick={() => submitCustomProgram()}
           className="mb-5 h-10 w-32 place-items-center justify-between place-self-end rounded border-blue-500 bg-transparent font-semibold text-blue-600 outline hover:border-transparent hover:bg-blue-500 hover:text-white"

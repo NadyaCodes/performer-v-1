@@ -157,7 +157,14 @@ export default function MyProgramsComponent() {
   });
 
   const customProgramDisplay = displayCustom.map((element) => {
-    return <SingleCustom program={element} key={element.id} />;
+    return (
+      <SingleCustom
+        program={element}
+        key={element.id}
+        findCustomPrograms={findCustomPrograms}
+        setDisplayCustom={setDisplayCustom}
+      />
+    );
   });
 
   return (
