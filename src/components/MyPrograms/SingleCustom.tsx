@@ -138,6 +138,10 @@ const SingleCustom = ({
   };
 
   const updateCustomProgram = () => {
+    window.scrollTo({
+      top: 290,
+      behavior: "smooth",
+    });
     setShowUpdateCustom(program);
   };
 

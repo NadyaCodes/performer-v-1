@@ -174,27 +174,21 @@ export default function MyProgramsComponent() {
       <h1 className="flex justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] p-5 text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
         My Programs
       </h1>
+      <h2 className="m-10 place-self-center text-5xl font-extrabold capitalize tracking-tight text-gray-800 sm:text-[3rem]">
+        Saved Programs
+      </h2>
       {loading && (
         <div className="m-20">
           <LoadingLines />
         </div>
       )}
-      {showUpdateCustom ? (
+      {showUpdateCustom && (
         <button
           onClick={() => setShowUpdateCustom(!showUpdateCustom)}
           className="m-4 flex w-32 place-items-center justify-between place-self-end rounded border-blue-500 bg-transparent px-4 py-2 font-semibold text-blue-600 outline hover:border-transparent hover:bg-blue-500 hover:text-white"
         >
           <div>Back </div>
           <div>{backArrow}</div>
-        </button>
-      ) : (
-        <button
-          onClick={() => setShowUpdateCustom(!showUpdateCustom)}
-          className="m-4 flex w-56 place-items-center justify-between place-self-end rounded border-blue-500 bg-transparent px-4 py-2 font-semibold text-blue-600 outline hover:border-transparent hover:bg-blue-500 hover:text-white"
-          style={{ zIndex: "10" }}
-        >
-          <span>Add Custom Program </span>
-          <span>{plusIcon}</span>
         </button>
       )}
 
@@ -214,6 +208,20 @@ export default function MyProgramsComponent() {
             <h2 className="text-5xl font-extrabold capitalize tracking-tight text-gray-800 sm:text-[3rem]">
               Custom Programs
             </h2>
+            <button
+              onClick={() => {
+                setShowUpdateCustom(!showUpdateCustom);
+                window.scrollTo({
+                  top: 290,
+                  behavior: "smooth",
+                });
+              }}
+              className="m-4 flex w-56 place-items-center justify-between place-self-end rounded border-blue-500 bg-transparent px-4 py-2 font-semibold text-blue-600 outline hover:border-transparent hover:bg-blue-500 hover:text-white"
+              style={{ zIndex: "10" }}
+            >
+              <span>Add Custom Program </span>
+              <span>{plusIcon}</span>
+            </button>
             <div className="w-full">{customProgramDisplay}</div>
           </div>
         </div>

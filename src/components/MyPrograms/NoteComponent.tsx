@@ -36,14 +36,14 @@ export default function NoteComponent({
   };
 
   return (
-    <div className={hover ? "m-3 bg-pink-100 px-2" : "m-3 px-2"}>
-      <div className="m-2 flex w-full place-items-center justify-end p-1">
-        <li className="text-end">{note.text}</li>
+    <div className={hover ? "m-1 bg-pink-100 px-1" : "m-1 px-1"}>
+      <div className=" m-1 flex w-full place-items-center justify-between">
+        <li className="">{note.text}</li>
         <button
           className={
             hover
-              ? " ml-3 h-8 w-10 scale-125 rounded px-2 text-pink-400"
-              : "ml-3 h-8 w-10 rounded px-2 text-pink-200"
+              ? " ml-3 h-7 w-9 scale-125 rounded px-2 text-pink-400"
+              : "ml-3 h-7 w-9 rounded px-2 text-pink-200"
           }
           onClick={() => removeNote(note.id)}
           onMouseEnter={() => setHover(true)}
