@@ -6,78 +6,94 @@ import { CustomProgram } from "@prisma/client";
 import { cautionCircle } from "@component/data/svgs";
 import { sanitize } from "isomorphic-dompurify";
 
-type UserInputType = {
-  name: string;
-  school: string;
-  city: string;
-  province: string;
-  country: string;
-  website: string;
-  type: {
-    pt: boolean;
-    ft: boolean;
-  };
-  discipline: {
-    act: boolean;
-    sing: boolean;
-    dance: boolean;
-    mt: boolean;
-  };
-};
-
-export type CustomProgramSubmission = {
+export type StringInputs = {
   name?: string;
   school?: string;
   city?: string;
   province?: string;
   country?: string;
   website?: string;
+};
+
+export type BooleanInputs = {
   typePt?: boolean;
   typeFt?: boolean;
   disciplineAct?: boolean;
   disciplineSing?: boolean;
   disciplineDance?: boolean;
   disciplineMT?: boolean;
+};
+
+export type InputObject = StringInputs & BooleanInputs;
+// {
+//   // name?: string;
+//   // school?: string;
+//   // city?: string;
+//   // province?: string;
+//   // country?: string;
+//   // website?: string;
+//   // typePt?: boolean;
+//   // typeFt?: boolean;
+//   // disciplineAct?: boolean;
+//   // disciplineSing?: boolean;
+//   // disciplineDance?: boolean;
+//   // disciplineMT?: boolean;
+// };
+
+export type CustomProgramSubmission = InputObject & {
   userId: string;
 };
 
-export default function NewCustomProgram({
-  setShowAddProgram,
+export default function CustomProgramForm({
+  setShowUpdateCustom,
   findCustomPrograms,
   setDisplayCustom,
+  currentProgram,
 }: {
-  setShowAddProgram: Dispatch<SetStateAction<boolean>>;
+  setShowUpdateCustom: Dispatch<SetStateAction<boolean | CustomProgram>>;
   findCustomPrograms: Function;
   setDisplayCustom: Function;
+  currentProgram: CustomProgram | null;
 }) {
   const { data: sessionData } = useSession();
   const userId = sessionData?.user.id;
 
-  const emptyUserInput = {
+  const initialUserInput: InputObject = {
+    name: currentProgram?.name || undefined,
+    school: currentProgram?.school || undefined,
+    city: currentProgram?.city || undefined,
+    province: currentProgram?.province || undefined,
+    country: currentProgram?.country || undefined,
+    website: currentProgram?.website || undefined,
+    typePt: currentProgram?.typePt || false,
+    typeFt: currentProgram?.typeFt || false,
+    disciplineAct: currentProgram?.disciplineAct || false,
+    disciplineSing: currentProgram?.disciplineSing || false,
+    disciplineDance: currentProgram?.disciplineDance || false,
+    disciplineMT: currentProgram?.disciplineMT || false,
+  };
+
+  const emptyUserInput: InputObject = {
     name: "",
     school: "",
     city: "",
     province: "",
     country: "",
     website: "",
-    type: {
-      pt: false,
-      ft: false,
-    },
-    discipline: {
-      act: false,
-      sing: false,
-      dance: false,
-      mt: false,
-    },
+    typePt: false,
+    typeFt: false,
+    disciplineAct: false,
+    disciplineSing: false,
+    disciplineDance: false,
+    disciplineMT: false,
   };
 
-  const [userInput, setUserInput] = useState(emptyUserInput);
+  const [userInput, setUserInput] = useState(initialUserInput);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const { mutate: addProgram } = api.customProgram.add.useMutation({
     async onSuccess(data) {
-      setShowAddProgram(false);
+      setShowUpdateCustom(false);
       setUserInput(emptyUserInput);
       findCustomPrograms().then(
         (customData: CustomProgram[]) =>
@@ -90,94 +106,108 @@ export default function NewCustomProgram({
     },
   });
 
-  const validateInput = (text: string) => {
+  const { mutate: updateProgram } = api.customProgram.update.useMutation({
+    async onSuccess(data) {
+      setShowUpdateCustom(false);
+      setUserInput(emptyUserInput);
+      findCustomPrograms().then(
+        (customData: CustomProgram[]) =>
+          customData && setDisplayCustom(customData)
+      );
+      return data;
+    },
+    onError(error) {
+      console.log("addFavPt error: ", error);
+    },
+  });
+
+  const validateInput = (text: string): string | null => {
     if (!text) {
       setTimeout(() => setErrorMessage(""), 3000);
       setErrorMessage("Notes must have text");
-      return;
+      return null;
     }
     if (text.length > 300) {
       setTimeout(() => setErrorMessage(""), 3000);
       setErrorMessage("Notes must be 300 characters or less");
-      return;
+      return null;
     }
 
     if (text.includes("</" || "/>")) {
       setTimeout(() => setErrorMessage(""), 3000);
       setErrorMessage("Notes cannot contain HTML");
-      return;
+      return null;
     }
 
     if (/[^\w\s().,!?/:\-]/.test(text)) {
-      // Add : and / to the character class
       setTimeout(() => setErrorMessage(""), 4000);
       setErrorMessage(
         "Notes can only contain letters, numbers and the following special characters: ().,!?/:"
       );
-      return;
+      return null;
     }
     const sanitizedText = sanitize(text);
     return sanitizedText;
   };
 
   const submitCustomProgram = async () => {
-    const allStringKeys: (keyof UserInputType & keyof typeof userInput)[] = [
-      "name",
-      "school",
-      "city",
-      "province",
-      "country",
-      "website",
-    ];
+    const allKeys = Object.keys(emptyUserInput);
 
     if (userId) {
       let validated = true;
-      const tempStringObject: { [key: string]: string | boolean | undefined } =
-        {};
+      const submissionObject: Partial<CustomProgramSubmission> = { userId };
 
-      allStringKeys.forEach((key) => {
+      allKeys.forEach((key) => {
         if (
-          typeof userInput[key] === "string" &&
-          (userInput[key] as string).length > 0
+          typeof userInput[key as keyof InputObject] === "string" &&
+          (userInput[key as keyof InputObject] as string).length > 0
         ) {
-          const validatedText = validateInput(userInput[key] as string);
+          const validatedText = validateInput(
+            userInput[key as keyof InputObject] as string
+          );
           if (!validatedText) {
             validated = false;
           }
-          tempStringObject[key] = validatedText;
+          if (typeof validatedText === "string") {
+            submissionObject[key as keyof StringInputs] = validatedText;
+          }
+        } else if (typeof userInput[key as keyof InputObject] === "boolean") {
+          if (userInput[key as keyof InputObject] === true) {
+            submissionObject[key as keyof BooleanInputs] = true;
+          }
         }
       });
 
-      tempStringObject.typePt = userInput.type.pt ? true : undefined;
-      tempStringObject.typeFt = userInput.type.ft ? true : undefined;
-      tempStringObject.disciplineAct = userInput.discipline.act
-        ? true
-        : undefined;
-      tempStringObject.disciplineSing = userInput.discipline.sing
-        ? true
-        : undefined;
-      tempStringObject.disciplineDance = userInput.discipline.dance
-        ? true
-        : undefined;
-      tempStringObject.disciplineMT = userInput.discipline.mt
-        ? true
-        : undefined;
-
-      const submissionObject = Object.assign(
-        {},
-        ...Object.entries(tempStringObject)
-          .filter(([_, value]) => value !== undefined)
-          .map(([key, value]) => ({ [key]: value }))
-      );
-
-      submissionObject.userId = userId;
-
-      if (validated) {
-        const submitNewProgram = await addProgram(submissionObject);
+      if (validated && !currentProgram) {
+        const submitNewProgram = await addProgram({
+          ...submissionObject,
+        } as CustomProgramSubmission);
         return submitNewProgram;
+      }
+
+      if (validated && currentProgram) {
+        const updatedObject = { ...submissionObject, id: currentProgram.id };
+        const update = await updateProgram(updatedObject);
+        return update;
       }
     }
   };
+
+  // }
+  // };
+
+  // if (validated && !currentProgram) {
+  //   const submitNewProgram = await addProgram(submissionObject);
+  //   return submitNewProgram;
+  // }
+
+  // if (validated && currentProgram) {
+  //   const updatedObject = { ...submissionObject, id: currentProgram.id };
+  //   const updateProgram = await updateProgram(updatedObject);
+  //   return updateProgram;
+  // }
+  //   }
+  // };
 
   return (
     <div className="m-5 flex w-full flex-col place-items-center justify-center border-2 p-10">
@@ -311,11 +341,11 @@ export default function NewCustomProgram({
                     <input
                       className="mr-2 leading-tight"
                       type="checkbox"
-                      checked={userInput.type.pt || false}
+                      checked={userInput.typePt || false}
                       onChange={(e) =>
                         setUserInput({
                           ...userInput,
-                          type: { ...userInput.type, pt: e.target.checked },
+                          typePt: e.target.checked,
                         })
                       }
                     />
@@ -325,11 +355,11 @@ export default function NewCustomProgram({
                     <input
                       className="mr-2 leading-tight"
                       type="checkbox"
-                      checked={userInput.type.ft || false}
+                      checked={userInput.typeFt || false}
                       onChange={(e) =>
                         setUserInput({
                           ...userInput,
-                          type: { ...userInput.type, ft: e.target.checked },
+                          typeFt: e.target.checked,
                         })
                       }
                     />
@@ -349,14 +379,11 @@ export default function NewCustomProgram({
                       <input
                         className="mr-2 leading-tight"
                         type="checkbox"
-                        checked={userInput.discipline.act || false}
+                        checked={userInput.disciplineAct || false}
                         onChange={(e) =>
                           setUserInput({
                             ...userInput,
-                            discipline: {
-                              ...userInput.discipline,
-                              act: e.target.checked,
-                            },
+                            disciplineAct: e.target.checked,
                           })
                         }
                       />
@@ -366,14 +393,11 @@ export default function NewCustomProgram({
                       <input
                         className="mr-2 leading-tight"
                         type="checkbox"
-                        checked={userInput.discipline.sing || false}
+                        checked={userInput.disciplineSing || false}
                         onChange={(e) =>
                           setUserInput({
                             ...userInput,
-                            discipline: {
-                              ...userInput.discipline,
-                              sing: e.target.checked,
-                            },
+                            disciplineSing: e.target.checked,
                           })
                         }
                       />
@@ -383,14 +407,11 @@ export default function NewCustomProgram({
                       <input
                         className="mr-2 leading-tight"
                         type="checkbox"
-                        checked={userInput.discipline.dance || false}
+                        checked={userInput.disciplineDance || false}
                         onChange={(e) =>
                           setUserInput({
                             ...userInput,
-                            discipline: {
-                              ...userInput.discipline,
-                              dance: e.target.checked,
-                            },
+                            disciplineDance: e.target.checked,
                           })
                         }
                       />
@@ -400,14 +421,11 @@ export default function NewCustomProgram({
                       <input
                         className="mr-2 leading-tight"
                         type="checkbox"
-                        checked={userInput.discipline.mt || false}
+                        checked={userInput.disciplineMT || false}
                         onChange={(e) =>
                           setUserInput({
                             ...userInput,
-                            discipline: {
-                              ...userInput.discipline,
-                              mt: e.target.checked,
-                            },
+                            disciplineMT: e.target.checked,
                           })
                         }
                       />

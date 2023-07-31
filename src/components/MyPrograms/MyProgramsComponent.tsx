@@ -6,8 +6,8 @@ import { ProgramWithInfo } from "../ProgramSearch/types";
 import SingleProgram from "./SingleProgram";
 import LoadingLines from "../Loading/LoadingLines";
 import { backArrow, plusIcon } from "@component/data/svgs";
-import NewCustomProgram from "./NewCustomProgram";
 import SingleCustom from "./SingleCustom";
+import CustomProgramForm from "./CustomProgramForm";
 
 export type ProgramWithType = {
   id: string;
@@ -30,7 +30,9 @@ export default function MyProgramsComponent() {
 
   const [displayData, setDisplayData] = useState<ProgramWithInfo[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [showAddProgram, setShowAddProgram] = useState<boolean>(false);
+  const [showUpdateCustom, setShowUpdateCustom] = useState<
+    boolean | CustomProgram
+  >(false);
   const [displayCustom, setDisplayCustom] = useState<CustomProgram[]>([]);
 
   const findProgramObject = async (id: string) => {
@@ -128,7 +130,6 @@ export default function MyProgramsComponent() {
           })
         );
 
-        // Filter out undefined elements and set the displayData state
         setDisplayData(
           newData.filter((item) => item !== undefined) as ProgramWithInfo[]
         );
@@ -163,6 +164,7 @@ export default function MyProgramsComponent() {
         key={element.id}
         findCustomPrograms={findCustomPrograms}
         setDisplayCustom={setDisplayCustom}
+        setShowUpdateCustom={setShowUpdateCustom}
       />
     );
   });
@@ -177,9 +179,9 @@ export default function MyProgramsComponent() {
           <LoadingLines />
         </div>
       )}
-      {showAddProgram ? (
+      {showUpdateCustom ? (
         <button
-          onClick={() => setShowAddProgram(!showAddProgram)}
+          onClick={() => setShowUpdateCustom(!showUpdateCustom)}
           className="m-4 flex w-32 place-items-center justify-between place-self-end rounded border-blue-500 bg-transparent px-4 py-2 font-semibold text-blue-600 outline hover:border-transparent hover:bg-blue-500 hover:text-white"
         >
           <div>Back </div>
@@ -187,7 +189,7 @@ export default function MyProgramsComponent() {
         </button>
       ) : (
         <button
-          onClick={() => setShowAddProgram(!showAddProgram)}
+          onClick={() => setShowUpdateCustom(!showUpdateCustom)}
           className="m-4 flex w-56 place-items-center justify-between place-self-end rounded border-blue-500 bg-transparent px-4 py-2 font-semibold text-blue-600 outline hover:border-transparent hover:bg-blue-500 hover:text-white"
           style={{ zIndex: "10" }}
         >
@@ -195,20 +197,14 @@ export default function MyProgramsComponent() {
           <span>{plusIcon}</span>
         </button>
       )}
-      {/* <button
-        onClick={() => setShowAddProgram(!showAddProgram)}
-        className=" m-4 flex w-56 place-items-center justify-between place-self-end rounded border-blue-500 bg-transparent px-4 py-2 font-semibold text-blue-600 outline hover:border-transparent hover:bg-blue-500 hover:text-white"
-      >
-        <div>Add Custom Program </div>
-        <div>{plusIcon}</div>
-      </button> */}
 
-      {showAddProgram ? (
+      {showUpdateCustom !== false ? (
         <div className="w-8/12 place-self-center">
-          <NewCustomProgram
-            setShowAddProgram={setShowAddProgram}
+          <CustomProgramForm
+            setShowUpdateCustom={setShowUpdateCustom}
             findCustomPrograms={findCustomPrograms}
             setDisplayCustom={setDisplayCustom}
+            currentProgram={showUpdateCustom === true ? null : showUpdateCustom}
           />
         </div>
       ) : (
