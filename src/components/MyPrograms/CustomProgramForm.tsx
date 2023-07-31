@@ -5,6 +5,8 @@ import { SetStateAction } from "react";
 import { CustomProgram } from "@prisma/client";
 import { cautionCircle } from "@component/data/svgs";
 import { sanitize } from "isomorphic-dompurify";
+import LoadingLines from "../Loading/LoadingLines";
+import LoadingSpinner from "../Loading/LoadingSpinner";
 
 export type StringInputs = {
   name?: string;
@@ -25,20 +27,6 @@ export type BooleanInputs = {
 };
 
 export type InputObject = StringInputs & BooleanInputs;
-// {
-//   // name?: string;
-//   // school?: string;
-//   // city?: string;
-//   // province?: string;
-//   // country?: string;
-//   // website?: string;
-//   // typePt?: boolean;
-//   // typeFt?: boolean;
-//   // disciplineAct?: boolean;
-//   // disciplineSing?: boolean;
-//   // disciplineDance?: boolean;
-//   // disciplineMT?: boolean;
-// };
 
 export type CustomProgramSubmission = InputObject & {
   userId: string;
@@ -57,6 +45,7 @@ export default function CustomProgramForm({
 }) {
   const { data: sessionData } = useSession();
   const userId = sessionData?.user.id;
+  const [loading, setLoading] = useState(false);
 
   const initialUserInput: InputObject = {
     name: currentProgram?.name || undefined,
@@ -94,6 +83,7 @@ export default function CustomProgramForm({
   const { mutate: addProgram } = api.customProgram.add.useMutation({
     async onSuccess(data) {
       setShowUpdateCustom(false);
+      setLoading(false);
       setUserInput(emptyUserInput);
       findCustomPrograms().then(
         (customData: CustomProgram[]) =>
@@ -109,6 +99,7 @@ export default function CustomProgramForm({
   const { mutate: updateProgram } = api.customProgram.update.useMutation({
     async onSuccess(data) {
       setShowUpdateCustom(false);
+      setLoading(false);
       setUserInput(emptyUserInput);
       findCustomPrograms().then(
         (customData: CustomProgram[]) =>
@@ -151,6 +142,7 @@ export default function CustomProgramForm({
   };
 
   const submitCustomProgram = async () => {
+    setLoading(true);
     const allKeys = Object.keys(emptyUserInput);
 
     if (userId) {
@@ -192,22 +184,6 @@ export default function CustomProgramForm({
       }
     }
   };
-
-  // }
-  // };
-
-  // if (validated && !currentProgram) {
-  //   const submitNewProgram = await addProgram(submissionObject);
-  //   return submitNewProgram;
-  // }
-
-  // if (validated && currentProgram) {
-  //   const updatedObject = { ...submissionObject, id: currentProgram.id };
-  //   const updateProgram = await updateProgram(updatedObject);
-  //   return updateProgram;
-  // }
-  //   }
-  // };
 
   return (
     <div className="m-5 flex w-full flex-col place-items-center justify-center border-2 p-10">
@@ -448,12 +424,16 @@ export default function CustomProgramForm({
           </div>
         )}
 
-        <button
-          onClick={() => submitCustomProgram()}
-          className="mb-5 h-10 w-32 place-items-center justify-between place-self-end rounded border-blue-500 bg-transparent font-semibold text-blue-600 outline hover:border-transparent hover:bg-blue-500 hover:text-white"
-        >
-          SUBMIT
-        </button>
+        {loading ? (
+          <LoadingSpinner iconSize="medium" />
+        ) : (
+          <button
+            onClick={() => submitCustomProgram()}
+            className="mb-5 h-10 w-32 place-items-center justify-between place-self-end rounded border-blue-500 bg-transparent font-semibold text-blue-600 outline hover:border-transparent hover:bg-blue-500 hover:text-white"
+          >
+            SUBMIT
+          </button>
+        )}
       </div>
     </div>
   );
