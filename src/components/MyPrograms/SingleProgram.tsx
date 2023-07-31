@@ -83,7 +83,12 @@ const SingleProgram: React.FC<SingleProgramProps> = ({ program }) => {
 
   const notesDisplay = notes?.map((note) => {
     return (
-      <NoteComponent note={note} setNotes={setNotes} fetchNotes={fetchNotes} />
+      <NoteComponent
+        note={note}
+        setNotes={setNotes}
+        fetchNotes={fetchNotes}
+        key={note.id}
+      />
     );
   });
 

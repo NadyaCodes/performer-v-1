@@ -22,15 +22,28 @@ export const notesRouter = createTRPCRouter({
       });
     }),
 
+    getAllForCustomProgramId: publicProcedure
+    .input(z.object({ customId: z.string() }))
+    .query(async ({ input, ctx }) => {
+      return ctx.prisma.note.findMany({
+        where: {
+          customProgramId: {
+            equals: input.customId,
+          },
+        },
+      });
+    }),
+
 
   add: publicProcedure
-    .input(z.object({ userId: z.string(), favId: z.string(), text: z.string() }))
+    .input(z.object({ userId: z.string(), favId: z.string().optional(), text: z.string(), customId: z.string().optional() }))
     .mutation(async ({ input, ctx }) => {
       return await ctx.prisma.note.create({
         data: {
           userId: input.userId,
           favProgramId: input.favId,
           text: input.text,
+          customProgramId: input.customId
         },
       });
     }),

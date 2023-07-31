@@ -150,7 +150,7 @@ export default function MyProgramsComponent() {
 
   useEffect(() => {
     findCustomPrograms().then((data) => data && setDisplayCustom(data));
-  }, []);
+  }, [userId]);
 
   const programDisplay = displayData.map((element: ProgramWithInfo) => {
     return <SingleProgram program={element} key={element.id} />;

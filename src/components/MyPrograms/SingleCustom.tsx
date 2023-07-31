@@ -21,67 +21,72 @@ const SingleCustom = ({ program }: { program: CustomProgram }) => {
   const [loadingNotes, setLoadingNotes] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
-  // const fetchNotes = async () => {
-  //   if (program.favId) {
-  //     const notesForProgram = await utils.notes.getAllForFavProgramId.fetch({
-  //       favId: program.favId,
-  //     });
-  //     return notesForProgram;
-  //   }
-  // };
+  const fetchNotes = async () => {
+    if (program.id) {
+      const notesForProgram = await utils.notes.getAllForCustomProgramId.fetch({
+        customId: program.id,
+      });
+      return notesForProgram;
+    }
+  };
 
-  // useEffect(() => {
-  //   fetchNotes().then((result) => result && setNotes(result));
-  // }, []);
+  useEffect(() => {
+    fetchNotes().then((result) => result && setNotes(result));
+  }, []);
 
-  // const { mutate: createNote } = api.notes.add.useMutation({
-  //   async onSuccess(data) {
-  //     await utils.notes.getAll.invalidate();
+  const { mutate: createNote } = api.notes.add.useMutation({
+    async onSuccess(data) {
+      await utils.notes.getAll.invalidate();
 
-  //     setInputText("");
-  //     fetchNotes()
-  //       .then((result) => result && setNotes(result))
-  //       .then(() => setLoadingNotes(false));
-  //     return data;
-  //   },
-  //   onError(error) {
-  //     console.log("createExample error: ", error);
-  //   },
-  // });
+      setInputText("");
+      fetchNotes()
+        .then((result) => result && setNotes(result))
+        .then(() => setLoadingNotes(false));
+      return data;
+    },
+    onError(error) {
+      console.log("createNotes error: ", error);
+    },
+  });
 
-  // const addNote = (userId: string, favId: string, text: string) => {
-  //   if (!text) {
-  //     setTimeout(() => setErrorMessage(""), 3000);
-  //     return setErrorMessage("Notes must have text");
-  //   }
-  //   if (text.length > 300) {
-  //     setTimeout(() => setErrorMessage(""), 3000);
-  //     return setErrorMessage("Notes must be 300 characters or less");
-  //   }
+  const addNote = (userId: string, customId: string, text: string) => {
+    if (!text) {
+      setTimeout(() => setErrorMessage(""), 3000);
+      return setErrorMessage("Notes must have text");
+    }
+    if (text.length > 300) {
+      setTimeout(() => setErrorMessage(""), 3000);
+      return setErrorMessage("Notes must be 300 characters or less");
+    }
 
-  //   if (text.includes("</" || "/>")) {
-  //     setTimeout(() => setErrorMessage(""), 3000);
-  //     return setErrorMessage("Notes cannot contain HTML");
-  //   }
+    if (text.includes("</" || "/>")) {
+      setTimeout(() => setErrorMessage(""), 3000);
+      return setErrorMessage("Notes cannot contain HTML");
+    }
 
-  //   if (/[^\w\s().,!?\-]/.test(text)) {
-  //     setTimeout(() => setErrorMessage(""), 4000);
-  //     setErrorMessage(
-  //       "Notes can only contain letters, numbers and the following special characters: ().,!?"
-  //     );
-  //     return;
-  //   }
-  //   const sanitizedText = sanitize(text);
-  //   setLoadingNotes(true);
-  //   setNoteInput(false);
-  //   return createNote({ userId, favId, text: sanitizedText });
-  // };
+    if (/[^\w\s().,!?\-]/.test(text)) {
+      setTimeout(() => setErrorMessage(""), 4000);
+      setErrorMessage(
+        "Notes can only contain letters, numbers and the following special characters: ().,!?"
+      );
+      return;
+    }
+    const sanitizedText = sanitize(text);
+    setLoadingNotes(true);
+    setNoteInput(false);
+    return createNote({ userId, customId, text: sanitizedText });
+  };
 
-  // const notesDisplay = notes?.map((note) => {
-  //   return (
-  //     <NoteComponent note={note} setNotes={setNotes} fetchNotes={fetchNotes} />
-  //   );
-  // });
+  const notesDisplay = notes?.map((note) => {
+    return (
+      <NoteComponent
+        note={note}
+        setNotes={setNotes}
+        fetchNotes={fetchNotes}
+        key={note.id}
+      />
+    );
+  });
 
   const typesArray = [];
   if (program.typeFt) {
@@ -153,7 +158,7 @@ const SingleCustom = ({ program }: { program: CustomProgram }) => {
         </button>
       )}
 
-      {/* {noteInput && (
+      {noteInput && (
         <div className="flex w-7/12 place-items-center place-self-center">
           <input
             type="text"
@@ -164,15 +169,13 @@ const SingleCustom = ({ program }: { program: CustomProgram }) => {
           <button
             className=" p-.5 ml-5 h-fit rounded  text-purple-600 outline hover:scale-110"
             onClick={() =>
-              userId &&
-              program.favId &&
-              addNote(userId, program.favId, inputText)
+              userId && program.id && addNote(userId, program.id, inputText)
             }
           >
             {plusIcon}
           </button>
         </div>
-      )} */}
+      )}
 
       <div className="flex flex-col items-center p-2">
         <div className="text-xl font-bold capitalize">
@@ -181,11 +184,9 @@ const SingleCustom = ({ program }: { program: CustomProgram }) => {
         {program.school && (
           <div className="text-lg font-bold capitalize">{program.school}</div>
         )}
-
         <div className="text-md font-normal capitalize">
           {locationArray.length > 0 && <div>{locationArray.join(", ")}</div>}
         </div>
-
         {program.website && (
           <div className="italic">
             <Link href={program.website} target="blank">
@@ -202,13 +203,13 @@ const SingleCustom = ({ program }: { program: CustomProgram }) => {
           )}
         </div>
         <div className="w-48 border-b-2 border-cyan-500 p-2"></div>
-        {/* {notesDisplay && notesDisplay.length > 0 ? (
+        {notesDisplay && notesDisplay.length > 0 ? (
           <div className="flex w-full content-center justify-center">
             <ul className="w-6/12">{notesDisplay}</ul>
           </div>
         ) : (
           <div>No Notes</div>
-        )} */}
+        )}
       </div>
     </div>
   );
