@@ -151,13 +151,20 @@ const SingleProgram: React.FC<SingleProgramProps> = ({ program }) => {
           {program.type === "ft" ? "Full Time " : "Part Time "}{" "}
           {displayDisciplineText(program.discipline)}
         </div>
-        <div className="w-48 border-b-2 border-cyan-500 p-2"></div>
-        {notesDisplay && notesDisplay.length > 0 ? (
+        <div className="mb-3 w-48 border-b-2 border-cyan-500 p-2"></div>
+        {notesDisplay && notesDisplay.length > 0 && (
           <div className="flex w-full content-center justify-center">
             <ul className="w-6/12">{notesDisplay}</ul>
           </div>
-        ) : (
-          <div>No Notes</div>
+        )}
+        {notesDisplay && notesDisplay.length === 0 && <div>No Notes</div>}
+        {!notesDisplay && (
+          <div className="flex flex-col items-center">
+            <span>
+              <LoadingSpinner iconSize="medium" />
+            </span>
+            <span>Loading Notes</span>
+          </div>
         )}
       </div>
     </div>

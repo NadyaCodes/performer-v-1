@@ -98,6 +98,9 @@ export default function MyProgramsComponent() {
       findUserFavs(sessionData.user.id).then((result) => {
         result ? setUserFavs(result) : setUserFavs([]);
       });
+      // .then(() =>
+      //   findCustomPrograms().then((data) => data && setDisplayCustom(data))
+      // );
     }
   }, [sessionData]);
 
@@ -133,7 +136,9 @@ export default function MyProgramsComponent() {
         setDisplayData(
           newData.filter((item) => item !== undefined) as ProgramWithInfo[]
         );
-        setLoading(false);
+        findCustomPrograms()
+          .then((data) => data && setDisplayCustom(data))
+          .then(() => setLoading(false));
       }
     };
 
@@ -148,10 +153,6 @@ export default function MyProgramsComponent() {
       return allCustomPrograms;
     }
   };
-
-  useEffect(() => {
-    findCustomPrograms().then((data) => data && setDisplayCustom(data));
-  }, [userId]);
 
   const programDisplay = displayData.map((element: ProgramWithInfo) => {
     return <SingleProgram program={element} key={element.id} />;
@@ -177,22 +178,11 @@ export default function MyProgramsComponent() {
       <h2 className="m-10 place-self-center text-5xl font-extrabold capitalize tracking-tight text-gray-800 sm:text-[3rem]">
         Saved Programs
       </h2>
-      {loading && (
-        <div className="m-20">
+      {loading ? (
+        <div>
           <LoadingLines />
         </div>
-      )}
-      {showUpdateCustom && (
-        <button
-          onClick={() => setShowUpdateCustom(!showUpdateCustom)}
-          className="m-4 flex w-32 place-items-center justify-between place-self-end rounded border-blue-500 bg-transparent px-4 py-2 font-semibold text-blue-600 outline hover:border-transparent hover:bg-blue-500 hover:text-white"
-        >
-          <div>Back </div>
-          <div>{backArrow}</div>
-        </button>
-      )}
-
-      {showUpdateCustom !== false ? (
+      ) : showUpdateCustom !== false ? (
         <div className="w-8/12 place-self-center">
           <CustomProgramForm
             setShowUpdateCustom={setShowUpdateCustom}
@@ -225,6 +215,15 @@ export default function MyProgramsComponent() {
             <div className="w-full">{customProgramDisplay}</div>
           </div>
         </div>
+      )}
+      {showUpdateCustom && (
+        <button
+          onClick={() => setShowUpdateCustom(!showUpdateCustom)}
+          className="m-4 flex w-32 place-items-center justify-between place-self-end rounded border-blue-500 bg-transparent px-4 py-2 font-semibold text-blue-600 outline hover:border-transparent hover:bg-blue-500 hover:text-white"
+        >
+          <div>Back </div>
+          <div>{backArrow}</div>
+        </button>
       )}
     </div>
   );
