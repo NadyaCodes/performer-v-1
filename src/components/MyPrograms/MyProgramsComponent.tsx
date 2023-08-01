@@ -168,7 +168,7 @@ export default function MyProgramsComponent() {
   });
 
   return (
-    <div className="flex flex-col">
+    <div className="mb-10 flex flex-col">
       <h1 className="flex justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] p-5 text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
         My Programs
       </h1>
@@ -203,7 +203,7 @@ export default function MyProgramsComponent() {
                   behavior: "smooth",
                 });
               }}
-              className="m-4 flex w-56 place-items-center justify-between place-self-end rounded border-blue-500 bg-transparent px-4 py-2 font-semibold text-blue-600 outline hover:border-transparent hover:bg-blue-500 hover:text-white"
+              className="mr-8 flex w-56 place-items-center justify-between place-self-end  rounded  border-2 border-transparent bg-transparent px-4 py-2 font-semibold  text-cyan-600 hover:scale-110 hover:border-2 hover:bg-cyan-50"
               style={{ zIndex: "10" }}
             >
               <span>Add Custom Program </span>
