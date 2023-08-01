@@ -98,9 +98,6 @@ export default function MyProgramsComponent() {
       findUserFavs(sessionData.user.id).then((result) => {
         result ? setUserFavs(result) : setUserFavs([]);
       });
-      // .then(() =>
-      //   findCustomPrograms().then((data) => data && setDisplayCustom(data))
-      // );
     }
   }, [sessionData]);
 
