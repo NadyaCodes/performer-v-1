@@ -1,0 +1,414 @@
+import React, { Dispatch, useState } from "react";
+import { api } from "@component/utils/api";
+import { useSession } from "next-auth/react";
+import { SetStateAction } from "react";
+import { CustomProgram } from "@prisma/client";
+import { cautionCircle } from "@component/data/svgs";
+import LoadingSpinner from "../Loading/LoadingSpinner";
+import { validateInput } from "./helpers";
+
+export type StringInputs = {
+  name?: string;
+  school?: string;
+  city?: string;
+  province?: string;
+  country?: string;
+  website?: string;
+};
+
+export type BooleanInputs = {
+  typePt?: boolean;
+  typeFt?: boolean;
+  disciplineAct?: boolean;
+  disciplineSing?: boolean;
+  disciplineDance?: boolean;
+  disciplineMT?: boolean;
+};
+
+export type InputObject = StringInputs & BooleanInputs;
+
+export type CustomProgramSubmission = InputObject & {
+  userId: string;
+};
+
+export default function CustomProgramForm({
+  setShowUpdateCustom,
+  findCustomPrograms,
+  setDisplayCustom,
+  currentProgram,
+}: {
+  setShowUpdateCustom: Dispatch<SetStateAction<boolean | CustomProgram>>;
+  findCustomPrograms: Function;
+  setDisplayCustom: Function;
+  currentProgram: CustomProgram | null;
+}) {
+  const { data: sessionData } = useSession();
+  const userId = sessionData?.user.id;
+  const [loading, setLoading] = useState(false);
+
+  const initialUserInput: InputObject = {
+    name: currentProgram?.name || undefined,
+    school: currentProgram?.school || undefined,
+    city: currentProgram?.city || undefined,
+    province: currentProgram?.province || undefined,
+    country: currentProgram?.country || undefined,
+    website: currentProgram?.website || undefined,
+    typePt: currentProgram?.typePt || false,
+    typeFt: currentProgram?.typeFt || false,
+    disciplineAct: currentProgram?.disciplineAct || false,
+    disciplineSing: currentProgram?.disciplineSing || false,
+    disciplineDance: currentProgram?.disciplineDance || false,
+    disciplineMT: currentProgram?.disciplineMT || false,
+  };
+
+  const emptyUserInput: InputObject = {
+    name: "",
+    school: "",
+    city: "",
+    province: "",
+    country: "",
+    website: "",
+    typePt: false,
+    typeFt: false,
+    disciplineAct: false,
+    disciplineSing: false,
+    disciplineDance: false,
+    disciplineMT: false,
+  };
+
+  const [userInput, setUserInput] = useState(initialUserInput);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
+  const { mutate: addProgram } = api.customProgram.add.useMutation({
+    async onSuccess(data) {
+      setShowUpdateCustom(false);
+      setLoading(false);
+      setUserInput(emptyUserInput);
+      findCustomPrograms().then(
+        (customData: CustomProgram[]) =>
+          customData && setDisplayCustom(customData)
+      );
+      return data;
+    },
+    onError(error) {
+      console.log("addFavPt error: ", error);
+    },
+  });
+
+  const { mutate: updateProgram } = api.customProgram.update.useMutation({
+    async onSuccess(data) {
+      setShowUpdateCustom(false);
+      setLoading(false);
+      setUserInput(emptyUserInput);
+      findCustomPrograms().then(
+        (customData: CustomProgram[]) =>
+          customData && setDisplayCustom(customData)
+      );
+      return data;
+    },
+    onError(error) {
+      console.log("addFavPt error: ", error);
+    },
+  });
+
+  const submitCustomProgram = async () => {
+    setLoading(true);
+    const allKeys = Object.keys(emptyUserInput);
+
+    if (userId) {
+      let validated = true;
+      const submissionObject: Partial<CustomProgramSubmission> = { userId };
+
+      allKeys.forEach((key) => {
+        if (
+          typeof userInput[key as keyof InputObject] === "string" &&
+          (userInput[key as keyof InputObject] as string).length > 0
+        ) {
+          const validatedText = validateInput(
+            userInput[key as keyof InputObject] as string,
+            setErrorMessage
+          );
+          if (!validatedText) {
+            validated = false;
+          }
+          if (typeof validatedText === "string") {
+            submissionObject[key as keyof StringInputs] = validatedText;
+          }
+        } else if (typeof userInput[key as keyof InputObject] === "boolean") {
+          if (userInput[key as keyof InputObject] === true) {
+            submissionObject[key as keyof BooleanInputs] = true;
+          }
+        }
+      });
+
+      if (validated && !currentProgram) {
+        const submitNewProgram = await addProgram({
+          ...submissionObject,
+        } as CustomProgramSubmission);
+        return submitNewProgram;
+      }
+
+      if (validated && currentProgram) {
+        const updatedObject = { ...submissionObject, id: currentProgram.id };
+        const update = await updateProgram(updatedObject);
+        return update;
+      }
+      if (!validated) {
+        setLoading(false);
+      }
+    }
+  };
+
+  return (
+    <div className="m-5 flex w-full flex-col place-items-center justify-center border-2 p-10">
+      <h2 className="text-5xl font-extrabold capitalize tracking-tight text-gray-800 sm:text-[3rem]">
+        Add Your Program Here
+      </h2>
+      <div className="m-5 flex flex-col place-items-center italic">
+        <p>This program will be added to your private list.</p>
+        <p>
+          It is unique to your profile, and will NOT be added to the public
+          database.
+        </p>
+      </div>
+
+      <div className="m-4 w-9/12">
+        <div className="m-6">
+          <label
+            className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700"
+            htmlFor="name_input"
+          >
+            Program Name
+          </label>
+          <input
+            className="block w-full appearance-none rounded border-2 bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:bg-white focus:outline-none"
+            value={userInput.name}
+            type="text"
+            onChange={(e) =>
+              setUserInput({ ...userInput, name: e.target.value })
+            }
+            id="name_input"
+          />
+        </div>
+
+        <div className="m-6">
+          <label
+            className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700"
+            htmlFor="school_input"
+          >
+            School Name
+          </label>
+          <input
+            className="block w-full appearance-none rounded border-2 bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:bg-white focus:outline-none"
+            value={userInput.school}
+            type="text"
+            onChange={(e) =>
+              setUserInput({ ...userInput, school: e.target.value })
+            }
+            id="school_input"
+          />
+        </div>
+
+        <div className="m-6">
+          <label
+            className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700"
+            htmlFor="city_input"
+          >
+            City
+          </label>
+          <input
+            className="block w-full appearance-none rounded border-2 bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:bg-white focus:outline-none"
+            value={userInput.city}
+            type="text"
+            onChange={(e) =>
+              setUserInput({ ...userInput, city: e.target.value })
+            }
+            id="city_input"
+          />
+        </div>
+
+        <div className="m-6">
+          <label
+            className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700"
+            htmlFor="province_input"
+          >
+            Province/State
+          </label>
+          <input
+            className="block w-full appearance-none rounded border-2 bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:bg-white focus:outline-none"
+            value={userInput.province}
+            type="text"
+            onChange={(e) =>
+              setUserInput({ ...userInput, province: e.target.value })
+            }
+            id="province_input"
+          />
+        </div>
+
+        <div className="m-6">
+          <label
+            className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700"
+            htmlFor="country_input"
+          >
+            Country
+          </label>
+          <input
+            className="block w-full appearance-none rounded border-2 bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:bg-white focus:outline-none"
+            value={userInput.country}
+            type="text"
+            onChange={(e) =>
+              setUserInput({ ...userInput, country: e.target.value })
+            }
+            id="country_input"
+          />
+        </div>
+
+        <div className="m-6">
+          <label
+            className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700"
+            htmlFor="website_input"
+          >
+            Website
+          </label>
+          <input
+            className="block w-full appearance-none rounded border-2 bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:bg-white focus:outline-none"
+            value={userInput.website}
+            type="text"
+            onChange={(e) =>
+              setUserInput({ ...userInput, website: e.target.value })
+            }
+            id="website_input"
+          />
+        </div>
+
+        <div className="mb-2 ml-3 flex flex-wrap">
+          <div className="mb-6 flex flex-wrap md:w-1/3">
+            <div className="w-full px-3">
+              <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700">
+                Program Type
+                <div className="m-2">
+                  <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700">
+                    <input
+                      className="mr-2 leading-tight"
+                      type="checkbox"
+                      checked={userInput.typePt || false}
+                      onChange={(e) =>
+                        setUserInput({
+                          ...userInput,
+                          typePt: e.target.checked,
+                        })
+                      }
+                    />
+                    <span className="text-sm">Part Time</span>
+                  </label>
+                  <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700">
+                    <input
+                      className="mr-2 leading-tight"
+                      type="checkbox"
+                      checked={userInput.typeFt || false}
+                      onChange={(e) =>
+                        setUserInput({
+                          ...userInput,
+                          typeFt: e.target.checked,
+                        })
+                      }
+                    />
+                    <span className="text-sm">Full Time</span>
+                  </label>
+                </div>
+              </label>
+            </div>
+          </div>
+          <div className="mb-2 flex flex-wrap md:w-2/3">
+            <div className="mb-6 flex w-full flex-wrap">
+              <div className="w-full px-3">
+                <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700">
+                  Disciplines Offered
+                  <div className="m-2">
+                    <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700">
+                      <input
+                        className="mr-2 leading-tight"
+                        type="checkbox"
+                        checked={userInput.disciplineAct || false}
+                        onChange={(e) =>
+                          setUserInput({
+                            ...userInput,
+                            disciplineAct: e.target.checked,
+                          })
+                        }
+                      />
+                      <span className="text-sm">Acting</span>
+                    </label>
+                    <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700">
+                      <input
+                        className="mr-2 leading-tight"
+                        type="checkbox"
+                        checked={userInput.disciplineSing || false}
+                        onChange={(e) =>
+                          setUserInput({
+                            ...userInput,
+                            disciplineSing: e.target.checked,
+                          })
+                        }
+                      />
+                      <span className="text-sm">Singing</span>
+                    </label>
+                    <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700">
+                      <input
+                        className="mr-2 leading-tight"
+                        type="checkbox"
+                        checked={userInput.disciplineDance || false}
+                        onChange={(e) =>
+                          setUserInput({
+                            ...userInput,
+                            disciplineDance: e.target.checked,
+                          })
+                        }
+                      />
+                      <span className="text-sm">Dancing</span>
+                    </label>
+                    <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700">
+                      <input
+                        className="mr-2 leading-tight"
+                        type="checkbox"
+                        checked={userInput.disciplineMT || false}
+                        onChange={(e) =>
+                          setUserInput({
+                            ...userInput,
+                            disciplineMT: e.target.checked,
+                          })
+                        }
+                      />
+                      <span className="text-sm">Musical Theatre</span>
+                    </label>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        {errorMessage && (
+          <div className="absolute left-1/2 -m-2 flex -translate-x-1/2 transform flex-row items-center bg-pink-100 p-2 text-pink-700">
+            {cautionCircle}
+            <div className="mx-5">{errorMessage}</div>
+            {cautionCircle}
+          </div>
+        )}
+
+        {loading ? (
+          <LoadingSpinner iconSize="medium" />
+        ) : (
+          <button
+            onClick={() => submitCustomProgram()}
+            className="mb-5 h-10 w-32 place-items-center justify-between place-self-end rounded border-blue-500 bg-transparent font-semibold text-blue-600 outline hover:border-transparent hover:bg-blue-500 hover:text-white"
+          >
+            SUBMIT
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
