@@ -6,9 +6,10 @@ import Head from "next/head";
 import Picker from "../components/ProgramDisplay/Picker";
 import { styles } from "@component/data/constants";
 import Menu from "@component/components/Menu/Menu";
+import HomeComponent from "@component/components/Homepage/HomeComponent";
 
 const Home: NextPage = () => {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  // const hello = api.example.hello.useQuery({ text: "from tRPC" });
   return (
     <>
       <Head>
@@ -17,17 +18,9 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex min-h-screen flex-col items-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
+      <main className="flex min-h-screen flex-col items-center bg-gradient-to-b from-[#022825] to-[#261126]">
         <Menu />
-        <div className="m-10 text-xl text-white">
-          <div className="">
-            Course Selector: Find schools by following a rabbit hole of links
-          </div>
-          <div className="">
-            Course Finder: Find schools by selecting filters and searching for
-            the things you want!
-          </div>
-        </div>
+        <HomeComponent />
         {/* <div className="flex flex-col items-center gap-2">
           <p className="text-2xl text-white">
             {hello.data ? hello.data.greeting : "Loading tRPC query..."}
