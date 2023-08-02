@@ -28,3 +28,38 @@
 		transform: scaleY(1);
 	}	
 }
+
+@keyframes flyIn {
+  0% {
+    transform: translateX(100vw);
+  }
+  100% {
+    transform: translateX(0vw)
+  }
+}
+
+@keyframes flyOut {
+
+  to {
+    transform: translateX(-100vw) rotate(-50deg) skew(90deg);
+  }
+}
+
+@keyframes wiggle {
+
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(3deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(-3deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}

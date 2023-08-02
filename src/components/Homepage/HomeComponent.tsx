@@ -1,5 +1,6 @@
 import React from "react";
 import CircleSwell from "./CircleSwell";
+import Hero from "./Hero";
 
 export default function HomeComponent() {
   return (
@@ -11,6 +12,7 @@ export default function HomeComponent() {
         Course Finder: Find schools by selecting filters and searching for the
         things you want!
       </div>
+      <Hero />
       {/* <CircleSwell /> */}
     </div>
   );
