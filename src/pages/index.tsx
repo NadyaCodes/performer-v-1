@@ -18,7 +18,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex min-h-screen flex-col items-center bg-gradient-to-b from-[#022825] to-[#261126]">
+      <main className="flex min-h-screen flex-col items-center bg-gradient-to-b from-[#022825] to-[#1b5752]">
         <Menu />
         <HomeComponent />
         {/* <div className="flex flex-col items-center gap-2">

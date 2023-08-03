@@ -4,7 +4,7 @@ import Hero from "./Hero";
 
 export default function HomeComponent() {
   return (
-    <div className="m-10 text-xl text-white">
+    <div className="m-10 w-full text-xl text-white">
       <div className="">
         Course Selector: Find schools by following a rabbit hole of links
       </div>

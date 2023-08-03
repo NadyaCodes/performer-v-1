@@ -2,6 +2,7 @@ import React from "react";
 import AuthShowcase from "./AuthShowcase";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import Logo from "./Logo";
 
 export default function Menu() {
   const { data: sessionData } = useSession();
@@ -21,6 +22,7 @@ export default function Menu() {
       }}
     >
       <div className="flex w-10/12 justify-between">
+        <Logo color="black" />
         <Link
           href={"/"}
           className="mb-2 flex rounded-t-md border-b-2 border-transparent bg-transparent px-4 py-2 font-semibold  transition-all hover:border-cyan-700 "
@@ -46,6 +48,13 @@ export default function Menu() {
         >
           <button className="">My Programs</button>
         </Link>
+        <Link
+          href={"/contact"}
+          className="mb-2 flex rounded-t-md border-b-2 border-transparent bg-transparent px-4 py-2 font-semibold transition-all hover:border-cyan-700 "
+        >
+          <button className="">Contact</button>
+        </Link>
+
         <AuthShowcase />
       </div>
     </div>

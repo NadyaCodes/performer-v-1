@@ -45,6 +45,22 @@
   }
 }
 
+@keyframes flyInOut {
+  0% {
+    transform: translateX(100vw) scale(0.8);
+  }
+  30% {
+    transform: translateX(0) scale(1.1);
+  }
+  70% {
+    transform: scale(1.5) translateX(0);
+  }
+
+  100% {
+    transform: scale(0.2, 0.5) translateX(-150vw) translateY(-140vh) rotate(-420deg) skew(80deg);
+  }
+}
+
 @keyframes wiggle {
 
   0% {
@@ -62,4 +78,36 @@
   100% {
     transform: rotate(0deg);
   }
+}
+
+@keyframes scroller {
+  0% {
+    transform: translateX(100vw)
+  }
+  100% {
+    transform: translateX(-100vw);
+  }
+  
+}
+
+/* .ticker-container {
+  display: flex;
+  overflow: hidden;
+} */
+
+/* Create the animation keyframes */
+@keyframes ticker {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Apply the animation to the ticker text elements */
+.ticker-text {
+  animation: ticker 20s linear infinite;
+  white-space: nowrap;
+  padding-right: 1rem; /* Add some spacing between the repeated text */
 }
