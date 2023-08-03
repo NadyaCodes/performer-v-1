@@ -92,12 +92,3 @@ export default function Hero() {
     </div>
   );
 }
-
-// -webkit-box-shadow: 1px -50px 50px 50px rgba(0,0,0,0.56);
-// box-shadow: 1px -50px 50px 50px rgba(0,0,0,0.56);
-
-// .ticker-text {
-//   animation: ticker 20s linear infinite;
-//   white-space: nowrap;
-//   padding-right: 1rem; /* Add some spacing between the repeated text */
-// }

@@ -10,8 +10,8 @@ const AuthShowcase: React.FC = () => {
   // );
 
   return (
-    <div className="flex items-center justify-center gap-4">
-      <p className="text-center">
+    <div className="flex items-center justify-end">
+      <p className="text-center italic">
         {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
         {/* {secretMessage && <span> - {secretMessage}</span>} */}
       </p>

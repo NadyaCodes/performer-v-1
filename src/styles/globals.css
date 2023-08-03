@@ -29,6 +29,20 @@
 	}	
 }
 
+
+@keyframes pullDownTop {
+  0% {
+    transform: scaleY(0);
+    opacity: 0;
+    transform-origin: top;
+  }
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+    transform-origin: top;
+  }
+}
+
 @keyframes flyIn {
   0% {
     transform: translateX(100vw);
