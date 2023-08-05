@@ -28,6 +28,12 @@ export default function Menu() {
           >
             <button className="">Home</button>
           </Link>
+          <Link
+            href={"/about"}
+            className="group my-2 flex rounded-t-md border-b-2 border-transparent bg-transparent py-4 font-semibold transition-all hover:border-cyan-700"
+          >
+            <button className="">About</button>
+          </Link>
           <div className="">
             <Link
               href={"/program-search"}
@@ -55,7 +61,7 @@ export default function Menu() {
           </div>
           <div className="">
             <Link
-              href={sessionData ? "/course-selector" : "#"}
+              href={"/course-selector"}
               className="my-2 flex rounded-t-md border-b-2 border-transparent bg-transparent py-4 font-semibold transition-all hover:border-cyan-700 "
               onMouseEnter={() => setToolTip("selectorTip")}
               onMouseLeave={() => setToolTip("")}

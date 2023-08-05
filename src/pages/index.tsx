@@ -3,6 +3,7 @@ import Head from "next/head";
 import Menu from "@component/components/Menu/Menu";
 import HomeComponent from "@component/components/Homepage/HomeComponent";
 import Spotlights from "@component/components/Homepage/Spotlights";
+import Link from "next/link";
 
 const Home: NextPage = () => {
   return (
@@ -29,9 +30,11 @@ const Home: NextPage = () => {
             <div className="m-3 text-5xl font-extrabold sm:text-[2rem]">
               New?
             </div>
-            <button className="m-3 rounded p-3 outline">
-              Get Started Here
-            </button>
+            <Link href={"/about"}>
+              <button className="m-3 rounded p-3 outline">
+                Get Started Here
+              </button>
+            </Link>
           </h2>
         </div>
         <HomeComponent />
