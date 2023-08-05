@@ -14,7 +14,7 @@ export default function Menu() {
 
   return (
     <div
-      className="flex w-full flex-col items-center space-y-10 border-b-2 bg-cyan-50 p-3 text-cyan-900"
+      className="relative z-10 flex w-full flex-col items-center border-b-2 bg-cyan-50 text-cyan-900"
       style={{
         boxShadow: `0px 1px 2px rgba(0,255,255,0.5), 0px 2px 4px rgba(0,255,255,0.5), 0px 4px 8px rgba(0,255,255,0.5), 0px 8px 16px rgba(0,255,255,0.5)`,
       }}

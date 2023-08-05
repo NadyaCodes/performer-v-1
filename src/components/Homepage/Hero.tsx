@@ -88,7 +88,7 @@ export default function Hero() {
           style={{ animation: "fadeInShadow .4s ease-in 2s forwards" }}
         ></div>
       </div>
-      <div className="w-fill relative z-10 h-20 bg-slate-900"></div>
+      <div className="w-fill relative z-10 h-96 bg-slate-900"></div>
     </div>
   );
 }

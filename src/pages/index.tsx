@@ -17,7 +17,7 @@ const Home: NextPage = () => {
         <Spotlights />
         <div>
           <h1
-            className="m-7 text-5xl font-extrabold sm:text-[3rem]"
+            className="mb-8 mt-10 text-5xl font-extrabold sm:text-[3rem]"
             style={{ animation: "pullDownTop 1s forwards 1s", opacity: 0 }}
           >
             Resources for Canadian Performers
