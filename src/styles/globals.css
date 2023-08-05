@@ -159,6 +159,21 @@
   
 }
 
+@keyframes fadeInGrow {
+  0% {
+    opacity: 0;
+  }
+  75% {
+    opacity: 1;
+    transform: scale(1.15)
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  
+}
+
 @keyframes fadeInShadow {
   0% {
     box-shadow: 1px -40px 40px 0 rgba(207, 250, 254, 0);
@@ -166,4 +181,24 @@
   100% {
     box-shadow: 1px -40px 40px 40px rgba(207, 250, 254, 1);
   }
+}
+
+
+@keyframes upDown {
+  0% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(.5rem);
+  }
+  50% {
+    transform: translateY(0rem);
+  }
+  75% {
+    transform: translateY(-.5rem);
+  }
+  100% {
+    transform: translateY(0rem);
+  }
+  
 }
