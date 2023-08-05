@@ -17,7 +17,7 @@ export default function Hero() {
   useEffect(() => {
     setTimeout(() => {
       setFeaturedText(disciplines[0] || "act");
-    }, 2000);
+    }, 2500);
   }, []);
 
   return (
@@ -71,19 +71,21 @@ export default function Hero() {
       <div className="relative mx-20 flex justify-around">
         <div
           className="h-8 w-12 overflow-hidden rounded-t-full bg-black shadow-cyan-100"
-          style={{ boxShadow: "1px -40px 40px 40px #cffafe" }}
+          style={{
+            animation: "fadeInShadow .4s ease-in 2s forwards",
+          }}
         ></div>
         <div
           className="h-8 w-12 overflow-hidden rounded-t-full bg-black shadow-cyan-100"
-          style={{ boxShadow: "1px -40px 40px 40px #cffafe" }}
+          style={{ animation: "fadeInShadow .4s ease-in 2s forwards" }}
         ></div>
         <div
           className="h-8 w-12 overflow-hidden rounded-t-full bg-black shadow-cyan-100"
-          style={{ boxShadow: "1px -40px 40px 40px #cffafe" }}
+          style={{ animation: "fadeInShadow .4s ease-in 2s forwards" }}
         ></div>
         <div
           className="h-8 w-12 overflow-hidden rounded-t-full bg-black shadow-cyan-100"
-          style={{ boxShadow: "1px -40px 40px 40px #cffafe" }}
+          style={{ animation: "fadeInShadow .4s ease-in 2s forwards" }}
         ></div>
       </div>
       <div className="w-fill relative z-10 h-20 bg-slate-900"></div>

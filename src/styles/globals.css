@@ -127,7 +127,7 @@
 }
 
 
-@keyframes backAndForthRight {
+@keyframes spotlightRight {
   0% {
     transform: rotate(20deg) skew(100deg);
     transform-origin: top
@@ -138,7 +138,7 @@
   }
 }
 
-@keyframes backAndForthLeft {
+@keyframes spotlightLeft {
   0% {
     transform: rotate(-20deg) skew(-100deg);
     transform-origin: top
@@ -146,5 +146,24 @@
   100% {
     transform: rotate(-25deg);
     transform-origin: top;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+  
+}
+
+@keyframes fadeInShadow {
+  0% {
+    box-shadow: 1px -40px 40px 0 rgba(207, 250, 254, 0);
+  }
+  100% {
+    box-shadow: 1px -40px 40px 40px rgba(207, 250, 254, 1);
   }
 }

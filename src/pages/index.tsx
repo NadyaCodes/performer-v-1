@@ -15,11 +15,17 @@ const Home: NextPage = () => {
       <main className="flex min-h-screen flex-col items-center bg-slate-900 text-cyan-50">
         <Menu />
         <Spotlights />
-        <div style={{ animation: "pullDownTop 2.5s forwards" }}>
-          <h1 className="m-7 text-5xl font-extrabold sm:text-[3rem]">
+        <div>
+          <h1
+            className="m-7 text-5xl font-extrabold sm:text-[3rem]"
+            style={{ animation: "pullDownTop 1s forwards 1s", opacity: 0 }}
+          >
             Resources for Canadian Performers
           </h1>
-          <h2 className="flex items-center justify-center">
+          <h2
+            className="flex items-center justify-center"
+            style={{ animation: "fadeIn 1s forwards 2s", opacity: 0 }}
+          >
             <div className="m-3 text-5xl font-extrabold sm:text-[2rem]">
               New?
             </div>

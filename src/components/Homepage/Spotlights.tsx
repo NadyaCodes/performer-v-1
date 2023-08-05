@@ -12,7 +12,7 @@ export default function Spotlights() {
             borderLeft: "110px solid transparent",
             borderRight: "110px solid transparent",
             borderBottom: "700px solid #cffafe40",
-            animation: "backAndForthRight 2s linear forwards",
+            animation: "spotlightRight 2s linear forwards",
           }}
         ></div>
       </div>
@@ -25,7 +25,7 @@ export default function Spotlights() {
             borderLeft: "110px solid transparent",
             borderRight: "110px solid transparent",
             borderBottom: "700px solid #cffafe40",
-            animation: "backAndForthLeft 2s linear forwards",
+            animation: "spotlightLeft 2s linear forwards",
           }}
         ></div>
       </div>
