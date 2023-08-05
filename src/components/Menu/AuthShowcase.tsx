@@ -1,23 +1,22 @@
 import { signIn, signOut, useSession } from "next-auth/react";
-import { api } from "@component/utils/api";
 
 const AuthShowcase: React.FC = () => {
   const { data: sessionData } = useSession();
 
-  const { data: secretMessage } = api.example.getSecretMessage.useQuery(
-    undefined, // no input
-    { enabled: sessionData?.user !== undefined }
-  );
+  const handleSignIn = async () => {
+    if (!sessionData) {
+      await signIn("google");
+    }
+  };
 
   return (
-    <div className="flex items-center justify-center gap-4">
-      <p className="text-center text-2xl text-white">
+    <div className="flex items-center justify-end">
+      <p className="text-center italic">
         {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
-        {secretMessage && <span> - {secretMessage}</span>}
       </p>
       <button
-        className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
-        onClick={sessionData ? () => void signOut() : () => void signIn()}
+        className=" m-3 rounded-full p-3 font-semibold outline outline-transparent transition hover:bg-teal-100 hover:shadow-md"
+        onClick={sessionData ? () => void signOut() : handleSignIn}
       >
         {sessionData ? "Sign out" : "Sign in"}
       </button>

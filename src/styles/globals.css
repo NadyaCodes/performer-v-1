@@ -28,3 +28,142 @@
 		transform: scaleY(1);
 	}	
 }
+
+
+@keyframes pullDownTop {
+  0% {
+    transform: scaleY(0);
+    opacity: 0;
+    transform-origin: top;
+  }
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+    transform-origin: top;
+  }
+}
+
+@keyframes flyIn {
+  0% {
+    transform: translateX(100vw);
+  }
+  100% {
+    transform: translateX(0vw)
+  }
+}
+
+@keyframes flyOut {
+
+  to {
+    transform: translateX(-100vw) rotate(-50deg) skew(90deg);
+  }
+}
+
+@keyframes flyInOut {
+  0% {
+    transform: translateX(100vw) scale(0.8);
+  }
+  30% {
+    transform: translateX(0) scale(1.1);
+  }
+  70% {
+    transform: scale(1.5) translateX(0);
+  }
+
+  100% {
+    transform: scale(0.2, 0.5) translateX(-150vw) translateY(-140vh) rotate(-420deg) skew(80deg);
+  }
+}
+
+@keyframes wiggle {
+
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(3deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(-3deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes scroller {
+  0% {
+    transform: translateX(100vw)
+  }
+  100% {
+    transform: translateX(-100vw);
+  }
+  
+}
+
+/* .ticker-container {
+  display: flex;
+  overflow: hidden;
+} */
+
+/* Create the animation keyframes */
+@keyframes ticker {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Apply the animation to the ticker text elements */
+.ticker-text {
+  animation: ticker 20s linear infinite;
+  white-space: nowrap;
+  padding-right: 1rem; /* Add some spacing between the repeated text */
+}
+
+
+@keyframes spotlightRight {
+  0% {
+    transform: rotate(20deg) skew(100deg);
+    transform-origin: top
+  }
+  100% {
+    transform: rotate(25deg);
+    transform-origin: top;
+  }
+}
+
+@keyframes spotlightLeft {
+  0% {
+    transform: rotate(-20deg) skew(-100deg);
+    transform-origin: top
+  }
+  100% {
+    transform: rotate(-25deg);
+    transform-origin: top;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+  
+}
+
+@keyframes fadeInShadow {
+  0% {
+    box-shadow: 1px -40px 40px 0 rgba(207, 250, 254, 0);
+  }
+  100% {
+    box-shadow: 1px -40px 40px 40px rgba(207, 250, 254, 1);
+  }
+}
