@@ -24,7 +24,7 @@ export default function Hero() {
 
   return (
     <div>
-      <div className="m-20 flex flex-col place-items-center bg-teal-950 p-3 shadow-2xl shadow-cyan-300">
+      <div className="mx-32 mt-20 flex flex-col place-items-center bg-teal-950 p-16 shadow-2xl shadow-cyan-300">
         {featuredText === "act" && (
           <div
             className="hero-phrase m-5 text-5xl font-extrabold sm:text-[6rem]"
@@ -70,7 +70,7 @@ export default function Hero() {
           </div>
         )}
       </div>
-      <div className="relative flex justify-around">
+      <div className="relative mx-20 flex justify-around">
         <div
           className="h-8 w-12 overflow-hidden rounded-t-full bg-black shadow-cyan-100"
           style={{ boxShadow: "1px -50px 50px 50px #cffafe" }}
@@ -88,7 +88,18 @@ export default function Hero() {
           style={{ boxShadow: "1px -50px 50px 50px #cffafe" }}
         ></div>
       </div>
-      <div className="w-fill relative z-10 h-8 bg-teal-950"></div>
+      <div className="w-fill relative z-10 h-9 bg-teal-950"></div>
+
+      <div className="m-5 flex flex-col text-5xl font-extrabold opacity-10 sm:text-[20rem]">
+        <div className="flex">
+          <div className="">A</div>
+          <div className="">S</div>
+        </div>
+        <div className="flex">
+          <div className="">D</div>
+          <div className="">R</div>
+        </div>
+      </div>
     </div>
   );
 }

@@ -25,14 +25,14 @@ export default function Menu() {
           <Logo color="black" />
           <Link
             href={"/"}
-            className="my-2 flex rounded-t-md border-b-2 border-transparent bg-transparent py-2 pl-2 font-semibold  transition-all hover:border-cyan-700 "
+            className="group my-2 flex rounded-t-md border-b-2 border-transparent bg-transparent py-4 font-semibold transition-all hover:border-cyan-700"
           >
             <button className="">Home</button>
           </Link>
           <div className="">
             <Link
               href={"/program-search"}
-              className="group my-2 flex rounded-t-md border-b-2 border-transparent bg-transparent py-4 font-semibold transition-all hover:border-cyan-700 "
+              className="group my-2 flex rounded-t-md border-b-2 border-transparent bg-transparent py-4 font-semibold transition-all hover:border-cyan-700"
               onMouseEnter={() => setToolTip("finderTip")}
               onMouseLeave={() => setToolTip("")}
             >
@@ -97,7 +97,7 @@ export default function Menu() {
                     animation: "pullDownTop 0.3s ease-in-out forwards",
                   }}
                 >
-                  Your personal list of saved programs.
+                  Your personal list of saved programs (Account Required)
                 </div>
               </div>
             )}
