@@ -125,3 +125,26 @@
   white-space: nowrap;
   padding-right: 1rem; /* Add some spacing between the repeated text */
 }
+
+
+@keyframes backAndForthRight {
+  0% {
+    transform: rotate(20deg) skew(100deg);
+    transform-origin: top
+  }
+  100% {
+    transform: rotate(25deg);
+    transform-origin: top;
+  }
+}
+
+@keyframes backAndForthLeft {
+  0% {
+    transform: rotate(-20deg) skew(-100deg);
+    transform-origin: top
+  }
+  100% {
+    transform: rotate(-25deg);
+    transform-origin: top;
+  }
+}
