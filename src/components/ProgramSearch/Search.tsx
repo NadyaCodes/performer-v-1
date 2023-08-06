@@ -41,7 +41,7 @@ export default function Search() {
   };
 
   return (
-    <div className="z-20 m-2 flex w-96">
+    <div className="z-20 mb-3 mt-7 flex w-96">
       <input
         className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow-md focus:outline-none"
         id="username"

@@ -33,9 +33,16 @@ export default function Menu({
   };
 
   const buttonList = valueArray.map((element) => {
-    const bgColor = element === selectedOptions?.type ? "bg-green-400" : "";
+    const bgColor =
+      (element === selectedOptions?.type && "bg-cyan-700 text-cyan-50") ||
+      (element === selectedOptions?.discipline && "bg-cyan-700 text-cyan-50") ||
+      (element === selectedOptions?.location.province &&
+        "bg-cyan-800 text-cyan-50") ||
+      (element === selectedOptions?.location.city &&
+        "bg-cyan-800 text-cyan-50");
+    ("");
 
-    const classString = `w-full p-2 capitalize ${bgColor} hover:bg-green-400`;
+    const classString = `w-full p-2 capitalize ${bgColor} hover:bg-cyan-200 hover:text-cyan-950 focus:bg-cyan-700 focus:text-cyan-50`;
     return (
       <button
         className={classString}
@@ -45,7 +52,7 @@ export default function Menu({
             element,
             selectedOptions,
             setSelectedOptions,
-            locationType && locationType
+            locationType
           )
         }
         key={element}
@@ -55,18 +62,16 @@ export default function Menu({
     );
   });
   return (
-    <div className="w-100 flex w-full flex-col items-center bg-green-100 shadow-lg">
-      {locationType === "city" && (
-        <div className="flex w-full justify-center bg-green-500 p-2 capitalize">
-          {selectedOptions?.location.province}
-        </div>
-      )}
+    <div
+      className="absolute flex w-96 flex-col items-center bg-cyan-100 text-cyan-950 shadow-lg transition-all"
+      style={{ animation: "pullDownTop .3s linear" }}
+    >
       {buttonList}
       <button
-        className="w-full bg-red-300 p-2 capitalize hover:bg-red-400"
-        onClick={() =>
-          updateFilter(menuType, "", selectedOptions, setSelectedOptions)
-        }
+        className="w-full bg-violet-300 p-2 capitalize hover:bg-violet-900 hover:text-violet-50"
+        onClick={() => {
+          updateFilter(menuType, "", selectedOptions, setSelectedOptions);
+        }}
       >
         RESET {menuType.toUpperCase()}
       </button>
