@@ -170,23 +170,30 @@ const CourseFinderComponent: NextPage = () => {
           setProgramDisplay,
         }}
       >
-        <FilterMenu />
-        {programDisplay && programDisplay.length > 0 ? (
-          <div className="h2">
-            There are {programDisplay.length} programs that fit your queries:
-          </div>
-        ) : (
-          <div>
-            Searching for Applicable Programs
-            <LoadingLines />
-          </div>
-        )}
-
-        <div>
-          {selectedOptions.type} {selectedOptions.discipline}{" "}
-          {selectedOptions.location.province}
+        <div className="relative z-30">
+          <FilterMenu />
         </div>
-        <div className="mx-40">{programDisplay}</div>
+        <div
+          className="opacity-0"
+          style={{ animation: "fadeIn 1s linear 2s forwards" }}
+        >
+          {programDisplay && programDisplay.length > 0 ? (
+            <div className="h2">
+              There are {programDisplay.length} programs that fit your queries:
+            </div>
+          ) : (
+            <div>
+              Searching for Applicable Programs
+              <LoadingLines />
+            </div>
+          )}
+
+          <div>
+            {selectedOptions.type} {selectedOptions.discipline}{" "}
+            {selectedOptions.location.province}
+          </div>
+          <div className="mx-40">{programDisplay}</div>
+        </div>
       </FilterContext.Provider>
     </div>
   );

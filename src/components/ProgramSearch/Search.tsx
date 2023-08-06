@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { FilterContext } from "./CourseFinderComponent";
 import { ProgramWithInfo } from "./types";
 import { filterPrograms } from "./helpers";
+import { search } from "@component/data/svgs";
 
 export default function Search() {
   const filterContext = useContext(FilterContext);
@@ -36,7 +37,7 @@ export default function Search() {
         (program): program is ProgramWithInfo => program !== null
       );
       setFilteredPrograms(filteredProgramsArray);
-      setSearchTerm("");
+      // setSearchTerm("");
     }
   };
 
@@ -51,18 +52,12 @@ export default function Search() {
         onChange={(e) => setSearchTerm(e.target.value)}
       />
       <button
-        className="mx-2 rounded border-2 border-cyan-700 px-2 hover:scale-105 hover:border-cyan-700 hover:bg-cyan-900"
+        className="mx-5 flex items-center rounded px-2 outline outline-cyan-700 hover:scale-105 hover:text-indigo-200 hover:outline-indigo-200"
+        style={{ boxShadow: "none" }}
         onClick={() => searchForValue(searchTerm)}
-        onMouseEnter={(e: React.MouseEvent<HTMLButtonElement>) => {
-          const element = e.target as HTMLButtonElement;
-          element.style.boxShadow = "inset 0px -2px 3px rgba(10,255,255,0.5)";
-        }}
-        onMouseLeave={(e: React.MouseEvent<HTMLButtonElement>) => {
-          const element = e.target as HTMLButtonElement;
-          element.style.boxShadow = "";
-        }}
       >
-        Search
+        <span className="p-1">Search</span>
+        <span className="p-1">{search}</span>
       </button>
     </div>
   );

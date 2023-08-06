@@ -63,12 +63,12 @@ export default function Menu({
   });
   return (
     <div
-      className="absolute flex w-96 flex-col items-center bg-cyan-100 text-cyan-950 shadow-lg transition-all"
+      className="absolute z-30 flex w-96 flex-col items-center bg-cyan-100 text-cyan-950 shadow-lg transition-all"
       style={{ animation: "pullDownTop .3s linear" }}
     >
       {buttonList}
       <button
-        className="w-full bg-violet-300 p-2 capitalize hover:bg-violet-900 hover:text-violet-50"
+        className="w-full bg-indigo-300 p-2 capitalize hover:bg-indigo-900 hover:text-indigo-50"
         onClick={() => {
           updateFilter(menuType, "", selectedOptions, setSelectedOptions);
         }}
