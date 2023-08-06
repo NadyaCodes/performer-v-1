@@ -1,4 +1,4 @@
-import ProgramSearchComponent from "@component/components/ProgramSearch/ProgramSearchComponent";
+import CourseFinderComponent from "@component/components/ProgramSearch/CourseFinderComponent";
 import { NextPage } from "next";
 import Menu from "@component/components/Menu/Menu";
 
@@ -6,7 +6,7 @@ const ProgramSearch: NextPage = () => {
   return (
     <div>
       <Menu />
-      <ProgramSearchComponent />
+      <CourseFinderComponent />
     </div>
   );
 };

@@ -20,7 +20,7 @@ const defaultFilterContext: FilterContextValue = {
 
 export const FilterContext = createContext<FilterContextState | null>(null);
 
-const ProgramSearchComponent: NextPage = () => {
+const CourseFinderComponent: NextPage = () => {
   const { data: ftProgramData } = api.ftProgram.getAll.useQuery();
   const { data: ptProgramData } = api.ptProgram.getAll.useQuery();
   const { data: schoolLocationData } = api.schoolLocation.getAll.useQuery();
@@ -192,4 +192,4 @@ const ProgramSearchComponent: NextPage = () => {
   );
 };
 
-export default ProgramSearchComponent;
+export default CourseFinderComponent;

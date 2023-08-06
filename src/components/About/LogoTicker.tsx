@@ -2,34 +2,10 @@ import React from "react";
 
 export default function LogoTicker() {
   return (
-    // <div
-    //   className="bg-cyan-950"
-    // >
-    //   <div className="flex overflow-hidden text-5xl font-extrabold tracking-tight text-white sm:text-[9rem]">
-    //     <div
-    //       className="ticker-text flex whitespace-nowrap pr-1"
-    //       style={{ animation: "ticker 10s linear infinite" }}
-    //     >
-    //       ACT. SING. DANCE. REPEAT.
-    //     </div>
-    //     <div
-    //       className="ticker-text flex whitespace-nowrap"
-    //       style={{ animation: "ticker 10s linear infinite" }}
-    //     >
-    //       ACT. SING. DANCE. REPEAT.
-    //     </div>
-    //     <div
-    //       className="ticker-text flex whitespace-nowrap"
-    //       style={{ animation: "ticker 10s linear infinite" }}
-    //     >
-    //       ACT. SING. DANCE. REPEAT.
-    //     </div>
-    //   </div>
-    // </div>
     <div
       className="relative bg-cyan-950"
       style={{
-        paddingBottom: "12px", // Space for the pseudo-element
+        paddingBottom: "12px",
       }}
     >
       <div className="flex overflow-hidden text-5xl font-extrabold tracking-tight text-white sm:text-[9rem]">

@@ -36,7 +36,7 @@ export default function Menu() {
           </Link>
           <div className="">
             <Link
-              href={"/program-search"}
+              href={"/course-finder"}
               className="group my-2 flex rounded-t-md border-b-2 border-transparent bg-transparent py-4 font-semibold transition-all hover:border-cyan-700"
               onMouseEnter={() => setToolTip("finderTip")}
               onMouseLeave={() => setToolTip("")}
