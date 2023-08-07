@@ -1,45 +1,17 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { FilterContext } from "./CourseFinderComponent";
-import { ProgramWithInfo } from "./types";
-import { filterPrograms } from "./helpers";
+
 import { search, xMark } from "@component/data/svgs";
+import { searchForValue } from "./helpers";
 
 export default function Search() {
   const filterContext = useContext(FilterContext);
-  const setFilteredPrograms = filterContext?.setFilteredPrograms;
-  const allPrograms = filterContext?.allPrograms;
-  const selectedOptions = filterContext?.selectedOptions;
-  // const {searchTerm, setSearchTerm} = useContext(FilterContext)
 
-  // const [searchTerm, setSearchTerm] = useState("");
-
-  const searchForValue = (value: string) => {
-    if (setFilteredPrograms && allPrograms && selectedOptions) {
-      const resetSearchFilterPrograms = filterPrograms(
-        allPrograms,
-        selectedOptions
-      );
-      const newFilteredPrograms = resetSearchFilterPrograms.map((program) => {
-        if (
-          program?.website?.includes(value.toLowerCase()) ||
-          program?.name?.includes(value.toLowerCase()) ||
-          (program?.cityObj &&
-            program.cityObj.city.includes(value.toLowerCase())) ||
-          (program?.cityObj &&
-            program.cityObj.province.includes(value.toLowerCase())) ||
-          (program?.schoolObj &&
-            program.schoolObj.name.includes(value.toLowerCase()))
-        ) {
-          return program;
-        }
-        return null;
-      });
-
-      const filteredProgramsArray = newFilteredPrograms.filter(
-        (program): program is ProgramWithInfo => program !== null
-      );
-      setFilteredPrograms(filteredProgramsArray);
-      filterContext && filterContext.setActiveSearchTerm(value);
+  const setSearchResults = (value: string) => {
+    if (filterContext) {
+      const filteredProgramsArray = searchForValue(value, filterContext);
+      filterContext?.setFilteredPrograms(filteredProgramsArray);
+      filterContext?.setActiveSearchTerm(value);
     }
   };
 
@@ -58,9 +30,7 @@ export default function Search() {
       <button
         className="mx-5 flex items-center rounded px-3 outline outline-cyan-700 hover:scale-105 hover:text-indigo-200 hover:outline-indigo-200"
         style={{ boxShadow: "none" }}
-        onClick={() =>
-          filterContext && searchForValue(filterContext?.searchTerm)
-        }
+        onClick={() => setSearchResults(filterContext?.searchTerm || "")}
       >
         <span className="p-1">Search</span>
         <span className="p-1">{search}</span>
@@ -69,8 +39,7 @@ export default function Search() {
         className="mx-1 flex items-center justify-center rounded px-3 outline outline-pink-400 hover:scale-105 hover:text-indigo-200 hover:outline-indigo-200"
         style={{ boxShadow: "none" }}
         onClick={() => {
-          searchForValue("");
-          filterContext?.setActiveSearchTerm("");
+          setSearchResults("");
           filterContext?.setSearchTerm("");
         }}
       >

@@ -31,6 +31,7 @@ export type FilterContextState = {
   setFilteredPrograms(filteredPrograms: ProgramWithInfo[]): void;
   allPrograms: ProgramWithInfo[];
   setProgramDisplay(programDisplay: JSX.Element[]): void;
+  activeSearchTerm: string;
   setActiveSearchTerm(activeSearchTerm: string): void;
   searchTerm: string;
   setSearchTerm(searchTerm: string): void;

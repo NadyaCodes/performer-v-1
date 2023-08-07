@@ -1,4 +1,9 @@
-import { LocationObject, FilterContextValue, ProgramWithInfo } from "./types";
+import {
+  LocationObject,
+  FilterContextValue,
+  ProgramWithInfo,
+  FilterContextState,
+} from "./types";
 
 export const displayDisciplineText = (discipline: string) => {
   const disciplineObject: Record<string, string> = {
@@ -70,4 +75,34 @@ export const filterPrograms = (
   }
 
   return tempFilteredPrograms;
+};
+
+export const searchForValue = (
+  value: string,
+  filterContext: FilterContextState
+) => {
+  const resetSearchFilterPrograms = filterPrograms(
+    filterContext?.allPrograms,
+    filterContext?.selectedOptions
+  );
+  const newFilteredPrograms = resetSearchFilterPrograms.map((program) => {
+    if (
+      program?.website?.includes(value.toLowerCase()) ||
+      program?.name?.includes(value.toLowerCase()) ||
+      (program?.cityObj &&
+        program.cityObj.city.includes(value.toLowerCase())) ||
+      (program?.cityObj &&
+        program.cityObj.province.includes(value.toLowerCase())) ||
+      (program?.schoolObj &&
+        program.schoolObj.name.includes(value.toLowerCase()))
+    ) {
+      return program;
+    }
+    return null;
+  });
+
+  const filteredProgramsArray = newFilteredPrograms.filter(
+    (program): program is ProgramWithInfo => program !== null
+  );
+  return filteredProgramsArray;
 };
