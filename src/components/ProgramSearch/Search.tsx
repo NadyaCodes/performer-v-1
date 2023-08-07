@@ -9,7 +9,9 @@ export default function Search() {
   const setFilteredPrograms = filterContext?.setFilteredPrograms;
   const allPrograms = filterContext?.allPrograms;
   const selectedOptions = filterContext?.selectedOptions;
-  const [searchTerm, setSearchTerm] = useState("");
+  // const {searchTerm, setSearchTerm} = useContext(FilterContext)
+
+  // const [searchTerm, setSearchTerm] = useState("");
 
   const searchForValue = (value: string) => {
     if (setFilteredPrograms && allPrograms && selectedOptions) {
@@ -37,7 +39,7 @@ export default function Search() {
         (program): program is ProgramWithInfo => program !== null
       );
       setFilteredPrograms(filteredProgramsArray);
-      // setSearchTerm("");
+      filterContext && filterContext.setActiveSearchTerm(value);
     }
   };
 
@@ -48,13 +50,17 @@ export default function Search() {
         id="username"
         type="text"
         placeholder="Search"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        value={(filterContext && filterContext.searchTerm) || ""}
+        onChange={(e) =>
+          filterContext && filterContext.setSearchTerm(e.target.value)
+        }
       />
       <button
         className="mx-5 flex items-center rounded px-3 outline outline-cyan-700 hover:scale-105 hover:text-indigo-200 hover:outline-indigo-200"
         style={{ boxShadow: "none" }}
-        onClick={() => searchForValue(searchTerm)}
+        onClick={() =>
+          filterContext && searchForValue(filterContext?.searchTerm)
+        }
       >
         <span className="p-1">Search</span>
         <span className="p-1">{search}</span>
@@ -62,7 +68,11 @@ export default function Search() {
       <button
         className="mx-1 flex items-center justify-center rounded px-3 outline outline-pink-400 hover:scale-105 hover:text-indigo-200 hover:outline-indigo-200"
         style={{ boxShadow: "none" }}
-        onClick={() => searchForValue(searchTerm)}
+        onClick={() => {
+          searchForValue("");
+          filterContext?.setActiveSearchTerm("");
+          filterContext?.setSearchTerm("");
+        }}
       >
         <span className="p-1">Clear Search Term</span>
         <span className="p-1">{xMark}</span>

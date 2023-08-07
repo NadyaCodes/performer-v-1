@@ -11,6 +11,7 @@ import {
 } from "./types";
 import { useSession } from "next-auth/react";
 import LoadingLines from "../Loading/LoadingLines";
+import { disciplinesFull, stylesFull } from "@component/data/constants";
 
 const defaultFilterContext: FilterContextValue = {
   type: "",
@@ -41,6 +42,8 @@ const CourseFinderComponent: NextPage = () => {
   );
   const [userFavs, setUserFavs] = useState<string[] | null>(null);
   const [loadingFavs, setLoadingFavs] = useState(true);
+  const [activeSearchTerm, setActiveSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
   //Capture all program data, and add type to object
   useEffect(() => {
@@ -159,7 +162,7 @@ const CourseFinderComponent: NextPage = () => {
   }, [sessionData]);
 
   return (
-    <div>
+    <div className="bg-cyan-50">
       <FilterContext.Provider
         value={{
           selectedOptions,
@@ -168,6 +171,9 @@ const CourseFinderComponent: NextPage = () => {
           setFilteredPrograms,
           allPrograms,
           setProgramDisplay,
+          setActiveSearchTerm,
+          searchTerm,
+          setSearchTerm,
         }}
       >
         <div className="relative z-30">
@@ -188,12 +194,38 @@ const CourseFinderComponent: NextPage = () => {
             </div>
           )}
 
-          <div>
-            {selectedOptions.type && selectedOptions.type}
-            {selectedOptions.discipline && selectedOptions.discipline}
-            {selectedOptions.location.province &&
-              selectedOptions.location.province}
-            {selectedOptions.location.city && selectedOptions.location.city}
+          <div className="flex flex-col items-start border-2 capitalize">
+            <div className="">
+              Type: &nbsp;
+              {selectedOptions.type && stylesFull[selectedOptions.type]}
+            </div>
+            <div>
+              Discipline: &nbsp;
+              {selectedOptions.discipline &&
+                disciplinesFull[selectedOptions.discipline]}
+            </div>
+            <div>
+              Province: &nbsp;
+              {selectedOptions.location.province &&
+                selectedOptions.location.province}
+            </div>
+
+            <div>
+              City: &nbsp;
+              {selectedOptions.location.city && selectedOptions.location.city}
+            </div>
+
+            <div>Search Term: &nbsp;{activeSearchTerm}</div>
+            <button
+              className="my-2 rounded px-3 py-1 outline"
+              onClick={() => {
+                setSelectedOptions(defaultFilterContext);
+                setSearchTerm("");
+                setActiveSearchTerm("");
+              }}
+            >
+              Reset All
+            </button>
           </div>
           <div className="mx-40">{programDisplay}</div>
         </div>
