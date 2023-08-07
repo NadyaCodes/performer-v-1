@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { SetStateAction, useContext, Dispatch } from "react";
 import { updateFilter } from "./helpers";
 import { FilterContext } from "./CourseFinderComponent";
 
@@ -6,10 +6,12 @@ export default function Menu({
   valueArray,
   menuType,
   locationType,
+  setMenu,
 }: {
   valueArray: string[];
   menuType: string;
   locationType?: string;
+  setMenu?: Dispatch<SetStateAction<boolean>>;
 }) {
   const filterContext = useContext(FilterContext);
   const selectedOptions = filterContext?.selectedOptions;
@@ -46,15 +48,16 @@ export default function Menu({
     return (
       <button
         className={classString}
-        onClick={() =>
+        onClick={() => {
           updateFilter(
             menuType,
             element,
             selectedOptions,
             setSelectedOptions,
             locationType
-          )
-        }
+          );
+          setMenu && setMenu(false);
+        }}
         key={element}
       >
         {displayText(element)}
@@ -70,7 +73,10 @@ export default function Menu({
       <button
         className="w-full bg-indigo-300 p-2 capitalize hover:bg-indigo-900 hover:text-indigo-50"
         onClick={() => {
-          updateFilter(menuType, "", selectedOptions, setSelectedOptions);
+          {
+            updateFilter(menuType, "", selectedOptions, setSelectedOptions);
+            setMenu && setMenu(false);
+          }
         }}
       >
         RESET {menuType.toUpperCase()}

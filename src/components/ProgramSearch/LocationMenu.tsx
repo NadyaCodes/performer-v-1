@@ -1,8 +1,18 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, {
+  useEffect,
+  useContext,
+  useState,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import { FilterContext } from "./CourseFinderComponent";
 import Menu from "./Menu";
 
-export default function LocationMenu() {
+export default function LocationMenu({
+  setMenu,
+}: {
+  setMenu: Dispatch<SetStateAction<boolean>>;
+}) {
   const filterContext = useContext(FilterContext);
   const filteredPrograms = filterContext?.filteredPrograms;
   const allPrograms = filterContext?.allPrograms;
@@ -108,7 +118,12 @@ export default function LocationMenu() {
       )}
 
       {provinces.length === 1 && (
-        <Menu valueArray={cities} menuType="location" locationType="city" />
+        <Menu
+          valueArray={cities}
+          menuType="location"
+          locationType="city"
+          setMenu={setMenu}
+        />
       )}
     </div>
   );
