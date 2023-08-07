@@ -189,8 +189,11 @@ const CourseFinderComponent: NextPage = () => {
           )}
 
           <div>
-            {selectedOptions.type} {selectedOptions.discipline}{" "}
-            {selectedOptions.location.province}
+            {selectedOptions.type && selectedOptions.type}
+            {selectedOptions.discipline && selectedOptions.discipline}
+            {selectedOptions.location.province &&
+              selectedOptions.location.province}
+            {selectedOptions.location.city && selectedOptions.location.city}
           </div>
           <div className="mx-40">{programDisplay}</div>
         </div>

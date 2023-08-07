@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { FilterContext } from "./CourseFinderComponent";
 import { ProgramWithInfo } from "./types";
 import { filterPrograms } from "./helpers";
-import { search } from "@component/data/svgs";
+import { search, xMark } from "@component/data/svgs";
 
 export default function Search() {
   const filterContext = useContext(FilterContext);
@@ -42,9 +42,9 @@ export default function Search() {
   };
 
   return (
-    <div className="z-20 mb-3 mt-7 flex w-96">
+    <div className="z-20 mb-3 mt-7 flex justify-around">
       <input
-        className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow-md focus:outline-none"
+        className="focus:shadow-outline w-96 max-w-6xl appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow-md focus:outline-none"
         id="username"
         type="text"
         placeholder="Search"
@@ -52,12 +52,20 @@ export default function Search() {
         onChange={(e) => setSearchTerm(e.target.value)}
       />
       <button
-        className="mx-5 flex items-center rounded px-2 outline outline-cyan-700 hover:scale-105 hover:text-indigo-200 hover:outline-indigo-200"
+        className="mx-5 flex items-center rounded px-3 outline outline-cyan-700 hover:scale-105 hover:text-indigo-200 hover:outline-indigo-200"
         style={{ boxShadow: "none" }}
         onClick={() => searchForValue(searchTerm)}
       >
         <span className="p-1">Search</span>
         <span className="p-1">{search}</span>
+      </button>
+      <button
+        className="mx-1 flex items-center justify-center rounded px-3 outline outline-pink-400 hover:scale-105 hover:text-indigo-200 hover:outline-indigo-200"
+        style={{ boxShadow: "none" }}
+        onClick={() => searchForValue(searchTerm)}
+      >
+        <span className="p-1">Clear Search Term</span>
+        <span className="p-1">{xMark}</span>
       </button>
     </div>
   );

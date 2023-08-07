@@ -27,9 +27,6 @@ const Home: NextPage = () => {
             className="flex items-center justify-center"
             style={{ animation: "fadeIn 1s forwards 2s", opacity: 0 }}
           >
-            <div className="m-3 text-5xl font-extrabold sm:text-[2rem]">
-              New?
-            </div>
             <Link href={"/about"}>
               <button className="m-3 rounded p-3 outline">
                 Get Started Here
