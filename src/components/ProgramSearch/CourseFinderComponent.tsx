@@ -44,6 +44,7 @@ const CourseFinderComponent: NextPage = () => {
   const [loadingFavs, setLoadingFavs] = useState(true);
   const [activeSearchTerm, setActiveSearchTerm] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [loadingPageData, setLoadingPageData] = useState(true);
 
   //Capture all program data, and add type to object
   useEffect(() => {
@@ -111,8 +112,10 @@ const CourseFinderComponent: NextPage = () => {
           );
         }
       );
-
       setProgramDisplay(tempProgramDisplay);
+      setTimeout(() => {
+        setLoadingPageData(false);
+      }, 1500);
     }
   }, [selectedOptions, allPrograms]);
 
@@ -162,7 +165,7 @@ const CourseFinderComponent: NextPage = () => {
   }, [sessionData]);
 
   return (
-    <div className="bg-cyan-50">
+    <div>
       <FilterContext.Provider
         value={{
           selectedOptions,
@@ -179,55 +182,64 @@ const CourseFinderComponent: NextPage = () => {
         <div className="relative z-30">
           <FilterMenu />
         </div>
+        {loadingPageData && (
+          <div className="m-10 transition-all">
+            <LoadingLines />
+          </div>
+        )}
         <div
           className="opacity-0"
           style={{ animation: "fadeIn 1s linear 2s forwards" }}
         >
-          {programDisplay && programDisplay.length > 0 ? (
+          {!loadingPageData && programDisplay && programDisplay.length > 1 && (
             <div className="h2">
               There are {programDisplay.length} programs that fit your queries:
             </div>
-          ) : (
-            <div>
-              Searching for Applicable Programs
-              <LoadingLines />
+          )}
+          {!loadingPageData &&
+            programDisplay &&
+            programDisplay.length === 1 && (
+              <div className="h2">
+                There is {programDisplay.length} program that fits your queries:
+              </div>
+            )}
+
+          {!loadingPageData && (
+            <div className="flex flex-col items-start border-2 capitalize">
+              <div className="">
+                Type: &nbsp;
+                {selectedOptions.type && stylesFull[selectedOptions.type]}
+              </div>
+              <div>
+                Discipline: &nbsp;
+                {selectedOptions.discipline &&
+                  disciplinesFull[selectedOptions.discipline]}
+              </div>
+              <div>
+                Province: &nbsp;
+                {selectedOptions.location.province &&
+                  selectedOptions.location.province}
+              </div>
+
+              <div>
+                City: &nbsp;
+                {selectedOptions.location.city && selectedOptions.location.city}
+              </div>
+
+              <div>Search Term: &nbsp;{activeSearchTerm}</div>
+              <button
+                className="my-2 rounded px-3 py-1 outline"
+                onClick={() => {
+                  setSelectedOptions(defaultFilterContext);
+                  setSearchTerm("");
+                  setActiveSearchTerm("");
+                }}
+              >
+                Reset All
+              </button>
             </div>
           )}
-
-          <div className="flex flex-col items-start border-2 capitalize">
-            <div className="">
-              Type: &nbsp;
-              {selectedOptions.type && stylesFull[selectedOptions.type]}
-            </div>
-            <div>
-              Discipline: &nbsp;
-              {selectedOptions.discipline &&
-                disciplinesFull[selectedOptions.discipline]}
-            </div>
-            <div>
-              Province: &nbsp;
-              {selectedOptions.location.province &&
-                selectedOptions.location.province}
-            </div>
-
-            <div>
-              City: &nbsp;
-              {selectedOptions.location.city && selectedOptions.location.city}
-            </div>
-
-            <div>Search Term: &nbsp;{activeSearchTerm}</div>
-            <button
-              className="my-2 rounded px-3 py-1 outline"
-              onClick={() => {
-                setSelectedOptions(defaultFilterContext);
-                setSearchTerm("");
-                setActiveSearchTerm("");
-              }}
-            >
-              Reset All
-            </button>
-          </div>
-          <div className="mx-40">{programDisplay}</div>
+          {!loadingPageData && <div className="mx-40">{programDisplay}</div>}
         </div>
       </FilterContext.Provider>
     </div>
