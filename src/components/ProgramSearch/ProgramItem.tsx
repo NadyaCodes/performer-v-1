@@ -121,7 +121,7 @@ export default function ProgramItem({
   return (
     <div className="m-10 flex flex-col rounded-md border border-cyan-600 shadow-md shadow-slate-500 transition-all  hover:border-cyan-500 hover:shadow-lg hover:shadow-cyan-800">
       {sessionData?.user && !loadingFavs && (
-        <div className="absolute mx-5 my-4 place-self-end">
+        <div className="absolute mx-5 my-4 place-self-end hover:scale-150 hover:cursor-pointer">
           <div
             style={{
               animation: starAnimation,

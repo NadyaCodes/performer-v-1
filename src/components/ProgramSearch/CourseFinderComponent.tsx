@@ -13,6 +13,7 @@ import { useSession } from "next-auth/react";
 import LoadingLines from "../Loading/LoadingLines";
 import TermsDisplay from "./TermsDisplay";
 import ScrollArrow from "./ScrollArrow";
+import NoPrograms from "./NoPrograms";
 
 export const FilterContext = createContext<FilterContextState | null>(null);
 
@@ -165,6 +166,12 @@ const CourseFinderComponent: NextPage = () => {
     }
   }, [sessionData]);
 
+  useEffect(() => {
+    if (!sessionData) {
+      setLoadingFavs(false);
+    }
+  }, []);
+
   return (
     <div className="min-h-screen">
       <FilterContext.Provider
@@ -208,10 +215,7 @@ const CourseFinderComponent: NextPage = () => {
             <div className="w-7/12">{programDisplay}</div>
           )}
           {!loadingPageData && programDisplay && programDisplay.length < 1 && (
-            <div className=" flex w-7/12 justify-center pt-16 text-center">
-              There are no programs that match your queries. Please broaden your
-              search and try again.
-            </div>
+            <NoPrograms />
           )}
         </div>
       </FilterContext.Provider>

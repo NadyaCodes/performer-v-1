@@ -20,7 +20,7 @@ export default function Search() {
       {!filterContext?.activeSearchTerm ? (
         <div className="flex">
           <input
-            className="focus:shadow-outline w-96 max-w-6xl appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow-md focus:outline-none"
+            className="focus:shadow-outline w-96 max-w-6xl appearance-none rounded border bg-indigo-50 px-3 py-2 leading-tight text-gray-700 shadow-md focus:outline-none"
             id="username"
             type="text"
             placeholder="Search"
@@ -40,7 +40,7 @@ export default function Search() {
         </div>
       ) : (
         <button
-          className=" mx-5 flex h-10 items-center justify-center rounded px-3 outline outline-pink-400 hover:scale-105 hover:text-indigo-200 hover:outline-indigo-200"
+          className="mx-5 flex h-10 items-center justify-center rounded px-3 text-indigo-200 outline outline-indigo-200 hover:scale-105 hover:text-pink-100 hover:outline-pink-100"
           style={{ boxShadow: "none" }}
           onClick={() => {
             setSearchResults("");
