@@ -151,7 +151,7 @@ export default function ProgramItem({
           <LoadingSpinner iconSize="small" />
         </div>
       )}
-      <div className="m-6 flex flex-col items-center">
+      <div className="m-9 flex flex-col items-center text-center">
         <div className="text-xl font-bold capitalize">
           {"name" in element && element.name && <div>{element.name}</div>}
         </div>

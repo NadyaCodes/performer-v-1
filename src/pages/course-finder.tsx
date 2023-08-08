@@ -4,7 +4,7 @@ import Menu from "@component/components/Menu/Menu";
 
 const ProgramSearch: NextPage = () => {
   return (
-    <div className="bg-cyan-50">
+    <div className=" bg-cyan-50">
       <Menu />
       <CourseFinderComponent />
     </div>

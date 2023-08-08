@@ -57,21 +57,21 @@ export default function TermsDisplay({
   }, [filterContext?.activeSearchTerm, filterContext?.selectedOptions]);
 
   return (
-    <div className="sticky top-20 m-4 flex h-fit flex-col rounded border border-indigo-300 px-5 py-2 shadow-md shadow-indigo-500">
+    <div className=" sticky top-20 m-4 flex h-fit flex-col rounded border border-indigo-300 px-5 py-2 shadow-md shadow-indigo-500">
       <div className="my-2 w-full place-self-center rounded-md bg-indigo-200 p-2 text-center text-black shadow-md shadow-indigo-900">
         {num > 1 && (
-          <div className="h2 flex justify-center">
+          <div className="h2 flex items-center justify-center">
             There are
-            <div className="px-2" id="num">
+            <div className="px-2 text-lg" id="num">
               {num}
             </div>
             programs that fit your queries
           </div>
         )}
         {num === 1 && (
-          <div className="h2 flex justify-center">
+          <div className="h2 flex items-center justify-center">
             There is
-            <div className="px-2" id="num2">
+            <div className="px-2 text-lg" id="num2">
               {num}
             </div>
             program that fits your queries

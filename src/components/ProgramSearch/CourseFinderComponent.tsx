@@ -191,7 +191,7 @@ const CourseFinderComponent: NextPage = () => {
           </div>
         )}
         <div
-          className="m-5 flex opacity-0"
+          className="mx-5 mt-5 flex opacity-0"
           style={{ animation: "fadeIn 1s linear 2s forwards" }}
         >
           {!loadingPageData && (
