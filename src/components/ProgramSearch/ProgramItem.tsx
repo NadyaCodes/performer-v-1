@@ -119,9 +119,9 @@ export default function ProgramItem({
   };
 
   return (
-    <div className="m-10 flex flex-col border-2 border-purple-200">
+    <div className="m-10 flex flex-col rounded-md border border-cyan-600 shadow-md shadow-slate-500 transition-all  hover:border-cyan-500 hover:shadow-lg hover:shadow-cyan-800">
       {sessionData?.user && !loadingFavs && (
-        <div className="mx-5 my-2 place-self-end">
+        <div className="absolute mx-5 my-4 place-self-end">
           <div
             style={{
               animation: starAnimation,
@@ -130,10 +130,10 @@ export default function ProgramItem({
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              fill={fav ? "#c084fc" : "none"}
+              fill={fav ? "#7986cb" : "none"}
               viewBox="0 0 24 24"
               stroke-width="1.2"
-              stroke="#c084fc"
+              stroke="#7986cb"
               className="h-6 w-6"
               onClick={() => toggleFav()}
             >
@@ -151,8 +151,7 @@ export default function ProgramItem({
           <LoadingSpinner iconSize="small" />
         </div>
       )}
-      <div className="flex flex-col items-center">
-        <div className="text-sm italic">{element.id}</div>
+      <div className="m-6 flex flex-col items-center">
         <div className="text-xl font-bold capitalize">
           {"name" in element && element.name && <div>{element.name}</div>}
         </div>
@@ -163,7 +162,7 @@ export default function ProgramItem({
           {element.cityObj?.city}, {element.cityObj?.province}
         </div>
 
-        <div className="italic">
+        <div className="italic text-cyan-700 underline">
           <Link href={element.website} target="blank">
             {element.website}
           </Link>
