@@ -165,7 +165,7 @@ const CourseFinderComponent: NextPage = () => {
   }, [sessionData]);
 
   return (
-    <div>
+    <div className="min-h-screen">
       <FilterContext.Provider
         value={{
           selectedOptions,
@@ -189,7 +189,7 @@ const CourseFinderComponent: NextPage = () => {
           </div>
         )}
         <div
-          className="flex flex-col items-center opacity-0"
+          className="m-5 flex opacity-0"
           style={{ animation: "fadeIn 1s linear 2s forwards" }}
         >
           {!loadingPageData && (
@@ -199,9 +199,11 @@ const CourseFinderComponent: NextPage = () => {
             />
           )}
 
-          {!loadingPageData && <div className="mx-40">{programDisplay}</div>}
+          {!loadingPageData && programDisplay && programDisplay.length >= 1 && (
+            <div className="w-7/12">{programDisplay}</div>
+          )}
           {!loadingPageData && programDisplay && programDisplay.length < 1 && (
-            <div className="mx-40">
+            <div className=" flex w-7/12 justify-center pt-16 text-center">
               There are no programs that match your queries. Please broaden your
               search and try again.
             </div>

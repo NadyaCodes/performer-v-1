@@ -87,14 +87,14 @@ export const searchForValue = (
   );
   const newFilteredPrograms = resetSearchFilterPrograms.map((program) => {
     if (
-      program?.website?.includes(value.toLowerCase()) ||
-      program?.name?.includes(value.toLowerCase()) ||
+      program?.website?.toLowerCase().includes(value.toLowerCase()) ||
+      program?.name?.toLowerCase().includes(value.toLowerCase()) ||
       (program?.cityObj &&
-        program.cityObj.city.includes(value.toLowerCase())) ||
+        program.cityObj.city.toLowerCase().includes(value.toLowerCase())) ||
       (program?.cityObj &&
-        program.cityObj.province.includes(value.toLowerCase())) ||
+        program.cityObj.province.toLowerCase().includes(value.toLowerCase())) ||
       (program?.schoolObj &&
-        program.schoolObj.name.includes(value.toLowerCase()))
+        program.schoolObj.name.toLowerCase().includes(value.toLowerCase()))
     ) {
       return program;
     }
