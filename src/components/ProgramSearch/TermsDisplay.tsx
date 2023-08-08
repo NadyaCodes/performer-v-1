@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FilterContext } from "./CourseFinderComponent";
 import { stylesFull, disciplinesFull } from "@component/data/constants";
 import { FilterContextValue } from "./types";
@@ -12,7 +12,6 @@ export default function TermsDisplay({
   defaultFilterContext: FilterContextValue;
 }) {
   const filterContext = useContext(FilterContext);
-  // const [animateNum, setAnimateNum] = useState(false);
 
   const undoSearch = () => {
     filterContext?.setActiveSearchTerm("");
@@ -58,7 +57,7 @@ export default function TermsDisplay({
   }, [filterContext?.activeSearchTerm, filterContext?.selectedOptions]);
 
   return (
-    <div className="sticky top-20 m-4 flex h-fit w-4/12 flex-col rounded border border-indigo-300 px-5 py-2 shadow-md shadow-indigo-500">
+    <div className="sticky top-20 m-4 flex h-fit flex-col rounded border border-indigo-300 px-5 py-2 shadow-md shadow-indigo-500">
       <div className="my-2 w-full place-self-center rounded-md bg-indigo-200 p-2 text-center text-black shadow-md shadow-indigo-900">
         {num > 1 && (
           <div className="h2 flex justify-center">

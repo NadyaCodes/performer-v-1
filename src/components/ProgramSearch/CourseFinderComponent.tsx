@@ -12,6 +12,7 @@ import {
 import { useSession } from "next-auth/react";
 import LoadingLines from "../Loading/LoadingLines";
 import TermsDisplay from "./TermsDisplay";
+import ScrollArrow from "./ScrollArrow";
 
 export const FilterContext = createContext<FilterContextState | null>(null);
 
@@ -183,6 +184,7 @@ const CourseFinderComponent: NextPage = () => {
         <div className="relative z-30">
           <FilterMenu />
         </div>
+
         {loadingPageData && (
           <div className="m-10 transition-all">
             <LoadingLines />
@@ -193,10 +195,13 @@ const CourseFinderComponent: NextPage = () => {
           style={{ animation: "fadeIn 1s linear 2s forwards" }}
         >
           {!loadingPageData && (
-            <TermsDisplay
-              num={(programDisplay && programDisplay.length) || 0}
-              defaultFilterContext={defaultFilterContext}
-            />
+            <div className="flex w-4/12 flex-col">
+              <TermsDisplay
+                num={(programDisplay && programDisplay.length) || 0}
+                defaultFilterContext={defaultFilterContext}
+              />
+              <ScrollArrow />
+            </div>
           )}
 
           {!loadingPageData && programDisplay && programDisplay.length >= 1 && (
