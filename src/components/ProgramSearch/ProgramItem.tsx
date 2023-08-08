@@ -8,6 +8,18 @@ import { Dispatch } from "react";
 import { displayDisciplineText } from "./helpers";
 import Link from "next/link";
 import LoadingSpinner from "../Loading/LoadingSpinner";
+import { shareIcon } from "@component/data/svgs";
+import {
+  FacebookShareButton,
+  FacebookIcon,
+  WhatsappShareButton,
+  WhatsappIcon,
+  FacebookMessengerShareButton,
+  FacebookMessengerIcon,
+  EmailIcon,
+  EmailShareButton,
+} from "next-share";
+import ShareOptions from "./ShareOptions";
 
 export default function ProgramItem({
   element,
@@ -32,6 +44,8 @@ export default function ProgramItem({
   const starAnimation = animateStar
     ? "rotateSwell .8s linear infinite"
     : "none";
+
+  const [share, setShare] = useState(false);
 
   const findFav = async (
     type: string,
@@ -119,7 +133,10 @@ export default function ProgramItem({
   };
 
   return (
-    <div className="m-10 flex flex-col rounded-md border border-cyan-600 shadow-md shadow-slate-500 transition-all  hover:border-cyan-500 hover:shadow-lg hover:shadow-cyan-800">
+    <div className="m-10 flex flex-col rounded-md border border-cyan-600 shadow-md shadow-slate-500 transition-all  hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-800">
+      <div className="h-0 translate-x-16 place-self-end">
+        {share && <ShareOptions program={element} setShare={setShare} />}
+      </div>
       {sessionData?.user && !loadingFavs && (
         <div className="absolute mx-5 my-4 place-self-end hover:scale-150 hover:cursor-pointer">
           <div
@@ -151,6 +168,7 @@ export default function ProgramItem({
           <LoadingSpinner iconSize="small" />
         </div>
       )}
+
       <div className="m-9 flex flex-col items-center text-center">
         <div className="text-xl font-bold capitalize">
           {"name" in element && element.name && <div>{element.name}</div>}
@@ -170,6 +188,14 @@ export default function ProgramItem({
         <div>
           {element.type === "ft" ? "Full Time " : "Part Time "}{" "}
           {displayDisciplineText(element.discipline)}{" "}
+        </div>
+      </div>
+      <div className="mr-5 h-0 -translate-y-12 place-self-end">
+        <div
+          className="text-cyan-700 hover:scale-150 hover:cursor-pointer"
+          onClick={() => setShare(!share)}
+        >
+          {shareIcon}
         </div>
       </div>
     </div>

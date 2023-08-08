@@ -168,7 +168,7 @@
     transform: scale(1.2);
   }
   100% {
-
+    opacity: 1;
     transform: translateY(0) scale(1);
     
   }
@@ -215,6 +215,33 @@
   }
   100% {
     transform: translateY(0rem);
+  }
+  
+}
+
+
+@keyframes flyInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(20rem) scale(0.8);
+  }
+  45% {
+    opacity: 1;
+    transform: scale(1.3) translateY(0.5rem) translateX(-0.5rem);
+  }
+  65% {
+    transform: translateY(-0.5rem) translateX(-0.5rem);
+  }
+  75% {
+    transform: translateY(-0.5rem) translateX(0rem);
+  }
+  90% {
+    transform: translateY(0rem) translateX(0.5rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    
   }
   
 }
