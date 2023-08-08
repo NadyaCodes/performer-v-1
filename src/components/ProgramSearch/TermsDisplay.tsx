@@ -81,9 +81,9 @@ export default function TermsDisplay({
         {num === 0 && <div className="h2 flex justify-center">{faceFrown}</div>}
       </div>
 
-      <div className="ml-10 mr-5 flex flex-col capitalize">
-        <div className="flex justify-between">
-          <span className="h-8">Type</span>
+      <div className="m-3 ml-10 mr-5 flex flex-col capitalize">
+        <div className="flex items-center justify-between">
+          <span className="flex h-9 items-center">Type</span>
           {filterContext?.selectedOptions.type && (
             <span
               className="flex items-center transition-all"
@@ -97,15 +97,16 @@ export default function TermsDisplay({
                     type: "",
                   });
                 }}
-                className="ml-2 flex scale-50 justify-center rounded-sm border border-pink-400 text-pink-500 hover:bg-pink-200"
+                className="ml-2 flex scale-50 justify-center rounded-full border border-pink-400 p-1 text-pink-500 hover:bg-pink-200"
               >
                 {xMark}
               </div>
             </span>
           )}
         </div>
+
         <div className="flex justify-between">
-          <span className="h-8">Discipline</span>
+          <span className="flex h-9 items-center">Discipline</span>
           {filterContext?.selectedOptions.discipline && (
             <span
               className="flex items-center transition-all"
@@ -119,7 +120,7 @@ export default function TermsDisplay({
                     discipline: "",
                   });
                 }}
-                className=" ml-2 flex scale-50 justify-center rounded-sm border border-pink-400 text-pink-500 hover:bg-pink-200"
+                className=" ml-2 flex scale-50 justify-center rounded-full border border-pink-400 p-1 text-pink-500 hover:bg-pink-200"
               >
                 {xMark}
               </div>
@@ -127,7 +128,7 @@ export default function TermsDisplay({
           )}
         </div>
         <div className="flex justify-between">
-          <span className="h-8">Province</span>
+          <span className="flex h-9 items-center">Province</span>
           {filterContext?.selectedOptions.location.province && (
             <span
               className="flex items-center transition-all"
@@ -144,7 +145,7 @@ export default function TermsDisplay({
                     },
                   });
                 }}
-                className="ml-2 flex scale-50 justify-center rounded-sm border border-pink-400 text-pink-500 hover:bg-pink-200"
+                className="ml-2 flex scale-50 justify-center rounded-full border border-pink-400 p-1 text-pink-500 hover:bg-pink-200"
               >
                 {xMark}
               </div>
@@ -153,7 +154,7 @@ export default function TermsDisplay({
         </div>
 
         <div className="flex justify-between">
-          <span className="h-8">City</span>
+          <span className="flex h-9 items-center">City</span>
           {filterContext?.selectedOptions.location.city && (
             <span
               className="flex items-center transition-all"
@@ -170,7 +171,7 @@ export default function TermsDisplay({
                     },
                   });
                 }}
-                className="ml-2 flex scale-50 justify-center rounded-sm border border-pink-400 text-pink-500 hover:bg-pink-200"
+                className="ml-2 flex scale-50 justify-center rounded-full border border-pink-400 p-1 text-pink-500 hover:bg-pink-200"
               >
                 {xMark}
               </div>
@@ -179,7 +180,7 @@ export default function TermsDisplay({
         </div>
 
         <div className="flex justify-between normal-case">
-          <span className="h-8">Search Term</span>
+          <span className="flex h-9 items-center">Search Term</span>
 
           {filterContext?.activeSearchTerm && (
             <span
@@ -189,7 +190,7 @@ export default function TermsDisplay({
               {filterContext.activeSearchTerm}
               <div
                 onClick={() => undoSearch()}
-                className="ml-2 flex scale-50 justify-center rounded-sm border border-pink-400 text-pink-500 hover:bg-pink-200"
+                className="ml-2 flex scale-50 justify-center rounded-full border border-pink-400 p-1 text-pink-500 hover:bg-pink-200"
               >
                 {xMark}
               </div>
