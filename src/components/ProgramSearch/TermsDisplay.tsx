@@ -81,15 +81,14 @@ export default function TermsDisplay({
         {num === 0 && <div className="h2 flex justify-center">{faceFrown}</div>}
       </div>
 
-      <div className="m-3 ml-10 mr-5 flex flex-col capitalize">
+      <div className="ml-6 flex flex-col capitalize">
         <div className="flex items-center justify-between">
-          <span className="flex h-9 items-center">Type</span>
+          <span className="flex h-9 w-28 items-center">Type</span>
           {filterContext?.selectedOptions.type && (
-            <span
-              className="flex items-center transition-all"
-              style={{ animation: "fadeIn .2s linear" }}
-            >
-              {stylesFull[filterContext.selectedOptions.type]}
+            <>
+              <span className="ml-2 w-7/12 break-words text-end">
+                {stylesFull[filterContext.selectedOptions.type]}
+              </span>
               <div
                 onClick={() => {
                   filterContext?.setSelectedOptions({
@@ -97,22 +96,21 @@ export default function TermsDisplay({
                     type: "",
                   });
                 }}
-                className="ml-2 flex scale-50 justify-center rounded-full border border-pink-400 p-1 text-pink-500 hover:bg-pink-200"
+                className="flex h-9 w-9 flex-shrink-0 scale-50 items-center justify-center rounded-full border border-pink-400 text-pink-500 hover:bg-pink-200"
               >
                 {xMark}
               </div>
-            </span>
+            </>
           )}
         </div>
 
-        <div className="flex justify-between">
-          <span className="flex h-9 items-center">Discipline</span>
+        <div className="flex items-center justify-between capitalize">
+          <span className="flex h-9 w-28  items-center">Discipline</span>
           {filterContext?.selectedOptions.discipline && (
-            <span
-              className="flex items-center transition-all"
-              style={{ animation: "fadeIn .2s linear" }}
-            >
-              {disciplinesFull[filterContext.selectedOptions.discipline]}
+            <>
+              <span className="ml-2 w-7/12 break-words text-end">
+                {disciplinesFull[filterContext.selectedOptions.discipline]}
+              </span>
               <div
                 onClick={() => {
                   filterContext?.setSelectedOptions({
@@ -120,21 +118,21 @@ export default function TermsDisplay({
                     discipline: "",
                   });
                 }}
-                className=" ml-2 flex scale-50 justify-center rounded-full border border-pink-400 p-1 text-pink-500 hover:bg-pink-200"
+                className="flex h-9 w-9 flex-shrink-0 scale-50 items-center justify-center rounded-full border border-pink-400 text-pink-500 hover:bg-pink-200"
               >
                 {xMark}
               </div>
-            </span>
+            </>
           )}
         </div>
-        <div className="flex justify-between">
-          <span className="flex h-9 items-center">Province</span>
+
+        <div className="flex items-center justify-between capitalize">
+          <span className="flex h-9 w-28  items-center ">Province</span>
           {filterContext?.selectedOptions.location.province && (
-            <span
-              className="flex items-center transition-all"
-              style={{ animation: "fadeIn .2s linear" }}
-            >
-              {filterContext.selectedOptions.location.province}
+            <>
+              <span className="ml-2 w-7/12 break-words text-end">
+                {filterContext.selectedOptions.location.province}
+              </span>
               <div
                 onClick={() => {
                   filterContext?.setSelectedOptions({
@@ -145,22 +143,21 @@ export default function TermsDisplay({
                     },
                   });
                 }}
-                className="ml-2 flex scale-50 justify-center rounded-full border border-pink-400 p-1 text-pink-500 hover:bg-pink-200"
+                className="flex h-9 w-9 flex-shrink-0 scale-50 items-center justify-center rounded-full border border-pink-400 text-pink-500 hover:bg-pink-200"
               >
                 {xMark}
               </div>
-            </span>
+            </>
           )}
         </div>
 
-        <div className="flex justify-between">
-          <span className="flex h-9 items-center">City</span>
+        <div className="flex items-center justify-between capitalize">
+          <span className="flex h-9 w-28 items-center">City</span>
           {filterContext?.selectedOptions.location.city && (
-            <span
-              className="flex items-center transition-all"
-              style={{ animation: "fadeIn .2s linear" }}
-            >
-              {filterContext.selectedOptions.location.city}
+            <>
+              <span className="ml-2 w-7/12 break-words text-end">
+                {filterContext.selectedOptions.location.city}
+              </span>
               <div
                 onClick={() => {
                   filterContext?.setSelectedOptions({
@@ -171,32 +168,31 @@ export default function TermsDisplay({
                     },
                   });
                 }}
-                className="ml-2 flex scale-50 justify-center rounded-full border border-pink-400 p-1 text-pink-500 hover:bg-pink-200"
+                className="flex h-9 w-9 flex-shrink-0 scale-50 items-center justify-center rounded-full border border-pink-400 text-pink-500 hover:bg-pink-200"
               >
                 {xMark}
               </div>
-            </span>
+            </>
           )}
         </div>
 
-        <div className="flex justify-between normal-case">
-          <span className="flex h-9 items-center">Search Term</span>
-
+        <div className="flex items-center justify-between normal-case">
+          <span className="flex h-9 w-28 items-center">Search Term</span>
           {filterContext?.activeSearchTerm && (
-            <span
-              className="flex items-center transition-all"
-              style={{ animation: "fadeIn .2s linear" }}
-            >
-              {filterContext.activeSearchTerm}
+            <>
+              <span className="ml-2 w-7/12 break-words text-end">
+                {filterContext.activeSearchTerm}
+              </span>
               <div
                 onClick={() => undoSearch()}
-                className="ml-2 flex scale-50 justify-center rounded-full border border-pink-400 p-1 text-pink-500 hover:bg-pink-200"
+                className="flex h-9 w-9 flex-shrink-0 scale-50 items-center justify-center rounded-full border border-pink-400 text-pink-500 hover:bg-pink-200"
               >
                 {xMark}
               </div>
-            </span>
+            </>
           )}
         </div>
+
         <button
           className="hover:outline-c mb-3 mt-6 w-2/3  place-self-center rounded px-3 py-1 text-indigo-900 outline outline-indigo-900 hover:scale-110 hover:bg-indigo-900 hover:text-indigo-50"
           onClick={() => {

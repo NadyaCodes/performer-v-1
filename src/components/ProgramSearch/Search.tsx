@@ -30,7 +30,7 @@ export default function Search() {
             }
           />
           <button
-            className="mx-5 flex items-center rounded px-3 outline outline-cyan-700 hover:scale-105 hover:text-indigo-200 hover:outline-indigo-200"
+            className="mx-5 flex h-10 items-center rounded px-3 outline outline-cyan-700 hover:scale-105 hover:text-indigo-200 hover:outline-indigo-200"
             style={{ boxShadow: "none" }}
             onClick={() => setSearchResults(filterContext?.searchTerm || "")}
           >
@@ -40,7 +40,7 @@ export default function Search() {
         </div>
       ) : (
         <button
-          className="mx-5 flex items-center justify-center rounded px-3 outline outline-pink-400 hover:scale-105 hover:text-indigo-200 hover:outline-indigo-200"
+          className=" mx-5 flex h-10 items-center justify-center rounded px-3 outline outline-pink-400 hover:scale-105 hover:text-indigo-200 hover:outline-indigo-200"
           style={{ boxShadow: "none" }}
           onClick={() => {
             setSearchResults("");
