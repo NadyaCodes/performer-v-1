@@ -117,9 +117,9 @@ export default function LocationMenu({
         />
       )}
 
-      {provinces.length === 1 && (
+      {provinces.length <= 1 && (
         <Menu
-          valueArray={cities}
+          valueArray={cities.length >= 1 ? cities : ["No Available Locations"]}
           menuType="location"
           locationType="city"
           setMenu={setMenu}

@@ -41,22 +41,30 @@ export default function Menu({
       (element === selectedOptions?.location.province &&
         "bg-cyan-800 text-cyan-50") ||
       (element === selectedOptions?.location.city &&
-        "bg-cyan-800 text-cyan-50");
-    ("");
+        "bg-cyan-800 text-cyan-50") ||
+      (element === "No Available Locations" && "bg-indigo-400 text-cyan-50") ||
+      "";
 
-    const classString = `w-full p-2 capitalize ${bgColor} hover:bg-cyan-200 hover:text-cyan-950 focus:bg-cyan-700 focus:text-cyan-50`;
+    const hover =
+      element === "No Available Locations"
+        ? ""
+        : "hover:bg-cyan-200 hover:text-cyan-950 focus:bg-cyan-700 focus:text-cyan-50";
+
+    const classString = `w-full p-2 capitalize ${bgColor} ${hover}`;
     return (
       <button
         className={classString}
         onClick={() => {
-          updateFilter(
-            menuType,
-            element,
-            selectedOptions,
-            setSelectedOptions,
-            locationType
-          );
-          setMenu && setMenu(false);
+          if (element !== "No Available Locations") {
+            updateFilter(
+              menuType,
+              element,
+              selectedOptions,
+              setSelectedOptions,
+              locationType
+            );
+            setMenu && setMenu(false);
+          }
         }}
         key={element}
       >
@@ -70,17 +78,19 @@ export default function Menu({
       style={{ animation: "pullDownTop .3s linear" }}
     >
       {buttonList}
-      <button
-        className="w-full bg-indigo-300 p-2 capitalize hover:bg-indigo-900 hover:text-indigo-50"
-        onClick={() => {
-          {
-            updateFilter(menuType, "", selectedOptions, setSelectedOptions);
-            setMenu && setMenu(false);
-          }
-        }}
-      >
-        RESET {menuType.toUpperCase()}
-      </button>
+      {valueArray[0] !== "No Available Locations" && (
+        <button
+          className="w-full bg-indigo-300 p-2 capitalize hover:bg-indigo-900 hover:text-indigo-50"
+          onClick={() => {
+            {
+              updateFilter(menuType, "", selectedOptions, setSelectedOptions);
+              setMenu && setMenu(false);
+            }
+          }}
+        >
+          RESET {menuType.toUpperCase()}
+        </button>
+      )}
     </div>
   );
 }

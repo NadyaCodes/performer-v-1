@@ -189,7 +189,7 @@ const CourseFinderComponent: NextPage = () => {
           </div>
         )}
         <div
-          className="opacity-0"
+          className="flex flex-col items-center opacity-0"
           style={{ animation: "fadeIn 1s linear 2s forwards" }}
         >
           {!loadingPageData && (
@@ -200,6 +200,12 @@ const CourseFinderComponent: NextPage = () => {
           )}
 
           {!loadingPageData && <div className="mx-40">{programDisplay}</div>}
+          {!loadingPageData && programDisplay && programDisplay.length < 1 && (
+            <div className="mx-40">
+              There are no programs that match your queries. Please broaden your
+              search and try again.
+            </div>
+          )}
         </div>
       </FilterContext.Provider>
     </div>
