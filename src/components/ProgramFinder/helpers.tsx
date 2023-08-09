@@ -4,6 +4,7 @@ import {
   ProgramWithInfo,
   FilterContextState,
 } from "./types";
+import { FavProgram } from "@prisma/client";
 
 export const displayDisciplineText = (discipline: string) => {
   const disciplineObject: Record<string, string> = {
@@ -105,4 +106,17 @@ export const searchForValue = (
     (program): program is ProgramWithInfo => program !== null
   );
   return filteredProgramsArray;
+};
+
+export const convertUserFavs = (favsArray: FavProgram[]) => {
+  const newArray = favsArray.map((element) => {
+    if (element.ftProgramId) {
+      return element.ftProgramId;
+    }
+    if (element.ptProgramId) {
+      return element.ptProgramId;
+    }
+  });
+
+  return newArray;
 };

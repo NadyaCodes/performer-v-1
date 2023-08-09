@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { api } from "@component/utils/api";
 import { PTProgram, FTProgram, CustomProgram } from "@prisma/client";
-import { ProgramWithInfo } from "../ProgramSearch/types";
+import { ProgramWithInfo } from "../ProgramFinder/types";
 import SingleProgram from "./SingleProgram";
 import LoadingLines from "../Loading/LoadingLines";
 import { backArrow, plusIcon } from "@component/data/svgs";

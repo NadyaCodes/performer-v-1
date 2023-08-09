@@ -4,7 +4,7 @@ import {
   DisciplineObject,
   NewProgramSubmission,
   TypeObject,
-} from "../ProgramSearch/types";
+} from "../ProgramFinder/types";
 import SingleProgramResult from "./SingleProgramResult";
 
 export type SingleProgramSubmission = {

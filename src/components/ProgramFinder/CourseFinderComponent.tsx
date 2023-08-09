@@ -14,6 +14,8 @@ import LoadingLines from "../Loading/LoadingLines";
 import TermsDisplay from "./TermsDisplay";
 import ScrollArrow from "./ScrollArrow";
 import NoPrograms from "./NoPrograms";
+import { FavProgram } from "@prisma/client";
+import { convertUserFavs } from "./helpers";
 
 export const FilterContext = createContext<FilterContextState | null>(null);
 
@@ -42,7 +44,6 @@ const CourseFinderComponent: NextPage = () => {
   const [filteredPrograms, setFilteredPrograms] = useState<ProgramWithInfo[]>(
     []
   );
-  const [userFavs, setUserFavs] = useState<string[] | null>(null);
   const [loadingFavs, setLoadingFavs] = useState(true);
   const [activeSearchTerm, setActiveSearchTerm] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
@@ -93,6 +94,46 @@ const CourseFinderComponent: NextPage = () => {
     setAllPrograms(tempArray);
   }, [ftProgramData, ptProgramData]);
 
+  //FAVE PROGRAMS
+
+  const [userFavsObject, setUserFavsObject] = useState<FavProgram[] | null>(
+    null
+  );
+  const [favProgramIdsArray, setFavProgramIdsArray] = useState<string[] | null>(
+    null
+  );
+
+  const fetchFavsObj = async (userId: string) => {
+    return await utils.favs.getAllForUser.fetch({ userId });
+  };
+
+  useEffect(() => {
+    if (!sessionData) {
+      setLoadingFavs(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (sessionData) {
+      fetchFavsObj(sessionData?.user.id).then(
+        (result) => result && setUserFavsObject(result)
+      );
+    } else {
+      setLoadingFavs(false);
+    }
+  }, [sessionData]);
+
+  useEffect(() => {
+    if (userFavsObject) {
+      const newArray = convertUserFavs(userFavsObject);
+      newArray.filter((element) => element !== undefined);
+      setFavProgramIdsArray([...newArray] as string[]);
+      setLoadingFavs(false);
+    } else {
+      setLoadingFavs(false);
+    }
+  }, [userFavsObject]);
+
   //filter and display correct data
   useEffect(() => {
     if (allPrograms) {
@@ -128,9 +169,10 @@ const CourseFinderComponent: NextPage = () => {
           <ProgramItem
             key={element.id}
             element={element}
-            fav={userFavs?.includes(element.id) || false}
-            findUserFavs={findUserFavs}
-            setUserFavs={setUserFavs}
+            fetchUserFavsObject={fetchFavsObj}
+            favesObject={userFavsObject}
+            setFavesObject={setUserFavsObject}
+            favProgramIdsArray={favProgramIdsArray}
             loadingFavs={loadingFavs}
           />
         );
@@ -138,39 +180,7 @@ const CourseFinderComponent: NextPage = () => {
     );
 
     setProgramDisplay(tempProgramDisplay);
-  }, [filteredPrograms, userFavs]);
-
-  //FAVE PROGRAMS
-
-  const findUserFavs = async (userId: string) => {
-    const allUserFavs = utils.favs.getAllForUser.fetch({ userId });
-    const userFavIds = (await allUserFavs).map((element) => {
-      if (element.ftProgramId) {
-        return element.ftProgramId;
-      }
-      if (element.ptProgramId) {
-        return element.ptProgramId;
-      }
-    });
-    setLoadingFavs(false);
-    return userFavIds;
-  };
-
-  useEffect(() => {
-    if (sessionData) {
-      findUserFavs(sessionData.user.id).then((result) =>
-        result
-          ? setUserFavs(result.filter((fav) => fav !== undefined) as string[])
-          : setUserFavs([])
-      );
-    }
-  }, [sessionData]);
-
-  useEffect(() => {
-    if (!sessionData) {
-      setLoadingFavs(false);
-    }
-  }, []);
+  }, [filteredPrograms, userFavsObject, favProgramIdsArray]);
 
   return (
     <div className="min-h-screen">

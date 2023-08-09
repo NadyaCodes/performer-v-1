@@ -10,7 +10,7 @@ import {
   PTProgram,
   FTProgram,
 } from "@prisma/client";
-import ProgramDisplayComponent from "@component/components/ProgramDisplay/ProgramDisplayComponent";
+import ProgramDisplayComponent from "@component/components/ProgramSelector/ProgramDisplayComponent";
 import Menu from "@component/components/Menu/Menu";
 
 export interface ProgramInfo extends SchoolLocation {
@@ -32,7 +32,7 @@ const DisplayPage: NextPage<SelectNextProps> = ({
   province,
 }) => {
   return (
-    <div>
+    <div className="min-h-screen bg-cyan-50 bg-opacity-80">
       <Menu />
       <ProgramDisplayComponent
         dataObject={{ style, discipline, city, province }}

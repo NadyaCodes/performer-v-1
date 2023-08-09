@@ -58,13 +58,17 @@ const Picker: NextPage<PickerProps> = ({
         className="p-2"
         onClick={() => setLoading && setLoading(true)}
       >
-        <button className="rounded border border-blue-500 bg-transparent px-4 py-2 font-semibold capitalize text-white hover:border-transparent hover:bg-blue-500 hover:text-white">
+        <button className="w-60 rounded bg-cyan-100 px-4 py-2 text-lg font-semibold capitalize text-cyan-900 shadow-md shadow-indigo-900 transition-all hover:scale-110 hover:bg-cyan-900 hover:text-cyan-50 hover:shadow-cyan-200">
           {buttonText}
         </button>
       </Link>
     );
   });
-  return <div className="p-4">{buttonDisplay}</div>;
+  return (
+    <div className="flex max-w-6xl flex-wrap justify-start p-4">
+      {buttonDisplay}
+    </div>
+  );
 };
 
 export default Picker;

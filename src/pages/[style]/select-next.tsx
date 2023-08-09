@@ -2,14 +2,14 @@ import { type NextPage, GetStaticProps } from "next";
 import { disciplines } from "@component/data/constants";
 import { PathsArray, SelectNextProps } from "@component/data/types";
 import { styles } from "@component/data/constants";
-import SelectNext from "@component/components/ProgramDisplay/SelectNext";
+import SelectNext from "@component/components/ProgramSelector/SelectNext";
 import { stylesFull } from "@component/data/constants";
 
 const StylePage: NextPage<SelectNextProps> = ({ style }) => {
   const link = `/${style}`;
-  const backLink = `/${style}`;
+  const backLink = `/course-selector`;
 
-  let titleString = `${stylesFull[style]} programs in Canada` || "";
+  let titleString = `${stylesFull[style]} Programs in Canada` || "";
 
   const selectNextOptions = {
     style,

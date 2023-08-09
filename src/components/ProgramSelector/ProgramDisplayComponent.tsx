@@ -5,11 +5,15 @@ import { useSession } from "next-auth/react";
 import { ProgramInfoArray } from "@component/pages/[style]/[discipline]/[province]/[city]";
 
 import { provincesFull } from "src/data/constants";
-import { ProgramWithInfo } from "@component/components/ProgramSearch/types";
-import ProgramItem from "@component/components/ProgramSearch/ProgramItem";
+import { ProgramWithInfo } from "@component/components/ProgramFinder/types";
+import ProgramItem from "@component/components/ProgramFinder/ProgramItem";
 
 import { stylesFull, disciplinesFull } from "src/data/constants";
 import LoadingLines from "../Loading/LoadingLines";
+import Link from "next/link";
+import { backChevron } from "@component/data/svgs";
+import { FavProgram } from "@prisma/client";
+import { convertUserFavs } from "../ProgramFinder/helpers";
 
 interface ProgramDisplayProps {
   dataObject: {
@@ -25,8 +29,14 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
 }) => {
   const { style, discipline, city, province } = dataObject;
   const [itemArray, setItemArray] = useState<ProgramWithInfo[] | null>(null);
-  const [userFavs, setUserFavs] = useState<string[] | null>(null);
   const [loadingFavs, setLoadingFavs] = useState(true);
+  const [userFavsObject, setUserFavsObject] = useState<FavProgram[] | null>(
+    null
+  );
+  const [favProgramIdsArray, setFavProgramIdsArray] = useState<string[] | null>(
+    null
+  );
+
   const { data: sessionData } = useSession();
 
   const utils = api.useContext();
@@ -159,58 +169,108 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
   };
 
   useEffect(() => {
-    if (sessionData) {
-      fetchData({ style, discipline, city, province }).then((result) => {
-        if (result) {
-          setItemArray(result);
-        }
-      });
-    }
-  }, [sessionData]);
-
-  const findUserFavs = async (userId: string) => {
-    const allUserFavs = utils.favs.getAllForUser.fetch({ userId });
-    const userFavIds = (await allUserFavs).map((element) => {
-      if (element.ftProgramId) {
-        return element.ftProgramId;
-      }
-      if (element.ptProgramId) {
-        return element.ptProgramId;
+    fetchData({ style, discipline, city, province }).then((result) => {
+      if (result) {
+        setItemArray(result);
       }
     });
-    setLoadingFavs(false);
-    return userFavIds;
-  };
+  }, []);
 
   useEffect(() => {
     if (sessionData) {
-      findUserFavs(sessionData.user.id).then((result) =>
-        result
-          ? setUserFavs(result.filter((fav) => fav !== undefined) as string[])
-          : setUserFavs([])
+      fetchFavsObj(sessionData?.user.id).then(
+        (result) => result && setUserFavsObject(result)
       );
+    } else {
+      setLoadingFavs(false);
     }
   }, [sessionData]);
+
+  const fetchFavsObj = async (userId: string) => {
+    return await utils.favs.getAllForUser.fetch({ userId });
+  };
+
+  useEffect(() => {
+    if (userFavsObject) {
+      const newArray = convertUserFavs(userFavsObject);
+      newArray.filter((element) => element !== undefined);
+      setFavProgramIdsArray([...newArray] as string[]);
+      setLoadingFavs(false);
+    } else {
+      setLoadingFavs(false);
+    }
+  }, [userFavsObject]);
 
   const displayArray = itemArray?.map((program) => {
     return (
       <ProgramItem
+        key={program.id}
         element={program}
-        fav={userFavs?.includes(program.id) || false}
-        findUserFavs={findUserFavs}
-        setUserFavs={setUserFavs}
+        fetchUserFavsObject={fetchFavsObj}
+        favesObject={userFavsObject}
+        setFavesObject={setUserFavsObject}
+        favProgramIdsArray={favProgramIdsArray}
         loadingFavs={loadingFavs}
       />
     );
   });
 
   return (
-    <div>
-      <h1 className="flex justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] p-10 text-5xl font-extrabold capitalize text-white sm:text-[3rem]">
-        {titleString}
-      </h1>
+    <div className="flex flex-col items-center">
+      <div
+        className="relative w-screen bg-cyan-950"
+        style={{
+          boxShadow:
+            "inset 0px -1px 2px rgba(0,255,255,0.5), inset 0px -2px 4px rgba(0,255,255,0.5), inset 0px -4px 8px rgba(0,255,255,0.5), inset 0px -8px 16px rgba(0,255,255,0.5)",
+        }}
+      >
+        <h1 className="flex  justify-center p-10 text-center text-5xl font-extrabold capitalize text-cyan-50 sm:text-[3rem]">
+          {titleString}
+        </h1>
+      </div>
+      <div className="mb-10 bg-cyan-950"></div>
+
+      <Link
+        href={`/${style}/${discipline}/${province}/select-next`}
+        className="w-screen p-2"
+      >
+        <button className="flex w-fit px-10 font-semibold text-cyan-800 hover:scale-110">
+          <span>{backChevron}</span>
+          <span>Back</span>
+        </button>
+      </Link>
+      {itemArray && itemArray.length > 0 && (
+        <div
+          className="mt-3 flex w-screen justify-center bg-gradient-to-b from-indigo-100 to-indigo-300 text-cyan-950 shadow-lg shadow-cyan-900"
+          style={{ animation: "flyInFadeIn 0.5s linear forwards" }}
+        >
+          <div
+            className="opacity-0"
+            style={{ animation: "flyInFadeIn 1s linear 0.6s forwards" }}
+          >
+            <div
+              style={{ animation: "translateUpToDown 1s linear 0.6s forwards" }}
+            >
+              <div
+                className="flex p-5 text-4xl font-bold"
+                style={{ animation: "rotateSwell 1s linear 0.6s forwards" }}
+              >
+                <div className="">{itemArray.length}</div>
+                <div className="ml-2">
+                  Matching Program{itemArray.length > 1 && "s"}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       {itemArray ? (
-        displayArray
+        <div
+          className="w-8/12 opacity-0"
+          style={{ animation: "fadeIn 1s linear 2s forwards" }}
+        >
+          {displayArray}
+        </div>
       ) : (
         <div className="m-20">
           <LoadingLines />

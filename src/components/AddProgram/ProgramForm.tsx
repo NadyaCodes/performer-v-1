@@ -6,7 +6,7 @@ import {
   FormErrorObject,
   NewProgramSubmission,
   TypeObject,
-} from "../ProgramSearch/types";
+} from "../ProgramFinder/types";
 import Form from "./Form";
 
 export default function ProgramForm() {

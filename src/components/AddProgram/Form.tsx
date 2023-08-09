@@ -1,5 +1,5 @@
 import React from "react";
-import { FormErrorObject, NewProgramSubmission } from "../ProgramSearch/types";
+import { FormErrorObject, NewProgramSubmission } from "../ProgramFinder/types";
 
 export default function Form({
   elementData,

@@ -1,5 +1,5 @@
 import { type NextPage, GetStaticProps } from "next";
-import SelectNext from "@component/components/ProgramDisplay/SelectNext";
+import SelectNext from "@component/components/ProgramSelector/SelectNext";
 import { PathsArray, SelectNextProps } from "@component/data/types";
 import {
   styles,
@@ -24,13 +24,13 @@ const ProvincePage: NextPage<SelectNextProps> = ({
 
   let titleString = "";
   if (discipline && province) {
-    titleString = `${stylesFull[style]} ${disciplinesFull[discipline]} programs in ${provincesFull[province]}`;
+    titleString = `${stylesFull[style]} ${disciplinesFull[discipline]} Programs in ${provincesFull[province]}`;
   } else if (discipline) {
-    titleString = `${stylesFull[style]} ${disciplinesFull[discipline]} programs in Canada`;
+    titleString = `${stylesFull[style]} ${disciplinesFull[discipline]} Programs in Canada`;
   } else if (province) {
-    titleString = `${stylesFull[style]} programs in Canada`;
+    titleString = `${stylesFull[style]} Programs in Canada`;
   } else {
-    titleString = `${stylesFull[style]} programs in Canada`;
+    titleString = `${stylesFull[style]} Programs in Canada`;
   }
 
   const selectNextOptions = {
