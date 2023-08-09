@@ -19,7 +19,7 @@ const prisma = new PrismaClient();
 
 const SingleProgramPage: NextPage<SingleProgramPageProps> = ({ programid }) => {
   return (
-    <div>
+    <div className="min-h-screen bg-cyan-50">
       <Menu />
       <SingleProgramPageComponent programid={programid} />
     </div>

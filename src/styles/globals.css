@@ -245,3 +245,14 @@
   }
   
 }
+
+@keyframes expandUp {
+	0% {
+		transform: translateY(150%) scaleX(0) scaleY(0.2);
+    opacity: 0;
+	}
+	100% {
+		transform: translateY(0%) scaleX(1) scaleY(1);
+    opacity: 1;
+	}	
+}

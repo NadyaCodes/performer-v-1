@@ -130,7 +130,7 @@ export default function ProgramItem({
   const toggleFav = async () => {
     if (userId) {
       setAnimateStar(true);
-      if (fav) {
+      if (await findFav(element.type, userId, element.id)) {
         const favProgramId = element.id;
         const favProgram = await findFav(type, userId, favProgramId);
         favProgram && deleteFav({ id: favProgram.id });
@@ -143,7 +143,7 @@ export default function ProgramItem({
 
   return (
     <div className="m-10 flex flex-col rounded-md border border-cyan-600 shadow-md shadow-slate-500 transition-all  hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-800">
-      <div className="h-0 translate-x-16 place-self-end">
+      <div className="h-0 translate-x-20 place-self-end">
         {share && <ShareOptions program={element} setShare={setShare} />}
       </div>
       {sessionData?.user && !loadingFavs && (
