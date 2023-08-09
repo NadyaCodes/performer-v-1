@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { api } from "@component/utils/api";
-import { ProgramWithInfo } from "../ProgramSearch/types";
+import { ProgramWithInfo } from "../ProgramFinder/types";
 import { ProgramWithType } from "../MyPrograms/MyProgramsComponent";
-import ProgramItem from "../ProgramSearch/ProgramItem";
+import ProgramItem from "../ProgramFinder/ProgramItem";
 import { useSession } from "next-auth/react";
 import LogoTicker from "../About/LogoTicker";
 import { arrowUpRightCorner } from "@component/data/svgs";

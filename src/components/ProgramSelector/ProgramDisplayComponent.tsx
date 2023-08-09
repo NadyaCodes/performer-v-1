@@ -5,8 +5,8 @@ import { useSession } from "next-auth/react";
 import { ProgramInfoArray } from "@component/pages/[style]/[discipline]/[province]/[city]";
 
 import { provincesFull } from "src/data/constants";
-import { ProgramWithInfo } from "@component/components/ProgramSearch/types";
-import ProgramItem from "@component/components/ProgramSearch/ProgramItem";
+import { ProgramWithInfo } from "@component/components/ProgramFinder/types";
+import ProgramItem from "@component/components/ProgramFinder/ProgramItem";
 
 import { stylesFull, disciplinesFull } from "src/data/constants";
 import LoadingLines from "../Loading/LoadingLines";

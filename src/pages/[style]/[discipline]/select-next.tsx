@@ -7,7 +7,7 @@ import {
 } from "@component/data/constants";
 import { PathsArray, SelectNextProps } from "@component/data/types";
 import { styles } from "@component/data/constants";
-import SelectNext from "@component/components/ProgramDisplay/SelectNext";
+import SelectNext from "@component/components/ProgramSelector/SelectNext";
 
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
@@ -21,7 +21,7 @@ const DisciplinePage: NextPage<SelectNextProps> = ({
   const backLink = `/${style}/select-next`;
   let titleString = "";
   if (discipline) {
-    titleString = `${stylesFull[style]} ${disciplinesFull[discipline]} programs in Canada`;
+    titleString = `${stylesFull[style]} ${disciplinesFull[discipline]} Programs in Canada`;
   } else {
     titleString = `${stylesFull[style]} programs in Canada`;
   }

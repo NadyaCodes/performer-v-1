@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { ProgramWithInfo } from "../ProgramSearch/types";
-import { displayDisciplineText } from "../ProgramSearch/helpers";
+import { ProgramWithInfo } from "../ProgramFinder/types";
+import { displayDisciplineText } from "../ProgramFinder/helpers";
 import Link from "next/link";
 import { Note } from "@prisma/client";
 import { useSession } from "next-auth/react";

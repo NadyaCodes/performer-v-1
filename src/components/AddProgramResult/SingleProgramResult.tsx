@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { LocationObject } from "../ProgramSearch/types";
+import { LocationObject } from "../ProgramFinder/types";
 import { api } from "@component/utils/api";
 import DOMPurify from "isomorphic-dompurify";
 import { useEffectOnce } from "./helpers";
