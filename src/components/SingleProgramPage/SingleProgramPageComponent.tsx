@@ -156,37 +156,21 @@ export default function SingleProgramPageComponent({
         {sessionData && (
           <div className="flex flex-col text-center text-4xl font-extrabold text-cyan-900">
             <div
-              className="m-2 opacity-0"
+              className="m-1 opacity-0"
               style={{ animation: "expandUp 0.7s linear 1s forwards" }}
             >
               Add to faves by clicking the star
             </div>
-
-            <div
-              className="m-5 text-3xl text-indigo-900 opacity-0"
-              style={{ animation: "flyInFadeIn 1s linear 5s forwards" }}
-            >
-              Now what?
-            </div>
-
-            <Link href={"/about"}>
-              <button
-                className="rounded p-3 opacity-0 shadow-md shadow-cyan-800 outline hover:shadow-lg hover:shadow-cyan-800 hover:outline-cyan-700"
-                style={{ animation: "fadeInGrow 1s linear 7s forwards" }}
-              >
-                Get Started Here
-              </button>
-            </Link>
           </div>
         )}
         <div
-          className="m-10 flex w-9/12 flex-col rounded-sm opacity-0 shadow-2xl shadow-cyan-700"
+          className="m-5 flex w-9/12 flex-col rounded-sm opacity-0 shadow-xl shadow-cyan-700"
           style={{ animation: "fadeInGrow 1s linear forwards" }}
         >
           {sessionData && (
             <div className="translate-x-10 place-self-end">
               <div
-                className="w-fit rotate-180 justify-items-end text-cyan-900 opacity-0"
+                className="h-0 w-fit rotate-180 justify-items-end text-cyan-900 opacity-0"
                 style={{ animation: "fadeIn 1s linear 2s forwards" }}
               >
                 {arrowUpRightCorner}
@@ -202,6 +186,23 @@ export default function SingleProgramPageComponent({
               loadingFavs={loadingFavs}
             />
           )}
+        </div>
+        <div className="m-7 flex items-center">
+          <div
+            className="mx-10 text-4xl font-bold text-cyan-800 opacity-0"
+            style={{ animation: "flyInFadeIn 1s linear 3s forwards" }}
+          >
+            Now what?
+          </div>
+
+          <Link href={"/about"}>
+            <button
+              className="rounded p-3 text-xl font-extrabold text-indigo-800 opacity-0 shadow-md shadow-cyan-800 outline hover:shadow-lg hover:shadow-cyan-800 hover:outline-cyan-700"
+              style={{ animation: "fadeInGrow 1s linear 5s forwards" }}
+            >
+              Get Started Here
+            </button>
+          </Link>
         </div>
       </div>
     </div>

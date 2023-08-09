@@ -66,7 +66,7 @@ export default function AboutComponent() {
         </div>
 
         <div
-          className=" m-5 flex  w-8/12 flex-col items-center rounded-lg border-2 border-cyan-200 opacity-0 shadow-xl shadow-cyan-700 dark:border-gray-700 dark:bg-gray-800"
+          className=" m-5 flex  w-8/12 flex-col items-center rounded-lg border-2 border-cyan-200 opacity-0 shadow-xl shadow-cyan-700"
           style={{
             animation: appearBox.box1 ? "fadeInGrow 1.5s ease-in forwards" : "",
           }}
@@ -88,7 +88,7 @@ export default function AboutComponent() {
         </div>
 
         <div
-          className=" m-5 flex w-8/12 flex-col items-center rounded-lg border-2 border-cyan-200 opacity-0 shadow-xl shadow-cyan-700 dark:border-gray-700 dark:bg-gray-800"
+          className=" m-5 flex w-8/12 flex-col items-center rounded-lg border-2 border-cyan-200 opacity-0 shadow-xl shadow-cyan-700"
           style={{
             animation: appearBox.box2 ? "fadeInGrow 1.5s ease-in forwards" : "",
           }}
@@ -111,7 +111,7 @@ export default function AboutComponent() {
         </div>
 
         <div
-          className=" m-5 flex  w-8/12 flex-col items-center rounded-lg border-2 border-cyan-200 opacity-0 shadow-xl shadow-cyan-700 dark:border-gray-700 dark:bg-gray-800"
+          className=" m-5 flex  w-8/12 flex-col items-center rounded-lg border-2 border-cyan-200 opacity-0 shadow-xl shadow-cyan-700 "
           style={{
             animation: appearBox.box3 ? "fadeInGrow 1.5s ease-in forwards" : "",
           }}
@@ -138,7 +138,7 @@ export default function AboutComponent() {
         </div>
 
         <div
-          className=" m-5 flex  w-8/12 flex-col items-center rounded-lg border-2 border-cyan-200 opacity-0 shadow-xl shadow-cyan-700 dark:border-gray-700 dark:bg-gray-800"
+          className=" m-5 flex  w-8/12 flex-col items-center rounded-lg border-2 border-cyan-200 opacity-0 shadow-xl shadow-cyan-700 "
           style={{
             animation: appearBox.box4 ? "fadeInGrow 1.5s ease-in forwards" : "",
           }}
@@ -165,7 +165,7 @@ export default function AboutComponent() {
         </div>
 
         <div
-          className=" m-5 flex  w-8/12 flex-col items-center rounded-lg border-2 border-red-200 opacity-0 shadow-lg shadow-red-200 dark:border-gray-700 dark:bg-gray-800"
+          className=" m-5 flex  w-8/12 flex-col items-center rounded-lg border-2 border-red-200 opacity-0 shadow-lg shadow-red-200 "
           style={{
             animation: appearBox.box5 ? "fadeInGrow 1.5s ease-in forwards" : "",
           }}

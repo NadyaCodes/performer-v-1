@@ -34,7 +34,9 @@ export default function ShareOptions({
             }
             hashtag={"#ActSingDanceRepeat"}
           >
-            <FacebookIcon size={32} round />
+            <div style={{ filter: "hue-rotate(20deg)" }}>
+              <FacebookIcon size={32} round />
+            </div>
           </FacebookShareButton>
         </div>
       </div>
@@ -50,7 +52,9 @@ export default function ShareOptions({
             }
             separator=":: "
           >
-            <WhatsappIcon size={32} round />
+            <div style={{ filter: "hue-rotate(70deg)" }}>
+              <WhatsappIcon size={32} round />
+            </div>
           </WhatsappShareButton>
         </div>
       </div>
@@ -61,7 +65,9 @@ export default function ShareOptions({
       >
         <div className="m-0.5 flex rounded-full hover:scale-105 hover:shadow-xl hover:shadow-slate-500">
           <FacebookMessengerShareButton appId={""} url={programUrl}>
-            <FacebookMessengerIcon size={32} round />
+            <div style={{ filter: "hue-rotate(320deg)" }}>
+              <FacebookMessengerIcon size={32} round />
+            </div>
           </FacebookMessengerShareButton>
         </div>
       </div>
@@ -77,7 +83,9 @@ export default function ShareOptions({
             }
             body={`${program.schoolObj?.name.toUpperCase()} has a program you might like! Check it out on Act Sing Dance Repeat here:`}
           >
-            <EmailIcon size={32} round />
+            <div style={{ filter: "sepia(100%) hue-rotate(230deg)" }}>
+              <EmailIcon size={32} round />
+            </div>
           </EmailShareButton>
         </div>
       </div>
@@ -87,7 +95,7 @@ export default function ShareOptions({
         className="m-0.5 cursor-pointer opacity-0 transition-all"
         style={{ animation: "flyInRight 0.7s linear 0.8s forwards" }}
       >
-        <div className="m-0.5 rounded-full border-2 border-pink-300 p-0.5 text-pink-500 hover:scale-110 hover:shadow-md hover:shadow-slate-500">
+        <div className="m-0.5 rounded-full border-2 border-rose-400 bg-rose-400 p-0.5 text-rose-100 hover:scale-110 hover:shadow-md hover:shadow-slate-500">
           {xMark}
         </div>
       </div>

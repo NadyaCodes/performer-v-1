@@ -35,7 +35,7 @@ export default function LogoTicker() {
         </div>
       </div>
       <div
-        className="absolute bottom-0 left-0 right-0 h-44"
+        className="absolute bottom-0 left-0 right-0 h-40"
         style={{
           boxShadow:
             "inset 0px -1px 2px rgba(0,255,255,0.5), inset 0px -2px 4px rgba(0,255,255,0.5), inset 0px -4px 8px rgba(0,255,255,0.5), inset 0px -8px 16px rgba(0,255,255,0.5)",
