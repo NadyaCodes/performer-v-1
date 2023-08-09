@@ -285,3 +285,14 @@
     transform: translateY(-0.2rem) translateX(0)  rotate(0);
   }
 }
+
+
+@keyframes translateUpToDown {
+  from{
+    transform: translateY(-50rem);
+  }
+  to {
+    transform: translateY(0rem);
+  }
+  
+}

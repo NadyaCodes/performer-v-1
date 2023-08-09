@@ -168,6 +168,18 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
     });
   }, []);
 
+  useEffect(() => {
+    if (sessionData) {
+      findUserFavs(sessionData.user.id).then((result) =>
+        result
+          ? setUserFavs(result.filter((fav) => fav !== undefined) as string[])
+          : setUserFavs([])
+      );
+    } else {
+      setLoadingFavs(false);
+    }
+  }, [sessionData]);
+
   const findUserFavs = async (userId: string) => {
     const allUserFavs = utils.favs.getAllForUser.fetch({ userId });
     const userFavIds = (await allUserFavs).map((element) => {
@@ -182,29 +194,39 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
     return userFavIds;
   };
 
+  const fetchFavsObj = async (userId: string) => {
+    return await utils.favs.getAllForUser.fetch({ userId });
+  };
+
+  const fetchFavsArray = async (userId: string) => {
+    const favsData = await fetchFavsObj(userId);
+    const favsArray = favsData.map((element) => {
+      return element.id;
+    });
+    return favsArray;
+  };
+
+  const [displayArray, setDisplayArray] = useState<React.JSX.Element[]>([]);
+
   useEffect(() => {
     if (sessionData) {
-      findUserFavs(sessionData.user.id).then((result) =>
-        result
-          ? setUserFavs(result.filter((fav) => fav !== undefined) as string[])
-          : setUserFavs([])
-      );
-    } else {
-      setLoadingFavs(false);
+      findUserFavs(sessionData?.user.id).then((result) => {
+        const newDisplayArray = itemArray?.map((program) => {
+          const isFav = result.includes(program.id);
+          return (
+            <ProgramItem
+              element={program}
+              fav={isFav || false}
+              findUserFavs={fetchFavsArray}
+              setUserFavs={setUserFavs}
+              loadingFavs={loadingFavs}
+            />
+          );
+        });
+        newDisplayArray && setDisplayArray(newDisplayArray);
+      });
     }
-  }, [sessionData]);
-
-  const displayArray = itemArray?.map((program) => {
-    return (
-      <ProgramItem
-        element={program}
-        fav={userFavs?.includes(program.id) || false}
-        findUserFavs={findUserFavs}
-        setUserFavs={setUserFavs}
-        loadingFavs={loadingFavs}
-      />
-    );
-  });
+  }, [userFavs, itemArray]);
 
   return (
     <div className="flex flex-col items-center">
@@ -240,11 +262,17 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
             style={{ animation: "flyInFadeIn 1s linear 0.6s forwards" }}
           >
             <div
-              className="flex p-5 text-4xl font-bold"
-              style={{ animation: "rotateSwell 1s linear 0.6s forwards" }}
+              style={{ animation: "translateUpToDown 1s linear 0.6s forwards" }}
             >
-              <div className="">{itemArray.length}</div>
-              <div className="ml-2">Matching Programs</div>
+              <div
+                className="flex p-5 text-4xl font-bold"
+                style={{ animation: "rotateSwell 1s linear 0.6s forwards" }}
+              >
+                <div className="">{itemArray.length}</div>
+                <div className="ml-2">
+                  Matching Program{itemArray.length > 1 && "s"}
+                </div>
+              </div>
             </div>
           </div>
         </div>
