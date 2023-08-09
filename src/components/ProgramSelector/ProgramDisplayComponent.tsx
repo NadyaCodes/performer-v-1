@@ -12,6 +12,8 @@ import { stylesFull, disciplinesFull } from "src/data/constants";
 import LoadingLines from "../Loading/LoadingLines";
 import Link from "next/link";
 import { backChevron } from "@component/data/svgs";
+import { FavProgram } from "@prisma/client";
+import { convertUserFavs } from "../ProgramFinder/helpers";
 
 interface ProgramDisplayProps {
   dataObject: {
@@ -27,8 +29,14 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
 }) => {
   const { style, discipline, city, province } = dataObject;
   const [itemArray, setItemArray] = useState<ProgramWithInfo[] | null>(null);
-  const [userFavs, setUserFavs] = useState<string[] | null>(null);
   const [loadingFavs, setLoadingFavs] = useState(true);
+  const [userFavsObject, setUserFavsObject] = useState<FavProgram[] | null>(
+    null
+  );
+  const [favProgramIdsArray, setFavProgramIdsArray] = useState<string[] | null>(
+    null
+  );
+
   const { data: sessionData } = useSession();
 
   const utils = api.useContext();
@@ -170,63 +178,42 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
 
   useEffect(() => {
     if (sessionData) {
-      findUserFavs(sessionData.user.id).then((result) =>
-        result
-          ? setUserFavs(result.filter((fav) => fav !== undefined) as string[])
-          : setUserFavs([])
+      fetchFavsObj(sessionData?.user.id).then(
+        (result) => result && setUserFavsObject(result)
       );
     } else {
       setLoadingFavs(false);
     }
   }, [sessionData]);
 
-  const findUserFavs = async (userId: string) => {
-    const allUserFavs = utils.favs.getAllForUser.fetch({ userId });
-    const userFavIds = (await allUserFavs).map((element) => {
-      if (element.ftProgramId) {
-        return element.ftProgramId;
-      }
-      if (element.ptProgramId) {
-        return element.ptProgramId;
-      }
-    });
-    setLoadingFavs(false);
-    return userFavIds;
-  };
-
   const fetchFavsObj = async (userId: string) => {
     return await utils.favs.getAllForUser.fetch({ userId });
   };
 
-  const fetchFavsArray = async (userId: string) => {
-    const favsData = await fetchFavsObj(userId);
-    const favsArray = favsData.map((element) => {
-      return element.id;
-    });
-    return favsArray;
-  };
-
-  const [displayArray, setDisplayArray] = useState<React.JSX.Element[]>([]);
-
   useEffect(() => {
-    if (sessionData) {
-      findUserFavs(sessionData?.user.id).then((result) => {
-        const newDisplayArray = itemArray?.map((program) => {
-          const isFav = result.includes(program.id);
-          return (
-            <ProgramItem
-              element={program}
-              fav={isFav || false}
-              findUserFavs={fetchFavsArray}
-              setUserFavs={setUserFavs}
-              loadingFavs={loadingFavs}
-            />
-          );
-        });
-        newDisplayArray && setDisplayArray(newDisplayArray);
-      });
+    if (userFavsObject) {
+      const newArray = convertUserFavs(userFavsObject);
+      newArray.filter((element) => element !== undefined);
+      setFavProgramIdsArray([...newArray] as string[]);
+      setLoadingFavs(false);
+    } else {
+      setLoadingFavs(false);
     }
-  }, [userFavs, itemArray]);
+  }, [userFavsObject]);
+
+  const displayArray = itemArray?.map((program) => {
+    return (
+      <ProgramItem
+        key={program.id}
+        element={program}
+        fetchUserFavsObject={fetchFavsObj}
+        favesObject={userFavsObject}
+        setFavesObject={setUserFavsObject}
+        favProgramIdsArray={favProgramIdsArray}
+        loadingFavs={loadingFavs}
+      />
+    );
+  });
 
   return (
     <div className="flex flex-col items-center">

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Picker from "@component/components/ProgramSelector/Picker";
 import Link from "next/link";
 import Menu from "../Menu/Menu";
@@ -23,7 +23,6 @@ const SelectNext: React.FC<SelectNextProps> = ({ selectNextOptions }) => {
   const { buttonList, titleString, link, backLink, nextValue } =
     selectNextOptions;
   const [loading, setLoading] = useState(false);
-  console.log(backLink);
 
   return (
     <div className="min-h-screen bg-cyan-50 bg-opacity-80 text-cyan-900">

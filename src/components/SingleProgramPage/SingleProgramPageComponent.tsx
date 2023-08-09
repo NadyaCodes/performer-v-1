@@ -4,9 +4,10 @@ import { ProgramWithInfo } from "../ProgramFinder/types";
 import { ProgramWithType } from "../MyPrograms/MyProgramsComponent";
 import ProgramItem from "../ProgramFinder/ProgramItem";
 import { useSession } from "next-auth/react";
-import LogoTicker from "../About/LogoTicker";
 import { arrowUpRightCorner } from "@component/data/svgs";
 import Link from "next/link";
+import { FavProgram } from "@prisma/client";
+import { convertUserFavs } from "../ProgramFinder/helpers";
 
 export default function SingleProgramPageComponent({
   programid,
@@ -19,9 +20,13 @@ export default function SingleProgramPageComponent({
   const [allProgramInfo, setAllProgramInfo] = useState<ProgramWithInfo | null>(
     null
   );
-  const [userFavs, setUserFavs] = useState<string[] | null>(null);
+  const [userFavsObject, setUserFavsObject] = useState<FavProgram[] | null>(
+    null
+  );
   const [loadingFavs, setLoadingFavs] = useState<boolean>(true);
-  const [fav, setFav] = useState<null | boolean>(null);
+  const [favProgramIdsArray, setFavProgramIdsArray] = useState<string[] | null>(
+    null
+  );
   const utils = api.useContext();
   const { data: sessionData } = useSession();
 
@@ -39,14 +44,6 @@ export default function SingleProgramPageComponent({
 
   const fetchFavsObj = async (userId: string) => {
     return await utils.favs.getAllForUser.fetch({ userId });
-  };
-
-  const fetchFavsArray = async (userId: string) => {
-    const favsData = await fetchFavsObj(userId);
-    const favsArray = favsData.map((element) => {
-      return element.id;
-    });
-    return favsArray;
   };
 
   useEffect(() => {
@@ -83,30 +80,6 @@ export default function SingleProgramPageComponent({
     }
   }, [programObject]);
 
-  const findUserFavs = async (userId: string) => {
-    const allUserFavs = utils.favs.getAllForUser.fetch({ userId });
-    const userFavIds = (await allUserFavs).map((element) => {
-      if (element.ftProgramId) {
-        return element.ftProgramId;
-      }
-      if (element.ptProgramId) {
-        return element.ptProgramId;
-      }
-    });
-    setLoadingFavs(false);
-    return userFavIds;
-  };
-
-  useEffect(() => {
-    if (sessionData) {
-      findUserFavs(sessionData.user.id).then((result) =>
-        result
-          ? setUserFavs(result.filter((fav) => fav !== undefined) as string[])
-          : setUserFavs([])
-      );
-    }
-  }, [sessionData]);
-
   useEffect(() => {
     if (!sessionData) {
       setLoadingFavs(false);
@@ -115,15 +88,24 @@ export default function SingleProgramPageComponent({
 
   useEffect(() => {
     if (sessionData) {
-      findUserFavs(sessionData.user.id).then((result) => {
-        if (result.includes(programObject?.id)) {
-          setFav(true);
-        } else {
-          setFav(false);
-        }
-      });
+      fetchFavsObj(sessionData?.user.id).then(
+        (result) => result && setUserFavsObject(result)
+      );
+    } else {
+      setLoadingFavs(false);
     }
-  }, [userFavs, sessionData]);
+  }, [sessionData]);
+
+  useEffect(() => {
+    if (userFavsObject) {
+      const newArray = convertUserFavs(userFavsObject);
+      newArray.filter((element) => element !== undefined);
+      setFavProgramIdsArray([...newArray] as string[]);
+      setLoadingFavs(false);
+    } else {
+      setLoadingFavs(false);
+    }
+  }, [userFavsObject]);
 
   return (
     <div>
@@ -179,10 +161,12 @@ export default function SingleProgramPageComponent({
           )}
           {allProgramInfo && (
             <ProgramItem
+              key={allProgramInfo.id}
               element={allProgramInfo}
-              fav={fav}
-              findUserFavs={fetchFavsArray}
-              setUserFavs={setUserFavs}
+              fetchUserFavsObject={fetchFavsObj}
+              favesObject={userFavsObject}
+              setFavesObject={setUserFavsObject}
+              favProgramIdsArray={favProgramIdsArray}
               loadingFavs={loadingFavs}
             />
           )}
