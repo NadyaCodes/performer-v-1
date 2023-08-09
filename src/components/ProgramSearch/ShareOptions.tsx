@@ -19,6 +19,7 @@ export default function ShareOptions({
   program: ProgramWithInfo;
   setShare: Dispatch<SetStateAction<boolean>>;
 }) {
+  const programUrl = `https://www.localhost:3000/single-program/${program.id}`;
   return (
     <div className="flex -translate-y-1 flex-col items-center">
       <div
@@ -27,7 +28,7 @@ export default function ShareOptions({
       >
         <div className="m-0.5 flex rounded-full hover:scale-110 hover:shadow-xl hover:shadow-slate-500">
           <FacebookShareButton
-            url={`https://www.localhost:3000/${program.id}`}
+            url={programUrl}
             quote={
               "Check out this cool program I found on Act Sing Dance Repeat!"
             }
@@ -43,7 +44,7 @@ export default function ShareOptions({
       >
         <div className="m-0.5 flex rounded-full hover:scale-110 hover:shadow-xl hover:shadow-slate-500">
           <WhatsappShareButton
-            url={`https://www.localhost:3000/${program.id}`}
+            url={programUrl}
             title={
               "Check out this cool program I found on Act Sing Dance Repeat!"
             }
@@ -59,10 +60,7 @@ export default function ShareOptions({
         style={{ animation: "flyInRight 0.7s linear 0.4s forwards" }}
       >
         <div className="m-0.5 flex rounded-full hover:scale-105 hover:shadow-xl hover:shadow-slate-500">
-          <FacebookMessengerShareButton
-            appId={""}
-            url={`https://www.localhost:3000/${program.id}`}
-          >
+          <FacebookMessengerShareButton appId={""} url={programUrl}>
             <FacebookMessengerIcon size={32} round />
           </FacebookMessengerShareButton>
         </div>
@@ -73,7 +71,7 @@ export default function ShareOptions({
       >
         <div className=" m-0.5 flex rounded-full hover:scale-110 hover:shadow-xl hover:shadow-slate-500">
           <EmailShareButton
-            url={`https://www.localhost:3000/${program.id}`}
+            url={programUrl}
             subject={
               "Check out this cool program I found on Act Sing Dance Repeat!"
             }

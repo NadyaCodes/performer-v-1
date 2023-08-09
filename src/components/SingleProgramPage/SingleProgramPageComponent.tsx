@@ -6,6 +6,7 @@ import ProgramItem from "../ProgramSearch/ProgramItem";
 import { useSession } from "next-auth/react";
 import LogoTicker from "../About/LogoTicker";
 import { arrowUpRightCorner } from "@component/data/svgs";
+import Link from "next/link";
 
 export default function SingleProgramPageComponent({
   programid,
@@ -152,10 +153,46 @@ export default function SingleProgramPageComponent({
             </div>
           </div>
         )}
+        {sessionData && (
+          <div className="flex flex-col text-center text-4xl font-extrabold text-cyan-900">
+            <div
+              className="m-2 opacity-0"
+              style={{ animation: "expandUp 0.7s linear 1s forwards" }}
+            >
+              Add to faves by clicking the star
+            </div>
+
+            <div
+              className="m-5 text-3xl text-indigo-900 opacity-0"
+              style={{ animation: "flyInFadeIn 1s linear 5s forwards" }}
+            >
+              Now what?
+            </div>
+
+            <Link href={"/about"}>
+              <button
+                className="rounded p-3 opacity-0 shadow-md shadow-cyan-800 outline hover:shadow-lg hover:shadow-cyan-800 hover:outline-cyan-700"
+                style={{ animation: "fadeInGrow 1s linear 7s forwards" }}
+              >
+                Get Started Here
+              </button>
+            </Link>
+          </div>
+        )}
         <div
-          className="m-10 w-9/12 rounded-sm opacity-0 shadow-2xl shadow-cyan-700"
+          className="m-10 flex w-9/12 flex-col rounded-sm opacity-0 shadow-2xl shadow-cyan-700"
           style={{ animation: "fadeInGrow 1s linear forwards" }}
         >
+          {sessionData && (
+            <div className="translate-x-10 place-self-end">
+              <div
+                className="w-fit rotate-180 justify-items-end text-cyan-900 opacity-0"
+                style={{ animation: "fadeIn 1s linear 2s forwards" }}
+              >
+                {arrowUpRightCorner}
+              </div>
+            </div>
+          )}
           {allProgramInfo && (
             <ProgramItem
               element={allProgramInfo}

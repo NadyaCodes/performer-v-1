@@ -51,6 +51,17 @@
   }
 }
 
+@keyframes flyInFadeIn {
+  0% {
+    transform: translateX(100vw);
+    opacity: 0
+  }
+  100% {
+    transform: translateX(0vw);
+    opacity: 1
+  }
+}
+
 @keyframes flyOut {
 
   to {
