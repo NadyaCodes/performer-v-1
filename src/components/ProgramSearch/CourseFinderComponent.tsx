@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import { api } from "@component/utils/api";
 import ProgramItem from "./ProgramItem";
 import FilterMenu from "./FilterMenu";
-import { filterPrograms } from "./helpers";
+import { searchForValue } from "./helpers";
 import {
   FilterContextValue,
   FilterContextState,
@@ -11,16 +11,13 @@ import {
 } from "./types";
 import { useSession } from "next-auth/react";
 import LoadingLines from "../Loading/LoadingLines";
-
-const defaultFilterContext: FilterContextValue = {
-  type: "",
-  discipline: "",
-  location: { province: "", city: "", area: "" },
-};
+import TermsDisplay from "./TermsDisplay";
+import ScrollArrow from "./ScrollArrow";
+import NoPrograms from "./NoPrograms";
 
 export const FilterContext = createContext<FilterContextState | null>(null);
 
-const ProgramSearchComponent: NextPage = () => {
+const CourseFinderComponent: NextPage = () => {
   const { data: ftProgramData } = api.ftProgram.getAll.useQuery();
   const { data: ptProgramData } = api.ptProgram.getAll.useQuery();
   const { data: schoolLocationData } = api.schoolLocation.getAll.useQuery();
@@ -30,6 +27,12 @@ const ProgramSearchComponent: NextPage = () => {
   const utils = api.useContext();
 
   const [allPrograms, setAllPrograms] = useState<ProgramWithInfo[]>([]);
+
+  const defaultFilterContext: FilterContextValue = {
+    type: "",
+    discipline: "",
+    location: { province: "", city: "", area: "" },
+  };
   const [selectedOptions, setSelectedOptions] =
     useState<FilterContextValue>(defaultFilterContext);
 
@@ -41,6 +44,9 @@ const ProgramSearchComponent: NextPage = () => {
   );
   const [userFavs, setUserFavs] = useState<string[] | null>(null);
   const [loadingFavs, setLoadingFavs] = useState(true);
+  const [activeSearchTerm, setActiveSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [loadingPageData, setLoadingPageData] = useState(true);
 
   //Capture all program data, and add type to object
   useEffect(() => {
@@ -90,26 +96,28 @@ const ProgramSearchComponent: NextPage = () => {
   //filter and display correct data
   useEffect(() => {
     if (allPrograms) {
-      const newFilteredPrograms = filterPrograms(allPrograms, selectedOptions);
+      const filterContextObject = {
+        selectedOptions,
+        setSelectedOptions,
+        filteredPrograms,
+        setFilteredPrograms,
+        allPrograms,
+        setProgramDisplay,
+        activeSearchTerm,
+        setActiveSearchTerm,
+        searchTerm,
+        setSearchTerm,
+      };
+      const newFilteredPrograms = searchForValue(
+        activeSearchTerm,
+        filterContextObject
+      );
 
       setFilteredPrograms(newFilteredPrograms);
 
-      const tempProgramDisplay: JSX.Element[] = newFilteredPrograms.map(
-        (element) => {
-          return (
-            <ProgramItem
-              key={element.id}
-              element={element}
-              fav={userFavs?.includes(element.id) || false}
-              findUserFavs={findUserFavs}
-              setUserFavs={setUserFavs}
-              loadingFavs={loadingFavs}
-            />
-          );
-        }
-      );
-
-      setProgramDisplay(tempProgramDisplay);
+      setTimeout(() => {
+        setLoadingPageData(false);
+      }, 1500);
     }
   }, [selectedOptions, allPrograms]);
 
@@ -158,8 +166,14 @@ const ProgramSearchComponent: NextPage = () => {
     }
   }, [sessionData]);
 
+  useEffect(() => {
+    if (!sessionData) {
+      setLoadingFavs(false);
+    }
+  }, []);
+
   return (
-    <div>
+    <div className="min-h-screen">
       <FilterContext.Provider
         value={{
           selectedOptions,
@@ -168,28 +182,45 @@ const ProgramSearchComponent: NextPage = () => {
           setFilteredPrograms,
           allPrograms,
           setProgramDisplay,
+          activeSearchTerm,
+          setActiveSearchTerm,
+          searchTerm,
+          setSearchTerm,
         }}
       >
-        <FilterMenu />
-        {programDisplay && programDisplay.length > 0 ? (
-          <div className="h2">
-            There are {programDisplay.length} programs that fit your queries:
-          </div>
-        ) : (
-          <div>
-            Searching for Applicable Programs
+        <div className="relative z-30">
+          <FilterMenu />
+        </div>
+
+        {loadingPageData && (
+          <div className="m-10 transition-all">
             <LoadingLines />
           </div>
         )}
+        <div
+          className="mx-5 mt-5 flex opacity-0"
+          style={{ animation: "fadeIn 1s linear 2s forwards" }}
+        >
+          {!loadingPageData && (
+            <div className="flex w-4/12 flex-col">
+              <TermsDisplay
+                num={(programDisplay && programDisplay.length) || 0}
+                defaultFilterContext={defaultFilterContext}
+              />
+              <ScrollArrow />
+            </div>
+          )}
 
-        <div>
-          {selectedOptions.type} {selectedOptions.discipline}{" "}
-          {selectedOptions.location.province}
+          {!loadingPageData && programDisplay && programDisplay.length >= 1 && (
+            <div className="w-7/12">{programDisplay}</div>
+          )}
+          {!loadingPageData && programDisplay && programDisplay.length < 1 && (
+            <NoPrograms />
+          )}
         </div>
-        <div className="mx-40">{programDisplay}</div>
       </FilterContext.Provider>
     </div>
   );
 };
 
-export default ProgramSearchComponent;
+export default CourseFinderComponent;

@@ -16,7 +16,7 @@ export type ProgramWithType = {
   discipline: string;
   name?: string;
   type: string;
-  favProgramId: string;
+  favProgramId?: string;
 };
 
 export default function MyProgramsComponent() {

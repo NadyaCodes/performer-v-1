@@ -87,6 +87,10 @@
   background-color: #324bda;
 }
 
+.spotlight {
+  background-color: rgba(228, 233, 176, 0.686);
+}
+
 @keyframes circle{
     0%{
         top:60px;

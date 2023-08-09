@@ -3,10 +3,9 @@
 @tailwind utilities;
 
 
-
 @keyframes rotateSwell {
 0% { transform: rotate(0deg) scale(1); }
-50% { transform: rotate(180deg) scale(1.2); }
+50% { transform: rotate(180deg) scale(0.7); }
  100% { transform: rotate(360deg) scale(1); }
 }
 
@@ -52,6 +51,17 @@
   }
 }
 
+@keyframes flyInFadeIn {
+  0% {
+    transform: translateX(100vw);
+    opacity: 0
+  }
+  100% {
+    transform: translateX(0vw);
+    opacity: 1
+  }
+}
+
 @keyframes flyOut {
 
   to {
@@ -81,13 +91,13 @@
     transform: rotate(0deg);
   }
   25% {
-    transform: rotate(3deg);
+    transform: rotate(10deg);
   }
   50% {
     transform: rotate(0deg);
   }
   75% {
-    transform: rotate(-3deg);
+    transform: rotate(-1deg);
   }
   100% {
     transform: rotate(0deg);
@@ -159,6 +169,23 @@
   
 }
 
+@keyframes fadeInTranslate {
+  0% {
+    opacity: 0;
+    transform: translateY(10rem) scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    
+  }
+  
+}
+
 @keyframes fadeInGrow {
   0% {
     opacity: 0;
@@ -201,4 +228,42 @@
     transform: translateY(0rem);
   }
   
+}
+
+
+@keyframes flyInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(20rem) scale(0.8);
+  }
+  45% {
+    opacity: 1;
+    transform: scale(1.3) translateY(0.5rem) translateX(-0.5rem);
+  }
+  65% {
+    transform: translateY(-0.5rem) translateX(-0.5rem);
+  }
+  75% {
+    transform: translateY(-0.5rem) translateX(0rem);
+  }
+  90% {
+    transform: translateY(0rem) translateX(0.5rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    
+  }
+  
+}
+
+@keyframes expandUp {
+	0% {
+		transform: translateY(150%) scaleX(0) scaleY(0.2);
+    opacity: 0;
+	}
+	100% {
+		transform: translateY(0%) scaleX(1) scaleY(1);
+    opacity: 1;
+	}	
 }

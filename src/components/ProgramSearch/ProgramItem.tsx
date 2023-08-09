@@ -8,6 +8,18 @@ import { Dispatch } from "react";
 import { displayDisciplineText } from "./helpers";
 import Link from "next/link";
 import LoadingSpinner from "../Loading/LoadingSpinner";
+import { shareIcon } from "@component/data/svgs";
+import {
+  FacebookShareButton,
+  FacebookIcon,
+  WhatsappShareButton,
+  WhatsappIcon,
+  FacebookMessengerShareButton,
+  FacebookMessengerIcon,
+  EmailIcon,
+  EmailShareButton,
+} from "next-share";
+import ShareOptions from "./ShareOptions";
 
 export default function ProgramItem({
   element,
@@ -17,10 +29,10 @@ export default function ProgramItem({
   loadingFavs,
 }: {
   element: ProgramWithInfo;
-  fav: boolean;
-  findUserFavs: Function;
-  setUserFavs: Dispatch<SetStateAction<string[] | null>>;
-  loadingFavs: boolean;
+  fav: boolean | null;
+  findUserFavs: Function | null;
+  setUserFavs: Dispatch<SetStateAction<string[] | null>> | null;
+  loadingFavs: boolean | null;
 }) {
   const { data: sessionData } = useSession();
   const utils = api.useContext();
@@ -32,6 +44,8 @@ export default function ProgramItem({
   const starAnimation = animateStar
     ? "rotateSwell .8s linear infinite"
     : "none";
+
+  const [share, setShare] = useState(false);
 
   const findFav = async (
     type: string,
@@ -59,13 +73,16 @@ export default function ProgramItem({
 
   const { mutate: addFavPt } = api.favs.addPT.useMutation({
     async onSuccess(data) {
-      findUserFavs(userId)
-        .then((result: string[] | undefined) =>
-          result
-            ? setUserFavs(result.filter((fav) => fav !== undefined) as string[])
-            : setUserFavs([])
-        )
-        .then(() => setAnimateStar(false));
+      findUserFavs &&
+        findUserFavs(userId)
+          .then((result: string[] | undefined) =>
+            setUserFavs && result
+              ? setUserFavs(
+                  result.filter((fav) => fav !== undefined) as string[]
+                )
+              : setUserFavs && setUserFavs([])
+          )
+          .then(() => setAnimateStar(false));
       return data;
     },
     onError(error) {
@@ -75,13 +92,16 @@ export default function ProgramItem({
 
   const { mutate: addFavFt } = api.favs.addFT.useMutation({
     async onSuccess(data) {
-      findUserFavs(userId)
-        .then((result: string[] | undefined) =>
-          result
-            ? setUserFavs(result.filter((fav) => fav !== undefined) as string[])
-            : setUserFavs([])
-        )
-        .then(() => setAnimateStar(false));
+      findUserFavs &&
+        findUserFavs(userId)
+          .then((result: string[] | undefined) =>
+            setUserFavs && result
+              ? setUserFavs(
+                  result.filter((fav) => fav !== undefined) as string[]
+                )
+              : setUserFavs && setUserFavs([])
+          )
+          .then(() => setAnimateStar(false));
       return data;
     },
     onError(error) {
@@ -91,13 +111,16 @@ export default function ProgramItem({
 
   const { mutate: deleteFav } = api.favs.deleteById.useMutation({
     async onSuccess(data) {
-      findUserFavs(userId)
-        .then((result: string[] | undefined) =>
-          result
-            ? setUserFavs(result.filter((fav) => fav !== undefined) as string[])
-            : setUserFavs([])
-        )
-        .then(() => setAnimateStar(false));
+      findUserFavs &&
+        findUserFavs(userId)
+          .then((result: string[] | undefined) =>
+            setUserFavs && result
+              ? setUserFavs(
+                  result.filter((fav) => fav !== undefined) as string[]
+                )
+              : setUserFavs && setUserFavs([])
+          )
+          .then(() => setAnimateStar(false));
     },
     onError(error) {
       console.log("deleteFav error: ", error);
@@ -107,7 +130,7 @@ export default function ProgramItem({
   const toggleFav = async () => {
     if (userId) {
       setAnimateStar(true);
-      if (fav) {
+      if (await findFav(element.type, userId, element.id)) {
         const favProgramId = element.id;
         const favProgram = await findFav(type, userId, favProgramId);
         favProgram && deleteFav({ id: favProgram.id });
@@ -119,9 +142,12 @@ export default function ProgramItem({
   };
 
   return (
-    <div className="m-10 flex flex-col border-2 border-purple-200">
+    <div className="m-10 flex flex-col rounded-md border border-cyan-600 shadow-md shadow-slate-500 transition-all  hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-800">
+      <div className="h-0 translate-x-20 place-self-end">
+        {share && <ShareOptions program={element} setShare={setShare} />}
+      </div>
       {sessionData?.user && !loadingFavs && (
-        <div className="mx-5 my-2 place-self-end">
+        <div className="absolute mx-5 my-4 place-self-end hover:scale-150 hover:cursor-pointer">
           <div
             style={{
               animation: starAnimation,
@@ -130,10 +156,10 @@ export default function ProgramItem({
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              fill={fav ? "#c084fc" : "none"}
+              fill={fav ? "#7986cb" : "none"}
               viewBox="0 0 24 24"
               stroke-width="1.2"
-              stroke="#c084fc"
+              stroke="#7986cb"
               className="h-6 w-6"
               onClick={() => toggleFav()}
             >
@@ -151,8 +177,8 @@ export default function ProgramItem({
           <LoadingSpinner iconSize="small" />
         </div>
       )}
-      <div className="flex flex-col items-center">
-        <div className="text-sm italic">{element.id}</div>
+
+      <div className="m-9 flex flex-col items-center text-center">
         <div className="text-xl font-bold capitalize">
           {"name" in element && element.name && <div>{element.name}</div>}
         </div>
@@ -163,7 +189,7 @@ export default function ProgramItem({
           {element.cityObj?.city}, {element.cityObj?.province}
         </div>
 
-        <div className="italic">
+        <div className="italic text-cyan-700 underline">
           <Link href={element.website} target="blank">
             {element.website}
           </Link>
@@ -171,6 +197,14 @@ export default function ProgramItem({
         <div>
           {element.type === "ft" ? "Full Time " : "Part Time "}{" "}
           {displayDisciplineText(element.discipline)}{" "}
+        </div>
+      </div>
+      <div className="mr-5 h-0 -translate-y-12 place-self-end">
+        <div
+          className="text-cyan-700 hover:scale-150 hover:cursor-pointer"
+          onClick={() => setShare(!share)}
+        >
+          {shareIcon}
         </div>
       </div>
     </div>
