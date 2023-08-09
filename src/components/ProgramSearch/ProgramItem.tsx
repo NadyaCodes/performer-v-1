@@ -29,10 +29,10 @@ export default function ProgramItem({
   loadingFavs,
 }: {
   element: ProgramWithInfo;
-  fav: boolean;
-  findUserFavs: Function;
-  setUserFavs: Dispatch<SetStateAction<string[] | null>>;
-  loadingFavs: boolean;
+  fav: boolean | null;
+  findUserFavs: Function | null;
+  setUserFavs: Dispatch<SetStateAction<string[] | null>> | null;
+  loadingFavs: boolean | null;
 }) {
   const { data: sessionData } = useSession();
   const utils = api.useContext();
@@ -73,13 +73,16 @@ export default function ProgramItem({
 
   const { mutate: addFavPt } = api.favs.addPT.useMutation({
     async onSuccess(data) {
-      findUserFavs(userId)
-        .then((result: string[] | undefined) =>
-          result
-            ? setUserFavs(result.filter((fav) => fav !== undefined) as string[])
-            : setUserFavs([])
-        )
-        .then(() => setAnimateStar(false));
+      findUserFavs &&
+        findUserFavs(userId)
+          .then((result: string[] | undefined) =>
+            setUserFavs && result
+              ? setUserFavs(
+                  result.filter((fav) => fav !== undefined) as string[]
+                )
+              : setUserFavs && setUserFavs([])
+          )
+          .then(() => setAnimateStar(false));
       return data;
     },
     onError(error) {
@@ -89,13 +92,16 @@ export default function ProgramItem({
 
   const { mutate: addFavFt } = api.favs.addFT.useMutation({
     async onSuccess(data) {
-      findUserFavs(userId)
-        .then((result: string[] | undefined) =>
-          result
-            ? setUserFavs(result.filter((fav) => fav !== undefined) as string[])
-            : setUserFavs([])
-        )
-        .then(() => setAnimateStar(false));
+      findUserFavs &&
+        findUserFavs(userId)
+          .then((result: string[] | undefined) =>
+            setUserFavs && result
+              ? setUserFavs(
+                  result.filter((fav) => fav !== undefined) as string[]
+                )
+              : setUserFavs && setUserFavs([])
+          )
+          .then(() => setAnimateStar(false));
       return data;
     },
     onError(error) {
@@ -105,13 +111,16 @@ export default function ProgramItem({
 
   const { mutate: deleteFav } = api.favs.deleteById.useMutation({
     async onSuccess(data) {
-      findUserFavs(userId)
-        .then((result: string[] | undefined) =>
-          result
-            ? setUserFavs(result.filter((fav) => fav !== undefined) as string[])
-            : setUserFavs([])
-        )
-        .then(() => setAnimateStar(false));
+      findUserFavs &&
+        findUserFavs(userId)
+          .then((result: string[] | undefined) =>
+            setUserFavs && result
+              ? setUserFavs(
+                  result.filter((fav) => fav !== undefined) as string[]
+                )
+              : setUserFavs && setUserFavs([])
+          )
+          .then(() => setAnimateStar(false));
     },
     onError(error) {
       console.log("deleteFav error: ", error);
