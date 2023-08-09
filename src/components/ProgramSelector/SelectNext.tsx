@@ -60,7 +60,7 @@ const SelectNext: React.FC<SelectNextProps> = ({ selectNextOptions }) => {
                 <Face />
               </div>
             </div>
-            <div className="m-8 w-fit place-self-center rounded-lg bg-gradient-to-b from-cyan-600 to-cyan-900 p-5 text-cyan-50 shadow-xl shadow-cyan-700">
+            <div className="mb-15 m-10 w-fit place-self-center rounded-lg bg-gradient-to-b from-cyan-600 to-cyan-900 p-5 text-cyan-50 shadow-xl shadow-cyan-700">
               <Picker
                 buttonOptions={buttonList}
                 currentLink={link}

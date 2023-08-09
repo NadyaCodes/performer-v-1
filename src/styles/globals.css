@@ -267,3 +267,21 @@
     opacity: 1;
 	}	
 }
+
+@keyframes bounceTilt {
+  0% {
+    transform: translateY(-0.2rem) translateX(0)  rotate(0);
+  }
+  25% {
+    transform: translateY(0.1rem) translateX(0.25rem) rotate(15deg);
+  }
+  50% {
+    transform:  translateY(-0.2rem) translateX(0) rotate(0);
+  }
+  75% {
+    transform: translateY(0.1rem) translateX(-0.25rem) rotate(-15deg);
+  }
+  100% {
+    transform: translateY(-0.2rem) translateX(0)  rotate(0);
+  }
+}

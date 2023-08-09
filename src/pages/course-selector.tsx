@@ -17,7 +17,7 @@ export default function CourseSelector() {
       ></div>
       <div className="mb-10 h-10 bg-cyan-950"></div>
       <div className="flex flex-col items-center">
-        <h1 className="mx-10 mt-10 w-9/12 text-center text-4xl font-extrabold tracking-tight sm:text-[3rem]">
+        <h1 className="mx-10 mt-10 w-9/12 text-center text-6xl font-extrabold tracking-tight ">
           What kind of program are you looking for?
         </h1>
         <div className="m-8 h-2 w-10/12 rounded bg-indigo-900 bg-opacity-90"></div>

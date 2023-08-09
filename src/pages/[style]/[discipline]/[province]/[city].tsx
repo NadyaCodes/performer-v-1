@@ -32,7 +32,7 @@ const DisplayPage: NextPage<SelectNextProps> = ({
   province,
 }) => {
   return (
-    <div>
+    <div className="min-h-screen bg-cyan-50 bg-opacity-80">
       <Menu />
       <ProgramDisplayComponent
         dataObject={{ style, discipline, city, province }}
