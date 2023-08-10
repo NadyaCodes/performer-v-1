@@ -3,7 +3,7 @@ import { trashCan } from "@component/data/svgs";
 import LoadingLines from "../Loading/LoadingLines";
 import { api } from "@component/utils/api";
 import { ProgramWithType } from "./MyProgramsComponent";
-import { FTProgram, PTProgram } from "@prisma/client";
+import { CustomProgram, FTProgram, PTProgram } from "@prisma/client";
 import { useSession } from "next-auth/react";
 
 export default function DeleteCheck({
@@ -12,12 +12,18 @@ export default function DeleteCheck({
   loadingDelete,
   setUserFavs,
   setLoadingDelete,
+  setUserCustoms,
+  programId,
 }: {
   setDeleteCheck: Dispatch<SetStateAction<boolean>>;
   id: string;
   loadingDelete: boolean | string;
-  setUserFavs: Dispatch<SetStateAction<(ProgramWithType | undefined)[] | null>>;
+  setUserFavs?: Dispatch<
+    SetStateAction<(ProgramWithType | undefined)[] | null>
+  >;
   setLoadingDelete: Dispatch<SetStateAction<boolean | string>>;
+  setUserCustoms?: Dispatch<SetStateAction<CustomProgram[]>>;
+  programId?: string;
 }) {
   const { data: sessionData } = useSession();
   const utils = api.useContext();
@@ -64,13 +70,22 @@ export default function DeleteCheck({
     return userFavPrograms;
   };
 
+  const findCustomPrograms = async () => {
+    if (userId) {
+      const allCustomPrograms = await utils.customProgram.getAllForUser.fetch({
+        userId,
+      });
+      return allCustomPrograms;
+    }
+  };
+
   const { mutate: deleteFav } = api.favs.deleteById.useMutation({
     async onSuccess(data) {
       await utils.favs.getAll.invalidate();
       userId &&
         findUserFavs(userId).then(
           (favProgramData: (ProgramWithType | undefined)[]) =>
-            favProgramData && setUserFavs(favProgramData)
+            favProgramData && setUserFavs && setUserFavs(favProgramData)
         );
       return data;
     },
@@ -79,10 +94,26 @@ export default function DeleteCheck({
     },
   });
 
+  const { mutate: deleteCustomProgram } = api.customProgram.delete.useMutation({
+    async onSuccess(data) {
+      await utils.notes.getAll.invalidate();
+      findCustomPrograms().then(
+        (customProgramData: CustomProgram[] | undefined) =>
+          customProgramData &&
+          setUserCustoms &&
+          setUserCustoms(customProgramData)
+      );
+      return data;
+    },
+    onError(error) {
+      console.log("createNotes error: ", error);
+    },
+  });
+
   const deleteProgram = () => {
-    setLoadingDelete(id);
+    setLoadingDelete(programId || id);
     setDeleteCheck(false);
-    deleteFav({ id });
+    setUserFavs ? deleteFav({ id }) : deleteCustomProgram({ id });
   };
 
   return (

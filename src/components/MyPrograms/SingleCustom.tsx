@@ -10,22 +10,25 @@ import {
   pencilBox,
   plusIcon,
   trashCan,
-  whiteStar,
+  basicStar,
 } from "@component/data/svgs";
 import LoadingSpinner from "../Loading/LoadingSpinner";
 import LoadingLines from "../Loading/LoadingLines";
 import { validateInput } from "./helpers";
+import DeleteCheck from "./DeleteCheck";
 
 const SingleCustom = ({
   program,
-  findCustomPrograms,
   setDisplayCustom,
   setShowUpdateCustom,
+  loadingDelete,
+  setLoadingDelete,
 }: {
   program: CustomProgram;
-  findCustomPrograms: Function;
   setDisplayCustom: Dispatch<SetStateAction<CustomProgram[]>>;
   setShowUpdateCustom: Dispatch<SetStateAction<CustomProgram | boolean>>;
+  loadingDelete: string | boolean;
+  setLoadingDelete: Dispatch<SetStateAction<string | boolean>>;
 }) => {
   const { data: sessionData } = useSession();
   const utils = api.useContext();
@@ -36,7 +39,6 @@ const SingleCustom = ({
   const [inputText, setInputText] = useState<string>("");
   const [loadingNotes, setLoadingNotes] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const [loadingDelete, setLoadingDelete] = useState<boolean>(false);
   const [deleteCheck, setDeleteCheck] = useState<boolean>(false);
 
   const fetchNotes = async () => {
@@ -120,26 +122,6 @@ const SingleCustom = ({
     locationArray.push(program.country);
   }
 
-  const { mutate: deleteCustomProgram } = api.customProgram.delete.useMutation({
-    async onSuccess(data) {
-      await utils.notes.getAll.invalidate();
-      findCustomPrograms().then(
-        (customProgramData: CustomProgram[]) =>
-          customProgramData && setDisplayCustom(customProgramData)
-      );
-      return data;
-    },
-    onError(error) {
-      console.log("createNotes error: ", error);
-    },
-  });
-
-  const deleteProgram = () => {
-    setDeleteCheck(false);
-    setLoadingDelete(true);
-    deleteCustomProgram({ id: program.id });
-  };
-
   const updateCustomProgram = () => {
     window.scrollTo({
       top: 290,
@@ -149,12 +131,12 @@ const SingleCustom = ({
   };
 
   return (
-    <div className="relative m-10 flex flex-col shadow-xl">
-      <div className="flex justify-between bg-purple-200 text-white">
-        <div className="mx-5 my-2">{whiteStar}</div>
-        <div className="mx-5 my-2">{whiteStar}</div>
+    <div className="relative my-10 flex w-full flex-col rounded-lg bg-cyan-100 bg-opacity-20 shadow-md shadow-cyan-800">
+      <div className="flex w-full justify-between rounded-t-lg bg-cyan-800 bg-opacity-100 text-cyan-50 shadow-sm shadow-cyan-900">
+        <div className="mx-5 my-2">{basicStar}</div>
+        <div className="mx-5 my-2">{basicStar}</div>
       </div>
-      {loadingDelete && (
+      {loadingDelete === program.id && (
         <div
           className="absolute inset-0 z-10 flex items-center justify-center"
           style={{ background: "rgba(0, 0, 0, 0.7)" }}
@@ -166,35 +148,42 @@ const SingleCustom = ({
       )}
 
       {deleteCheck && (
-        <>
-          <div
-            className="absolute inset-0 z-10 flex items-center justify-center"
-            style={{ background: "rgba(0, 0, 0, 0.4)" }}
-          >
-            <div className="flex flex-col items-center rounded-lg bg-cyan-50 p-6 text-black">
-              <div className="text-2xl font-bold">
-                Are you SURE you want to delete this program?
-              </div>
-              <div className="text-lg italic">
-                This process cannot be undone
-              </div>
-              <div className="mt-4 flex w-full justify-around">
-                <button
-                  onClick={() => deleteProgram()}
-                  className="m-2 flex w-48 justify-between rounded p-3 text-pink-500 outline outline-pink-400 hover:scale-110 hover:shadow-lg"
-                >
-                  DELETE PROGRAM {trashCan}
-                </button>
-                <button
-                  onClick={() => setDeleteCheck(false)}
-                  className="m-2 flex w-48 justify-center rounded p-3 text-cyan-700 outline outline-cyan-500 hover:scale-110 hover:shadow-lg"
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </div>
-        </>
+        <DeleteCheck
+          setDeleteCheck={setDeleteCheck}
+          id={program.id}
+          loadingDelete={loadingDelete}
+          setLoadingDelete={setLoadingDelete}
+          setUserCustoms={setDisplayCustom}
+        />
+        // <>
+        //   <div
+        //     className="absolute inset-0 z-10 flex items-center justify-center"
+        //     style={{ background: "rgba(0, 0, 0, 0.4)" }}
+        //   >
+        //     <div className="flex flex-col items-center rounded-lg bg-cyan-50 p-6 text-black">
+        //       <div className="text-2xl font-bold">
+        //         Are you SURE you want to delete this program?
+        //       </div>
+        //       <div className="text-lg italic">
+        //         This process cannot be undone
+        //       </div>
+        //       <div className="mt-4 flex w-full justify-around">
+        //         <button
+        //           onClick={() => deleteProgram()}
+        //           className="m-2 flex w-48 justify-between rounded p-3 text-pink-500 outline outline-pink-400 hover:scale-110 hover:shadow-lg"
+        //         >
+        //           DELETE PROGRAM {trashCan}
+        //         </button>
+        //         <button
+        //           onClick={() => setDeleteCheck(false)}
+        //           className="m-2 flex w-48 justify-center rounded p-3 text-cyan-700 outline outline-cyan-500 hover:scale-110 hover:shadow-lg"
+        //         >
+        //           Cancel
+        //         </button>
+        //       </div>
+        //     </div>
+        //   </div>
+        // </>
       )}
 
       <div className="m-3 flex flex-col justify-between p-2">

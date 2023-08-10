@@ -34,7 +34,6 @@ export default function MyProgramsComponent() {
     boolean | CustomProgram
   >(false);
   const [displayCustom, setDisplayCustom] = useState<CustomProgram[]>([]);
-  const [updateFavs, setUpdateFavs] = useState<boolean>(false);
   const [loadingDelete, setLoadingDelete] = useState<boolean | string>(false);
 
   const findProgramObject = async (id: string) => {
@@ -152,7 +151,7 @@ export default function MyProgramsComponent() {
 
   useEffect(() => {
     setLoadingDelete(false);
-  }, [displayData]);
+  }, [displayData, displayCustom]);
 
   const findCustomPrograms = async () => {
     if (userId) {
@@ -168,7 +167,6 @@ export default function MyProgramsComponent() {
       <SingleProgram
         program={element}
         key={element.id}
-        setUpdateFavs={setUpdateFavs}
         loadingDelete={loadingDelete}
         setLoadingDelete={setLoadingDelete}
         findUserFavs={findUserFavs}
@@ -182,9 +180,10 @@ export default function MyProgramsComponent() {
       <SingleCustom
         program={element}
         key={element.id}
-        findCustomPrograms={findCustomPrograms}
         setDisplayCustom={setDisplayCustom}
         setShowUpdateCustom={setShowUpdateCustom}
+        loadingDelete={loadingDelete}
+        setLoadingDelete={setLoadingDelete}
       />
     );
   });
@@ -235,26 +234,25 @@ export default function MyProgramsComponent() {
       ) : (
         <div className="-mt-10 flex w-full flex-col items-center justify-center">
           <div className="w-7/12">{programDisplay}</div>
-          <div className="flex flex-col items-center">
-            <h2 className="text-5xl font-extrabold capitalize tracking-tight text-gray-800 sm:text-[3rem]">
-              Custom Programs
-            </h2>
-            <button
-              onClick={() => {
-                setShowUpdateCustom(!showUpdateCustom);
-                window.scrollTo({
-                  top: 290,
-                  behavior: "smooth",
-                });
-              }}
-              className="mr-8 flex w-56 place-items-center justify-between place-self-end  rounded  border-2 border-transparent bg-transparent px-4 py-2 font-semibold  text-cyan-600 hover:scale-110 hover:border-2 hover:bg-cyan-50"
-              style={{ zIndex: "10" }}
-            >
-              <span>Add Custom Program </span>
-              <span>{plusIcon}</span>
-            </button>
-            <div className="w-full">{customProgramDisplay}</div>
-          </div>
+
+          <h2 className="text-5xl font-extrabold capitalize tracking-tight text-gray-800 sm:text-[3rem]">
+            Custom Programs
+          </h2>
+          <button
+            onClick={() => {
+              setShowUpdateCustom(!showUpdateCustom);
+              window.scrollTo({
+                top: 290,
+                behavior: "smooth",
+              });
+            }}
+            className="mr-8 flex w-56 place-items-center justify-between place-self-end  rounded  border-2 border-transparent bg-transparent px-4 py-2 font-semibold  text-cyan-600 hover:scale-110 hover:border-2 hover:bg-cyan-50"
+            style={{ zIndex: "10" }}
+          >
+            <span>Add Custom Program </span>
+            <span>{plusIcon}</span>
+          </button>
+          <div className="w-7/12">{customProgramDisplay}</div>
         </div>
       )}
       {showUpdateCustom && (

@@ -21,7 +21,6 @@ import LoadingLines from "../Loading/LoadingLines";
 
 type SingleProgramProps = {
   program: ProgramWithInfo;
-  setUpdateFavs: Dispatch<SetStateAction<boolean>>;
   loadingDelete: boolean | string;
   setLoadingDelete: Dispatch<SetStateAction<boolean | string>>;
   findUserFavs: Function;
@@ -32,6 +31,7 @@ const SingleProgram: React.FC<SingleProgramProps> = ({
   program,
   loadingDelete,
   setLoadingDelete,
+  findUserFavs,
   setUserFavs,
 }) => {
   const { data: sessionData } = useSession();
@@ -112,6 +112,7 @@ const SingleProgram: React.FC<SingleProgramProps> = ({
           loadingDelete={loadingDelete}
           setUserFavs={setUserFavs}
           setLoadingDelete={setLoadingDelete}
+          programId={program.id}
         />
       )}
 
@@ -216,7 +217,7 @@ const SingleProgram: React.FC<SingleProgramProps> = ({
           {cautionCircle}
         </div>
       )}
-      {loadingDelete === program.favId && (
+      {loadingDelete === program.id && (
         <div
           className="absolute inset-0 z-10 flex items-center justify-center"
           style={{ background: "rgba(0, 0, 0, 0.7)" }}
