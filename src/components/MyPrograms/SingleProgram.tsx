@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { SetStateAction, useEffect, useState, Dispatch } from "react";
 import { ProgramWithInfo } from "../ProgramFinder/types";
 import { displayDisciplineText } from "../ProgramFinder/helpers";
 import Link from "next/link";
-import { Note } from "@prisma/client";
+import { FavProgram, Note } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { api } from "@component/utils/api";
 import NoteComponent from "./NoteComponent";
@@ -11,15 +11,29 @@ import {
   cautionCircle,
   chevronUp,
   plusIcon,
+  xMark,
 } from "@component/data/svgs";
 import LoadingSpinner from "../Loading/LoadingSpinner";
 import { validateInput } from "./helpers";
+import DeleteCheck from "./DeleteCheck";
+import { ProgramWithType } from "./MyProgramsComponent";
+import LoadingLines from "../Loading/LoadingLines";
 
 type SingleProgramProps = {
   program: ProgramWithInfo;
+  setUpdateFavs: Dispatch<SetStateAction<boolean>>;
+  loadingDelete: boolean | string;
+  setLoadingDelete: Dispatch<SetStateAction<boolean | string>>;
+  findUserFavs: Function;
+  setUserFavs: Dispatch<SetStateAction<(ProgramWithType | undefined)[] | null>>;
 };
 
-const SingleProgram: React.FC<SingleProgramProps> = ({ program }) => {
+const SingleProgram: React.FC<SingleProgramProps> = ({
+  program,
+  loadingDelete,
+  setLoadingDelete,
+  setUserFavs,
+}) => {
   const { data: sessionData } = useSession();
   const utils = api.useContext();
   const userId = sessionData?.user.id;
@@ -29,6 +43,7 @@ const SingleProgram: React.FC<SingleProgramProps> = ({ program }) => {
   const [inputText, setInputText] = useState<string>("");
   const [loadingNotes, setLoadingNotes] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [removeComponent, setRemoveComponent] = useState<boolean>(false);
 
   const fetchNotes = async () => {
     if (program.favId) {
@@ -79,18 +94,33 @@ const SingleProgram: React.FC<SingleProgramProps> = ({ program }) => {
   });
 
   return (
-    <div className="my-10 flex w-full flex-col rounded-lg bg-cyan-100 bg-opacity-20 shadow-md shadow-cyan-800">
+    <div className="relative my-10 flex w-full flex-col rounded-lg bg-cyan-100 bg-opacity-20 shadow-md shadow-cyan-800">
       <div className="flex w-full justify-between rounded-t-lg bg-cyan-800 bg-opacity-100 text-cyan-50 shadow-sm shadow-cyan-900">
         <div className="mx-5 my-2">{basicStar}</div>
         <div className="mx-5 my-2">{basicStar}</div>
       </div>
+      <button
+        onClick={() => setRemoveComponent(true)}
+        className="absolute right-5 mt-12 flex rounded-full p-1 text-pink-400 hover:bg-pink-100"
+      >
+        {xMark}
+      </button>
+      {removeComponent && program.favId && (
+        <DeleteCheck
+          setDeleteCheck={setRemoveComponent}
+          id={program.favId}
+          loadingDelete={loadingDelete}
+          setUserFavs={setUserFavs}
+          setLoadingDelete={setLoadingDelete}
+        />
+      )}
 
       <div className="m-3 flex flex-col items-center p-2 text-cyan-950">
         <div className="text-2xl font-bold capitalize">
-          {"name" in program && program.name && <div>{program.name}</div>}
+          {program.schoolObj?.name}
         </div>
         <div className="text-xl font-bold capitalize">
-          {program.schoolObj?.name}
+          {"name" in program && program.name && <div>{program.name}</div>}
         </div>
         <div className="text-md font-normal capitalize">
           {program.cityObj?.city}, {program.cityObj?.province}
@@ -184,6 +214,16 @@ const SingleProgram: React.FC<SingleProgramProps> = ({ program }) => {
           {cautionCircle}
           <div className="mx-5">{errorMessage}</div>
           {cautionCircle}
+        </div>
+      )}
+      {loadingDelete === program.favId && (
+        <div
+          className="absolute inset-0 z-10 flex items-center justify-center"
+          style={{ background: "rgba(0, 0, 0, 0.7)" }}
+        >
+          <div className="-translate-y-10">
+            <LoadingLines />
+          </div>
         </div>
       )}
     </div>

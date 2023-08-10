@@ -34,6 +34,8 @@ export default function MyProgramsComponent() {
     boolean | CustomProgram
   >(false);
   const [displayCustom, setDisplayCustom] = useState<CustomProgram[]>([]);
+  const [updateFavs, setUpdateFavs] = useState<boolean>(false);
+  const [loadingDelete, setLoadingDelete] = useState<boolean | string>(false);
 
   const findProgramObject = async (id: string) => {
     if (userId) {
@@ -129,6 +131,12 @@ export default function MyProgramsComponent() {
             return undefined;
           })
         );
+        newData.sort((a, b) => {
+          const nameA = a?.schoolObj?.name || "";
+          const nameB = b?.schoolObj?.name || "";
+
+          return nameA.localeCompare(nameB);
+        });
 
         setDisplayData(
           newData.filter((item) => item !== undefined) as ProgramWithInfo[]
@@ -142,6 +150,10 @@ export default function MyProgramsComponent() {
     fetchDisplayData();
   }, [userFavs]);
 
+  useEffect(() => {
+    setLoadingDelete(false);
+  }, [displayData]);
+
   const findCustomPrograms = async () => {
     if (userId) {
       const allCustomPrograms = await utils.customProgram.getAllForUser.fetch({
@@ -152,7 +164,17 @@ export default function MyProgramsComponent() {
   };
 
   const programDisplay = displayData.map((element: ProgramWithInfo) => {
-    return <SingleProgram program={element} key={element.id} />;
+    return (
+      <SingleProgram
+        program={element}
+        key={element.id}
+        setUpdateFavs={setUpdateFavs}
+        loadingDelete={loadingDelete}
+        setLoadingDelete={setLoadingDelete}
+        findUserFavs={findUserFavs}
+        setUserFavs={setUserFavs}
+      />
+    );
   });
 
   const customProgramDisplay = displayCustom.map((element) => {

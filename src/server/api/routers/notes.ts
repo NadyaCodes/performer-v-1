@@ -19,6 +19,9 @@ export const notesRouter = createTRPCRouter({
             equals: input.favId,
           },
         },
+        orderBy: {
+          dateTime: 'asc'
+        }
       });
     }),
 
