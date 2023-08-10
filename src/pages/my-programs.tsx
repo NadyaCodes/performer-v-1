@@ -4,7 +4,7 @@ import React from "react";
 
 export default function MyPrograms() {
   return (
-    <div>
+    <div className="min-h-screen bg-cyan-50 bg-opacity-80">
       <Menu />
       <MyProgramsComponent />
     </div>

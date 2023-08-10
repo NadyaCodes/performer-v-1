@@ -65,7 +65,7 @@ const Picker: NextPage<PickerProps> = ({
     );
   });
   return (
-    <div className="flex max-w-6xl flex-wrap justify-start p-4">
+    <div className="flex max-w-6xl flex-wrap justify-center p-4">
       {buttonDisplay}
     </div>
   );
