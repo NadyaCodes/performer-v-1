@@ -2,7 +2,7 @@ import React, { SetStateAction, useEffect, useState, Dispatch } from "react";
 import { ProgramWithInfo } from "../ProgramFinder/types";
 import { displayDisciplineText } from "../ProgramFinder/helpers";
 import Link from "next/link";
-import { FavProgram, Note } from "@prisma/client";
+import { Note } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { api } from "@component/utils/api";
 import NoteComponent from "./NoteComponent";
@@ -18,6 +18,8 @@ import { validateInput } from "./helpers";
 import DeleteCheck from "./DeleteCheck";
 import { ProgramWithType } from "./MyProgramsComponent";
 import LoadingLines from "../Loading/LoadingLines";
+import ShareOptions from "../ProgramFinder/ShareOptions";
+import ShareIcon from "../ProgramFinder/ShareIcon";
 
 type SingleProgramProps = {
   program: ProgramWithInfo;
@@ -25,13 +27,13 @@ type SingleProgramProps = {
   setLoadingDelete: Dispatch<SetStateAction<boolean | string>>;
   findUserFavs: Function;
   setUserFavs: Dispatch<SetStateAction<(ProgramWithType | undefined)[] | null>>;
+  index: number;
 };
 
 const SingleProgram: React.FC<SingleProgramProps> = ({
   program,
   loadingDelete,
   setLoadingDelete,
-  findUserFavs,
   setUserFavs,
 }) => {
   const { data: sessionData } = useSession();
@@ -44,6 +46,7 @@ const SingleProgram: React.FC<SingleProgramProps> = ({
   const [loadingNotes, setLoadingNotes] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [removeComponent, setRemoveComponent] = useState<boolean>(false);
+  const [share, setShare] = useState(false);
 
   const fetchNotes = async () => {
     if (program.favId) {
@@ -94,14 +97,21 @@ const SingleProgram: React.FC<SingleProgramProps> = ({
   });
 
   return (
-    <div className="relative my-10 flex w-full flex-col rounded-lg bg-cyan-100 bg-opacity-20 shadow-md shadow-cyan-800">
-      <div className="flex w-full justify-between rounded-t-lg bg-cyan-800 bg-opacity-100 text-cyan-50 shadow-sm shadow-cyan-900">
+    <div
+      className="relative my-10 flex w-full flex-col rounded-lg bg-cyan-100 bg-opacity-20 shadow-md shadow-cyan-800"
+      style={{ animation: "expandUp 1s linear" }}
+      id={program.id}
+    >
+      <div
+        className="flex w-full justify-between rounded-t-lg bg-cyan-800 bg-opacity-100 text-cyan-50 opacity-0 shadow-sm shadow-cyan-900"
+        style={{ animation: "fadeIn 1.5s linear forwards" }}
+      >
         <div className="mx-5 my-2">{basicStar}</div>
         <div className="mx-5 my-2">{basicStar}</div>
       </div>
       <button
         onClick={() => setRemoveComponent(true)}
-        className="absolute right-5 mt-12 flex rounded-full p-1 text-pink-400 hover:bg-pink-100"
+        className="absolute right-4 mt-12 flex rounded-full border border-transparent p-0.5 text-cyan-900 hover:scale-110 hover:border hover:border-pink-400 hover:text-pink-400"
       >
         {xMark}
       </button>
@@ -115,6 +125,9 @@ const SingleProgram: React.FC<SingleProgramProps> = ({
           programId={program.id}
         />
       )}
+      <div className="h-0 translate-x-20 place-self-end">
+        {share && <ShareOptions program={program} setShare={setShare} />}
+      </div>
 
       <div className="m-3 flex flex-col items-center p-2 text-cyan-950">
         <div className="text-2xl font-bold capitalize">
@@ -209,6 +222,7 @@ const SingleProgram: React.FC<SingleProgramProps> = ({
             </button>
           </div>
         )}
+        <ShareIcon share={share} setShare={setShare} />
       </div>
       {errorMessage && (
         <div className="fixed left-1/2 top-4 flex -translate-x-1/2 transform items-center border-2 border-pink-700 bg-pink-100 p-2 text-pink-700">
@@ -219,8 +233,10 @@ const SingleProgram: React.FC<SingleProgramProps> = ({
       )}
       {loadingDelete === program.id && (
         <div
-          className="absolute inset-0 z-10 flex items-center justify-center"
-          style={{ background: "rgba(0, 0, 0, 0.7)" }}
+          className="absolute inset-0 z-10 flex items-center justify-center rounded-lg"
+          style={{
+            background: "rgba(0, 0, 0, 0.7)",
+          }}
         >
           <div className="-translate-y-10">
             <LoadingLines />

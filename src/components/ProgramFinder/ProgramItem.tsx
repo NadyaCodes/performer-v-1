@@ -12,6 +12,7 @@ import { shareIcon } from "@component/data/svgs";
 import ShareOptions from "./ShareOptions";
 
 import { convertUserFavs } from "./helpers";
+import ShareIcon from "./ShareIcon";
 
 export default function ProgramItem({
   element,
@@ -263,14 +264,15 @@ export default function ProgramItem({
           {displayDisciplineText(element.discipline)}{" "}
         </div>
       </div>
-      <div className="mr-5 h-0 -translate-y-12 place-self-end">
+      {/* <div className="mr-5 h-0 -translate-y-12 place-self-end">
         <div
           className="text-cyan-700 hover:scale-150 hover:cursor-pointer"
           onClick={() => setShare(!share)}
         >
           {shareIcon}
         </div>
-      </div>
+      </div> */}
+      <ShareIcon share={share} setShare={setShare} />
     </div>
   );
 }

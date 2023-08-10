@@ -1,6 +1,5 @@
 import React, { SetStateAction, Dispatch } from "react";
 import { trashCan } from "@component/data/svgs";
-import LoadingLines from "../Loading/LoadingLines";
 import { api } from "@component/utils/api";
 import { ProgramWithType } from "./MyProgramsComponent";
 import { CustomProgram, FTProgram, PTProgram } from "@prisma/client";
@@ -9,7 +8,6 @@ import { useSession } from "next-auth/react";
 export default function DeleteCheck({
   setDeleteCheck,
   id,
-  loadingDelete,
   setUserFavs,
   setLoadingDelete,
   setUserCustoms,
@@ -87,6 +85,7 @@ export default function DeleteCheck({
           (favProgramData: (ProgramWithType | undefined)[]) =>
             favProgramData && setUserFavs && setUserFavs(favProgramData)
         );
+      setDeleteCheck(false);
       return data;
     },
     onError(error) {
@@ -103,6 +102,7 @@ export default function DeleteCheck({
           setUserCustoms &&
           setUserCustoms(customProgramData)
       );
+      setDeleteCheck(false);
       return data;
     },
     onError(error) {
@@ -119,42 +119,39 @@ export default function DeleteCheck({
   return (
     <>
       <div
-        className="absolute inset-0 z-10 flex items-center justify-center"
-        style={{ background: "rgba(0, 0, 0, 0.4)" }}
+        className="absolute inset-0 z-10 flex items-center justify-center rounded-lg transition-all"
+        style={{
+          background: "rgba(0, 0, 0, 0.4)",
+        }}
       >
-        <div className="flex flex-col items-center rounded-lg bg-cyan-50 p-6 text-black">
-          <div className="text-2xl font-bold">
+        <div
+          className="flex w-3/5 flex-col items-center rounded-lg bg-cyan-50 p-6 text-cyan-950 transition-all"
+          style={{ animation: "pullDown .3s linear forwards" }}
+        >
+          <div className="text-center text-2xl font-bold">
             Are you SURE you want to delete this program?
           </div>
-          <div className="text-lg italic">This process cannot be undone</div>
+          {!programId && (
+            <div className="text-lg italic">This process cannot be undone</div>
+          )}
           <div className="mt-4 flex w-full justify-around">
             <button
               onClick={() => {
                 deleteProgram();
               }}
-              className="m-2 flex w-48 justify-between rounded p-3 text-pink-500 outline outline-pink-400 hover:scale-110 hover:shadow-lg"
+              className="m-2 flex w-28 justify-between rounded p-3 text-pink-500 outline-pink-400 hover:scale-110 hover:shadow-lg hover:outline"
             >
-              DELETE PROGRAM {trashCan}
+              DELETE {trashCan}
             </button>
             <button
               onClick={() => setDeleteCheck(false)}
-              className="m-2 flex w-48 justify-center rounded p-3 text-cyan-700 outline outline-cyan-500 hover:scale-110 hover:shadow-lg"
+              className="m-2 flex w-28 justify-center rounded p-3 text-cyan-700 outline-cyan-500 hover:scale-110 hover:shadow-lg hover:outline"
             >
               Cancel
             </button>
           </div>
         </div>
       </div>
-      {loadingDelete && (
-        <div
-          className="absolute inset-0 z-10 flex items-center justify-center"
-          style={{ background: "rgba(0, 0, 0, 0.7)" }}
-        >
-          <div className="-translate-y-10">
-            <LoadingLines />
-          </div>
-        </div>
-      )}
     </>
   );
 }

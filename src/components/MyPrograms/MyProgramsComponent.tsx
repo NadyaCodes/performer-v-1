@@ -5,9 +5,10 @@ import { PTProgram, FTProgram, CustomProgram } from "@prisma/client";
 import { ProgramWithInfo } from "../ProgramFinder/types";
 import SingleProgram from "./SingleProgram";
 import LoadingLines from "../Loading/LoadingLines";
-import { backArrow, plusIcon, sparkles } from "@component/data/svgs";
+import { backArrow, plusIcon } from "@component/data/svgs";
 import SingleCustom from "./SingleCustom";
 import CustomProgramForm from "./CustomProgramForm";
+import H2Title from "./H2Title";
 
 export type ProgramWithType = {
   id: string;
@@ -162,7 +163,7 @@ export default function MyProgramsComponent() {
     }
   };
 
-  const programDisplay = displayData.map((element: ProgramWithInfo) => {
+  const programDisplay = displayData.map((element: ProgramWithInfo, index) => {
     return (
       <SingleProgram
         program={element}
@@ -171,6 +172,7 @@ export default function MyProgramsComponent() {
         setLoadingDelete={setLoadingDelete}
         findUserFavs={findUserFavs}
         setUserFavs={setUserFavs}
+        index={index}
       />
     );
   });
@@ -199,24 +201,7 @@ export default function MyProgramsComponent() {
       ></div>
       <div className="h-10"></div>
 
-      <h2 className="m-5 flex  w-7/12  items-center justify-center bg-cyan-50  text-center  text-4xl font-extrabold capitalize tracking-tight text-cyan-900">
-        <div style={{ animation: "wiggle 1s linear" }}>
-          <div style={{ animation: "fadeInGrow 1s linear" }}>
-            <div className="m-2">{sparkles}</div>
-          </div>
-        </div>
-        <div className="m-2">Saved Programs</div>
-        <div style={{ animation: "wiggle 1s linear" }}>
-          <div style={{ animation: "fadeInGrow 1s linear" }}>
-            <div className="m-2 -scale-x-100">{sparkles}</div>
-          </div>
-        </div>
-      </h2>
-      <div
-        className="h-1 w-2/3 justify-center rounded-full bg-gradient-to-b from-cyan-300 to-cyan-900 text-cyan-950 opacity-0 shadow-lg shadow-cyan-900"
-        style={{ animation: "flyInFadeIn 0.5s linear 2s forwards" }}
-      ></div>
-      <div className="h-10"></div>
+      <H2Title text="Saved Programs" icon="star" />
 
       {loading ? (
         <div>
@@ -234,10 +219,7 @@ export default function MyProgramsComponent() {
       ) : (
         <div className="-mt-10 flex w-full flex-col items-center justify-center">
           <div className="w-7/12">{programDisplay}</div>
-
-          <h2 className="text-5xl font-extrabold capitalize tracking-tight text-gray-800 sm:text-[3rem]">
-            Custom Programs
-          </h2>
+          <H2Title text="Custom Programs" icon="sparkle" />
           <button
             onClick={() => {
               setShowUpdateCustom(!showUpdateCustom);
