@@ -1,4 +1,11 @@
-import React, { SetStateAction, useEffect, useState, Dispatch } from "react";
+import React, {
+  SetStateAction,
+  useEffect,
+  useState,
+  Dispatch,
+  // forwardRef,
+  // Ref,
+} from "react";
 import Link from "next/link";
 import { CustomProgram, Note } from "@prisma/client";
 import { useSession } from "next-auth/react";
@@ -134,6 +141,8 @@ const SingleCustom = ({
     <div
       className="relative my-10 flex w-full flex-col rounded-lg bg-cyan-100 bg-opacity-20 opacity-0 shadow-md shadow-cyan-800"
       style={{ animation: "fadeInGrow 1s linear 3s forwards" }}
+      // ref={ref}
+      id={program.id}
     >
       <div className="flex w-full justify-between rounded-t-lg bg-cyan-800 bg-opacity-100 text-cyan-50 shadow-sm shadow-cyan-900">
         <div className="mx-5 my-2">{basicStar}</div>

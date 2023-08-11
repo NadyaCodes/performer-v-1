@@ -296,3 +296,9 @@
   }
   
 }
+
+
+@keyframes fadeBackground {
+  to {background-color: transparent;}
+  
+}

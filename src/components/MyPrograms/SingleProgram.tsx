@@ -21,20 +21,17 @@ import LoadingLines from "../Loading/LoadingLines";
 import ShareOptions from "../ProgramFinder/ShareOptions";
 import ShareIcon from "../ProgramFinder/ShareIcon";
 
-type SingleProgramProps = {
+const SingleProgram = ({
+  program,
+  loadingDelete,
+  setLoadingDelete,
+  setUserFavs,
+}: {
   program: ProgramWithInfo;
   loadingDelete: boolean | string;
   setLoadingDelete: Dispatch<SetStateAction<boolean | string>>;
   findUserFavs: Function;
   setUserFavs: Dispatch<SetStateAction<(ProgramWithType | undefined)[] | null>>;
-  index: number;
-};
-
-const SingleProgram: React.FC<SingleProgramProps> = ({
-  program,
-  loadingDelete,
-  setLoadingDelete,
-  setUserFavs,
 }) => {
   const { data: sessionData } = useSession();
   const utils = api.useContext();

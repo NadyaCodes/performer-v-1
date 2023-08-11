@@ -9,6 +9,8 @@ import { backArrow, plusIcon } from "@component/data/svgs";
 import SingleCustom from "./SingleCustom";
 import CustomProgramForm from "./CustomProgramForm";
 import H2Title from "./H2Title";
+import QuickLinks from "./QuickLinks";
+import { ObjectList } from "@component/data/types";
 
 export type ProgramWithType = {
   id: string;
@@ -168,7 +170,67 @@ export default function MyProgramsComponent() {
     }
   };
 
-  const programDisplay = displayData.map((element: ProgramWithInfo, index) => {
+  const [keyValueList, setKeyValueList] = useState<ObjectList[]>([]);
+
+  useEffect(() => {
+    const textArray: string[] = [];
+    const newKeyValueList: ObjectList[] = [];
+    displayData.forEach((program) => {
+      textArray.push(
+        program.schoolObj?.name || program.name || program.website
+      );
+      newKeyValueList.push({
+        [program.id]:
+          program.schoolObj?.name || program.name || program.website,
+      });
+    });
+    displayCustom.forEach((program) => {
+      let text;
+      const {
+        school,
+        name,
+        city,
+        province,
+        country,
+        website,
+        typePt,
+        typeFt,
+        disciplineAct,
+        disciplineDance,
+        disciplineSing,
+        disciplineMT,
+      } = program;
+      if (school) {
+        text = school;
+      } else if (name) {
+        text = name;
+      } else if (city) {
+        text = "Unknown Program: " + city;
+      } else if (province) {
+        text = "Unknown Program: " + province;
+      } else if (country) {
+        text = "Unknown Program: " + country;
+      } else if (website) {
+        text = "Unknown Program: " + website;
+      } else if (typeFt) {
+        text = "Unknown Program: Full Time";
+      } else if (typePt) {
+        text = "Unknown Program: Part Time";
+      } else if (disciplineAct) {
+        text = "Unknown Program: Acting";
+      } else if (disciplineSing) {
+        text = "Unknown Program: Singing";
+      } else if (disciplineDance) {
+        text = "Unknown Program: Dance";
+      } else if (disciplineMT) {
+        text = "Unknown Program: Musical Theatre";
+      }
+      newKeyValueList.push({ [program.id]: text || "Unknown Program" });
+    });
+    setKeyValueList(newKeyValueList);
+  }, [displayData, displayCustom]);
+
+  const programDisplay = displayData.map((element: ProgramWithInfo) => {
     return (
       <SingleProgram
         program={element}
@@ -177,7 +239,6 @@ export default function MyProgramsComponent() {
         setLoadingDelete={setLoadingDelete}
         findUserFavs={findUserFavs}
         setUserFavs={setUserFavs}
-        index={index}
       />
     );
   });
@@ -207,6 +268,8 @@ export default function MyProgramsComponent() {
       <div className="h-10"></div>
 
       <H2Title text="Saved Programs" icon="star" />
+
+      <QuickLinks keyValueList={keyValueList} />
 
       {loading ? (
         <div>
