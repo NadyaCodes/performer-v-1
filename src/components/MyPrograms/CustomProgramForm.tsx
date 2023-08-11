@@ -82,6 +82,9 @@ export default function CustomProgramForm({
   const { mutate: addProgram } = api.customProgram.add.useMutation({
     async onSuccess(data) {
       setShowUpdateCustom(false);
+      window.scrollTo({
+        top: 0,
+      });
       setLoading(false);
       setUserInput(emptyUserInput);
       findCustomPrograms().then(
@@ -98,6 +101,9 @@ export default function CustomProgramForm({
   const { mutate: updateProgram } = api.customProgram.update.useMutation({
     async onSuccess(data) {
       setShowUpdateCustom(false);
+      window.scrollTo({
+        top: 0,
+      });
       setLoading(false);
       setUserInput(emptyUserInput);
       findCustomPrograms().then(
@@ -162,7 +168,7 @@ export default function CustomProgramForm({
   return (
     <div className="m-5 flex w-full flex-col place-items-center justify-center border-2 p-10">
       <h2 className="text-5xl font-extrabold capitalize tracking-tight text-gray-800 sm:text-[3rem]">
-        Add Your Program Here
+        Add/Update Your Program Here
       </h2>
       <div className="m-5 flex flex-col place-items-center italic">
         <p>This program will be added to your private list.</p>

@@ -99,7 +99,7 @@ const SingleProgram: React.FC<SingleProgramProps> = ({
   return (
     <div
       className="relative my-10 flex w-full flex-col rounded-lg bg-cyan-100 bg-opacity-20 shadow-md shadow-cyan-800"
-      style={{ animation: "expandUp 1s linear" }}
+      style={{ animation: "fadeInGrow 1s linear" }}
       id={program.id}
     >
       <div

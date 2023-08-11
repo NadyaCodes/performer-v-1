@@ -9,8 +9,8 @@ import {
   chevronUp,
   pencilBox,
   plusIcon,
-  trashCan,
   basicStar,
+  xMark,
 } from "@component/data/svgs";
 import LoadingSpinner from "../Loading/LoadingSpinner";
 import LoadingLines from "../Loading/LoadingLines";
@@ -131,7 +131,10 @@ const SingleCustom = ({
   };
 
   return (
-    <div className="relative my-10 flex w-full flex-col rounded-lg bg-cyan-100 bg-opacity-20 shadow-md shadow-cyan-800">
+    <div
+      className="relative my-10 flex w-full flex-col rounded-lg bg-cyan-100 bg-opacity-20 opacity-0 shadow-md shadow-cyan-800"
+      style={{ animation: "fadeInGrow 1s linear 3s forwards" }}
+    >
       <div className="flex w-full justify-between rounded-t-lg bg-cyan-800 bg-opacity-100 text-cyan-50 shadow-sm shadow-cyan-900">
         <div className="mx-5 my-2">{basicStar}</div>
         <div className="mx-5 my-2">{basicStar}</div>
@@ -163,31 +166,38 @@ const SingleCustom = ({
         <div className="flex flex-col items-center">
           <div className="flex place-self-end">
             <button
-              className="mr-8 flex w-48 flex-row justify-between place-self-end rounded border border-yellow-400 bg-transparent px-4 py-2 font-semibold text-yellow-500 shadow-md hover:scale-110 hover:border-transparent hover:bg-yellow-500 hover:text-white"
               onClick={() => {
                 updateCustomProgram();
               }}
+              className="absolute right-16 -mt-1 flex rounded-full border border-transparent p-1 text-cyan-900 hover:scale-110 hover:border hover:border-indigo-400 hover:text-indigo-400"
             >
-              <div>Update Program </div>
-              <div>{pencilBox}</div>
+              {pencilBox}
             </button>
             <button
-              className="flex w-48 flex-row justify-between place-self-end rounded border border-red-400 bg-transparent px-4 py-2 font-semibold text-red-400 shadow-md hover:scale-110 hover:border-transparent hover:bg-red-600 hover:text-white"
               onClick={() => setDeleteCheck(true)}
+              className="absolute right-4 -mt-1 flex rounded-full border border-transparent p-1 text-cyan-900 hover:scale-110 hover:border hover:border-pink-400 hover:text-pink-400"
             >
-              <div>Delete Program </div>
-              <div>{trashCan}</div>
+              {xMark}
             </button>
           </div>
-          <div className="text-2xl font-bold capitalize">
-            {program.name && <div>{program.name}</div>}
-          </div>
           {program.school && (
-            <div className="text-xl font-bold capitalize">{program.school}</div>
+            <div className="text-2xl font-bold capitalize">
+              {program.school}
+            </div>
           )}
-          <div className="text-md font-normal capitalize">
-            {locationArray.length > 0 && <div>{locationArray.join(", ")}</div>}
-          </div>
+          {program.name && (
+            <div className="text-xl font-bold capitalize">
+              {program.name && <div>{program.name}</div>}
+            </div>
+          )}
+
+          {locationArray && (
+            <div className="text-md font-normal capitalize">
+              {locationArray.length > 0 && (
+                <div>{locationArray.join(", ")}</div>
+              )}
+            </div>
+          )}
           {program.website && (
             <div className="italic">
               <Link href={program.website} target="blank">
@@ -203,18 +213,26 @@ const SingleCustom = ({
               <div>Disciplines: {disciplinesArray.join(", ")}</div>
             )}
           </div>
-          <div className="mb-3 w-48 border-b-2 border-cyan-500 p-2"></div>
+          <div className="mb-3 w-48 border-b-2 border-cyan-600 p-2"></div>
           {notesDisplay && notesDisplay.length > 0 && (
-            <div className="m-2 flex w-full content-center justify-center">
-              <ul className="w-6/12">{notesDisplay}</ul>
+            <div className="m-2 flex w-7/12 content-center justify-center">
+              <ul className=" w-full">{notesDisplay}</ul>
             </div>
           )}
           {notesDisplay && notesDisplay.length === 0 && (
-            <div className="italic">No Notes</div>
+            <div className="w-full text-center italic">No Notes</div>
+          )}
+          {!notesDisplay && (
+            <div className="flex flex-col items-center">
+              <span>
+                <LoadingSpinner iconSize="medium" />
+              </span>
+              <span>Loading Notes</span>
+            </div>
           )}
           {noteInput && (
             <button
-              className="m-2 flex w-40 justify-between rounded border border-cyan-500 bg-transparent px-4 py-2 font-semibold text-cyan-600 hover:border-transparent hover:bg-cyan-500 hover:text-white"
+              className="m-2 flex w-40 justify-between rounded bg-transparent px-4 py-2 font-semibold text-cyan-600 hover:bg-indigo-300 hover:text-indigo-900 hover:shadow-md hover:shadow-indigo-200"
               onClick={() => {
                 setNoteInput(false);
                 setInputText("");
@@ -227,34 +245,40 @@ const SingleCustom = ({
           )}
           {!noteInput && !loadingNotes && (
             <button
-              className="m-2 flex w-32 place-items-center justify-between rounded border border-cyan-500 bg-transparent px-4 py-2 font-semibold text-cyan-600 hover:border-transparent hover:bg-cyan-500 hover:text-white"
+              className="m-2 flex w-32 place-items-center justify-between rounded bg-transparent px-4 py-2 font-semibold text-cyan-600 transition-all hover:bg-cyan-800 hover:text-cyan-50 hover:shadow-md hover:shadow-cyan-900"
               onClick={() => setNoteInput(true)}
             >
               <span>Add Note</span>
               <span>{plusIcon}</span>
             </button>
           )}
-          {loadingNotes && (
-            <div className="mt-7">
-              <LoadingSpinner iconSize="medium" />
-            </div>
-          )}
           {noteInput && (
-            <div className="flex w-7/12 place-items-center place-self-center">
+            <div
+              style={{
+                animation: "pullDown 0.2s ease-out",
+                transformOrigin: "50% 0%",
+              }}
+              className="m-3 flex w-7/12 place-items-center place-self-center"
+            >
               <input
                 type="text"
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
-                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                className="block w-full rounded-lg border border-indigo-200 bg-cyan-50 p-2.5 text-sm text-gray-900 focus:border-cyan-500 focus:outline-cyan-500 focus:ring-cyan-500"
               />
               <button
-                className=" p-.5 ml-5 h-fit rounded  text-purple-600 outline hover:scale-110"
+                className=" p-.5 ml-5 h-fit rounded  text-cyan-600 outline hover:scale-110"
                 onClick={() =>
                   userId && program.id && addNote(userId, program.id, inputText)
                 }
               >
                 {plusIcon}
               </button>
+            </div>
+          )}
+          {loadingNotes && (
+            <div className="mt-7">
+              <LoadingSpinner iconSize="medium" />
             </div>
           )}
         </div>

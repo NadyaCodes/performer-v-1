@@ -129,7 +129,8 @@ export default function DeleteCheck({
           style={{ animation: "pullDown .3s linear forwards" }}
         >
           <div className="text-center text-2xl font-bold">
-            Are you SURE you want to delete this program?
+            Are you SURE you want to delete this program{" "}
+            {programId && " from your favs"}?
           </div>
           {!programId && (
             <div className="text-lg italic">This process cannot be undone</div>

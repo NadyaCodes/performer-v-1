@@ -37,6 +37,11 @@ export default function MyProgramsComponent() {
   const [displayCustom, setDisplayCustom] = useState<CustomProgram[]>([]);
   const [loadingDelete, setLoadingDelete] = useState<boolean | string>(false);
 
+  const delayStyle = {
+    opacity: "0",
+    animation: "fadeIn 1s linear 1.5s forwards",
+  };
+
   const findProgramObject = async (id: string) => {
     if (userId) {
       const ptProgramObject = await utils.ptProgram.getOneById.fetch({ id });
@@ -191,7 +196,7 @@ export default function MyProgramsComponent() {
   });
 
   return (
-    <div className="mb-10 flex flex-col items-center">
+    <div className="flex flex-col items-center">
       <div
         className="absolute left-0 right-0 h-10 bg-cyan-950"
         style={{
@@ -219,7 +224,7 @@ export default function MyProgramsComponent() {
       ) : (
         <div className="-mt-10 flex w-full flex-col items-center justify-center">
           <div className="w-7/12">{programDisplay}</div>
-          <H2Title text="Custom Programs" icon="sparkle" />
+          <H2Title text="Custom Programs" icon="sparkle" style={delayStyle} />
           <button
             onClick={() => {
               setShowUpdateCustom(!showUpdateCustom);
@@ -228,8 +233,8 @@ export default function MyProgramsComponent() {
                 behavior: "smooth",
               });
             }}
-            className="mr-8 flex w-56 place-items-center justify-between place-self-end  rounded  border-2 border-transparent bg-transparent px-4 py-2 font-semibold  text-cyan-600 hover:scale-110 hover:border-2 hover:bg-cyan-50"
-            style={{ zIndex: "10" }}
+            className="-mt-3 flex w-56 place-items-center justify-between rounded  px-4  py-2 font-semibold text-cyan-600  opacity-0 hover:scale-110  hover:bg-cyan-700 hover:text-cyan-50"
+            style={{ animation: "pullDownTop 0.3s linear 4s forwards" }}
           >
             <span>Add Custom Program </span>
             <span>{plusIcon}</span>

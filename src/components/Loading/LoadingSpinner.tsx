@@ -18,7 +18,7 @@ export default function LoadingSpinner({
   const size = sizeObject[iconSize];
 
   return (
-    <div className="w-fit text-indigo-600">
+    <div className="w-fit text-cyan-700">
       <div style={{ animation: "rotate 1s linear infinite" }}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
