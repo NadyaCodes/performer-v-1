@@ -173,60 +173,35 @@ export default function MyProgramsComponent() {
   const [keyValueList, setKeyValueList] = useState<ObjectList[]>([]);
 
   useEffect(() => {
-    const textArray: string[] = [];
     const newKeyValueList: ObjectList[] = [];
+    newKeyValueList.push({ top: "Top" });
+
     displayData.forEach((program) => {
-      textArray.push(
-        program.schoolObj?.name || program.name || program.website
-      );
-      newKeyValueList.push({
-        [program.id]:
-          program.schoolObj?.name || program.name || program.website,
-      });
+      const text =
+        program.schoolObj?.name ||
+        program.name ||
+        program.website ||
+        "Unknown Program";
+      newKeyValueList.push({ [program.id]: text });
     });
+
     displayCustom.forEach((program) => {
-      let text;
-      const {
-        school,
-        name,
-        city,
-        province,
-        country,
-        website,
-        typePt,
-        typeFt,
-        disciplineAct,
-        disciplineDance,
-        disciplineSing,
-        disciplineMT,
-      } = program;
-      if (school) {
-        text = school;
-      } else if (name) {
-        text = name;
-      } else if (city) {
-        text = "Unknown Program: " + city;
-      } else if (province) {
-        text = "Unknown Program: " + province;
-      } else if (country) {
-        text = "Unknown Program: " + country;
-      } else if (website) {
-        text = "Unknown Program: " + website;
-      } else if (typeFt) {
-        text = "Unknown Program: Full Time";
-      } else if (typePt) {
-        text = "Unknown Program: Part Time";
-      } else if (disciplineAct) {
-        text = "Unknown Program: Acting";
-      } else if (disciplineSing) {
-        text = "Unknown Program: Singing";
-      } else if (disciplineDance) {
-        text = "Unknown Program: Dance";
-      } else if (disciplineMT) {
-        text = "Unknown Program: Musical Theatre";
-      }
-      newKeyValueList.push({ [program.id]: text || "Unknown Program" });
+      let text = program.school || program.name || "Unknown Program";
+
+      if (program.city) text = `Unknown Program: ${program.city}`;
+      else if (program.province) text = `Unknown Program: ${program.province}`;
+      else if (program.country) text = `Unknown Program: ${program.country}`;
+      else if (program.website) text = `Unknown Program: ${program.website}`;
+      else if (program.typeFt) text = "Unknown Program: Full Time";
+      else if (program.typePt) text = "Unknown Program: Part Time";
+      else if (program.disciplineAct) text = "Unknown Program: Acting";
+      else if (program.disciplineSing) text = "Unknown Program: Singing";
+      else if (program.disciplineDance) text = "Unknown Program: Dance";
+      else if (program.disciplineMT) text = "Unknown Program: Musical Theatre";
+
+      newKeyValueList.push({ [program.id]: text });
     });
+
     setKeyValueList(newKeyValueList);
   }, [displayData, displayCustom]);
 
@@ -257,7 +232,7 @@ export default function MyProgramsComponent() {
   });
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="static flex flex-col items-center">
       <div
         className="absolute left-0 right-0 h-10 bg-cyan-950"
         style={{
@@ -265,11 +240,10 @@ export default function MyProgramsComponent() {
             "inset 0px -1px 2px rgba(0,255,255,0.5), inset 0px -2px 4px rgba(0,255,255,0.5), inset 0px -4px 8px rgba(0,255,255,0.5)",
         }}
       ></div>
-      <div className="h-10"></div>
+      <div className="z-0 h-10"></div>
+      <QuickLinks keyValueList={keyValueList} />
 
       <H2Title text="Saved Programs" icon="star" />
-
-      <QuickLinks keyValueList={keyValueList} />
 
       {loading ? (
         <div>

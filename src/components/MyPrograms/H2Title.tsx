@@ -14,7 +14,7 @@ export default function H2Title({
   return (
     <>
       <h2
-        className="m-5 flex w-7/12 scale-125  items-center justify-center bg-cyan-50  text-center  text-4xl font-extrabold capitalize tracking-tight text-cyan-900"
+        className="mx-5 flex w-7/12 scale-125 items-center  justify-center bg-transparent text-center  text-4xl font-extrabold capitalize tracking-tight text-cyan-900"
         style={style}
       >
         <div style={{ animation: "wiggle .4s linear 5" }}>
