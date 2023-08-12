@@ -11,6 +11,7 @@ import CustomProgramForm from "./CustomProgramForm";
 import H2Title from "./H2Title";
 import QuickLinks from "./QuickLinks";
 import { ObjectList } from "@component/data/types";
+import ScrollArrow from "../ProgramFinder/ScrollArrow";
 
 export type ProgramWithType = {
   id: string;
@@ -174,7 +175,7 @@ export default function MyProgramsComponent() {
 
   useEffect(() => {
     const newKeyValueList: ObjectList[] = [];
-    newKeyValueList.push({ top: "Top" });
+    newKeyValueList.push({ favsHeader: "-- Fav Programs --", type: "fav" });
 
     displayData.forEach((program) => {
       const text =
@@ -182,7 +183,11 @@ export default function MyProgramsComponent() {
         program.name ||
         program.website ||
         "Unknown Program";
-      newKeyValueList.push({ [program.id]: text });
+      newKeyValueList.push({ [program.id]: text, type: "fav" });
+    });
+    newKeyValueList.push({
+      customHeader: "-- Custom Programs --",
+      type: "custom",
     });
 
     displayCustom.forEach((program) => {
@@ -199,7 +204,7 @@ export default function MyProgramsComponent() {
       else if (program.disciplineDance) text = "Unknown Program: Dance";
       else if (program.disciplineMT) text = "Unknown Program: Musical Theatre";
 
-      newKeyValueList.push({ [program.id]: text });
+      newKeyValueList.push({ [program.id]: text, type: "custom" });
     });
 
     setKeyValueList(newKeyValueList);
@@ -232,7 +237,7 @@ export default function MyProgramsComponent() {
   });
 
   return (
-    <div className="static flex flex-col items-center">
+    <div className="static flex min-h-screen flex-col items-center">
       <div
         className="absolute left-0 right-0 h-10 bg-cyan-950"
         style={{
@@ -243,7 +248,7 @@ export default function MyProgramsComponent() {
       <div className="z-0 h-10"></div>
       <QuickLinks keyValueList={keyValueList} />
 
-      <H2Title text="Saved Programs" icon="star" />
+      <H2Title text="Saved Programs" icon="star" id="favsHeader" />
 
       {loading ? (
         <div>
@@ -261,7 +266,12 @@ export default function MyProgramsComponent() {
       ) : (
         <div className="-mt-10 flex w-full flex-col items-center justify-center">
           <div className="w-7/12">{programDisplay}</div>
-          <H2Title text="Custom Programs" icon="sparkle" style={delayStyle} />
+          <H2Title
+            text="Custom Programs"
+            icon="sparkle"
+            style={delayStyle}
+            id="customHeader"
+          />
           <button
             onClick={() => {
               setShowUpdateCustom(!showUpdateCustom);

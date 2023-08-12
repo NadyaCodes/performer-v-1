@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { ObjectList } from "@component/data/types";
+import ScrollArrow from "../ProgramFinder/ScrollArrow";
 
 const QuickLinks = ({ keyValueList }: { keyValueList: ObjectList[] }) => {
   const [currentProgram, setCurrentProgram] = useState<string | null>(null);
@@ -21,41 +22,54 @@ const QuickLinks = ({ keyValueList }: { keyValueList: ObjectList[] }) => {
 
   const buttonDisplay = keyValueList.map((item, index) => {
     const itemKey = Object.keys(item)[0];
+    const divClass = `py-1 transition-all ${
+      currentProgram === itemKey && item.type === "fav" && "bg-cyan-50"
+    }
+    ${currentProgram === itemKey && item.type !== "fav" && "bg-indigo-200"}
+    ${hover === itemKey && item.type !== "fav" && "bg-indigo-200"}
+    ${hover === itemKey && item.type === "fav" && "bg-cyan-50"}`;
 
     return (
       itemKey && (
-        <div className="my-1">
-          <div
-            className={
-              currentProgram === itemKey || hover === itemKey
-                ? "bg-cyan-500"
-                : ""
-            }
-            style={{
-              animation:
-                currentProgram === itemKey
-                  ? "fadeBackground 1s linear 2s forwards"
-                  : "",
-            }}
-            onMouseOver={() => setHover(itemKey)}
-            onMouseOut={() => setHover(itemKey)}
-            onClick={() => scrollToElement(itemKey)}
+        <div
+          className={divClass}
+          style={{
+            animation:
+              currentProgram === itemKey
+                ? "fadeBackground 1s linear 2s forwards"
+                : "",
+          }}
+          onClick={() => scrollToElement(itemKey)}
+        >
+          <button
+            key={index}
+            className={`flex w-full justify-center px-3 py-1 capitalize ${
+              item.type === "fav" ? "text-cyan-900" : "text-indigo-900"
+            }`}
+            onMouseEnter={() => setHover(itemKey)}
+            onMouseLeave={() => setHover(null)}
           >
-            <button
-              key={index}
-              className="flex flex-col p-2 text-left capitalize"
-            >
-              {item[itemKey]}
-            </button>
-          </div>
+            {item[itemKey]}
+          </button>
         </div>
       )
     );
   });
 
   return (
-    <div className=" sticky left-6 top-40 z-50 -mt-44 flex h-52 w-2/12 max-w-6xl flex-col place-self-start overflow-y-scroll rounded shadow-xl shadow-indigo-300">
-      {buttonDisplay}
+    <div
+      className="sticky left-6 top-56 z-10 -mt-56 flex w-2/12 flex-col place-self-start rounded-lg bg-indigo-100 opacity-0 shadow-lg  shadow-indigo-900"
+      style={{ animation: "flyInFadeInLeft 1s linear 3s forwards" }}
+    >
+      <div className="w-full rounded-t-md bg-indigo-900 p-2 text-center text-lg font-bold text-indigo-50">
+        Quick Links
+      </div>
+      <div className="flex h-52 min-h-full max-w-6xl flex-col place-self-start overflow-y-scroll rounded">
+        <div className="">{buttonDisplay}</div>
+      </div>
+      <div className="h-0 translate-y-7">
+        <ScrollArrow />
+      </div>
     </div>
   );
 };
