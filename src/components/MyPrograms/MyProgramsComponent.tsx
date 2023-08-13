@@ -245,8 +245,8 @@ export default function MyProgramsComponent() {
             "inset 0px -1px 2px rgba(0,255,255,0.5), inset 0px -2px 4px rgba(0,255,255,0.5), inset 0px -4px 8px rgba(0,255,255,0.5)",
         }}
       ></div>
-      <div className="z-0 h-10"></div>
-      <QuickLinks keyValueList={keyValueList} />
+      <div className="h-10"></div>
+      {keyValueList.length > 2 && <QuickLinks keyValueList={keyValueList} />}
 
       <H2Title text="Saved Programs" icon="star" id="favsHeader" />
 
@@ -266,11 +266,14 @@ export default function MyProgramsComponent() {
       ) : (
         <div className="-mt-10 flex w-full flex-col items-center justify-center">
           <div className="w-7/12">{programDisplay}</div>
+
+          <div className="my-12 h-10 w-full rounded bg-gradient-to-b from-cyan-100 to-indigo-200"></div>
           <H2Title
             text="Custom Programs"
             icon="sparkle"
             style={delayStyle}
             id="customHeader"
+            color="indigo"
           />
           <button
             onClick={() => {
@@ -280,7 +283,7 @@ export default function MyProgramsComponent() {
                 behavior: "smooth",
               });
             }}
-            className="-mt-3 flex w-56 place-items-center justify-between rounded  px-4  py-2 font-semibold text-cyan-600  opacity-0 hover:scale-110  hover:bg-cyan-700 hover:text-cyan-50"
+            className="-mt-3 flex w-56 place-items-center justify-between rounded  px-4  py-2 font-semibold text-indigo-800  opacity-0 hover:scale-110  hover:bg-indigo-900 hover:text-indigo-50"
             style={{ animation: "pullDownTop 0.3s linear 4s forwards" }}
           >
             <span>Add Custom Program </span>

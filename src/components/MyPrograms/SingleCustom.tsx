@@ -139,12 +139,11 @@ const SingleCustom = ({
 
   return (
     <div
-      className="relative my-10 flex w-full flex-col rounded-lg bg-cyan-100 bg-opacity-20 opacity-0 shadow-md shadow-cyan-800"
+      className="relative my-10 flex w-full flex-col rounded-lg bg-indigo-100 bg-opacity-20 opacity-0 shadow-md shadow-indigo-900"
       style={{ animation: "fadeInGrow 1s linear 3s forwards" }}
-      // ref={ref}
       id={program.id}
     >
-      <div className="flex w-full justify-between rounded-t-lg bg-cyan-800 bg-opacity-100 text-cyan-50 shadow-sm shadow-cyan-900">
+      <div className="flex w-full justify-between rounded-t-lg bg-indigo-900 bg-opacity-100 text-indigo-50 shadow-sm shadow-indigo-900">
         <div className="mx-5 my-2">{basicStar}</div>
         <div className="mx-5 my-2">{basicStar}</div>
       </div>
@@ -178,13 +177,13 @@ const SingleCustom = ({
               onClick={() => {
                 updateCustomProgram();
               }}
-              className="absolute right-16 -mt-1 flex rounded-full border border-transparent p-1 text-cyan-900 hover:scale-110 hover:border hover:border-indigo-400 hover:text-indigo-400"
+              className="absolute right-16 -mt-1 flex rounded-full border border-transparent p-1 text-indigo-900 hover:scale-110 hover:border hover:border-indigo-400 hover:text-indigo-400"
             >
               {pencilBox}
             </button>
             <button
               onClick={() => setDeleteCheck(true)}
-              className="absolute right-4 -mt-1 flex rounded-full border border-transparent p-1 text-cyan-900 hover:scale-110 hover:border hover:border-pink-400 hover:text-pink-400"
+              className="absolute right-4 -mt-1 flex rounded-full border border-transparent p-1 text-indigo-900 hover:scale-110 hover:border hover:border-pink-400 hover:text-pink-400"
             >
               {xMark}
             </button>
@@ -222,7 +221,7 @@ const SingleCustom = ({
               <div>Disciplines: {disciplinesArray.join(", ")}</div>
             )}
           </div>
-          <div className="mb-3 w-48 border-b-2 border-cyan-600 p-2"></div>
+          <div className="mb-3 w-48 border-b-2 border-indigo-700 p-2"></div>
           {notesDisplay && notesDisplay.length > 0 && (
             <div className="m-2 flex w-7/12 content-center justify-center">
               <ul className=" w-full">{notesDisplay}</ul>
@@ -241,7 +240,7 @@ const SingleCustom = ({
           )}
           {noteInput && (
             <button
-              className="m-2 flex w-40 justify-between rounded bg-transparent px-4 py-2 font-semibold text-cyan-600 hover:bg-indigo-300 hover:text-indigo-900 hover:shadow-md hover:shadow-indigo-200"
+              className="m-2 flex w-40 justify-between rounded bg-transparent px-4 py-2 font-semibold text-indigo-700 hover:bg-cyan-700 hover:text-cyan-50 hover:shadow-md hover:shadow-cyan-800"
               onClick={() => {
                 setNoteInput(false);
                 setInputText("");
@@ -254,7 +253,7 @@ const SingleCustom = ({
           )}
           {!noteInput && !loadingNotes && (
             <button
-              className="m-2 flex w-32 place-items-center justify-between rounded bg-transparent px-4 py-2 font-semibold text-cyan-600 transition-all hover:bg-cyan-800 hover:text-cyan-50 hover:shadow-md hover:shadow-cyan-900"
+              className="m-2 flex w-32 place-items-center justify-between rounded bg-transparent px-4 py-2 font-semibold text-indigo-700 transition-all hover:bg-indigo-800 hover:text-indigo-50 hover:shadow-md hover:shadow-indigo-900"
               onClick={() => setNoteInput(true)}
             >
               <span>Add Note</span>
@@ -273,10 +272,10 @@ const SingleCustom = ({
                 type="text"
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
-                className="block w-full rounded-lg border border-indigo-200 bg-cyan-50 p-2.5 text-sm text-gray-900 focus:border-cyan-500 focus:outline-cyan-500 focus:ring-cyan-500"
+                className="block w-full rounded-lg border border-indigo-200 bg-indigo-100 p-2.5 text-sm text-gray-900 focus:border-indigo-600 focus:outline-indigo-600 focus:ring-indigo-600"
               />
               <button
-                className=" p-.5 ml-5 h-fit rounded  text-cyan-600 outline hover:scale-110"
+                className=" p-.5 ml-5 h-fit rounded  text-indigo-700 outline hover:scale-110"
                 onClick={() =>
                   userId && program.id && addNote(userId, program.id, inputText)
                 }

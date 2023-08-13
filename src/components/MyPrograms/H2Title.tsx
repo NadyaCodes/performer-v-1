@@ -7,16 +7,20 @@ export default function H2Title({
   icon,
   style,
   id,
+  color,
 }: {
   text: string;
   icon: string;
   style?: ObjectList;
   id?: string;
+  color?: string;
 }) {
   return (
     <>
       <h2
-        className="mx-5 flex w-7/12 scale-125 items-center  justify-center bg-transparent text-center  text-4xl font-extrabold capitalize tracking-tight text-cyan-900"
+        className={`mx-5 flex w-7/12 scale-125 items-center justify-center bg-transparent text-center  text-4xl font-extrabold capitalize tracking-tight text-${
+          color || "cyan"
+        }-900`}
         style={style}
         id={id}
       >
@@ -37,9 +41,12 @@ export default function H2Title({
         </div>
       </h2>
       <div
-        className="h-1 w-2/3 justify-center rounded-full bg-gradient-to-b from-cyan-300 to-cyan-900 text-cyan-950 opacity-0 shadow-lg shadow-cyan-900"
+        className={`h-1 w-2/3 justify-center rounded-full bg-gradient-to-b 
+        from-${color || "cyan"}-300 to-${color || "cyan"}-900 
+        opacity-0 shadow-lg shadow-${color || "cyan"}-900`}
         style={{ animation: "flyInFadeIn 0.5s linear 2s forwards" }}
       ></div>
+
       <div className="h-10"></div>
     </>
   );
