@@ -175,7 +175,7 @@ export default function MyProgramsComponent() {
 
   useEffect(() => {
     const newKeyValueList: ObjectList[] = [];
-    newKeyValueList.push({ favsHeader: "-- Fav Programs --", type: "fav" });
+    newKeyValueList.push({ favsHeader: "-- Saved Programs --", type: "fav" });
 
     displayData.forEach((program) => {
       const text =
@@ -185,30 +185,61 @@ export default function MyProgramsComponent() {
         "Unknown Program";
       newKeyValueList.push({ [program.id]: text, type: "fav" });
     });
-    newKeyValueList.push({
-      customHeader: "-- Custom Programs --",
-      type: "custom",
-    });
 
-    displayCustom.forEach((program) => {
-      let text = program.school || program.name || "Unknown Program";
+    if (displayCustom.length > 0) {
+      newKeyValueList.push({
+        customHeader: "-- Custom Programs --",
+        type: "custom",
+      });
 
-      if (program.city) text = `Unknown Program: ${program.city}`;
-      else if (program.province) text = `Unknown Program: ${program.province}`;
-      else if (program.country) text = `Unknown Program: ${program.country}`;
-      else if (program.website) text = `Unknown Program: ${program.website}`;
-      else if (program.typeFt) text = "Unknown Program: Full Time";
-      else if (program.typePt) text = "Unknown Program: Part Time";
-      else if (program.disciplineAct) text = "Unknown Program: Acting";
-      else if (program.disciplineSing) text = "Unknown Program: Singing";
-      else if (program.disciplineDance) text = "Unknown Program: Dance";
-      else if (program.disciplineMT) text = "Unknown Program: Musical Theatre";
+      displayCustom.forEach((program) => {
+        let text = program.school || program.name || "Unknown Program";
 
-      newKeyValueList.push({ [program.id]: text, type: "custom" });
-    });
+        if (program.city) text = `Unknown Program: ${program.city}`;
+        else if (program.province)
+          text = `Unknown Program: ${program.province}`;
+        else if (program.country) text = `Unknown Program: ${program.country}`;
+        else if (program.website) text = `Unknown Program: ${program.website}`;
+        else if (program.typeFt) text = "Unknown Program: Full Time";
+        else if (program.typePt) text = "Unknown Program: Part Time";
+        else if (program.disciplineAct) text = "Unknown Program: Acting";
+        else if (program.disciplineSing) text = "Unknown Program: Singing";
+        else if (program.disciplineDance) text = "Unknown Program: Dance";
+        else if (program.disciplineMT)
+          text = "Unknown Program: Musical Theatre";
+
+        newKeyValueList.push({ [program.id]: text, type: "custom" });
+      });
+    }
 
     setKeyValueList(newKeyValueList);
   }, [displayData, displayCustom]);
+
+  const [translateX, setTranslateX] = useState(100);
+  useEffect(() => {
+    const handleScroll = () => {
+      const element = document.getElementById("divide-line");
+      if (element) {
+        const rect = element.getBoundingClientRect();
+        const windowHeight =
+          window.innerHeight || document.documentElement.clientHeight;
+        const halfHeight = windowHeight / 2;
+
+        if (rect.top >= 0 && rect.bottom <= windowHeight) {
+          if (rect.top > halfHeight) {
+            setTranslateX(((rect.top - halfHeight) / 30) * -1);
+          } else {
+            setTranslateX(((rect.top - halfHeight) / 30) * -1);
+          }
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const programDisplay = displayData.map((element: ProgramWithInfo) => {
     return (
@@ -245,10 +276,10 @@ export default function MyProgramsComponent() {
             "inset 0px -1px 2px rgba(0,255,255,0.5), inset 0px -2px 4px rgba(0,255,255,0.5), inset 0px -4px 8px rgba(0,255,255,0.5)",
         }}
       ></div>
-      <div className="h-10"></div>
-      {keyValueList.length > 2 && <QuickLinks keyValueList={keyValueList} />}
+      <div className="h-20"></div>
 
       <H2Title text="Saved Programs" icon="star" id="favsHeader" />
+      {keyValueList.length > 2 && <QuickLinks keyValueList={keyValueList} />}
 
       {loading ? (
         <div>
@@ -264,10 +295,16 @@ export default function MyProgramsComponent() {
           />
         </div>
       ) : (
-        <div className="-mt-10 flex w-full flex-col items-center justify-center">
+        <div className="-mt-16 flex w-full flex-col items-center justify-center">
           <div className="w-7/12">{programDisplay}</div>
-
-          <div className="my-12 h-10 w-full rounded bg-gradient-to-b from-cyan-100 to-indigo-200"></div>
+          <div
+            className="my-12 h-2 w-5/6 rounded-full  bg-gradient-to-b from-cyan-700 to-indigo-800 shadow-md shadow-indigo-900"
+            style={{
+              transition: "width 0.3s",
+              transform: `translateX(${translateX}%)`,
+            }}
+            id="divide-line"
+          ></div>
           <H2Title
             text="Custom Programs"
             icon="sparkle"

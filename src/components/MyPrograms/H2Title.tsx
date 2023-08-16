@@ -40,12 +40,12 @@ export default function H2Title({
           </div>
         </div>
       </h2>
-      <div
+      {/* <div
         className={`h-1 w-2/3 justify-center rounded-full bg-gradient-to-b 
         from-${color || "cyan"}-300 to-${color || "cyan"}-900 
         opacity-0 shadow-lg shadow-${color || "cyan"}-900`}
         style={{ animation: "flyInFadeIn 0.5s linear 2s forwards" }}
-      ></div>
+      ></div> */}
 
       <div className="h-10"></div>
     </>
