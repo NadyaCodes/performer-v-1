@@ -11,6 +11,7 @@ import CustomProgramForm from "./CustomProgramForm";
 import H2Title from "./H2Title";
 import QuickLinks from "./QuickLinks";
 import { ObjectList } from "@component/data/types";
+import EmptyFavPrograms from "./EmptyFavPrograms";
 
 export type ProgramWithType = {
   id: string;
@@ -278,6 +279,23 @@ export default function MyProgramsComponent() {
     );
   });
 
+  const addCustomButton = (
+    <button
+      onClick={() => {
+        setShowUpdateCustom(!showUpdateCustom);
+        window.scrollTo({
+          top: 290,
+          behavior: "smooth",
+        });
+      }}
+      className="-mt-3 flex w-56 place-items-center justify-between rounded  px-4  py-2 font-semibold text-indigo-800  opacity-0 hover:scale-110  hover:bg-indigo-900 hover:text-indigo-50"
+      style={{ animation: "pullDownTop 0.3s linear 4s forwards" }}
+    >
+      <span>Add Custom Program </span>
+      <span>{plusIcon}</span>
+    </button>
+  );
+
   return (
     <div className="static flex min-h-screen flex-col items-center">
       <div
@@ -310,9 +328,8 @@ export default function MyProgramsComponent() {
           {programDisplay && programDisplay.length > 0 ? (
             <div className="w-7/12">{programDisplay}</div>
           ) : (
-            <div>
-              Explore Course Finder or Course Selector to add some Favorite
-              Programs
+            <div className="mt-10 w-7/12">
+              <EmptyFavPrograms />
             </div>
           )}
           <div
@@ -335,24 +352,13 @@ export default function MyProgramsComponent() {
             id="customHeader"
             color="indigo"
           />
-          <button
-            onClick={() => {
-              setShowUpdateCustom(!showUpdateCustom);
-              window.scrollTo({
-                top: 290,
-                behavior: "smooth",
-              });
-            }}
-            className="-mt-3 flex w-56 place-items-center justify-between rounded  px-4  py-2 font-semibold text-indigo-800  opacity-0 hover:scale-110  hover:bg-indigo-900 hover:text-indigo-50"
-            style={{ animation: "pullDownTop 0.3s linear 4s forwards" }}
-          >
-            <span>Add Custom Program </span>
-            <span>{plusIcon}</span>
-          </button>
+          {addCustomButton}
           {customProgramDisplay.length > 0 ? (
             <div className="w-7/12">{customProgramDisplay}</div>
           ) : (
-            <div>You have no custom programs</div>
+            <div className="mt-5 text-center italic">
+              You have no custom programs
+            </div>
           )}
         </div>
       )}
