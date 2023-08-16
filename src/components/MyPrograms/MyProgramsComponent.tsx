@@ -11,7 +11,6 @@ import CustomProgramForm from "./CustomProgramForm";
 import H2Title from "./H2Title";
 import QuickLinks from "./QuickLinks";
 import { ObjectList } from "@component/data/types";
-import ScrollArrow from "../ProgramFinder/ScrollArrow";
 
 export type ProgramWithType = {
   id: string;
@@ -32,7 +31,9 @@ export default function MyProgramsComponent() {
     (ProgramWithType | ProgramWithType | undefined)[] | [] | null
   >(null);
 
-  const [displayData, setDisplayData] = useState<ProgramWithInfo[]>([]);
+  const [displayData, setDisplayData] = useState<ProgramWithInfo[] | null>(
+    null
+  );
   const [loading, setLoading] = useState<boolean>(true);
   const [showUpdateCustom, setShowUpdateCustom] = useState<
     boolean | CustomProgram
@@ -113,45 +114,55 @@ export default function MyProgramsComponent() {
 
   useEffect(() => {
     const fetchDisplayData = async () => {
-      if (userFavs && userFavs.length > 0) {
-        const newData = await Promise.all(
-          userFavs.map(async (element) => {
-            if (element) {
-              const result = await findSchoolLocationObject(
-                element.schoolLocationId
-              );
-              if (result) {
-                const schoolObject = await findSchool(result.schoolId);
-                const locationObject = await findLocation(result.locationId);
-                return {
-                  id: element.id,
-                  schoolLocationId: element.schoolLocationId,
-                  website: element.website,
-                  discipline: element.discipline,
-                  name: element.name,
-                  type: element.type,
-                  cityObj: locationObject,
-                  schoolObj: schoolObject,
-                  favId: element.favProgramId,
-                };
+      console.log("in first line");
+      if (userFavs) {
+        console.log("in second line");
+        if (userFavs.length > 0) {
+          console.log("in third line");
+          const newData = await Promise.all(
+            userFavs.map(async (element) => {
+              if (element) {
+                const result = await findSchoolLocationObject(
+                  element.schoolLocationId
+                );
+                if (result) {
+                  const schoolObject = await findSchool(result.schoolId);
+                  const locationObject = await findLocation(result.locationId);
+                  return {
+                    id: element.id,
+                    schoolLocationId: element.schoolLocationId,
+                    website: element.website,
+                    discipline: element.discipline,
+                    name: element.name,
+                    type: element.type,
+                    cityObj: locationObject,
+                    schoolObj: schoolObject,
+                    favId: element.favProgramId,
+                  };
+                }
               }
-            }
-            return undefined;
-          })
-        );
-        newData.sort((a, b) => {
-          const nameA = a?.schoolObj?.name || "";
-          const nameB = b?.schoolObj?.name || "";
+              return undefined;
+            })
+          );
+          newData.sort((a, b) => {
+            const nameA = a?.schoolObj?.name || "";
+            const nameB = b?.schoolObj?.name || "";
 
-          return nameA.localeCompare(nameB);
-        });
+            return nameA.localeCompare(nameB);
+          });
 
-        setDisplayData(
-          newData.filter((item) => item !== undefined) as ProgramWithInfo[]
-        );
-        findCustomPrograms()
-          .then((data) => data && setDisplayCustom(data))
-          .then(() => setLoading(false));
+          setDisplayData(
+            newData.filter((item) => item !== undefined) as ProgramWithInfo[]
+          );
+          findCustomPrograms()
+            .then((data) => data && setDisplayCustom(data))
+            .then(() => setLoading(false));
+        } else {
+          setDisplayData(null);
+          findCustomPrograms()
+            .then((data) => data && setDisplayCustom(data))
+            .then(() => setLoading(false));
+        }
       }
     };
 
@@ -177,7 +188,7 @@ export default function MyProgramsComponent() {
     const newKeyValueList: ObjectList[] = [];
     newKeyValueList.push({ favsHeader: "-- Saved Programs --", type: "fav" });
 
-    displayData.forEach((program) => {
+    displayData?.forEach((program) => {
       const text =
         program.schoolObj?.name ||
         program.name ||
@@ -215,7 +226,7 @@ export default function MyProgramsComponent() {
     setKeyValueList(newKeyValueList);
   }, [displayData, displayCustom]);
 
-  const [translateX, setTranslateX] = useState(100);
+  const [translateX, setTranslateX] = useState(0);
   useEffect(() => {
     const handleScroll = () => {
       const element = document.getElementById("divide-line");
@@ -241,7 +252,7 @@ export default function MyProgramsComponent() {
     };
   }, []);
 
-  const programDisplay = displayData.map((element: ProgramWithInfo) => {
+  const programDisplay = displayData?.map((element: ProgramWithInfo) => {
     return (
       <SingleProgram
         program={element}
@@ -279,7 +290,7 @@ export default function MyProgramsComponent() {
       <div className="h-20"></div>
 
       <H2Title text="Saved Programs" icon="star" id="favsHeader" />
-      {keyValueList.length > 2 && <QuickLinks keyValueList={keyValueList} />}
+      {keyValueList.length > 4 && <QuickLinks keyValueList={keyValueList} />}
 
       {loading ? (
         <div>
@@ -296,15 +307,27 @@ export default function MyProgramsComponent() {
         </div>
       ) : (
         <div className="-mt-16 flex w-full flex-col items-center justify-center">
-          <div className="w-7/12">{programDisplay}</div>
+          {programDisplay && programDisplay.length > 0 ? (
+            <div className="w-7/12">{programDisplay}</div>
+          ) : (
+            <div>
+              Explore Course Finder or Course Selector to add some Favorite
+              Programs
+            </div>
+          )}
           <div
-            className="my-12 h-2 w-5/6 rounded-full  bg-gradient-to-b from-cyan-700 to-indigo-800 shadow-md shadow-indigo-900"
-            style={{
-              transition: "width 0.3s",
-              transform: `translateX(${translateX}%)`,
-            }}
-            id="divide-line"
-          ></div>
+            className="flex w-full justify-center opacity-0"
+            style={{ animation: "flyInFadeIn 1.5s linear 1s forwards" }}
+          >
+            <div
+              className="my-12 h-2 w-5/6 rounded-full  bg-gradient-to-b from-cyan-700 to-indigo-800 shadow-md shadow-indigo-900"
+              style={{
+                transition: "width 0.3s",
+                transform: `translateX(${translateX}%)`,
+              }}
+              id="divide-line"
+            ></div>
+          </div>
           <H2Title
             text="Custom Programs"
             icon="sparkle"
@@ -326,7 +349,11 @@ export default function MyProgramsComponent() {
             <span>Add Custom Program </span>
             <span>{plusIcon}</span>
           </button>
-          <div className="w-7/12">{customProgramDisplay}</div>
+          {customProgramDisplay.length > 0 ? (
+            <div className="w-7/12">{customProgramDisplay}</div>
+          ) : (
+            <div>You have no custom programs</div>
+          )}
         </div>
       )}
       {showUpdateCustom && (

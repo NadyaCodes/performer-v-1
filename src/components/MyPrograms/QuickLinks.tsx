@@ -58,7 +58,7 @@ const QuickLinks = ({ keyValueList }: { keyValueList: ObjectList[] }) => {
 
   return (
     <div
-      className="sticky left-6 top-56 z-10 -mt-56 flex w-2/12 flex-col place-self-start rounded-lg bg-indigo-100 opacity-0 shadow-lg  shadow-indigo-900"
+      className="sticky left-6 top-60 z-10 -mt-60 flex w-2/12 flex-col place-self-start rounded-lg bg-indigo-100 opacity-0 shadow-lg  shadow-indigo-900"
       style={{ animation: "flyInFadeInLeft 1s linear 1s forwards" }}
     >
       <div className="w-full rounded-t-md bg-indigo-900 p-2 text-center text-lg font-bold text-indigo-50">
