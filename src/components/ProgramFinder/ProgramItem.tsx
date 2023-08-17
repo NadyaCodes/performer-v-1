@@ -245,10 +245,10 @@ export default function ProgramItem({
 
       <div className="m-9 flex flex-col items-center text-center">
         <div className="text-xl font-bold capitalize">
-          {"name" in element && element.name && <div>{element.name}</div>}
+          {element.schoolObj?.name}
         </div>
         <div className="text-lg font-bold capitalize">
-          {element.schoolObj?.name}
+          {"name" in element && element.name && <div>{element.name}</div>}
         </div>
         <div className="text-md font-normal capitalize">
           {element.cityObj?.city}, {element.cityObj?.province}
@@ -264,14 +264,6 @@ export default function ProgramItem({
           {displayDisciplineText(element.discipline)}{" "}
         </div>
       </div>
-      {/* <div className="mr-5 h-0 -translate-y-12 place-self-end">
-        <div
-          className="text-cyan-700 hover:scale-150 hover:cursor-pointer"
-          onClick={() => setShare(!share)}
-        >
-          {shareIcon}
-        </div>
-      </div> */}
       <ShareIcon share={share} setShare={setShare} />
     </div>
   );

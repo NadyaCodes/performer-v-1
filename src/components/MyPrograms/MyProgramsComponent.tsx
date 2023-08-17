@@ -12,6 +12,8 @@ import H2Title from "./H2Title";
 import QuickLinks from "./QuickLinks";
 import { ObjectList } from "@component/data/types";
 import EmptyFavPrograms from "./EmptyFavPrograms";
+import EmptyCustomProgram from "./EmptyCustomProgram";
+import ScrollingDivide from "./ScrollingDivide";
 
 export type ProgramWithType = {
   id: string;
@@ -115,11 +117,8 @@ export default function MyProgramsComponent() {
 
   useEffect(() => {
     const fetchDisplayData = async () => {
-      console.log("in first line");
       if (userFavs) {
-        console.log("in second line");
         if (userFavs.length > 0) {
-          console.log("in third line");
           const newData = await Promise.all(
             userFavs.map(async (element) => {
               if (element) {
@@ -198,27 +197,31 @@ export default function MyProgramsComponent() {
       newKeyValueList.push({ [program.id]: text, type: "fav" });
     });
 
+    newKeyValueList.push({
+      customHeader: "-- Custom Programs --",
+      type: "custom",
+    });
+
     if (displayCustom.length > 0) {
-      newKeyValueList.push({
-        customHeader: "-- Custom Programs --",
-        type: "custom",
-      });
-
       displayCustom.forEach((program) => {
-        let text = program.school || program.name || "Unknown Program";
-
-        if (program.city) text = `Unknown Program: ${program.city}`;
-        else if (program.province)
-          text = `Unknown Program: ${program.province}`;
-        else if (program.country) text = `Unknown Program: ${program.country}`;
-        else if (program.website) text = `Unknown Program: ${program.website}`;
-        else if (program.typeFt) text = "Unknown Program: Full Time";
-        else if (program.typePt) text = "Unknown Program: Part Time";
-        else if (program.disciplineAct) text = "Unknown Program: Acting";
-        else if (program.disciplineSing) text = "Unknown Program: Singing";
-        else if (program.disciplineDance) text = "Unknown Program: Dance";
-        else if (program.disciplineMT)
-          text = "Unknown Program: Musical Theatre";
+        let text = program.school || program.name;
+        if (!text) {
+          if (program.city) text = `Unknown Program: ${program.city}`;
+          else if (program.province)
+            text = `Unknown Program: ${program.province}`;
+          else if (program.country)
+            text = `Unknown Program: ${program.country}`;
+          else if (program.website)
+            text = `Unknown Program: ${program.website}`;
+          else if (program.typeFt) text = "Unknown Program: Full Time";
+          else if (program.typePt) text = "Unknown Program: Part Time";
+          else if (program.disciplineAct) text = "Unknown Program: Acting";
+          else if (program.disciplineSing) text = "Unknown Program: Singing";
+          else if (program.disciplineDance) text = "Unknown Program: Dance";
+          else if (program.disciplineMT)
+            text = "Unknown Program: Musical Theatre";
+          else text = "Unknown Program";
+        }
 
         newKeyValueList.push({ [program.id]: text, type: "custom" });
       });
@@ -226,32 +229,6 @@ export default function MyProgramsComponent() {
 
     setKeyValueList(newKeyValueList);
   }, [displayData, displayCustom]);
-
-  const [translateX, setTranslateX] = useState(0);
-  useEffect(() => {
-    const handleScroll = () => {
-      const element = document.getElementById("divide-line");
-      if (element) {
-        const rect = element.getBoundingClientRect();
-        const windowHeight =
-          window.innerHeight || document.documentElement.clientHeight;
-        const halfHeight = windowHeight / 2;
-
-        if (rect.top >= 0 && rect.bottom <= windowHeight) {
-          if (rect.top > halfHeight) {
-            setTranslateX(((rect.top - halfHeight) / 30) * -1);
-          } else {
-            setTranslateX(((rect.top - halfHeight) / 30) * -1);
-          }
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
   const programDisplay = displayData?.map((element: ProgramWithInfo) => {
     return (
@@ -289,7 +266,7 @@ export default function MyProgramsComponent() {
         });
       }}
       className="-mt-3 flex w-56 place-items-center justify-between rounded  px-4  py-2 font-semibold text-indigo-800  opacity-0 hover:scale-110  hover:bg-indigo-900 hover:text-indigo-50"
-      style={{ animation: "pullDownTop 0.3s linear 4s forwards" }}
+      style={{ animation: "pullDownTop 0.3s linear 3s forwards" }}
     >
       <span>Add Custom Program </span>
       <span>{plusIcon}</span>
@@ -297,7 +274,7 @@ export default function MyProgramsComponent() {
   );
 
   return (
-    <div className="static flex min-h-screen flex-col items-center">
+    <div className="static flex min-h-screen flex-col items-center pb-10">
       <div
         className="absolute left-0 right-0 h-10 bg-cyan-950"
         style={{
@@ -308,22 +285,15 @@ export default function MyProgramsComponent() {
       <div className="h-20"></div>
 
       <H2Title text="Saved Programs" icon="star" id="favsHeader" />
-      {keyValueList.length > 4 && <QuickLinks keyValueList={keyValueList} />}
+      {keyValueList.length > 3 && <QuickLinks keyValueList={keyValueList} />}
 
-      {loading ? (
+      {loading && (
         <div>
           <LoadingLines />
         </div>
-      ) : showUpdateCustom !== false ? (
-        <div className="w-8/12 place-self-center">
-          <CustomProgramForm
-            setShowUpdateCustom={setShowUpdateCustom}
-            findCustomPrograms={findCustomPrograms}
-            setDisplayCustom={setDisplayCustom}
-            currentProgram={showUpdateCustom === true ? null : showUpdateCustom}
-          />
-        </div>
-      ) : (
+      )}
+
+      {!showUpdateCustom && !loading && (
         <div className="-mt-16 flex w-full flex-col items-center justify-center">
           {programDisplay && programDisplay.length > 0 ? (
             <div className="w-7/12">{programDisplay}</div>
@@ -332,19 +302,7 @@ export default function MyProgramsComponent() {
               <EmptyFavPrograms />
             </div>
           )}
-          <div
-            className="flex w-full justify-center opacity-0"
-            style={{ animation: "flyInFadeIn 1.5s linear 1s forwards" }}
-          >
-            <div
-              className="my-12 h-2 w-5/6 rounded-full  bg-gradient-to-b from-cyan-700 to-indigo-800 shadow-md shadow-indigo-900"
-              style={{
-                transition: "width 0.3s",
-                transform: `translateX(${translateX}%)`,
-              }}
-              id="divide-line"
-            ></div>
-          </div>
+          <ScrollingDivide />
           <H2Title
             text="Custom Programs"
             icon="sparkle"
@@ -356,13 +314,24 @@ export default function MyProgramsComponent() {
           {customProgramDisplay.length > 0 ? (
             <div className="w-7/12">{customProgramDisplay}</div>
           ) : (
-            <div className="mt-5 text-center italic">
-              You have no custom programs
+            <div className="w-7/12 text-center italic">
+              <EmptyCustomProgram />
             </div>
           )}
         </div>
       )}
-      {showUpdateCustom && (
+
+      {showUpdateCustom && !loading && (
+        <div className="w-8/12 place-self-center">
+          <CustomProgramForm
+            setShowUpdateCustom={setShowUpdateCustom}
+            findCustomPrograms={findCustomPrograms}
+            setDisplayCustom={setDisplayCustom}
+            currentProgram={showUpdateCustom === true ? null : showUpdateCustom}
+          />
+        </div>
+      )}
+      {showUpdateCustom && !loading && (
         <button
           onClick={() => setShowUpdateCustom(!showUpdateCustom)}
           className="m-4 flex w-32 place-items-center justify-between place-self-end rounded border-blue-500 bg-transparent px-4 py-2 font-semibold text-blue-600 outline hover:border-transparent hover:bg-blue-500 hover:text-white"
