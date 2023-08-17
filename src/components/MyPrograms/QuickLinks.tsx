@@ -22,7 +22,7 @@ const QuickLinks = ({ keyValueList }: { keyValueList: ObjectList[] }) => {
 
   const buttonDisplay = keyValueList.map((item, index) => {
     const itemKey = Object.keys(item)[0];
-    const divClass = `py-1 transition-all ${
+    const divClass = `py-1 transition-all w-full  ${
       currentProgram === itemKey && item.type === "fav" && "bg-cyan-50"
     }
     ${currentProgram === itemKey && item.type !== "fav" && "bg-indigo-200"}
@@ -43,7 +43,7 @@ const QuickLinks = ({ keyValueList }: { keyValueList: ObjectList[] }) => {
         >
           <button
             key={index}
-            className={`flex w-full justify-center px-3 py-1 capitalize ${
+            className={`flex w-full justify-center break-all px-3 py-1 text-center capitalize ${
               item.type === "fav" ? "text-cyan-900" : "text-indigo-900"
             }`}
             onMouseEnter={() => setHover(itemKey)}
@@ -64,7 +64,7 @@ const QuickLinks = ({ keyValueList }: { keyValueList: ObjectList[] }) => {
       <div className="w-full rounded-t-md bg-indigo-900 p-2 text-center text-lg font-bold text-indigo-50">
         Quick Links
       </div>
-      <div className="flex h-52 min-h-full max-w-6xl flex-col place-self-start overflow-y-scroll rounded">
+      <div className=" flex h-52 min-h-full w-full flex-col overflow-y-scroll  rounded">
         <div className="">{buttonDisplay}</div>
       </div>
       <div className="h-0 translate-y-7">

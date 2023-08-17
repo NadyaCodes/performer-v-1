@@ -7,7 +7,6 @@ import { cautionCircle } from "@component/data/svgs";
 import LoadingSpinner from "../Loading/LoadingSpinner";
 import { validateInput } from "./helpers";
 import Link from "next/link";
-import { backChevron } from "@component/data/svgs";
 
 export type StringInputs = {
   name?: string;

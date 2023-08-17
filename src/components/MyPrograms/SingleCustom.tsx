@@ -189,12 +189,12 @@ const SingleCustom = ({
             </button>
           </div>
           {program.school && (
-            <div className="text-2xl font-bold capitalize">
+            <div className="w-3/4 break-words text-center text-2xl font-bold capitalize">
               {program.school}
             </div>
           )}
           {program.name && (
-            <div className="text-xl font-bold capitalize">
+            <div className="w-3/4 break-words  text-center text-xl font-bold capitalize">
               {program.name && <div>{program.name}</div>}
             </div>
           )}
