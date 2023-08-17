@@ -1,6 +1,6 @@
 import { sanitize } from "isomorphic-dompurify";
 
-export const validateInput = (text: string, errorMessageSetter: Function): string | null => {
+export const validateNote = (text: string, errorMessageSetter: Function): string | null => {
   if (!text) {
     setTimeout(() => errorMessageSetter(""), 3000);
     errorMessageSetter("Notes must have text");
@@ -18,10 +18,35 @@ export const validateInput = (text: string, errorMessageSetter: Function): strin
     return null;
   }
 
-  if (/[^\w\s().@,!?/:\-]/.test(text)) {
+  if (/[^\w\s().@,!?/:]/.test(text)) {
     setTimeout(() => errorMessageSetter(""), 4000);
     errorMessageSetter(
-      "Notes can only contain letters, numbers and the following special characters: ().,!?/:@"
+      "Notes can only contain letters, numbers and the following special characters: ().-,!?/:@"
+    );
+    return null;
+  }
+  const sanitizedText = sanitize(text);
+  return sanitizedText;
+};
+
+
+export const validateCustom = (text: string, errorMessageSetter: Function): string | null => {
+  if (text.length > 200) {
+    setTimeout(() => errorMessageSetter(""), 3000);
+    errorMessageSetter("Entries must be 200 characters or less");
+    return null;
+  }
+
+  if (text.includes("</" || "/>")) {
+    setTimeout(() => errorMessageSetter(""), 3000);
+    errorMessageSetter("Entries cannot contain HTML");
+    return null;
+  }
+
+  if (/[^\w\s().@,!?/:]/.test(text)) {
+    setTimeout(() => errorMessageSetter(""), 4000);
+    errorMessageSetter(
+      "Entries can only contain letters, numbers and the following special characters: ().,!?-/:@"
     );
     return null;
   }

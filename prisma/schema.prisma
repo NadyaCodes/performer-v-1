@@ -137,6 +137,7 @@ model Note {
     text            String
     customProgramId String?
     CustomProgram   CustomProgram? @relation(fields: [customProgramId], references: [id], onDelete: Cascade)
+    dateTime        DateTime       @default(now())
 }
 
 model CustomProgram {

@@ -62,6 +62,17 @@
   }
 }
 
+@keyframes flyInFadeInLeft {
+  0% {
+    transform: translateX(-100vw);
+    opacity: 0
+  }
+  100% {
+    transform: translateX(0vw);
+    opacity: 1
+  }
+}
+
 @keyframes flyOut {
 
   to {
@@ -97,7 +108,7 @@
     transform: rotate(0deg);
   }
   75% {
-    transform: rotate(-1deg);
+    transform: rotate(-10deg);
   }
   100% {
     transform: rotate(0deg);
@@ -295,4 +306,21 @@
     transform: translateY(0rem);
   }
   
+}
+
+
+@keyframes fadeBackground {
+  to {background-color: transparent;}
+  
+}
+
+@keyframes spinIn {
+  0% {
+    transform: scale(0.1) rotate(0deg);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) rotate(720deg);
+    opacity: 1
+  }
 }

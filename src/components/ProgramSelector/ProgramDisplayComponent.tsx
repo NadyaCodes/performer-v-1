@@ -14,6 +14,9 @@ import Link from "next/link";
 import { backChevron } from "@component/data/svgs";
 import { FavProgram } from "@prisma/client";
 import { convertUserFavs } from "../ProgramFinder/helpers";
+import TitleHeader from "./TitleHeader";
+import SubHeader from "./SubHeader";
+import { number } from "zod";
 
 interface ProgramDisplayProps {
   dataObject: {
@@ -215,55 +218,33 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
     );
   });
 
+  const createSubheadingText = (num: number) => {
+    if (num === 1) {
+      return "1 Matching Program";
+    }
+    if (num > 1) {
+      return `${num} Matching Programs`;
+    }
+    return "There are no matching programs. Please try again.";
+  };
+
   return (
     <div className="flex flex-col items-center">
-      <div
-        className="relative w-screen bg-cyan-950"
-        style={{
-          boxShadow:
-            "inset 0px -1px 2px rgba(0,255,255,0.5), inset 0px -2px 4px rgba(0,255,255,0.5), inset 0px -4px 8px rgba(0,255,255,0.5), inset 0px -8px 16px rgba(0,255,255,0.5)",
-        }}
-      >
-        <h1 className="flex  justify-center p-10 text-center text-5xl font-extrabold capitalize text-cyan-50 sm:text-[3rem]">
-          {titleString}
-        </h1>
-      </div>
-      <div className="mb-10 bg-cyan-950"></div>
-
+      <TitleHeader titleString={titleString} />
+      <div className="mb-5 bg-cyan-950"></div>
+      {itemArray && itemArray.length > 0 && (
+        <SubHeader text={createSubheadingText(itemArray.length)} />
+      )}
       <Link
         href={`/${style}/${discipline}/${province}/select-next`}
-        className="w-screen p-2"
+        className="mt-3 w-screen p-2 opacity-0"
+        style={{ animation: "fadeIn 1s linear 2.5s forwards" }}
       >
         <button className="flex w-fit px-10 font-semibold text-cyan-800 hover:scale-110">
           <span>{backChevron}</span>
-          <span>Back</span>
+          <span>Change City</span>
         </button>
       </Link>
-      {itemArray && itemArray.length > 0 && (
-        <div
-          className="mt-3 flex w-screen justify-center bg-gradient-to-b from-indigo-100 to-indigo-300 text-cyan-950 shadow-lg shadow-cyan-900"
-          style={{ animation: "flyInFadeIn 0.5s linear forwards" }}
-        >
-          <div
-            className="opacity-0"
-            style={{ animation: "flyInFadeIn 1s linear 0.6s forwards" }}
-          >
-            <div
-              style={{ animation: "translateUpToDown 1s linear 0.6s forwards" }}
-            >
-              <div
-                className="flex p-5 text-4xl font-bold"
-                style={{ animation: "rotateSwell 1s linear 0.6s forwards" }}
-              >
-                <div className="">{itemArray.length}</div>
-                <div className="ml-2">
-                  Matching Program{itemArray.length > 1 && "s"}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
       {itemArray ? (
         <div
           className="w-8/12 opacity-0"

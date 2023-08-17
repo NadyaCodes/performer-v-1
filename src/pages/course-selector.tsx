@@ -21,7 +21,7 @@ export default function CourseSelector() {
           What kind of program are you looking for?
         </h1>
         <div className="m-8 h-2 w-10/12 rounded bg-indigo-900 bg-opacity-90"></div>
-        <div className="m-5 w-1/2  place-self-center rounded-lg bg-gradient-to-b from-cyan-600 to-cyan-900 p-5 text-cyan-50 shadow-xl shadow-cyan-700">
+        <div className="mb-15 m-10 w-fit place-self-center rounded-lg bg-gradient-to-b from-cyan-600 to-cyan-900 p-5 text-cyan-50 shadow-xl shadow-cyan-700">
           <Picker buttonOptions={styles} currentLink="" last={false} />
         </div>
         <div className="-mt-10">

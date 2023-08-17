@@ -5,7 +5,8 @@ import { SetStateAction } from "react";
 import { CustomProgram } from "@prisma/client";
 import { cautionCircle } from "@component/data/svgs";
 import LoadingSpinner from "../Loading/LoadingSpinner";
-import { validateInput } from "./helpers";
+import { validateCustom } from "./helpers";
+import Link from "next/link";
 
 export type StringInputs = {
   name?: string;
@@ -82,6 +83,9 @@ export default function CustomProgramForm({
   const { mutate: addProgram } = api.customProgram.add.useMutation({
     async onSuccess(data) {
       setShowUpdateCustom(false);
+      window.scrollTo({
+        top: 0,
+      });
       setLoading(false);
       setUserInput(emptyUserInput);
       findCustomPrograms().then(
@@ -98,6 +102,9 @@ export default function CustomProgramForm({
   const { mutate: updateProgram } = api.customProgram.update.useMutation({
     async onSuccess(data) {
       setShowUpdateCustom(false);
+      window.scrollTo({
+        top: 0,
+      });
       setLoading(false);
       setUserInput(emptyUserInput);
       findCustomPrograms().then(
@@ -118,13 +125,14 @@ export default function CustomProgramForm({
     if (userId) {
       let validated = true;
       const submissionObject: Partial<CustomProgramSubmission> = { userId };
+      let valueCounter = 0;
 
       allKeys.forEach((key) => {
         if (
           typeof userInput[key as keyof InputObject] === "string" &&
           (userInput[key as keyof InputObject] as string).length > 0
         ) {
-          const validatedText = validateInput(
+          const validatedText = validateCustom(
             userInput[key as keyof InputObject] as string,
             setErrorMessage
           );
@@ -133,15 +141,38 @@ export default function CustomProgramForm({
           }
           if (typeof validatedText === "string") {
             submissionObject[key as keyof StringInputs] = validatedText;
+            valueCounter++;
           }
         } else if (typeof userInput[key as keyof InputObject] === "boolean") {
           if (userInput[key as keyof InputObject] === true) {
             submissionObject[key as keyof BooleanInputs] = true;
+            valueCounter++;
           }
         }
       });
 
+      // const allValues = Object.keys(submissionObject);
+
+      // if (allValues) {
+      //   let valueCounter = 0;
+      //   allValues.forEach((value) => {
+      //     if (value) {
+      //       valueCounter++;
+      //       console.log(value);
+      //     }
+      //   });
+
+      // }
+
       if (validated && !currentProgram) {
+        if (valueCounter < 1) {
+          setLoading(false);
+          setErrorMessage("At least one field must have content");
+          setTimeout(() => {
+            setErrorMessage("");
+          }, 2000);
+          return;
+        }
         const submitNewProgram = await addProgram({
           ...submissionObject,
         } as CustomProgramSubmission);
@@ -149,6 +180,14 @@ export default function CustomProgramForm({
       }
 
       if (validated && currentProgram) {
+        if (valueCounter < 1) {
+          setLoading(false);
+          setErrorMessage("At least one field must have content");
+          setTimeout(() => {
+            setErrorMessage("");
+          }, 2000);
+          return;
+        }
         const updatedObject = { ...submissionObject, id: currentProgram.id };
         const update = await updateProgram(updatedObject);
         return update;
@@ -160,134 +199,140 @@ export default function CustomProgramForm({
   };
 
   return (
-    <div className="m-5 flex w-full flex-col place-items-center justify-center border-2 p-10">
-      <h2 className="text-5xl font-extrabold capitalize tracking-tight text-gray-800 sm:text-[3rem]">
-        Add Your Program Here
-      </h2>
-      <div className="m-5 flex flex-col place-items-center italic">
-        <p>This program will be added to your private list.</p>
-        <p>
-          It is unique to your profile, and will NOT be added to the public
-          database.
-        </p>
-      </div>
-
-      <div className="m-4 w-9/12">
-        <div className="m-6">
-          <label
-            className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700"
-            htmlFor="name_input"
-          >
-            Program Name
-          </label>
-          <input
-            className="block w-full appearance-none rounded border-2 bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:bg-white focus:outline-none"
-            value={userInput.name}
-            type="text"
-            onChange={(e) =>
-              setUserInput({ ...userInput, name: e.target.value })
-            }
-            id="name_input"
-          />
+    <div>
+      <div className="m-5 flex w-full flex-col place-items-center justify-center rounded-lg bg-indigo-50 bg-opacity-20 p-10 shadow-md shadow-indigo-900">
+        <h2 className="text-5xl font-extrabold capitalize tracking-tight text-indigo-900 sm:text-[3rem]">
+          Add/Update Custom Program
+        </h2>
+        <div className="m-5 flex flex-col place-items-center italic text-indigo-950">
+          <p>This program will be added to your private list.</p>
+          <p>
+            It is unique to your profile, and will NOT be added to the public
+            database.
+          </p>
+          <p>
+            To add a program to the public database, please contact us{" "}
+            <Link href="/contact" className="text-indigo-700">
+              HERE
+            </Link>
+          </p>
         </div>
 
-        <div className="m-6">
-          <label
-            className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700"
-            htmlFor="school_input"
-          >
-            School Name
-          </label>
-          <input
-            className="block w-full appearance-none rounded border-2 bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:bg-white focus:outline-none"
-            value={userInput.school}
-            type="text"
-            onChange={(e) =>
-              setUserInput({ ...userInput, school: e.target.value })
-            }
-            id="school_input"
-          />
-        </div>
+        <div className="m-4 w-9/12 text-indigo-900">
+          <div className="m-6 ">
+            <label
+              className="mb-2 block text-xs font-bold uppercase tracking-wide "
+              htmlFor="name_input"
+            >
+              Program Name
+            </label>
+            <input
+              className="block w-full appearance-none rounded border border-indigo-200 bg-indigo-50 bg-opacity-60 px-4 py-3 leading-tight text-indigo-950 shadow-md shadow-indigo-200 focus:border-indigo-500 focus:bg-cyan-50 focus:bg-opacity-40 focus:outline-indigo-500"
+              value={userInput.name}
+              type="text"
+              onChange={(e) =>
+                setUserInput({ ...userInput, name: e.target.value })
+              }
+              id="name_input"
+            />
+          </div>
 
-        <div className="m-6">
-          <label
-            className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700"
-            htmlFor="city_input"
-          >
-            City
-          </label>
-          <input
-            className="block w-full appearance-none rounded border-2 bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:bg-white focus:outline-none"
-            value={userInput.city}
-            type="text"
-            onChange={(e) =>
-              setUserInput({ ...userInput, city: e.target.value })
-            }
-            id="city_input"
-          />
-        </div>
+          <div className="m-6">
+            <label
+              className="mb-2 block text-xs font-bold uppercase tracking-wide "
+              htmlFor="school_input"
+            >
+              School Name
+            </label>
+            <input
+              className="block w-full appearance-none rounded border border-indigo-200 bg-indigo-50 bg-opacity-60 px-4 py-3 leading-tight text-indigo-950 shadow-md shadow-indigo-200 focus:border-indigo-500 focus:bg-cyan-50 focus:bg-opacity-40 focus:outline-indigo-500"
+              value={userInput.school}
+              type="text"
+              onChange={(e) =>
+                setUserInput({ ...userInput, school: e.target.value })
+              }
+              id="school_input"
+            />
+          </div>
 
-        <div className="m-6">
-          <label
-            className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700"
-            htmlFor="province_input"
-          >
-            Province/State
-          </label>
-          <input
-            className="block w-full appearance-none rounded border-2 bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:bg-white focus:outline-none"
-            value={userInput.province}
-            type="text"
-            onChange={(e) =>
-              setUserInput({ ...userInput, province: e.target.value })
-            }
-            id="province_input"
-          />
-        </div>
+          <div className="m-6">
+            <label
+              className="mb-2 block text-xs font-bold uppercase tracking-wide "
+              htmlFor="city_input"
+            >
+              City
+            </label>
+            <input
+              className="block w-full appearance-none rounded border border-indigo-200 bg-indigo-50 bg-opacity-60 px-4 py-3 leading-tight text-indigo-950 shadow-md shadow-indigo-200 focus:border-indigo-500 focus:bg-cyan-50 focus:bg-opacity-40 focus:outline-indigo-500"
+              value={userInput.city}
+              type="text"
+              onChange={(e) =>
+                setUserInput({ ...userInput, city: e.target.value })
+              }
+              id="city_input"
+            />
+          </div>
 
-        <div className="m-6">
-          <label
-            className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700"
-            htmlFor="country_input"
-          >
-            Country
-          </label>
-          <input
-            className="block w-full appearance-none rounded border-2 bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:bg-white focus:outline-none"
-            value={userInput.country}
-            type="text"
-            onChange={(e) =>
-              setUserInput({ ...userInput, country: e.target.value })
-            }
-            id="country_input"
-          />
-        </div>
+          <div className="m-6">
+            <label
+              className="mb-2 block text-xs font-bold uppercase tracking-wide"
+              htmlFor="province_input"
+            >
+              Province/State
+            </label>
+            <input
+              className="block w-full appearance-none rounded border border-indigo-200 bg-indigo-50 bg-opacity-60 px-4 py-3 leading-tight text-indigo-950 shadow-md shadow-indigo-200 focus:border-indigo-500 focus:bg-cyan-50 focus:bg-opacity-40 focus:outline-indigo-500"
+              value={userInput.province}
+              type="text"
+              onChange={(e) =>
+                setUserInput({ ...userInput, province: e.target.value })
+              }
+              id="province_input"
+            />
+          </div>
 
-        <div className="m-6">
-          <label
-            className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700"
-            htmlFor="website_input"
-          >
-            Website
-          </label>
-          <input
-            className="block w-full appearance-none rounded border-2 bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:bg-white focus:outline-none"
-            value={userInput.website}
-            type="text"
-            onChange={(e) =>
-              setUserInput({ ...userInput, website: e.target.value })
-            }
-            id="website_input"
-          />
-        </div>
+          <div className="m-6">
+            <label
+              className="mb-2 block text-xs font-bold uppercase tracking-wide"
+              htmlFor="country_input"
+            >
+              Country
+            </label>
+            <input
+              className="block w-full appearance-none rounded border border-indigo-200 bg-indigo-50 bg-opacity-60 px-4 py-3 leading-tight text-indigo-950 shadow-md shadow-indigo-200 focus:border-indigo-500 focus:bg-cyan-50 focus:bg-opacity-40 focus:outline-indigo-500"
+              value={userInput.country}
+              type="text"
+              onChange={(e) =>
+                setUserInput({ ...userInput, country: e.target.value })
+              }
+              id="country_input"
+            />
+          </div>
 
-        <div className="mb-2 ml-3 flex flex-wrap">
-          <div className="mb-6 flex flex-wrap md:w-1/3">
-            <div className="w-full px-3">
-              <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700">
+          <div className="m-6">
+            <label
+              className="mb-2 block text-xs font-bold uppercase tracking-wide"
+              htmlFor="website_input"
+            >
+              Website
+            </label>
+            <input
+              className="block w-full appearance-none rounded border border-indigo-200 bg-indigo-50 bg-opacity-60 px-4 py-3 leading-tight text-indigo-950 shadow-md shadow-indigo-200 focus:border-indigo-500 focus:bg-cyan-50 focus:bg-opacity-40 focus:outline-indigo-500"
+              value={userInput.website}
+              type="text"
+              onChange={(e) =>
+                setUserInput({ ...userInput, website: e.target.value })
+              }
+              id="website_input"
+            />
+          </div>
+
+          <div className="mx-6 my-7 flex flex-row justify-around">
+            <div className="">
+              <label className="mb-2 block text-xs font-bold uppercase tracking-wide">
                 Program Type
-                <div className="m-2">
-                  <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700">
+                <div className="m-2 normal-case">
+                  <label className="mb-2 block text-xs font-bold tracking-wide">
                     <input
                       className="mr-2 leading-tight"
                       type="checkbox"
@@ -301,7 +346,7 @@ export default function CustomProgramForm({
                     />
                     <span className="text-sm">Part Time</span>
                   </label>
-                  <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700">
+                  <label className="mb-2 block text-xs font-bold tracking-wide">
                     <input
                       className="mr-2 leading-tight"
                       type="checkbox"
@@ -318,14 +363,12 @@ export default function CustomProgramForm({
                 </div>
               </label>
             </div>
-          </div>
-          <div className="mb-2 flex flex-wrap md:w-2/3">
-            <div className="mb-6 flex w-full flex-wrap">
+            <div className="mb-2 flex flex-wrap">
               <div className="w-full px-3">
-                <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700">
+                <label className="mb-2 block text-xs font-bold uppercase tracking-wide">
                   Disciplines Offered
-                  <div className="m-2">
-                    <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700">
+                  <div className="m-2 normal-case">
+                    <label className="mb-2 block text-xs font-bold tracking-wide">
                       <input
                         className="mr-2 leading-tight"
                         type="checkbox"
@@ -339,7 +382,7 @@ export default function CustomProgramForm({
                       />
                       <span className="text-sm">Acting</span>
                     </label>
-                    <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700">
+                    <label className="mb-2 block text-xs font-bold tracking-wide ">
                       <input
                         className="mr-2 leading-tight"
                         type="checkbox"
@@ -353,7 +396,7 @@ export default function CustomProgramForm({
                       />
                       <span className="text-sm">Singing</span>
                     </label>
-                    <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700">
+                    <label className="tracking-wid mb-2 block text-xs font-bold">
                       <input
                         className="mr-2 leading-tight"
                         type="checkbox"
@@ -367,7 +410,7 @@ export default function CustomProgramForm({
                       />
                       <span className="text-sm">Dancing</span>
                     </label>
-                    <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700">
+                    <label className="mb-2 block text-xs font-bold tracking-wide">
                       <input
                         className="mr-2 leading-tight"
                         type="checkbox"
@@ -387,27 +430,29 @@ export default function CustomProgramForm({
             </div>
           </div>
         </div>
-      </div>
 
-      <div>
-        {errorMessage && (
-          <div className="absolute left-1/2 -m-2 flex -translate-x-1/2 transform flex-row items-center bg-pink-100 p-2 text-pink-700">
-            {cautionCircle}
-            <div className="mx-5">{errorMessage}</div>
-            {cautionCircle}
-          </div>
-        )}
+        <div>
+          {errorMessage && (
+            <div className="absolute left-1/2 z-20 flex -translate-x-1/2 transform flex-row items-center bg-pink-100 p-2 text-pink-700">
+              {cautionCircle}
+              <div className="mx-5">{errorMessage}</div>
+              {cautionCircle}
+            </div>
+          )}
 
-        {loading ? (
-          <LoadingSpinner iconSize="medium" />
-        ) : (
-          <button
-            onClick={() => submitCustomProgram()}
-            className="mb-5 h-10 w-32 place-items-center justify-between place-self-end rounded border-blue-500 bg-transparent font-semibold text-blue-600 outline hover:border-transparent hover:bg-blue-500 hover:text-white"
-          >
-            SUBMIT
-          </button>
-        )}
+          {loading ? (
+            <div className="text-indigo-800">
+              <LoadingSpinner iconSize="medium" />
+            </div>
+          ) : (
+            <button
+              onClick={() => submitCustomProgram()}
+              className="mb-5 h-10 w-32 place-items-center justify-between place-self-end rounded border-indigo-800 bg-transparent font-semibold text-indigo-800 outline hover:scale-110 hover:border-transparent hover:bg-indigo-800 hover:text-indigo-50"
+            >
+              SUBMIT
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

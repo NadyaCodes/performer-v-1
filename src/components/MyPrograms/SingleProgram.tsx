@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { SetStateAction, useEffect, useState, Dispatch } from "react";
 import { ProgramWithInfo } from "../ProgramFinder/types";
 import { displayDisciplineText } from "../ProgramFinder/helpers";
 import Link from "next/link";
@@ -11,17 +11,28 @@ import {
   cautionCircle,
   chevronUp,
   plusIcon,
-  purpleStar,
-  whiteStar,
+  xMark,
 } from "@component/data/svgs";
 import LoadingSpinner from "../Loading/LoadingSpinner";
-import { validateInput } from "./helpers";
+import { validateNote } from "./helpers";
+import DeleteCheck from "./DeleteCheck";
+import { ProgramWithType } from "./MyProgramsComponent";
+import LoadingLines from "../Loading/LoadingLines";
+import ShareOptions from "../ProgramFinder/ShareOptions";
+import ShareIcon from "../ProgramFinder/ShareIcon";
 
-type SingleProgramProps = {
+const SingleProgram = ({
+  program,
+  loadingDelete,
+  setLoadingDelete,
+  setUserFavs,
+}: {
   program: ProgramWithInfo;
-};
-
-const SingleProgram: React.FC<SingleProgramProps> = ({ program }) => {
+  loadingDelete: boolean | string;
+  setLoadingDelete: Dispatch<SetStateAction<boolean | string>>;
+  findUserFavs: Function;
+  setUserFavs: Dispatch<SetStateAction<(ProgramWithType | undefined)[] | null>>;
+}) => {
   const { data: sessionData } = useSession();
   const utils = api.useContext();
   const userId = sessionData?.user.id;
@@ -31,6 +42,8 @@ const SingleProgram: React.FC<SingleProgramProps> = ({ program }) => {
   const [inputText, setInputText] = useState<string>("");
   const [loadingNotes, setLoadingNotes] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [removeComponent, setRemoveComponent] = useState<boolean>(false);
+  const [share, setShare] = useState(false);
 
   const fetchNotes = async () => {
     if (program.favId) {
@@ -61,7 +74,7 @@ const SingleProgram: React.FC<SingleProgramProps> = ({ program }) => {
   });
 
   const addNote = (userId: string, favId: string, text: string) => {
-    const sanitizedText = validateInput(text, setErrorMessage);
+    const sanitizedText = validateNote(text, setErrorMessage);
     if (sanitizedText) {
       setLoadingNotes(true);
       setNoteInput(false);
@@ -81,24 +94,50 @@ const SingleProgram: React.FC<SingleProgramProps> = ({ program }) => {
   });
 
   return (
-    <div className="m-10 flex flex-col shadow-xl">
-      <div className="flex justify-between bg-purple-200 text-white">
-        <div className="mx-5 my-2">{whiteStar}</div>
-        <div className="mx-5 my-2">{whiteStar}</div>
+    <div
+      className="relative my-10 flex w-full flex-col rounded-lg bg-cyan-100 bg-opacity-20 shadow-md shadow-cyan-800"
+      style={{ animation: "fadeInGrow 1s linear" }}
+      id={program.id}
+    >
+      <div
+        className="flex w-full justify-between rounded-t-lg bg-cyan-800 bg-opacity-100 text-cyan-50 opacity-0 shadow-sm shadow-cyan-900"
+        style={{ animation: "fadeIn 1.5s linear forwards" }}
+      >
+        <div className="mx-5 my-2">{basicStar}</div>
+        <div className="mx-5 my-2">{basicStar}</div>
+      </div>
+      <button
+        onClick={() => setRemoveComponent(true)}
+        className="absolute right-4 mt-12 flex rounded-full border border-transparent p-0.5 text-cyan-900 hover:scale-110 hover:border hover:border-pink-400 hover:text-pink-400"
+      >
+        {xMark}
+      </button>
+      {removeComponent && program.favId && (
+        <DeleteCheck
+          setDeleteCheck={setRemoveComponent}
+          id={program.favId}
+          loadingDelete={loadingDelete}
+          setUserFavs={setUserFavs}
+          setLoadingDelete={setLoadingDelete}
+          programId={program.id}
+        />
+      )}
+      <div className="h-0 translate-x-20 place-self-end">
+        {share && <ShareOptions program={program} setShare={setShare} />}
       </div>
 
-      <div className="m-3 flex flex-col items-center p-2">
+      <div className="m-3 flex flex-col items-center p-2 text-cyan-950">
         <div className="text-2xl font-bold capitalize">
-          {"name" in program && program.name && <div>{program.name}</div>}
+          {program.schoolObj?.name}
         </div>
         <div className="text-xl font-bold capitalize">
-          {program.schoolObj?.name}
+          {"name" in program && program.name && <div>{program.name}</div>}
         </div>
         <div className="text-md font-normal capitalize">
           {program.cityObj?.city}, {program.cityObj?.province}
         </div>
 
-        <div className="italic">
+        <div className="italic text-cyan-600 underline">
           <Link href={program.website} target="blank">
             {program.website}
           </Link>
@@ -107,15 +146,15 @@ const SingleProgram: React.FC<SingleProgramProps> = ({ program }) => {
           {program.type === "ft" ? "Full Time " : "Part Time "}{" "}
           {displayDisciplineText(program.discipline)}
         </div>
-        <div className="mb-3 w-48 border-b-2 border-cyan-500 p-2"></div>
+        <div className="mb-3 w-48 border-b-2 border-cyan-600 p-2"></div>
 
         {notesDisplay && notesDisplay.length > 0 && (
-          <div className="m-2 flex w-full content-center justify-center">
-            <ul className="w-6/12">{notesDisplay}</ul>
+          <div className="m-2 flex w-7/12 content-center justify-center">
+            <ul className=" w-full">{notesDisplay}</ul>
           </div>
         )}
         {notesDisplay && notesDisplay.length === 0 && (
-          <div className="italic">No Notes</div>
+          <div className="w-full text-center italic">No Notes</div>
         )}
         {!notesDisplay && (
           <div className="flex flex-col items-center">
@@ -128,7 +167,7 @@ const SingleProgram: React.FC<SingleProgramProps> = ({ program }) => {
 
         {noteInput && (
           <button
-            className="m-2 flex w-40 justify-between rounded border border-cyan-500 bg-transparent px-4 py-2 font-semibold text-cyan-600 hover:border-transparent hover:bg-cyan-500 hover:text-white"
+            className="m-2 flex w-40 justify-between rounded bg-transparent px-4 py-2 font-semibold text-cyan-600 hover:bg-indigo-300 hover:text-indigo-900 hover:shadow-md hover:shadow-indigo-200"
             onClick={() => {
               setNoteInput(false);
               setInputText("");
@@ -141,7 +180,7 @@ const SingleProgram: React.FC<SingleProgramProps> = ({ program }) => {
         )}
         {!noteInput && !loadingNotes && (
           <button
-            className="m-2 flex w-32 place-items-center justify-between rounded border border-cyan-500 bg-transparent px-4 py-2 font-semibold text-cyan-600 hover:border-transparent hover:bg-cyan-500 hover:text-white"
+            className="m-2 flex w-32 place-items-center justify-between rounded bg-transparent px-4 py-2 font-semibold text-cyan-600 transition-all hover:bg-cyan-800 hover:text-cyan-50 hover:shadow-md hover:shadow-cyan-900"
             onClick={() => setNoteInput(true)}
           >
             <span>Add Note</span>
@@ -166,7 +205,7 @@ const SingleProgram: React.FC<SingleProgramProps> = ({ program }) => {
               type="text"
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
-              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500"
+              className="block w-full rounded-lg border border-indigo-200 bg-cyan-50 p-2.5 text-sm text-gray-900 focus:border-cyan-500 focus:outline-cyan-500 focus:ring-cyan-500"
             />
             <button
               className=" p-.5 ml-5 h-fit rounded  text-cyan-600 outline hover:scale-110"
@@ -180,12 +219,25 @@ const SingleProgram: React.FC<SingleProgramProps> = ({ program }) => {
             </button>
           </div>
         )}
+        <ShareIcon share={share} setShare={setShare} />
       </div>
       {errorMessage && (
         <div className="fixed left-1/2 top-4 flex -translate-x-1/2 transform items-center border-2 border-pink-700 bg-pink-100 p-2 text-pink-700">
           {cautionCircle}
           <div className="mx-5">{errorMessage}</div>
           {cautionCircle}
+        </div>
+      )}
+      {loadingDelete === program.id && (
+        <div
+          className="absolute inset-0 z-20 flex items-center justify-center rounded-lg"
+          style={{
+            background: "rgba(0, 0, 0, 0.7)",
+          }}
+        >
+          <div className="-translate-y-10">
+            <LoadingLines />
+          </div>
         </div>
       )}
     </div>
