@@ -5,7 +5,7 @@ import { SetStateAction } from "react";
 import { CustomProgram } from "@prisma/client";
 import { cautionCircle } from "@component/data/svgs";
 import LoadingSpinner from "../Loading/LoadingSpinner";
-import { validateInput } from "./helpers";
+import { validateCustom } from "./helpers";
 import Link from "next/link";
 
 export type StringInputs = {
@@ -125,13 +125,14 @@ export default function CustomProgramForm({
     if (userId) {
       let validated = true;
       const submissionObject: Partial<CustomProgramSubmission> = { userId };
+      let valueCounter = 0;
 
       allKeys.forEach((key) => {
         if (
           typeof userInput[key as keyof InputObject] === "string" &&
           (userInput[key as keyof InputObject] as string).length > 0
         ) {
-          const validatedText = validateInput(
+          const validatedText = validateCustom(
             userInput[key as keyof InputObject] as string,
             setErrorMessage
           );
@@ -140,26 +141,31 @@ export default function CustomProgramForm({
           }
           if (typeof validatedText === "string") {
             submissionObject[key as keyof StringInputs] = validatedText;
+            valueCounter++;
           }
         } else if (typeof userInput[key as keyof InputObject] === "boolean") {
           if (userInput[key as keyof InputObject] === true) {
             submissionObject[key as keyof BooleanInputs] = true;
+            valueCounter++;
           }
         }
       });
 
-      const allValues = Object.keys(submissionObject);
+      // const allValues = Object.keys(submissionObject);
 
-      if (allValues) {
-        let valueCounter = 0;
-        allValues.forEach((value) => {
-          if (value) {
-            valueCounter++;
-            console.log(value);
-          }
-        });
+      // if (allValues) {
+      //   let valueCounter = 0;
+      //   allValues.forEach((value) => {
+      //     if (value) {
+      //       valueCounter++;
+      //       console.log(value);
+      //     }
+      //   });
 
-        if (valueCounter < 2) {
+      // }
+
+      if (validated && !currentProgram) {
+        if (valueCounter < 1) {
           setLoading(false);
           setErrorMessage("At least one field must have content");
           setTimeout(() => {
@@ -167,9 +173,6 @@ export default function CustomProgramForm({
           }, 2000);
           return;
         }
-      }
-
-      if (validated && !currentProgram) {
         const submitNewProgram = await addProgram({
           ...submissionObject,
         } as CustomProgramSubmission);
@@ -177,6 +180,14 @@ export default function CustomProgramForm({
       }
 
       if (validated && currentProgram) {
+        if (valueCounter < 1) {
+          setLoading(false);
+          setErrorMessage("At least one field must have content");
+          setTimeout(() => {
+            setErrorMessage("");
+          }, 2000);
+          return;
+        }
         const updatedObject = { ...submissionObject, id: currentProgram.id };
         const update = await updateProgram(updatedObject);
         return update;

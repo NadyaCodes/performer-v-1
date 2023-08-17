@@ -14,7 +14,7 @@ import {
   xMark,
 } from "@component/data/svgs";
 import LoadingSpinner from "../Loading/LoadingSpinner";
-import { validateInput } from "./helpers";
+import { validateNote } from "./helpers";
 import DeleteCheck from "./DeleteCheck";
 import { ProgramWithType } from "./MyProgramsComponent";
 import LoadingLines from "../Loading/LoadingLines";
@@ -74,7 +74,7 @@ const SingleProgram = ({
   });
 
   const addNote = (userId: string, favId: string, text: string) => {
-    const sanitizedText = validateInput(text, setErrorMessage);
+    const sanitizedText = validateNote(text, setErrorMessage);
     if (sanitizedText) {
       setLoadingNotes(true);
       setNoteInput(false);

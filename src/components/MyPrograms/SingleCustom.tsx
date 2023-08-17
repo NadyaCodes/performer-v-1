@@ -21,7 +21,7 @@ import {
 } from "@component/data/svgs";
 import LoadingSpinner from "../Loading/LoadingSpinner";
 import LoadingLines from "../Loading/LoadingLines";
-import { validateInput } from "./helpers";
+import { validateNote } from "./helpers";
 import DeleteCheck from "./DeleteCheck";
 
 const SingleCustom = ({
@@ -77,7 +77,7 @@ const SingleCustom = ({
   });
 
   const addNote = (userId: string, customId: string, text: string) => {
-    const sanitizedText = validateInput(text, setErrorMessage);
+    const sanitizedText = validateNote(text, setErrorMessage);
     if (sanitizedText) {
       setLoadingNotes(true);
       setNoteInput(false);
