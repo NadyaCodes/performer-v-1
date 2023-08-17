@@ -151,19 +151,6 @@ export default function CustomProgramForm({
         }
       });
 
-      // const allValues = Object.keys(submissionObject);
-
-      // if (allValues) {
-      //   let valueCounter = 0;
-      //   allValues.forEach((value) => {
-      //     if (value) {
-      //       valueCounter++;
-      //       console.log(value);
-      //     }
-      //   });
-
-      // }
-
       if (validated && !currentProgram) {
         if (valueCounter < 1) {
           setLoading(false);

@@ -4,7 +4,7 @@ import React from "react";
 
 export default function Contact() {
   return (
-    <div>
+    <div className="bg-cyan-50 bg-opacity-80">
       <Menu />
       <ContactComponent />
     </div>
