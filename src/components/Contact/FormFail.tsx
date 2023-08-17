@@ -7,7 +7,7 @@ export default function FormFail({
 }) {
   return (
     <div>
-      FormFail
+      An error occurred while submitting your form. Please try again.
       <button
         className="m-5 rounded p-3 outline"
         onClick={() => setSubmitted(false)}

@@ -17,7 +17,7 @@ export default function ContactComponent() {
   const [submitted, setSubmitted] = useState<boolean | string>(false);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen pb-20">
       <LogoTicker />
       {submitted === false && <ContactForm setSubmitted={setSubmitted} />}
       {submitted === "submitSuccess" && (
