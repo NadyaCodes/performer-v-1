@@ -5,7 +5,7 @@ import { PTProgram, FTProgram, CustomProgram } from "@prisma/client";
 import { ProgramWithInfo } from "../ProgramFinder/types";
 import SingleProgram from "./SingleProgram";
 import LoadingLines from "../Loading/LoadingLines";
-import { backArrow, plusIcon } from "@component/data/svgs";
+import { backChevron, plusIcon } from "@component/data/svgs";
 import SingleCustom from "./SingleCustom";
 import CustomProgramForm from "./CustomProgramForm";
 import H2Title from "./H2Title";
@@ -261,7 +261,7 @@ export default function MyProgramsComponent() {
       onClick={() => {
         setShowUpdateCustom(!showUpdateCustom);
         window.scrollTo({
-          top: 290,
+          top: 100,
           behavior: "smooth",
         });
       }}
@@ -282,10 +282,33 @@ export default function MyProgramsComponent() {
             "inset 0px -1px 2px rgba(0,255,255,0.5), inset 0px -2px 4px rgba(0,255,255,0.5), inset 0px -4px 8px rgba(0,255,255,0.5)",
         }}
       ></div>
+      {loadingDelete && (
+        <div
+          className="fixed inset-0 z-10 transition-all"
+          style={{
+            background: "rgba(0, 0, 0, 0.2)",
+          }}
+        ></div>
+      )}
       <div className="h-20"></div>
+      {showUpdateCustom && !loading && (
+        <div className="w-2/3">
+          <button
+            className="flex font-semibold text-indigo-900 hover:scale-110 hover:text-indigo-800"
+            onClick={() => setShowUpdateCustom(!showUpdateCustom)}
+          >
+            <span>{backChevron}</span>
+            <span>Back</span>
+          </button>
+        </div>
+      )}
 
-      <H2Title text="Saved Programs" icon="star" id="favsHeader" />
-      {keyValueList.length > 3 && <QuickLinks keyValueList={keyValueList} />}
+      {!showUpdateCustom && (
+        <H2Title text="Saved Programs" icon="star" id="favsHeader" />
+      )}
+      {keyValueList.length > 3 && !showUpdateCustom && (
+        <QuickLinks keyValueList={keyValueList} />
+      )}
 
       {loading && (
         <div>
@@ -332,13 +355,15 @@ export default function MyProgramsComponent() {
         </div>
       )}
       {showUpdateCustom && !loading && (
-        <button
-          onClick={() => setShowUpdateCustom(!showUpdateCustom)}
-          className="m-4 flex w-32 place-items-center justify-between place-self-end rounded border-blue-500 bg-transparent px-4 py-2 font-semibold text-blue-600 outline hover:border-transparent hover:bg-blue-500 hover:text-white"
-        >
-          <div>Back </div>
-          <div>{backArrow}</div>
-        </button>
+        <div className="flex w-2/3 justify-end">
+          <button
+            className="flex font-semibold text-indigo-900 hover:scale-110 hover:text-indigo-800"
+            onClick={() => setShowUpdateCustom(!showUpdateCustom)}
+          >
+            <span>{backChevron}</span>
+            <span>Back</span>
+          </button>
+        </div>
       )}
     </div>
   );
