@@ -15,7 +15,7 @@ const AuthShowcase: React.FC = () => {
         {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
       </p>
       <button
-        className=" m-3 rounded-full p-3 font-semibold outline outline-transparent transition hover:bg-indigo-100 hover:shadow-md"
+        className=" m-3 rounded-full p-3 font-semibold outline outline-transparent transition hover:bg-cyan-800 hover:text-cyan-50 hover:shadow-md"
         onClick={sessionData ? () => void signOut() : handleSignIn}
       >
         {sessionData ? "Sign out" : "Sign in"}
