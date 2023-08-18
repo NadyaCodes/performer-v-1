@@ -23,6 +23,8 @@ const SelectNext: React.FC<SelectNextProps> = ({ selectNextOptions }) => {
   const { buttonList, titleString, link, backLink, nextValue } =
     selectNextOptions;
   const [loading, setLoading] = useState(false);
+  const nextValueText =
+    nextValue === "province" ? "Province/Territory" : nextValue;
 
   return (
     <div className="min-h-screen bg-cyan-50 bg-opacity-80 text-cyan-900">
@@ -52,8 +54,8 @@ const SelectNext: React.FC<SelectNextProps> = ({ selectNextOptions }) => {
         ) : (
           <>
             <div className="flex justify-center">
-              <h2 className="justify-self-center text-5xl font-extrabold capitalize tracking-tight text-cyan-800 sm:text-[5rem]">
-                Which {nextValue}?
+              <h2 className="justify-self-center text-5xl font-extrabold capitalize tracking-tight text-cyan-800 sm:text-[4rem]">
+                Which {nextValueText}?
               </h2>
               <div className="h-0 -translate-y-9 scale-50">
                 <Face />
