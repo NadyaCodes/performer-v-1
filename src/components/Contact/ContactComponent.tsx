@@ -54,7 +54,7 @@ export default function ContactComponent() {
             </div>
             {showEmail && (
               <LinkDrop
-                website={"ActSingDanceRepeat@gmail.com"}
+                linkText={"ActSingDanceRepeat@gmail.com"}
                 link="mailto:actsingdancerepeat@gmail.com"
               />
             )}
@@ -102,8 +102,8 @@ export default function ContactComponent() {
               {showProgramForm && (
                 <div className="">
                   <LinkDrop
-                    website={"This will be something"}
-                    link="This will be something"
+                    linkText={"Fill out our form here!"}
+                    link="https://docs.google.com/forms/d/e/1FAIpQLScOcWMUyQKki7mg4DJQn2CWE7WOFYLA9zY_q3cyv_BHAzP_NQ/viewform?usp=sf_link"
                   />
                 </div>
               )}

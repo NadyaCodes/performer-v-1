@@ -28,7 +28,7 @@ const Home: NextPage = () => {
             style={{ animation: "fadeIn 1s forwards 2s", opacity: 0 }}
           >
             <Link href={"/about"}>
-              <button className="m-3 rounded p-3 outline">
+              <button className="m-3 rounded p-3 outline hover:scale-110">
                 Get Started Here
               </button>
             </Link>
