@@ -101,42 +101,44 @@ export default function ContactComponent() {
           </div>
         </div>
       </div>
-      {!showSubscribe && (
-        <>
-          <div className="relative mx-20 mt-5 flex justify-around">
-            <div
-              className="h-8 w-12 overflow-hidden rounded-t-full bg-black shadow-cyan-100 transition-all"
-              style={{
-                animation:
-                  spotlight === "email" && !showEmail
-                    ? "fadeInShadow 0.4s ease-in forwards"
-                    : "none",
-                visibility: showEmail ? "hidden" : "visible",
-              }}
-            ></div>
-            <div
-              className=" mx-48 h-8 w-12 overflow-hidden rounded-t-full bg-black shadow-cyan-100 transition-all"
-              style={{
-                animation:
-                  spotlight === "subscribe"
-                    ? "fadeInShadow 0.4s ease-in forwards"
-                    : "none",
-              }}
-            ></div>
-            <div
-              className="h-8 w-12 overflow-hidden rounded-t-full bg-black shadow-cyan-100 transition-all"
-              style={{
-                animation:
-                  spotlight === "form" && !showProgramForm
-                    ? "fadeInShadow 0.4s ease-in forwards"
-                    : "none",
-                visibility: showProgramForm ? "hidden" : "visible",
-              }}
-            ></div>
-          </div>
-        </>
-      )}
-      <div className="w-fill relative z-10 h-96 bg-slate-900"></div>
+      <div className="hidden lg:block">
+        {!showSubscribe && (
+          <>
+            <div className="relative mx-20 mt-5 flex justify-around">
+              <div
+                className="h-8 w-12 overflow-hidden rounded-t-full bg-black shadow-cyan-100 transition-all"
+                style={{
+                  animation:
+                    spotlight === "email" && !showEmail
+                      ? "fadeInShadow 0.4s ease-in forwards"
+                      : "none",
+                  visibility: showEmail ? "hidden" : "visible",
+                }}
+              ></div>
+              <div
+                className=" mx-48 h-8 w-12 overflow-hidden rounded-t-full bg-black shadow-cyan-100 transition-all"
+                style={{
+                  animation:
+                    spotlight === "subscribe"
+                      ? "fadeInShadow 0.4s ease-in forwards"
+                      : "none",
+                }}
+              ></div>
+              <div
+                className="h-8 w-12 overflow-hidden rounded-t-full bg-black shadow-cyan-100 transition-all"
+                style={{
+                  animation:
+                    spotlight === "form" && !showProgramForm
+                      ? "fadeInShadow 0.4s ease-in forwards"
+                      : "none",
+                  visibility: showProgramForm ? "hidden" : "visible",
+                }}
+              ></div>
+            </div>
+          </>
+        )}
+        <div className="w-fill relative z-10 h-96 bg-slate-900"></div>
+      </div>
     </div>
   );
 }
