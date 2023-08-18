@@ -60,7 +60,7 @@ export default function ContactForm({
     return sanitizedText;
   };
 
-  const submitForm = () => {
+  const createFormData = () => {
     if (input.address.length > 0) {
       setSubmitted("submitFail");
       return;
@@ -103,8 +103,42 @@ export default function ContactForm({
       }
     });
     console.log(formData);
-    {
-      submit && alert("Submit!!!");
+    if (submit) {
+      return formData;
+    }
+    // const emailResult = await emailApi.sendEmail(formData);
+
+    //if submit is true, I want this to send an email using nodemailer
+  };
+
+  // ... Your other component code ...
+
+  const submitForm = async (formData: ObjectTextBooleanList) => {
+    try {
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        console.log("Email sent successfully");
+      } else {
+        console.error("Error sending email:", response.statusText);
+        // Handle error
+      }
+    } catch (error) {
+      console.error("Error sending email:", error);
+      // Handle error
+    }
+  };
+
+  const handleSubmit = async () => {
+    const formData = createFormData();
+    if (formData) {
+      submitForm(formData);
     }
   };
 
@@ -221,7 +255,7 @@ export default function ContactForm({
               <span>Yes, I would like to subscribe to email updates</span>
             </div>
             <button
-              onClick={(e) => submitForm()}
+              onClick={(e) => handleSubmit()}
               className="font-2xl mx-20 my-5 rounded-lg border-2  border-cyan-700 py-4 font-bold text-cyan-800 transition-all hover:scale-110"
             >
               Submit
