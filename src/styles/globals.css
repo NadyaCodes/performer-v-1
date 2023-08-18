@@ -2,6 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+/* body {
+  width: 100%
+}
+
+main {
+  width: 100%
+} */
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Set the red border to fill the entire screen width */
+main {
+  width: 100%;
+}
 
 @keyframes rotateSwell {
 0% { transform: rotate(0deg) scale(1); }
@@ -95,6 +112,39 @@
     transform: scale(0.2, 0.5) translateX(-150vw) translateY(-140vh) rotate(-420deg) skew(80deg);
   }
 }
+
+@keyframes flyInOutNoScale {
+  0% {
+    transform: translateX(100vw);
+  }
+  30% {
+    transform: translateX(0);
+  }
+  70% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-150vw) translateY(-140vh) rotate(-420deg) skew(80deg);
+  }
+}
+
+@keyframes flyInOutScale {
+  0% {
+    transform: scale(0.8);
+  }
+  30% {
+    transform: scale(1.1);
+  }
+  70% {
+    transform: scale(1.5);
+  }
+
+  100% {
+    transform: scale(0.2, 0.5);
+  }
+}
+
 
 @keyframes wiggle {
 

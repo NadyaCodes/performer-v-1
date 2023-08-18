@@ -21,52 +21,54 @@ export default function Hero() {
   }, []);
 
   return (
-    <div>
+    <div className="">
       <div className="mx-32 mt-10 flex h-60 flex-col place-items-center justify-center bg-slate-950 shadow-2xl shadow-cyan-400">
-        {featuredText === "act" && (
-          <div
-            className="hero-phrase m-5 text-5xl font-extrabold sm:text-[6rem]"
-            style={{
-              animation: "flyInOut 2.9s ease-in",
-              willChange: "transform",
-            }}
-          >
-            ACTING
-          </div>
-        )}
-        {featuredText === "sing" && (
-          <div
-            className="hero-phrase m-5 text-5xl font-extrabold sm:text-[6rem]"
-            style={{
-              animation: "flyInOut 2.9s ease-in",
-              willChange: "transform",
-            }}
-          >
-            SINGING
-          </div>
-        )}
-        {featuredText === "dance" && (
-          <div
-            className="hero-phrase m-5 text-5xl font-extrabold sm:text-[6rem]"
-            style={{
-              animation: "flyInOut 2.9s ease-in",
-              willChange: "transform",
-            }}
-          >
-            DANCE
-          </div>
-        )}
-        {featuredText === "mt" && (
-          <div
-            className="hero-phrase m-5 p-2 text-5xl font-extrabold sm:text-[5rem]"
-            style={{
-              animation: "flyInOut 2.9s ease-in",
-              willChange: "transform",
-            }}
-          >
-            MUSICAL THEATRE
-          </div>
-        )}
+        <div className="">
+          {featuredText === "act" && (
+            <div
+              className="hero-phrase m-5 text-2xl font-extrabold sm:text-3xl md:text-5xl xl:text-7xl"
+              style={{
+                animation: "flyInOut 2.9s ease-in",
+                willChange: "transform",
+              }}
+            >
+              ACTING
+            </div>
+          )}
+          {featuredText === "sing" && (
+            <div
+              className="hero-phrase m-5 text-2xl font-extrabold sm:text-3xl  md:text-5xl xl:text-7xl"
+              style={{
+                animation: "flyInOut 2.9s ease-in",
+                willChange: "transform",
+              }}
+            >
+              SINGING
+            </div>
+          )}
+          {featuredText === "dance" && (
+            <div
+              className="hero-phrase m-5 text-2xl font-extrabold sm:text-3xl md:text-5xl xl:text-7xl"
+              style={{
+                animation: "flyInOut 2.9s ease-in",
+                willChange: "transform",
+              }}
+            >
+              DANCE
+            </div>
+          )}
+          {featuredText === "mt" && (
+            <div
+              className="hero-phrase m-5 w-32 p-2 text-center text-2xl font-extrabold sm:w-52 sm:text-3xl md:w-96 md:text-5xl lg:w-auto lg:text-5xl xl:text-7xl"
+              style={{
+                animation: "flyInOut 2.9s ease-in",
+                willChange: "transform",
+              }}
+            >
+              MUSICAL THEATRE
+            </div>
+          )}
+        </div>
       </div>
       <div className="relative mx-20 flex justify-around">
         <div
