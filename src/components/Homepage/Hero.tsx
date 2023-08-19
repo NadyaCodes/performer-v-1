@@ -28,8 +28,8 @@ export default function Hero() {
   }, []);
 
   return (
-    <div className="">
-      <div className="mx-10 mt-3 flex h-40 flex-col place-items-center justify-center bg-slate-950 shadow-2xl shadow-cyan-400 lg:mx-32 lg:mt-10 lg:h-60">
+    <div className="flex flex-col">
+      <div className="mx-10 mt-3 flex h-40 flex-col place-items-center justify-center bg-slate-950 shadow-2xl shadow-cyan-400 md:max-lg:mx-16 md:max-lg:h-60 lg:mx-32 lg:mt-10 lg:h-60">
         <div className="">
           {featuredText === "act" && (
             <div
@@ -123,7 +123,8 @@ export default function Hero() {
           }}
         ></div>
       </div>
-      <div className="w-fill relative z-10 h-96 bg-slate-900"></div>
+      <div className="z-20 h-96 w-full bg-slate-900 opacity-100"></div>
+      <div className="z-20 h-96 w-full bg-slate-900 opacity-100"></div>
     </div>
   );
 }
