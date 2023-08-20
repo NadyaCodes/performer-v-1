@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { disciplines } from "@component/data/constants";
+import BigLights from "./BigLights";
+import SmallLights from "./SmallLights";
 
 export default function Hero() {
   const [featuredText, setFeaturedText] = useState<string>("");
@@ -77,51 +79,11 @@ export default function Hero() {
           )}
         </div>
       </div>
-      <div className="relative mx-20 flex justify-around">
-        <div
-          className="h-5 w-7 overflow-hidden rounded-t-full bg-black shadow-cyan-100 sm:h-8 sm:w-12"
-          style={{
-            animation: animateLight
-              ? "fadeInShadow .4s ease-in 2s forwards"
-              : "",
-            boxShadow: !animateLight
-              ? "1px -40px 40px 40px rgba(207, 250, 254, 1)"
-              : "",
-          }}
-        ></div>
-        <div
-          className="h-5 w-7 overflow-hidden rounded-t-full bg-black shadow-cyan-100 sm:h-8 sm:w-12"
-          style={{
-            animation: animateLight
-              ? "fadeInShadow .4s ease-in 2s forwards"
-              : "",
-            boxShadow: !animateLight
-              ? "1px -40px 40px 40px rgba(207, 250, 254, 1)"
-              : "",
-          }}
-        ></div>
-        <div
-          className="h-5 w-7 overflow-hidden rounded-t-full bg-black shadow-cyan-100 sm:h-8 sm:w-12"
-          style={{
-            animation: animateLight
-              ? "fadeInShadow .4s ease-in 2s forwards"
-              : "",
-            boxShadow: !animateLight
-              ? "1px -40px 40px 40px rgba(207, 250, 254, 1)"
-              : "",
-          }}
-        ></div>
-        <div
-          className="hidden h-8 w-12 overflow-hidden rounded-t-full bg-black shadow-cyan-100 md:block"
-          style={{
-            animation: animateLight
-              ? "fadeInShadow .4s ease-in 2s forwards"
-              : "",
-            boxShadow: !animateLight
-              ? "1px -40px 40px 40px rgba(207, 250, 254, 1)"
-              : "",
-          }}
-        ></div>
+      <div className="relative mx-20 hidden justify-around lg:flex">
+        <BigLights animateLight={animateLight} />
+      </div>
+      <div className="relative mx-20 flex justify-around lg:hidden">
+        <SmallLights animateLight={animateLight} />
       </div>
       <div className="z-20 h-96 w-full bg-slate-900 opacity-100"></div>
       <div className="z-20 h-96 w-full bg-slate-900 opacity-100"></div>

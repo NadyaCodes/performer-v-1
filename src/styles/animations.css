@@ -1,0 +1,265 @@
+@keyframes rotateSwell {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(0.7); }
+   100% { transform: rotate(360deg) scale(1); }
+  }
+  
+  
+  
+  @keyframes rotate {
+    0% { transform: rotate(0deg) }
+    50% { transform: rotate(180deg) }
+     100% { transform: rotate(360deg) }
+    }
+  
+  
+  
+  @keyframes pullDown {
+    0% {
+      transform: scaleY(0.1);
+    }
+    100% {
+      transform: scaleY(1);
+    }	
+  }
+  
+  
+  @keyframes pullDownTop {
+    0% {
+      transform: scaleY(0);
+      opacity: 0;
+      transform-origin: top;
+    }
+    100% {
+      transform: scaleY(1);
+      opacity: 1;
+      transform-origin: top;
+    }
+  }
+  
+  @keyframes flyInFadeIn {
+    0% {
+      transform: translateX(100vw);
+      opacity: 0
+    }
+    100% {
+      transform: translateX(0vw);
+      opacity: 1
+    }
+  }
+  
+  @keyframes flyInFadeInLeft {
+    0% {
+      transform: translateX(-100vw);
+      opacity: 0
+    }
+    100% {
+      transform: translateX(0vw);
+      opacity: 1
+    }
+  }
+
+  
+  @keyframes flyInOut {
+    0% {
+      transform: translateX(100vw) scale(0.8);
+    }
+    30% {
+      transform: translateX(0) scale(1.1);
+    }
+    70% {
+      transform: scale(1.5) translateX(0);
+    }
+  
+    100% {
+      transform: scale(0.2, 0.5) translateX(-150vw) translateY(-140vh) rotate(-420deg) skew(80deg);
+    }
+  }
+  
+  
+  @keyframes wiggle {
+  
+    0% {
+      transform: rotate(0deg);
+    }
+    25% {
+      transform: rotate(10deg);
+    }
+    50% {
+      transform: rotate(0deg);
+    }
+    75% {
+      transform: rotate(-10deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+
+  @keyframes ticker {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  
+  
+  
+  @keyframes spotlightRight {
+    0% {
+      transform: rotate(20deg) skew(100deg);
+      transform-origin: top
+    }
+    100% {
+      transform: rotate(25deg);
+      transform-origin: top;
+    }
+  }
+  
+  @keyframes spotlightLeft {
+    0% {
+      transform: rotate(-20deg) skew(-100deg);
+      transform-origin: top
+    }
+    100% {
+      transform: rotate(-25deg);
+      transform-origin: top;
+    }
+  }
+  
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+    
+  }
+  
+  @keyframes fadeInTranslate {
+    0% {
+      opacity: 0;
+      transform: translateY(10rem) scale(0.8);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      
+    }
+    
+  }
+  
+  @keyframes fadeInGrow {
+    0% {
+      opacity: 0;
+    }
+    75% {
+      opacity: 1;
+      transform: scale(1.15)
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    
+  }
+  
+  @keyframes fadeInShadow {
+    0% {
+      box-shadow: 1px -40px 40px 0 rgba(207, 250, 254, 0);
+    }
+    100% {
+      box-shadow: 1px -40px 40px 40px rgba(207, 250, 254, 1);
+    }
+  }
+  
+  @keyframes fadeInSmallShadow {
+    0% {
+      box-shadow: 1px -20px 20px 0 rgba(207, 250, 254, 0);
+    }
+    100% {
+      box-shadow: 1px -10px 30px 20px rgba(207, 250, 254, 1);
+    }
+  }
+  
+  
+  @keyframes upDown {
+    0% {
+      transform: translateY(0);
+    }
+    25% {
+      transform: translateY(.5rem);
+    }
+    50% {
+      transform: translateY(0rem);
+    }
+    75% {
+      transform: translateY(-.5rem);
+    }
+    100% {
+      transform: translateY(0rem);
+    }
+    
+  }
+  
+  
+  @keyframes flyInRight {
+    0% {
+      opacity: 0;
+      transform: translateX(20rem) scale(0.8);
+    }
+    45% {
+      opacity: 1;
+      transform: scale(1.3) translateY(0.5rem) translateX(-0.5rem);
+    }
+    65% {
+      transform: translateY(-0.5rem) translateX(-0.5rem);
+    }
+    75% {
+      transform: translateY(-0.5rem) translateX(0rem);
+    }
+    90% {
+      transform: translateY(0rem) translateX(0.5rem);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+      
+    }
+    
+  }
+  
+  @keyframes expandUp {
+    0% {
+      transform: translateY(150%) scaleX(0) scaleY(0.2);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0%) scaleX(1) scaleY(1);
+      opacity: 1;
+    }	
+  }
+
+  
+  @keyframes translateUpToDown {
+    from{
+      transform: translateY(-50rem);
+    }
+    to {
+      transform: translateY(0rem);
+    }
+    
+  }
+  
+  
+  @keyframes fadeBackground {
+    to {background-color: transparent;}
+    
+  }
