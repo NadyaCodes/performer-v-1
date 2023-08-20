@@ -8,7 +8,7 @@ export default function LogoTicker() {
         paddingBottom: "12px",
       }}
     >
-      <div className="flex overflow-hidden text-5xl font-extrabold tracking-tight text-cyan-50 sm:text-[9rem]">
+      <div className="flex overflow-hidden text-5xl font-extrabold tracking-tight text-cyan-50">
         <div
           className="ticker-text flex whitespace-nowrap pr-1"
           style={{
@@ -18,7 +18,7 @@ export default function LogoTicker() {
           ACT. SING. DANCE. REPEAT.
         </div>
         <div
-          className="ticker-text flex whitespace-nowrap"
+          className="ticker-text flex whitespace-nowrap pr-1"
           style={{
             animation: "ticker 10s linear infinite",
           }}
@@ -26,7 +26,7 @@ export default function LogoTicker() {
           ACT. SING. DANCE. REPEAT.
         </div>
         <div
-          className="ticker-text flex whitespace-nowrap"
+          className="ticker-text flex whitespace-nowrap pr-1"
           style={{
             animation: "ticker 10s linear infinite",
           }}

@@ -21,7 +21,9 @@ export default function ContactComponent() {
 
   return (
     <div className="min-h-screen bg-slate-900 pb-20">
-      <LogoTicker />
+      <div className="hidden mobileMenu:block">
+        <LogoTicker />
+      </div>
 
       <div className="m-auto flex w-11/12 justify-around pt-10 text-cyan-600">
         <div
