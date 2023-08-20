@@ -12,7 +12,7 @@ export default function MenuBubble({
 }) {
   return (
     <div
-      className={`mx-3 mt-4 flex items-center justify-center rounded-full border-2 ${
+      className={`mx-6 mt-5 flex cursor-pointer items-center justify-center rounded-full border-2 transition-all hover:scale-125 md:mx-10 md:mt-10 md:scale-125 hover:md:scale-150 ${
         dark
           ? "border-cyan-200 p-2 text-cyan-200"
           : "border-cyan-900 p-2 text-cyan-800"

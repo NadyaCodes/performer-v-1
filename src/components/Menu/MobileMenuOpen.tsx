@@ -12,7 +12,7 @@ export default function MobileMenuOpen({
     return (
       <Link
         href={item.link}
-        className="flex w-2/3 justify-center bg-cyan-100 p-2 font-bold shadow-md shadow-cyan-700"
+        className="flex w-2/3 justify-center bg-cyan-100 p-2 font-bold shadow-md shadow-cyan-700 hover:scale-105 hover:bg-cyan-800 hover:text-cyan-50"
         onClick={() => setViewMenu(false)}
       >
         {item.name}
@@ -27,7 +27,7 @@ export default function MobileMenuOpen({
       {menuDisplay}
       <div
         onClick={() => setViewMenu(false)}
-        className="flex w-2/3 justify-center bg-cyan-800 p-2  text-cyan-50 shadow-md shadow-cyan-700"
+        className=" flex w-2/3 cursor-pointer justify-center bg-cyan-800  p-2 text-cyan-50 shadow-md shadow-cyan-700 hover:scale-105"
       >
         {chevronUp}
       </div>
