@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { bars2 } from "@component/data/svgs";
 import LogoTicker from "../About/LogoTicker";
 import MenuBubble from "./MenuBubble";
 import MobileMenuOpen from "./MobileMenuOpen";
@@ -39,25 +38,18 @@ export default function MobileMenu() {
             <LogoTicker />
           </div>
         )}
-        {/* <div
-          className={`mx-3 mt-4 flex items-center justify-center rounded-full border-2 ${
-            dark
-              ? "border-cyan-200 p-2 text-cyan-200"
-              : "border-cyan-900 p-2 text-cyan-800"
-          } `}
-          onClick={() => setViewMenu(!viewMenu)}
-        >
-          {bars2}
-        </div> */}
-        {viewMenu ? (
-          <MobileMenuOpen viewMenu={viewMenu} setViewMenu={setViewMenu} />
-        ) : (
-          <MenuBubble
-            dark={dark}
-            viewMenu={viewMenu}
-            setViewMenu={setViewMenu}
-          />
-        )}
+        <div>
+          <div className={`${viewMenu ? "" : "hidden"}`}>
+            <MobileMenuOpen setViewMenu={setViewMenu} />
+          </div>
+          <div className={`${viewMenu ? "opacity-0" : ""}`}>
+            <MenuBubble
+              dark={dark}
+              viewMenu={viewMenu}
+              setViewMenu={setViewMenu}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
