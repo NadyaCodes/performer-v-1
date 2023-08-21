@@ -1,7 +1,7 @@
 import { arrowUp } from "@component/data/svgs";
 import React, { useState, useEffect } from "react";
 
-export default function ScrollArrow() {
+export default function ScrollArrow({ color }: { color?: string }) {
   const [showArrow, setShowArrow] = useState(false);
 
   useEffect(() => {
@@ -25,7 +25,9 @@ export default function ScrollArrow() {
   };
   return (
     <div
-      className="sticky top-3/4 text-indigo-800 transition-all"
+      className={`sticky top-3/4 text-${
+        color ? color : "indigo"
+      }-800 transition-all`}
       onClick={() => scrollToTop()}
     >
       {showArrow && (
@@ -33,7 +35,15 @@ export default function ScrollArrow() {
           className=" mt-6 flex flex-col items-center justify-center transition-all"
           style={{ animation: "fadeIn 1s linear" }}
         >
-          <div className="scale-125 rounded-full border border-indigo-800 p-4  transition-all hover:scale-150 hover:border-indigo-700 hover:text-indigo-700 hover:shadow-md hover:shadow-indigo-300">
+          <div
+            className={`scale-125 rounded-full border border-${
+              color ? color : "indigo"
+            }-800 p-4  transition-all hover:scale-150 hover:border-${
+              color ? color : "indigo"
+            }-700 hover:text-${
+              color ? color : "indigo"
+            }-700 hover:shadow-md hover:shadow-${color ? color : "indigo"}-300`}
+          >
             {arrowUp}
           </div>
           <div className="mt-5">Scroll To Top</div>
