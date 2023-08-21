@@ -208,25 +208,42 @@ const CourseFinderComponent: NextPage = () => {
           </div>
         )}
         <div
-          className="mx-5 mt-5 flex opacity-0"
+          className="mt-5 flex flex-col opacity-0 md:flex-row"
           style={{ animation: "fadeIn 1s linear 2s forwards" }}
         >
-          {/* {!loadingPageData && (
-            <div className="flex w-4/12 flex-col">
-              <TermsDisplay
-                num={(programDisplay && programDisplay.length) || 0}
-                defaultFilterContext={defaultFilterContext}
-              />
-              <ScrollArrow />
-            </div>
+          {!loadingPageData && (
+            <>
+              <div className="hidden w-4/12 flex-col md:flex">
+                <TermsDisplay
+                  num={(programDisplay && programDisplay.length) || 0}
+                  defaultFilterContext={defaultFilterContext}
+                  idTag="_1"
+                />
+                <ScrollArrow />
+              </div>
+              <div className="flex w-11/12 flex-col place-self-center md:hidden">
+                <TermsDisplay
+                  num={(programDisplay && programDisplay.length) || 0}
+                  defaultFilterContext={defaultFilterContext}
+                  idTag="_2"
+                />
+                {/* <div></div> */}
+                {/* <ScrollArrow /> */}
+              </div>
+            </>
           )}
 
           {!loadingPageData && programDisplay && programDisplay.length >= 1 && (
-            <div className="w-7/12">{programDisplay}</div>
+            <div className="flex justify-center">
+              {/* <div className="md:hidden"><ScrollArrow /> </div> */}
+              <div className="mt-7 w-11/12 place-self-center overflow-x-hidden lg:w-9/12">
+                {programDisplay}
+              </div>
+            </div>
           )}
           {!loadingPageData && programDisplay && programDisplay.length < 1 && (
             <NoPrograms />
-          )} */}
+          )}
         </div>
       </FilterContext.Provider>
     </div>

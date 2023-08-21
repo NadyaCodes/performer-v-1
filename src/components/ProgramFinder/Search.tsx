@@ -42,16 +42,18 @@ export default function Search({ menu }: { menu: string | false }) {
         </div>
       ) : (
         <button
-          className="mx-5 flex h-10 items-center justify-center rounded px-3 text-indigo-200 outline outline-indigo-200 hover:scale-105 hover:text-pink-100 hover:outline-pink-100"
+          className="mx-5 flex h-fit items-center justify-center rounded px-3 py-2 text-indigo-200 outline outline-indigo-200 hover:scale-105 hover:text-pink-100 hover:outline-pink-100"
           style={{ boxShadow: "none" }}
           onClick={() => {
             setSearchResults("");
             filterContext?.setSearchTerm("");
           }}
         >
-          <span className="p-1">
-            Clear Search Term:{" "}
-            <span className="ml-2">{filterContext?.activeSearchTerm}</span>
+          <span className="flex flex-col p-1">
+            <span>Clear Search Term:</span>
+            <span className="ml-2 break-all">
+              {filterContext?.activeSearchTerm}
+            </span>
           </span>
           <span className="p-1">{xMark}</span>
         </button>

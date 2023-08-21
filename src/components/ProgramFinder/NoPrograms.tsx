@@ -2,23 +2,10 @@ import React from "react";
 
 export default function NoPrograms() {
   return (
-    <div className="flex w-7/12 flex-col pt-16 text-center text-2xl font-bold text-cyan-900">
+    <div className="m-1 flex flex-col place-self-center pt-4 text-center text-lg font-bold text-cyan-900 md:w-7/12 md:pt-16 md:text-2xl">
       <div
-        className="opacity-0"
-        style={{ animation: "pullDownTop .6s forwards" }}
-      >
-        There are no programs that match your queries.
-      </div>
-      <div
-        className="text-cyan-600 opacity-0"
-        style={{ animation: "pullDownTop .6s .5s forwards" }}
-      >
-        Please broaden your search and try again.
-      </div>
-
-      <div
-        className="mt-10 flex scale-90 place-self-center text-cyan-400 opacity-0"
-        style={{ animation: "fadeIn .8s 1.5s forwards" }}
+        className="m-2 flex scale-90 place-self-center text-cyan-400 opacity-0 md:mt-10"
+        style={{ animation: "fadeIn .8s forwards" }}
       >
         <div
           className="px-1"
@@ -80,6 +67,18 @@ export default function NoPrograms() {
         >
           .
         </div>
+      </div>
+      <div
+        className="m-2 opacity-0"
+        style={{ animation: "pullDownTop .6s forwards .7s" }}
+      >
+        There are no programs that match your queries.
+      </div>
+      <div
+        className="m-2 mb-10 text-cyan-600 opacity-0"
+        style={{ animation: "pullDownTop .6s 1.2s forwards" }}
+      >
+        Please broaden your search and try again.
       </div>
     </div>
   );
