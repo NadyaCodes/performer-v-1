@@ -4,7 +4,7 @@ import { FilterContext } from "./CourseFinderComponent";
 import { search, xMark } from "@component/data/svgs";
 import { searchForValue } from "./helpers";
 
-export default function Search() {
+export default function Search({ menu }: { menu: string | false }) {
   const filterContext = useContext(FilterContext);
 
   const setSearchResults = (value: string) => {
@@ -16,11 +16,13 @@ export default function Search() {
   };
 
   return (
-    <div className="z-20 mb-3 mt-7 flex justify-around">
+    <div
+      className={`z-20 mb-3 mt-7 flex justify-around ${menu && " opacity-0"}`}
+    >
       {!filterContext?.activeSearchTerm ? (
-        <div className="flex">
+        <div className="flex flex-col md:flex-row">
           <input
-            className="focus:shadow-outline w-96 max-w-6xl appearance-none rounded border bg-indigo-50 px-3 py-2 leading-tight text-gray-700 shadow-md focus:outline-none"
+            className="focus:shadow-outline w-72 max-w-6xl appearance-none rounded border bg-indigo-50 px-3 py-2 leading-tight text-gray-700 shadow-md focus:outline-none md:w-96"
             id="username"
             type="text"
             placeholder="Search"
@@ -30,7 +32,7 @@ export default function Search() {
             }
           />
           <button
-            className="mx-5 flex h-10 items-center rounded px-3 outline outline-cyan-700 hover:scale-105 hover:text-indigo-200 hover:outline-indigo-200"
+            className="mx-5 my-2 flex h-10 items-center justify-center rounded text-center outline outline-cyan-700 hover:scale-105 hover:text-indigo-200 hover:outline-indigo-200 lg:my-0 lg:px-3"
             style={{ boxShadow: "none" }}
             onClick={() => setSearchResults(filterContext?.searchTerm || "")}
           >

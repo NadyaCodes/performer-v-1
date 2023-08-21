@@ -7,20 +7,40 @@ export default function MobileMenu() {
   const [viewMenu, setViewMenu] = useState(false);
   const [dark, setDark] = useState(false);
   const [banner, setBanner] = useState(false);
+  const [bgTop, setbgTop] = useState("bg-cyan-50");
 
   useEffect(() => {
     const currentURL = window.location.href;
     let isDarkURL = true;
-    const lightPages = ["course-finder", "course-selector", "about"];
+    const lightPages = ["course-selector", "about"];
+    const darkCyanPages = ["course-finder"];
+    const slatePages = ["contact"];
 
     lightPages.forEach((urlSnippet) => {
       if (currentURL.includes(urlSnippet)) {
         isDarkURL = false;
       }
     });
-    if (currentURL.includes("about") || currentURL.includes("contact")) {
+    if (
+      currentURL.includes("about") ||
+      currentURL.includes("contact") ||
+      currentURL.includes("course-finder")
+    ) {
       setBanner(true);
     }
+
+    slatePages.forEach((page) => {
+      if (currentURL.includes(page)) {
+        setbgTop("bg-slate-900");
+      }
+    });
+
+    darkCyanPages.forEach((page) => {
+      if (currentURL.includes(page)) {
+        setbgTop("bg-cyan-900");
+      }
+    });
+
     setDark(isDarkURL);
   }, []);
 
@@ -36,9 +56,9 @@ export default function MobileMenu() {
           }}
         ></div>
         <div
-          className={`absolute z-50 flex h-4 w-full flex-col ${
-            dark ? "bg-slate-900" : "bg-cyan-50"
-          } ${!banner && " -translate-y-4"}`}
+          className={`absolute z-50 flex h-4 w-full flex-col ${bgTop} ${
+            !banner && " -translate-y-4"
+          }`}
         ></div>
         {banner && (
           <div className="block w-screen">

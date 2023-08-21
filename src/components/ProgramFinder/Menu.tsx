@@ -11,7 +11,7 @@ export default function Menu({
   valueArray: string[];
   menuType: string;
   locationType?: string;
-  setMenu?: Dispatch<SetStateAction<boolean>>;
+  setMenu?: Dispatch<SetStateAction<string | false>>;
 }) {
   const filterContext = useContext(FilterContext);
   const selectedOptions = filterContext?.selectedOptions;
@@ -55,7 +55,7 @@ export default function Menu({
       <button
         className={classString}
         onClick={() => {
-          if (element !== "No Available Locations") {
+          if (element !== "No Available Programs") {
             updateFilter(
               menuType,
               element,
@@ -72,25 +72,24 @@ export default function Menu({
       </button>
     );
   });
+
   return (
     <div
-      className="absolute z-30 flex w-96 flex-col items-center bg-cyan-100 text-cyan-950 shadow-lg transition-all"
+      className="absolute z-40 w-64 items-center bg-cyan-100 text-cyan-950 shadow-lg transition-all  md:w-52 lg:w-64 xl:w-96"
       style={{ animation: "pullDownTop .3s linear" }}
     >
       {buttonList}
-      {valueArray[0] !== "No Available Locations" && (
-        <button
-          className="w-full bg-indigo-300 p-2 capitalize hover:bg-indigo-900 hover:text-indigo-50"
-          onClick={() => {
-            {
-              updateFilter(menuType, "", selectedOptions, setSelectedOptions);
-              setMenu && setMenu(false);
-            }
-          }}
-        >
-          RESET {menuType.toUpperCase()}
-        </button>
-      )}
+      <button
+        className="w-full bg-indigo-300 p-2 capitalize hover:bg-indigo-900 hover:text-indigo-50"
+        onClick={() => {
+          {
+            updateFilter(menuType, "", selectedOptions, setSelectedOptions);
+            setMenu && setMenu(false);
+          }
+        }}
+      >
+        RESET {menuType.toUpperCase()}
+      </button>
     </div>
   );
 }

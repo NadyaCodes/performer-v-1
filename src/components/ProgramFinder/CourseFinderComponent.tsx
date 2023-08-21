@@ -211,7 +211,7 @@ const CourseFinderComponent: NextPage = () => {
           className="mx-5 mt-5 flex opacity-0"
           style={{ animation: "fadeIn 1s linear 2s forwards" }}
         >
-          {!loadingPageData && (
+          {/* {!loadingPageData && (
             <div className="flex w-4/12 flex-col">
               <TermsDisplay
                 num={(programDisplay && programDisplay.length) || 0}
@@ -226,7 +226,7 @@ const CourseFinderComponent: NextPage = () => {
           )}
           {!loadingPageData && programDisplay && programDisplay.length < 1 && (
             <NoPrograms />
-          )}
+          )} */}
         </div>
       </FilterContext.Provider>
     </div>
