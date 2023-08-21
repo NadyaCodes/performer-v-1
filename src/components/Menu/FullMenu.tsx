@@ -55,7 +55,7 @@ export default function FullMenu() {
       }}
     >
       <div className=" flex w-full items-center justify-between">
-        <div className="flex w-8/12 items-center justify-between">
+        <div className="flex w-8/12 items-center justify-between 2xl:text-xl">
           <Logo color="black" />
           {menuDisplay}
         </div>

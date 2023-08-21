@@ -42,17 +42,27 @@ export default function AboutComponent() {
           className="flex flex-col items-center justify-between overflow-x-hidden"
           style={{ minHeight: "85vh", maxWidth: "100vw" }}
         >
-          <LogoTicker />
-          <h1 className="flex flex-col p-10 text-center text-4xl font-extrabold">
+          <div className="hidden mobileMenu:block">
+            <LogoTicker />
+          </div>
+          <h1 className=" mx-2 hidden flex-col py-10 text-center text-3xl font-extrabold mobileMenu:flex xl:text-5xl 3xl:text-6xl">
             <span>Looking for Professonal Post-Secondary Training</span>
-            <span>in Acting Singing, Dance or Musical Theatre</span>
-            <span>...in Canada?</span>
+            <span>in Acting, Singing, Dance or Musical Theatre</span>
+            <span className="scale-125 pt-6">...in Canada?</span>
+          </h1>
+          <h1 className="flex flex-col px-1 pt-10 text-center text-3xl font-extrabold sm:text-4xl md:pt-1 mobileMenu:hidden">
+            <span>Looking for</span>
+            <span>Professonal Post-Secondary</span>
+            <span>Training in</span>
+            <span>Acting, Singing, Dance,</span>
+            <span> or Musical Theatre</span>
+            <span className="scale-125 pt-6">...in Canada?</span>
           </h1>
 
-          <div className="flex flex-col p-10 text-center text-2xl font-extrabold">
+          <div className="flex flex-col p-10 text-center text-3xl font-extrabold text-cyan-900 xs:text-3xl 2xl:text-5xl">
             You've come to the right place!
           </div>
-          <div className="flex w-7/12 justify-between p-10 text-2xl text-cyan-950">
+          <div className="mb-10 flex w-11/12 -translate-y-12 scale-75 justify-between p-10 text-2xl text-cyan-950 sm:w-9/12 sm:scale-100 md:max-mobileMenu:-translate-y-10 mobileMenu:mb-0 mobileMenu:w-7/12 2xl:-translate-y-5 2xl:scale-125">
             <span style={{ animation: "upDown 1.5s linear infinite" }}>
               {arrowDown}
             </span>

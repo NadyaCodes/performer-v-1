@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function Logo({ color }: { color: string }) {
-  const classString = `my-4 text-lg font-extrabold text-${color}`;
+  const classString = `my-4 text-lg font-extrabold text-${color} 2xl:text-2xl`;
 
   return (
     <div className={classString}>
