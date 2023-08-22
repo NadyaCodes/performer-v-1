@@ -125,7 +125,7 @@ export default function DeleteCheck({
         }}
       >
         <div
-          className="flex max-h-full w-3/5 flex-col items-center rounded-lg border bg-cyan-50 p-6 text-cyan-950 transition-all"
+          className="flex max-h-full w-full flex-col items-center rounded-lg border bg-cyan-50 p-6 text-cyan-950 transition-all mobileMenu:w-3/5"
           style={{ animation: "pullDown .3s linear forwards" }}
         >
           <div className="text-center text-2xl font-bold">

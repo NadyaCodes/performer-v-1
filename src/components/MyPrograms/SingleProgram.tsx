@@ -95,7 +95,7 @@ const SingleProgram = ({
 
   return (
     <div
-      className="relative my-10 flex w-full flex-col rounded-lg bg-cyan-100 bg-opacity-20 shadow-md shadow-cyan-800"
+      className="relative my-12 flex w-full flex-col rounded-lg bg-cyan-100 bg-opacity-20 text-center shadow-md shadow-cyan-800"
       style={{ animation: "pullDownTop 1s linear" }}
       id={program.id}
     >
@@ -122,12 +122,12 @@ const SingleProgram = ({
           programId={program.id}
         />
       )}
-      <div className="h-0 translate-x-20 place-self-end">
+      <div className="hidden h-0 translate-x-20 place-self-end mobileMenu:block">
         {share && <ShareOptions program={program} setShare={setShare} />}
       </div>
 
       <div className="m-3 flex flex-col items-center p-2 text-cyan-950">
-        <div className="text-2xl font-bold capitalize">
+        <div className="m-2 text-2xl font-bold capitalize">
           {program.schoolObj?.name}
         </div>
         <div className="text-xl font-bold capitalize">
@@ -240,6 +240,9 @@ const SingleProgram = ({
           </div>
         </div>
       )}
+      <div className="h-0 place-self-end mobileMenu:hidden">
+        {share && <ShareOptions program={program} setShare={setShare} />}
+      </div>
     </div>
   );
 };

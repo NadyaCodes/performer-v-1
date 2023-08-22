@@ -132,8 +132,8 @@ const SingleCustom = ({
 
   return (
     <div
-      className="relative my-10 flex w-full flex-col rounded-lg bg-indigo-100 bg-opacity-20 opacity-0 shadow-md shadow-indigo-900"
-      style={{ animation: "fadeInGrow 1s linear 2s forwards" }}
+      className="relative my-12 flex w-full flex-col rounded-lg bg-indigo-100 bg-opacity-20 text-center shadow-md shadow-indigo-900"
+      style={{ animation: "pullDownTop 1s linear" }}
       id={program.id}
     >
       <div className="flex w-full justify-between rounded-t-lg bg-indigo-900 bg-opacity-100 text-indigo-50 shadow-sm shadow-indigo-900">
@@ -165,18 +165,18 @@ const SingleCustom = ({
 
       <div className="m-3 flex flex-col justify-between p-2">
         <div className="flex flex-col items-center">
-          <div className="flex place-self-end">
+          <div className="flex w-full justify-between">
             <button
               onClick={() => {
                 updateCustomProgram();
               }}
-              className="absolute right-16 -mt-1 flex rounded-full border border-transparent p-1 text-indigo-900 hover:scale-110 hover:border hover:border-indigo-400 hover:text-indigo-400"
+              className="-mt-1 flex rounded-full border border-transparent p-1 text-indigo-900 hover:scale-110 hover:border hover:border-indigo-400 hover:text-indigo-400"
             >
               {pencilBox}
             </button>
             <button
               onClick={() => setDeleteCheck(true)}
-              className="absolute right-4 -mt-1 flex rounded-full border border-transparent p-1 text-indigo-900 hover:scale-110 hover:border hover:border-pink-400 hover:text-pink-400"
+              className="-mt-1 flex rounded-full border border-transparent p-1 text-indigo-900 hover:scale-110 hover:border hover:border-pink-400 hover:text-pink-400"
             >
               {xMark}
             </button>
@@ -193,20 +193,20 @@ const SingleCustom = ({
           )}
 
           {locationArray && (
-            <div className="text-md font-normal capitalize">
+            <div className="text-md w-3/4 font-normal capitalize">
               {locationArray.length > 0 && (
                 <div>{locationArray.join(", ")}</div>
               )}
             </div>
           )}
           {program.website && (
-            <div className="italic">
+            <div className="my-1 break-all italic text-indigo-700 underline md:w-3/4">
               <Link href={program.website} target="blank">
                 {program.website}
               </Link>
             </div>
           )}
-          <div>
+          <div className=" mt-1 w-3/4">
             {typesArray.length > 0 && (
               <div>Program Types: {typesArray.join(", ")}</div>
             )}

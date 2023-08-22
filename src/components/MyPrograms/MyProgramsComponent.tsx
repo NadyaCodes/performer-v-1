@@ -292,15 +292,12 @@ export default function MyProgramsComponent() {
         </div>
       )}
 
-      {keyValueList.length > 3 &&
-        !showUpdateCustom &&
-        !loading &&
-        !loadingDelete && (
-          <>
-            <QuickLinks keyValueList={keyValueList} />
-            <MobileQuickLinks keyValueList={keyValueList} />
-          </>
-        )}
+      {keyValueList.length > 3 && !showUpdateCustom && !loading && (
+        <>
+          <QuickLinks keyValueList={keyValueList} />
+          <MobileQuickLinks keyValueList={keyValueList} />
+        </>
+      )}
 
       <div className="static flex min-h-screen -translate-y-3 flex-col items-center overflow-x-hidden">
         {!loading && (
