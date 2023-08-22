@@ -137,7 +137,7 @@ const SingleProgram = ({
           {program.cityObj?.city}, {program.cityObj?.province}
         </div>
 
-        <div className="italic text-cyan-600 underline">
+        <div className="break-all italic text-cyan-600 underline">
           <Link href={program.website} target="blank">
             {program.website}
           </Link>

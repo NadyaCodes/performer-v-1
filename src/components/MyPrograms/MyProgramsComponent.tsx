@@ -14,6 +14,7 @@ import { ObjectList } from "@component/data/types";
 import EmptyFavPrograms from "./EmptyFavPrograms";
 import EmptyCustomProgram from "./EmptyCustomProgram";
 import ScrollingDivide from "./ScrollingDivide";
+import MobileQuickLinks from "./MobileQuickLinks";
 
 export type ProgramWithType = {
   id: string;
@@ -274,97 +275,105 @@ export default function MyProgramsComponent() {
   );
 
   return (
-    <div className="static flex min-h-screen flex-col items-center pb-10">
-      <div
-        className="absolute left-0 right-0 h-10 bg-cyan-950"
-        style={{
-          boxShadow:
-            "inset 0px -1px 2px rgba(0,255,255,0.5), inset 0px -2px 4px rgba(0,255,255,0.5), inset 0px -4px 8px rgba(0,255,255,0.5)",
-        }}
-      ></div>
-      {loadingDelete && (
+    <div>
+      {keyValueList.length > 3 && !showUpdateCustom && (
+        <>
+          <QuickLinks keyValueList={keyValueList} />
+          <MobileQuickLinks keyValueList={keyValueList} />
+        </>
+      )}
+
+      <div className="static flex min-h-screen flex-col items-center overflow-x-hidden pb-10">
         <div
-          className="fixed inset-0 z-10 transition-all"
+          className="absolute left-0 right-0 hidden h-10 bg-cyan-950 mobileMenu:block"
           style={{
-            background: "rgba(0, 0, 0, 0.2)",
+            boxShadow:
+              "inset 0px -1px 2px rgba(0,255,255,0.5), inset 0px -2px 4px rgba(0,255,255,0.5), inset 0px -4px 8px rgba(0,255,255,0.5)",
           }}
         ></div>
-      )}
-      <div className="h-20"></div>
-      {showUpdateCustom && !loading && (
-        <div className="w-2/3">
-          <button
-            className="flex font-semibold text-indigo-900 hover:scale-110 hover:text-indigo-800"
-            onClick={() => setShowUpdateCustom(!showUpdateCustom)}
-          >
-            <span>{backChevron}</span>
-            <span>Back</span>
-          </button>
-        </div>
-      )}
+        {loadingDelete && (
+          <div
+            className="fixed inset-0 z-10 transition-all"
+            style={{
+              background: "rgba(0, 0, 0, 0.2)",
+            }}
+          ></div>
+        )}
+        <div className="h-60 mobileMenu:h-20"></div>
+        {showUpdateCustom && !loading && (
+          <div className="w-2/3">
+            <button
+              className="flex font-semibold text-indigo-900 hover:scale-110 hover:text-indigo-800"
+              onClick={() => setShowUpdateCustom(!showUpdateCustom)}
+            >
+              <span>{backChevron}</span>
+              <span>Back</span>
+            </button>
+          </div>
+        )}
 
-      {!showUpdateCustom && (
-        <H2Title text="Saved Programs" icon="star" id="favsHeader" />
-      )}
-      {keyValueList.length > 3 && !showUpdateCustom && (
-        <QuickLinks keyValueList={keyValueList} />
-      )}
+        {!showUpdateCustom && (
+          <H2Title text="Saved Programs" icon="star" id="favsHeader" />
+        )}
 
-      {loading && (
-        <div>
-          <LoadingLines />
-        </div>
-      )}
+        {loading && (
+          <div>
+            <LoadingLines />
+          </div>
+        )}
 
-      {!showUpdateCustom && !loading && (
-        <div className="-mt-16 flex w-full flex-col items-center justify-center">
-          {programDisplay && programDisplay.length > 0 ? (
-            <div className="w-7/12">{programDisplay}</div>
-          ) : (
-            <div className="mt-10 w-7/12">
-              <EmptyFavPrograms />
-            </div>
-          )}
-          <ScrollingDivide />
-          <H2Title
-            text="Custom Programs"
-            icon="sparkle"
-            style={delayStyle}
-            id="customHeader"
-            color="indigo"
-          />
-          {addCustomButton}
-          {customProgramDisplay.length > 0 ? (
-            <div className="w-7/12">{customProgramDisplay}</div>
-          ) : (
-            <div className="w-7/12 text-center italic">
-              <EmptyCustomProgram />
-            </div>
-          )}
-        </div>
-      )}
+        {!showUpdateCustom && !loading && (
+          <div className="-mt-16 flex w-full flex-col items-center justify-center">
+            {programDisplay && programDisplay.length > 0 ? (
+              <div className="w-7/12">{programDisplay}</div>
+            ) : (
+              <div className="mt-10 w-7/12">
+                <EmptyFavPrograms />
+              </div>
+            )}
+            <ScrollingDivide />
+            <H2Title
+              text="Custom Programs"
+              icon="sparkle"
+              style={delayStyle}
+              id="customHeader"
+              color="indigo"
+            />
+            {addCustomButton}
+            {customProgramDisplay.length > 0 ? (
+              <div className="w-7/12">{customProgramDisplay}</div>
+            ) : (
+              <div className="w-7/12 text-center italic">
+                <EmptyCustomProgram />
+              </div>
+            )}
+          </div>
+        )}
 
-      {showUpdateCustom && !loading && (
-        <div className="w-8/12 place-self-center">
-          <CustomProgramForm
-            setShowUpdateCustom={setShowUpdateCustom}
-            findCustomPrograms={findCustomPrograms}
-            setDisplayCustom={setDisplayCustom}
-            currentProgram={showUpdateCustom === true ? null : showUpdateCustom}
-          />
-        </div>
-      )}
-      {showUpdateCustom && !loading && (
-        <div className="flex w-2/3 justify-end">
-          <button
-            className="flex font-semibold text-indigo-900 hover:scale-110 hover:text-indigo-800"
-            onClick={() => setShowUpdateCustom(!showUpdateCustom)}
-          >
-            <span>{backChevron}</span>
-            <span>Back</span>
-          </button>
-        </div>
-      )}
+        {showUpdateCustom && !loading && (
+          <div className="w-8/12 place-self-center">
+            <CustomProgramForm
+              setShowUpdateCustom={setShowUpdateCustom}
+              findCustomPrograms={findCustomPrograms}
+              setDisplayCustom={setDisplayCustom}
+              currentProgram={
+                showUpdateCustom === true ? null : showUpdateCustom
+              }
+            />
+          </div>
+        )}
+        {showUpdateCustom && !loading && (
+          <div className="flex w-2/3 justify-end">
+            <button
+              className="flex font-semibold text-indigo-900 hover:scale-110 hover:text-indigo-800"
+              onClick={() => setShowUpdateCustom(!showUpdateCustom)}
+            >
+              <span>{backChevron}</span>
+              <span>Back</span>
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -238,7 +238,7 @@ const CourseFinderComponent: NextPage = () => {
           </div>
           {!loadingPageData && programDisplay && programDisplay.length >= 1 && (
             <div className="flex w-11/12 justify-center place-self-center overflow-x-hidden lg:pr-20 xl:pr-28 ">
-              <div className="-mt-10 place-self-center lg:mt-0">
+              <div className="-mt-10 w-full place-self-center lg:mt-0">
                 {programDisplay}
               </div>
             </div>

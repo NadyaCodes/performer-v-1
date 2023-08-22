@@ -4,7 +4,7 @@ import ScrollArrow from "../ProgramFinder/ScrollArrow";
 import MiniScrollArrow from "../ProgramFinder/MiniScrollArrow";
 import SelectorScrollArrow from "../ProgramSelector/SelectorScrollArrow";
 
-const QuickLinks = ({ keyValueList }: { keyValueList: ObjectList[] }) => {
+const MobileQuickLinks = ({ keyValueList }: { keyValueList: ObjectList[] }) => {
   const [currentProgram, setCurrentProgram] = useState<string | null>(null);
   const [hover, setHover] = useState<string | null>(null);
   const [showLinks, setShowLinks] = useState(false);
@@ -74,26 +74,37 @@ const QuickLinks = ({ keyValueList }: { keyValueList: ObjectList[] }) => {
 
   return (
     <div
-      className={`sticky left-6 top-40 z-10 -mt-72 hidden max-w-7xl flex-col justify-start p-3 transition-all mobileMenu:flex`}
+      className={`sticky left-6 z-10 -mt-60 flex w-full translate-y-2 justify-between p-3 transition-all md:px-16 mobileMenu:hidden`}
+      style={{ top: `${stickyTop}px`, transition: "top 0.5s ease-in-out" }}
     >
       <div
-        className="flex w-3/12 flex-col place-self-start rounded-lg bg-indigo-100 opacity-0 shadow-lg shadow-indigo-900  "
+        className="flex w-9/12 flex-col place-self-start rounded-lg bg-indigo-100 opacity-0 shadow-lg shadow-indigo-900"
         style={{ animation: "flyInFadeInLeft 1s linear 1s forwards" }}
       >
-        <div className="hidden mobileMenu:block">
-          <div className="w-full rounded-t-md bg-indigo-900 p-2 text-center text-lg font-bold text-indigo-50">
+        <div className="h-0">
+          <div
+            className={` max-w-md ${
+              showLinks ? "rounded-t-md" : "rounded-md"
+            }  bg-indigo-900 p-2 text-center text-lg font-bold text-indigo-50`}
+            onClick={() => setShowLinks(!showLinks)}
+          >
             Quick Links
           </div>
-          <div className="flex h-52 min-h-full w-full flex-col overflow-y-scroll rounded">
+          <div
+            className={`flex h-52 min-h-full w-full max-w-md flex-col overflow-y-scroll rounded bg-indigo-100 shadow-lg shadow-indigo-900 ${
+              showLinks ? "" : "hidden"
+            }`}
+            style={{ animation: "pullDownTop 0.3s linear" }}
+          >
             <div className="">{buttonDisplay}</div>
           </div>
         </div>
       </div>
-      <div className="h-0 w-3/12 translate-y-7 ">
-        <ScrollArrow />
+      <div className="-translate-y-2 scale-75">
+        <SelectorScrollArrow />
       </div>
     </div>
   );
 };
 
-export default QuickLinks;
+export default MobileQuickLinks;

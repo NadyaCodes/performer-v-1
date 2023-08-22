@@ -26,7 +26,8 @@ export default function MobileMenu() {
       currentURL.includes("contact") ||
       currentURL.includes("course-finder") ||
       currentURL.includes("course-selector") ||
-      currentURL.includes("select-next")
+      currentURL.includes("select-next") ||
+      currentURL.includes("my-programs")
     ) {
       setBanner(true);
     }
