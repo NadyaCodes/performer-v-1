@@ -5,10 +5,14 @@ export default {
   theme: {
     extend: {
         spacing: {
+          '86': '22rem',
           '128': '32rem',
+          '136': '34rem',
+          '160': '40rem'
         }
     },
     screens: {
+      xxs: "350px",
       xs: "550px",
       sm: "640px",
       md: "768px",

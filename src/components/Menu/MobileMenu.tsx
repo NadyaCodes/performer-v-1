@@ -12,7 +12,7 @@ export default function MobileMenu() {
   useEffect(() => {
     const currentURL = window.location.href;
     let isDarkURL = true;
-    const lightPages = ["course-selector", "about"];
+    const lightPages = ["course-selector", "about", "select-next"];
     const darkCyanPages = ["course-finder"];
     const slatePages = ["contact"];
 
@@ -24,7 +24,9 @@ export default function MobileMenu() {
     if (
       currentURL.includes("about") ||
       currentURL.includes("contact") ||
-      currentURL.includes("course-finder")
+      currentURL.includes("course-finder") ||
+      currentURL.includes("course-selector") ||
+      currentURL.includes("select-next")
     ) {
       setBanner(true);
     }

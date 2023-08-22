@@ -23,23 +23,34 @@ export default function CourseSelector() {
         <div className="min-h-screen bg-cyan-50 bg-opacity-80 text-cyan-900">
           <Menu />
           <div
-            className="absolute left-0 right-0 h-10"
+            className="absolute left-0 right-0 hidden h-10 mobileMenu:block"
             style={{
               boxShadow:
                 "inset 0px -1px 2px rgba(0,255,255,0.5), inset 0px -2px 4px rgba(0,255,255,0.5), inset 0px -4px 8px rgba(0,255,255,0.5)",
             }}
           ></div>
-          <div className="mb-10 h-10 bg-cyan-950"></div>
-          <div className="flex flex-col items-center">
-            <h1 className="mx-10 mt-10 w-9/12 text-center text-6xl font-extrabold tracking-tight ">
-              What kind of program are you looking for?
+          <div className="mb-10 hidden h-10 bg-cyan-950 mobileMenu:block"></div>
+          <div className="flex w-full flex-col items-center overflow-x-hidden">
+            <h1
+              className="mx-10 mt-3 w-9/12 text-center text-5xl font-extrabold tracking-tight md:mt-10 md:text-6xl"
+              style={{ animation: "pullDownTop 1s ease-in-out" }}
+            >
+              What Kind of Program are you Looking For?
             </h1>
-            <div className="m-8 h-2 w-10/12 rounded bg-indigo-900 bg-opacity-90"></div>
-            <div className="mb-15 m-10 w-fit place-self-center rounded-lg bg-gradient-to-b from-cyan-600 to-cyan-900 p-5 text-cyan-50 shadow-xl shadow-cyan-700">
+            <div
+              className="m-8 h-2 w-10/12 rounded bg-indigo-900 bg-opacity-90 opacity-0"
+              style={{ animation: "flyInFadeIn .3s ease-in-out 1s forwards" }}
+            ></div>
+            <div
+              className="m-10 w-11/12 max-w-3xl place-self-center rounded-lg bg-gradient-to-b from-cyan-600 to-cyan-900 p-5 text-cyan-50 opacity-0 shadow-xl shadow-cyan-700 md:mb-16"
+              style={{
+                animation: "fadeInGrow .8s ease-in-out 1.3s forwards",
+              }}
+            >
               <Picker buttonOptions={styles} currentLink="" last={false} />
             </div>
-            <div className="-mt-10">
-              <Face />
+            <div className="-mt-16 hidden md:block">
+              <Face eyesClass="eyesUp" />
             </div>
           </div>
         </div>

@@ -16,7 +16,7 @@ import { FavProgram } from "@prisma/client";
 import { convertUserFavs } from "../ProgramFinder/helpers";
 import TitleHeader from "./TitleHeader";
 import SubHeader from "./SubHeader";
-import { number } from "zod";
+import SelectorScrollArrow from "./SelectorScrollArrow";
 
 interface ProgramDisplayProps {
   dataObject: {
@@ -229,34 +229,42 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
   };
 
   return (
-    <div className="flex flex-col items-center">
-      <TitleHeader titleString={titleString} />
-      <div className="mb-5 bg-cyan-950"></div>
-      {itemArray && itemArray.length > 0 && (
-        <SubHeader text={createSubheadingText(itemArray.length)} />
-      )}
-      <Link
-        href={`/${style}/${discipline}/${province}/select-next`}
-        className="mt-3 w-screen p-2 opacity-0"
-        style={{ animation: "fadeIn 1s linear 2.5s forwards" }}
-      >
-        <button className="flex w-fit px-10 font-semibold text-cyan-800 hover:scale-110">
-          <span>{backChevron}</span>
-          <span>Change City</span>
-        </button>
-      </Link>
-      {itemArray ? (
-        <div
-          className="w-8/12 opacity-0"
-          style={{ animation: "fadeIn 1s linear 2s forwards" }}
+    <div>
+      <div className="sticky top-10 z-10 h-0 place-self-start">
+        <SelectorScrollArrow />
+      </div>
+
+      <div className="flex w-full flex-col items-center overflow-x-hidden">
+        <TitleHeader titleString={titleString} />
+        <div className="mt-86 xxs:mt-72 xs:mt-52 sm:mt-40 mobileMenu:hidden"></div>
+
+        {itemArray && itemArray.length > 0 && (
+          <SubHeader text={createSubheadingText(itemArray.length)} />
+        )}
+
+        <Link
+          href={`/${style}/${discipline}/${province}/select-next`}
+          className="mt-3 w-screen p-2 opacity-0"
+          style={{ animation: "fadeIn 1s linear 2.5s forwards" }}
         >
-          {displayArray}
-        </div>
-      ) : (
-        <div className="m-20">
-          <LoadingLines />
-        </div>
-      )}
+          <button className="flex w-fit px-10 font-semibold text-cyan-800 hover:scale-110">
+            <span>{backChevron}</span>
+            <span>Change City</span>
+          </button>
+        </Link>
+        {itemArray ? (
+          <div
+            className="-mt-8 h-fit w-11/12 opacity-0 mobileMenu:mt-0"
+            style={{ animation: "fadeIn 1s linear 2s forwards" }}
+          >
+            {displayArray}
+          </div>
+        ) : (
+          <div className="m-20">
+            <LoadingLines />
+          </div>
+        )}
+      </div>
     </div>
   );
 };

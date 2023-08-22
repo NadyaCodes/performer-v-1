@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-export default function Face() {
+export default function Face({ eyesClass }: { eyesClass: string }) {
   useEffect(() => {
     const eyeball = (event: MouseEvent) => {
       const eyeArray = document.querySelectorAll(".eye");
@@ -25,8 +25,8 @@ export default function Face() {
     <div className="flex scale-50 content-center justify-center">
       <div className="face bg-indigo-300">
         <div className="eyes">
-          <div className="eye bg-cyan-50"></div>
-          <div className="eye bg-cyan-50"></div>
+          <div className={`eye bg-cyan-50 ${eyesClass}`}></div>
+          <div className={`eye bg-cyan-50 ${eyesClass}`}></div>
         </div>
       </div>
     </div>
