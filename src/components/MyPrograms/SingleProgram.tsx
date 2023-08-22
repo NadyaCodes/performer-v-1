@@ -138,7 +138,7 @@ const SingleProgram = ({
           {program.cityObj?.city}, {program.cityObj?.province}
         </div>
 
-        <div className="break-all italic text-cyan-600 underline">
+        <div className="m-1 break-all italic text-cyan-600 underline">
           <Link href={program.website} target="blank">
             {program.website}
           </Link>
@@ -240,12 +240,14 @@ const SingleProgram = ({
           </div>
         </div>
       )}
-      <div
-        className="mb-5 mr-5 scale-110 place-self-end text-cyan-700 hover:scale-150"
-        onClick={() => setShare(!share)}
-      >
-        {shareIcon}
-      </div>
+      {!noteInput && (
+        <div
+          className="mb-5 mr-5 scale-110 place-self-end text-cyan-700 hover:scale-150"
+          onClick={() => setShare(!share)}
+        >
+          {shareIcon}
+        </div>
+      )}
       <div className="h-0 place-self-end mobileMenu:hidden">
         {share && <ShareOptions program={program} setShare={setShare} />}
       </div>

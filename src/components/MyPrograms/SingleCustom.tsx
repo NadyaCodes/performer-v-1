@@ -185,12 +185,12 @@ const SingleCustom = ({
             </button>
           </div>
           {program.school && (
-            <div className="w-3/4 break-all text-center text-2xl font-bold capitalize">
+            <div className="w-3/4 text-center text-2xl font-bold capitalize">
               {program.school}
             </div>
           )}
           {program.name && (
-            <div className="w-3/4 break-all  text-center text-xl font-bold capitalize">
+            <div className="w-3/4 text-center text-xl font-bold capitalize">
               {program.name && <div>{program.name}</div>}
             </div>
           )}
@@ -224,7 +224,7 @@ const SingleCustom = ({
             </div>
           )}
           {notesDisplay && notesDisplay.length === 0 && (
-            <div className="w-full text-center italic">No Notes</div>
+            <div className="mb-2 w-full text-center italic">No Notes</div>
           )}
           {!notesDisplay && (
             <div className="flex flex-col items-center">
@@ -262,7 +262,7 @@ const SingleCustom = ({
                 animation: "pullDown 0.2s ease-out",
                 transformOrigin: "50% 0%",
               }}
-              className="flex w-11/12 place-items-center place-self-center mobileMenu:m-3 mobileMenu:w-7/12"
+              className="flex w-full place-items-center place-self-center mobileMenu:m-3 mobileMenu:w-7/12"
             >
               <input
                 type="text"
