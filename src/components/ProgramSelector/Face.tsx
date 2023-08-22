@@ -22,7 +22,7 @@ export default function Face() {
   }, []);
 
   return (
-    <div className="flex scale-50 content-center justify-center">
+    <div className=" flex scale-50 content-center justify-center">
       <div className="face bg-indigo-300">
         <div className="eyes">
           <div className="eye bg-cyan-50"></div>
