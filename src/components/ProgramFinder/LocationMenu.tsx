@@ -11,7 +11,7 @@ import Menu from "./Menu";
 export default function LocationMenu({
   setMenu,
 }: {
-  setMenu: Dispatch<SetStateAction<boolean>>;
+  setMenu: Dispatch<SetStateAction<false | string>>;
 }) {
   const filterContext = useContext(FilterContext);
   const filteredPrograms = filterContext?.filteredPrograms;
@@ -119,7 +119,7 @@ export default function LocationMenu({
 
       {provinces.length <= 1 && (
         <Menu
-          valueArray={cities.length >= 1 ? cities : ["No Available Locations"]}
+          valueArray={cities.length >= 1 ? cities : ["No Available Programs"]}
           menuType="location"
           locationType="city"
           setMenu={setMenu}

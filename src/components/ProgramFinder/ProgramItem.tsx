@@ -8,7 +8,6 @@ import { Dispatch } from "react";
 import { displayDisciplineText } from "./helpers";
 import Link from "next/link";
 import LoadingSpinner from "../Loading/LoadingSpinner";
-import { shareIcon } from "@component/data/svgs";
 import ShareOptions from "./ShareOptions";
 
 import { convertUserFavs } from "./helpers";
@@ -207,12 +206,12 @@ export default function ProgramItem({
   }, [favProgramIdsArray, favesObject]);
 
   return (
-    <div className="m-10 flex flex-col rounded-md border border-cyan-600 shadow-md shadow-slate-500 transition-all  hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-800">
-      <div className="h-0 translate-x-20 place-self-end">
+    <div className="my-16 flex flex-col rounded-md border border-cyan-600 shadow-md shadow-slate-500 transition-all hover:border-cyan-400  hover:shadow-lg hover:shadow-cyan-800 lg:m-10 3xl:p-5">
+      <div className="hidden h-0 translate-x-20 place-self-end lg:block">
         {share && <ShareOptions program={element} setShare={setShare} />}
       </div>
       {sessionData?.user && !loadingFavs && (
-        <div className="absolute mx-5 my-4 place-self-end hover:scale-150 hover:cursor-pointer">
+        <div className="absolute mx-2 my-4 place-self-end hover:scale-150 hover:cursor-pointer md:mx-5">
           <div
             style={{
               animation: starAnimation,
@@ -243,7 +242,7 @@ export default function ProgramItem({
         </div>
       )}
 
-      <div className="m-9 flex flex-col items-center text-center">
+      <div className="my-9 flex flex-col items-center p-2 text-center xs:m-6 md:m-9">
         <div className="text-xl font-bold capitalize">
           {element.schoolObj?.name}
         </div>
@@ -254,7 +253,7 @@ export default function ProgramItem({
           {element.cityObj?.city}, {element.cityObj?.province}
         </div>
 
-        <div className="italic text-cyan-700 underline">
+        <div className="break-all italic text-cyan-700 underline">
           <Link href={element.website} target="blank">
             {element.website}
           </Link>
@@ -265,6 +264,9 @@ export default function ProgramItem({
         </div>
       </div>
       <ShareIcon share={share} setShare={setShare} />
+      <div className="h-0 translate-y-2 place-self-end lg:hidden">
+        {share && <ShareOptions program={element} setShare={setShare} />}
+      </div>
     </div>
   );
 }
