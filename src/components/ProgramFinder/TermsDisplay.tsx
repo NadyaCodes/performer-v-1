@@ -24,7 +24,6 @@ export default function TermsDisplay({
   };
 
   useEffect(() => {
-    console.log("useEffect running");
     setTimeout(() => {
       const spanElement1 = document.getElementById(`num${idTag}`);
       const spanElement2 = document.getElementById(`num2${idTag}`);
@@ -34,7 +33,6 @@ export default function TermsDisplay({
         spanElement1.style.color = "#ec407a";
 
         const animationTimeout = setTimeout(() => {
-          console.log("setTimeout running");
           spanElement1.style.animation = "";
           spanElement1.style.color = "black";
         }, 1000);
@@ -45,7 +43,6 @@ export default function TermsDisplay({
       }
 
       if (spanElement2) {
-        console.log("running animation 2");
         spanElement2.style.animation = "wiggle .3s linear infinite";
         spanElement2.style.color = "#ec407a";
 
@@ -62,10 +59,10 @@ export default function TermsDisplay({
   }, [filterContext?.activeSearchTerm, filterContext?.selectedOptions]);
 
   return (
-    <div className="sticky top-20 flex flex-col rounded border border-indigo-300 shadow-md shadow-indigo-300 md:px-5 md:py-2">
-      <div className="w-full place-self-center bg-indigo-200 p-2 text-center text-black shadow-md shadow-indigo-900 md:rounded-md">
+    <div className="sticky top-20 flex w-full flex-col rounded border border-indigo-300 shadow-md shadow-indigo-300">
+      <div className="w-full place-self-center  bg-indigo-200 p-2 text-center text-black shadow-md shadow-indigo-800">
         {num > 1 && (
-          <div className="h2 flex flex-col items-center justify-center md:flex-row">
+          <div className="h2 flex flex-col items-center justify-center 2xl:flex-row">
             <div className="flex items-center">
               <div>There are</div>
               <div className="px-2 text-xl" id={`num${idTag}`}>
@@ -76,7 +73,7 @@ export default function TermsDisplay({
           </div>
         )}
         {num === 1 && (
-          <div className="h2 flex flex-col items-center justify-center md:flex-row">
+          <div className="h2 flex flex-col items-center justify-center 2xl:flex-row">
             <div className="flex items-center">
               <div>There is</div>
               <div className="px-2 text-xl" id={`num2${idTag}`}>
@@ -90,7 +87,7 @@ export default function TermsDisplay({
         {num === 0 && <div className="h2 flex justify-center">{faceFrown}</div>}
       </div>
 
-      <div className="ml-3 mt-2 flex flex-col capitalize md:ml-6 md:mt-0">
+      <div className="ml-3 mt-2 flex flex-col capitalize md:ml-6">
         <div className="flex items-center justify-between">
           <span className="flex h-9 w-28 items-center">Type</span>
           {filterContext?.selectedOptions.type && (

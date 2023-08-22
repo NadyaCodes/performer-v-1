@@ -2,7 +2,7 @@ import React from "react";
 
 export default function NoPrograms() {
   return (
-    <div className="m-1 flex flex-col place-self-center pt-4 text-center text-lg font-bold text-cyan-900 md:w-7/12 md:pt-16 md:text-2xl">
+    <div className="m-1 flex w-11/12 flex-col place-self-center pt-4 text-center text-lg font-bold text-cyan-900 md:w-10/12 md:text-2xl lg:-ml-40 lg:w-full lg:pr-16 lg:pt-16">
       <div
         className="m-2 flex scale-90 place-self-center text-cyan-400 opacity-0 md:mt-10"
         style={{ animation: "fadeIn .8s forwards" }}

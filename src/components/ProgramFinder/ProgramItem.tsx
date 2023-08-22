@@ -206,8 +206,8 @@ export default function ProgramItem({
   }, [favProgramIdsArray, favesObject]);
 
   return (
-    <div className="mb-16 flex flex-col rounded-md border border-cyan-600 shadow-md shadow-slate-500 transition-all hover:border-cyan-400  hover:shadow-lg hover:shadow-cyan-800 md:m-10">
-      <div className="hidden h-0 translate-x-20 place-self-end md:block">
+    <div className="my-16 flex flex-col rounded-md border border-cyan-600 shadow-md shadow-slate-500 transition-all hover:border-cyan-400  hover:shadow-lg hover:shadow-cyan-800 lg:m-10 3xl:p-5">
+      <div className="hidden h-0 translate-x-20 place-self-end lg:block">
         {share && <ShareOptions program={element} setShare={setShare} />}
       </div>
       {sessionData?.user && !loadingFavs && (
@@ -242,7 +242,7 @@ export default function ProgramItem({
         </div>
       )}
 
-      <div className="m-6 my-9 flex flex-col items-center text-center md:m-9">
+      <div className="my-9 flex flex-col items-center p-2 text-center xs:m-6 md:m-9">
         <div className="text-xl font-bold capitalize">
           {element.schoolObj?.name}
         </div>
@@ -264,7 +264,7 @@ export default function ProgramItem({
         </div>
       </div>
       <ShareIcon share={share} setShare={setShare} />
-      <div className="h-0 translate-y-2 place-self-end md:hidden">
+      <div className="h-0 translate-y-2 place-self-end lg:hidden">
         {share && <ShareOptions program={element} setShare={setShare} />}
       </div>
     </div>

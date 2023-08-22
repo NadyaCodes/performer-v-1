@@ -32,7 +32,7 @@ export default function Search({ menu }: { menu: string | false }) {
             }
           />
           <button
-            className="mx-5 my-2 flex h-10 items-center justify-center rounded text-center outline outline-cyan-700 hover:scale-105 hover:text-indigo-200 hover:outline-indigo-200 lg:my-0 lg:px-3"
+            className="mx-5 my-2 flex h-10 items-center justify-center rounded p-3 text-center outline outline-cyan-700 hover:scale-105 hover:text-indigo-200 hover:outline-indigo-200 lg:my-0 lg:px-3"
             style={{ boxShadow: "none" }}
             onClick={() => setSearchResults(filterContext?.searchTerm || "")}
           >

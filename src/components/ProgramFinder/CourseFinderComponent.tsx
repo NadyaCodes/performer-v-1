@@ -16,6 +16,7 @@ import ScrollArrow from "./ScrollArrow";
 import NoPrograms from "./NoPrograms";
 import { FavProgram } from "@prisma/client";
 import { convertUserFavs } from "./helpers";
+import MiniScrollArrow from "./MiniScrollArrow";
 
 export const FilterContext = createContext<FilterContextState | null>(null);
 
@@ -208,12 +209,12 @@ const CourseFinderComponent: NextPage = () => {
           </div>
         )}
         <div
-          className="mt-5 flex flex-col opacity-0 md:flex-row"
+          className="mt-5 flex grid-cols-[1fr,2fr] flex-col gap-5 opacity-0 lg:ml-5 lg:grid xl:ml-16 xl:mt-16"
           style={{ animation: "fadeIn 1s linear 2s forwards" }}
         >
           {!loadingPageData && (
             <>
-              <div className="hidden w-4/12 flex-col md:flex">
+              <div className="hidden w-96 flex-col lg:flex 2xl:w-128">
                 <TermsDisplay
                   num={(programDisplay && programDisplay.length) || 0}
                   defaultFilterContext={defaultFilterContext}
@@ -221,26 +222,28 @@ const CourseFinderComponent: NextPage = () => {
                 />
                 <ScrollArrow />
               </div>
-              <div className="flex w-11/12 flex-col place-self-center md:hidden">
+              <div className="flex w-11/12 flex-col place-self-center md:w-7/12 lg:hidden">
                 <TermsDisplay
                   num={(programDisplay && programDisplay.length) || 0}
                   defaultFilterContext={defaultFilterContext}
                   idTag="_2"
                 />
-                {/* <div></div> */}
-                {/* <ScrollArrow /> */}
               </div>
             </>
           )}
-
+          <div className="sticky top-6 h-0 lg:hidden">
+            <div className="relative">
+              <MiniScrollArrow />
+            </div>
+          </div>
           {!loadingPageData && programDisplay && programDisplay.length >= 1 && (
-            <div className="flex justify-center">
-              {/* <div className="md:hidden"><ScrollArrow /> </div> */}
-              <div className="mt-7 w-11/12 place-self-center overflow-x-hidden lg:w-9/12">
+            <div className="flex w-11/12 justify-center place-self-center overflow-x-hidden lg:pr-20 xl:pr-28 ">
+              <div className="-mt-10 place-self-center lg:mt-0">
                 {programDisplay}
               </div>
             </div>
           )}
+
           {!loadingPageData && programDisplay && programDisplay.length < 1 && (
             <NoPrograms />
           )}
@@ -251,3 +254,5 @@ const CourseFinderComponent: NextPage = () => {
 };
 
 export default CourseFinderComponent;
+
+// md:w-10/12 lg:w-11/12 xl:w-10/12 2xl:w-9/12

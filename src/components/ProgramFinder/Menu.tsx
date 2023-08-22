@@ -75,7 +75,7 @@ export default function Menu({
 
   return (
     <div
-      className="absolute z-40 w-64 items-center bg-cyan-100 text-cyan-950 shadow-lg transition-all  md:w-52 lg:w-64 xl:w-96"
+      className="absolute z-40 max-h-96 w-64 items-center overflow-y-scroll bg-cyan-100 text-cyan-950 shadow-lg transition-all  md:w-52 lg:w-64 xl:w-96"
       style={{ animation: "pullDownTop .3s linear" }}
     >
       {buttonList}

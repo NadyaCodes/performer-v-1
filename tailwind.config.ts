@@ -3,7 +3,11 @@ import { type Config } from "tailwindcss";
 export default {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+        spacing: {
+          '128': '32rem',
+        }
+    },
     screens: {
       xs: "550px",
       sm: "640px",

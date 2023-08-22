@@ -21,7 +21,7 @@ export default function ShareOptions({
 }) {
   const programUrl = `https://www.localhost:3000/single-program/${program.id}`;
   return (
-    <div className="flex flex-row items-center md:-translate-y-1 md:flex-col">
+    <div className="flex flex-row items-center md:-translate-y-1 lg:-translate-x-8 lg:flex-col 2xl:-translate-x-3">
       <div
         className="w-fit text-cyan-700 opacity-0 transition-all hover:scale-105"
         style={{ animation: "flyInRight 0.7s linear forwards" }}
