@@ -45,7 +45,15 @@
   display: block;
   margin: 0 15px;
   border-radius: 50%;
+
+}
+
+.eyesUp {
   transform: rotate(90deg)
+}
+
+.eyesDown {
+  transform: rotate(-80deg)
 }
 
 .eyes .eye::before {

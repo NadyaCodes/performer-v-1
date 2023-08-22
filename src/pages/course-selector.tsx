@@ -50,7 +50,7 @@ export default function CourseSelector() {
               <Picker buttonOptions={styles} currentLink="" last={false} />
             </div>
             <div className="-mt-16 hidden md:block">
-              <Face />
+              <Face eyesClass="eyesUp" />
             </div>
           </div>
         </div>
