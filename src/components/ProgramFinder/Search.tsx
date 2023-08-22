@@ -22,7 +22,7 @@ export default function Search({ menu }: { menu: string | false }) {
       {!filterContext?.activeSearchTerm ? (
         <div className="flex flex-col md:flex-row">
           <input
-            className="focus:shadow-outline w-72 max-w-6xl appearance-none rounded border bg-indigo-50 px-3 py-2 leading-tight text-gray-700 shadow-md focus:outline-none md:w-96"
+            className="focus:shadow-outline w-72 max-w-6xl appearance-none rounded border bg-cyan-50 px-3 py-2 leading-tight text-gray-700 shadow-md focus:outline-none md:w-96"
             id="username"
             type="text"
             placeholder="Search"
