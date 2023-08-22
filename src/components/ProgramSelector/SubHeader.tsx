@@ -12,7 +12,7 @@ export default function SubHeader({ text }: { text: string }) {
       >
         <div style={{ animation: "translateUpToDown 1s linear 0.3s forwards" }}>
           <div
-            className="flex p-5 text-4xl font-bold"
+            className="flex p-5 text-center text-4xl font-bold"
             style={{ animation: "rotateSwell 1s linear 0.3s forwards" }}
           >
             <div>{text}</div>
