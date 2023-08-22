@@ -74,7 +74,7 @@ const QuickLinks = ({ keyValueList }: { keyValueList: ObjectList[] }) => {
 
   return (
     <div
-      className={`sticky left-6 top-40 z-10 -mt-72 hidden max-w-7xl flex-col justify-start p-3 transition-all mobileMenu:flex`}
+      className={`sticky top-52 z-10 -mt-60 hidden max-w-7xl flex-col justify-start pl-8 transition-all mobileMenu:flex`}
     >
       <div
         className="flex w-3/12 flex-col place-self-start rounded-lg bg-indigo-100 opacity-0 shadow-lg shadow-indigo-900  "

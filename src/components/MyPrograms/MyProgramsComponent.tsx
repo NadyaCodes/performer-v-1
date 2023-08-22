@@ -275,22 +275,140 @@ export default function MyProgramsComponent() {
   );
 
   return (
-    <div>
-      {keyValueList.length > 3 && !showUpdateCustom && (
+    <div className="">
+      {loading && (
+        <div className="flex justify-center">
+          <div
+            className="absolute left-0 right-0 hidden h-10 bg-cyan-950 mobileMenu:block"
+            style={{
+              boxShadow:
+                "inset 0px -1px 2px rgba(0,255,255,0.5), inset 0px -2px 4px rgba(0,255,255,0.5), inset 0px -4px 8px rgba(0,255,255,0.5)",
+            }}
+          ></div>
+          <div className="w-fullxs:w-11/12 flex translate-y-2 justify-center mobileMenu:w-7/12">
+            <div
+              className="mt-10 flex w-full justify-between place-self-center text-lg font-semibold text-cyan-800 opacity-0 xs:w-11/12 xs:text-xl sm:text-3xl md:mt-20 mobileMenu:w-7/12"
+              style={{ animation: "fadeIn .8s forwards" }}
+            >
+              <div
+                className="px-1"
+                style={{ animation: "upDown 1.5s linear infinite" }}
+              >
+                L
+              </div>
+              <div
+                className="px-1"
+                style={{ animation: "upDown 1.5s linear .2s infinite" }}
+              >
+                o
+              </div>
+              <div
+                className="px-1"
+                style={{ animation: "upDown 1.5s linear .4s infinite" }}
+              >
+                a
+              </div>
+              <div
+                className="px-1"
+                style={{ animation: "upDown 1.5s linear .6s infinite" }}
+              >
+                d
+              </div>
+              <div
+                className="px-1"
+                style={{ animation: "upDown 1.5s linear .8s infinite" }}
+              >
+                i
+              </div>
+              <div
+                className="px-1"
+                style={{ animation: "upDown 1.5s linear 1s infinite" }}
+              >
+                n
+              </div>
+              <div
+                className="px-1"
+                style={{ animation: "upDown 1.5s linear 1.2s infinite" }}
+              >
+                g
+              </div>
+              <div
+                className="px-1"
+                style={{ animation: "upDown 1.5s linear 1.4s infinite" }}
+              ></div>{" "}
+              <div
+                className="px-1"
+                style={{ animation: "upDown 1.5s linear 1.6s infinite" }}
+              >
+                P
+              </div>{" "}
+              <div
+                className="px-1"
+                style={{ animation: "upDown 1.5s linear 1.8s infinite" }}
+              >
+                r
+              </div>
+              <div
+                className="px-1"
+                style={{ animation: "upDown 1.5s linear 2s infinite" }}
+              >
+                o
+              </div>
+              <div
+                className="px-1"
+                style={{ animation: "upDown 1.5s linear 2.2s infinite" }}
+              >
+                g
+              </div>
+              <div
+                className="px-1"
+                style={{ animation: "upDown 1.5s linear 2.4s infinite" }}
+              >
+                r
+              </div>
+              <div
+                className="px-1"
+                style={{ animation: "upDown 1.5s linear 2.6s infinite" }}
+              >
+                a
+              </div>
+              <div
+                className="px-1"
+                style={{ animation: "upDown 1.5s linear 2.8s infinite" }}
+              >
+                m
+              </div>
+              <div
+                className="px-1"
+                style={{ animation: "upDown 1.5s linear 3s infinite" }}
+              >
+                s
+              </div>
+            </div>
+            <div className="pt-60">
+              <LoadingLines />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {keyValueList.length > 3 && !showUpdateCustom && !loading && (
         <>
           <QuickLinks keyValueList={keyValueList} />
           <MobileQuickLinks keyValueList={keyValueList} />
         </>
       )}
 
-      <div className="static flex min-h-screen flex-col items-center overflow-x-hidden pb-10">
-        <div
-          className="absolute left-0 right-0 hidden h-10 bg-cyan-950 mobileMenu:block"
-          style={{
-            boxShadow:
-              "inset 0px -1px 2px rgba(0,255,255,0.5), inset 0px -2px 4px rgba(0,255,255,0.5), inset 0px -4px 8px rgba(0,255,255,0.5)",
-          }}
-        ></div>
+      <div className="static flex min-h-screen -translate-y-3 flex-col items-center overflow-x-hidden">
+        {!loading && (
+          <div
+            className="absolute left-0 right-0 hidden h-10 bg-cyan-950 mobileMenu:block"
+            style={{
+              boxShadow:
+                "inset 0px -1px 2px rgba(0,255,255,0.5), inset 0px -2px 4px rgba(0,255,255,0.5), inset 0px -4px 8px rgba(0,255,255,0.5)",
+            }}
+          ></div>
+        )}
         {loadingDelete && (
           <div
             className="fixed inset-0 z-10 transition-all"
@@ -300,7 +418,8 @@ export default function MyProgramsComponent() {
           ></div>
         )}
         <div className="h-60 mobileMenu:h-20"></div>
-        {showUpdateCustom && !loading && (
+
+        {showUpdateCustom && (
           <div className="w-2/3">
             <button
               className="flex font-semibold text-indigo-900 hover:scale-110 hover:text-indigo-800"
@@ -312,43 +431,37 @@ export default function MyProgramsComponent() {
           </div>
         )}
 
-        {!showUpdateCustom && (
-          <H2Title text="Saved Programs" icon="star" id="favsHeader" />
-        )}
+        <div className="flex w-full flex-col items-center mobileMenu:-mr-72 mobileMenu:pl-12">
+          {!showUpdateCustom && !loading && (
+            <div className="flex w-full flex-col items-center justify-center transition-all">
+              <H2Title text="Saved Programs" icon="star" id="favsHeader" />
 
-        {loading && (
-          <div>
-            <LoadingLines />
-          </div>
-        )}
-
-        {!showUpdateCustom && !loading && (
-          <div className="-mt-16 flex w-full flex-col items-center justify-center">
-            {programDisplay && programDisplay.length > 0 ? (
-              <div className="w-7/12">{programDisplay}</div>
-            ) : (
-              <div className="mt-10 w-7/12">
-                <EmptyFavPrograms />
-              </div>
-            )}
-            <ScrollingDivide />
-            <H2Title
-              text="Custom Programs"
-              icon="sparkle"
-              style={delayStyle}
-              id="customHeader"
-              color="indigo"
-            />
-            {addCustomButton}
-            {customProgramDisplay.length > 0 ? (
-              <div className="w-7/12">{customProgramDisplay}</div>
-            ) : (
-              <div className="w-7/12 text-center italic">
-                <EmptyCustomProgram />
-              </div>
-            )}
-          </div>
-        )}
+              {programDisplay && programDisplay.length > 0 ? (
+                <div className="w-7/12">{programDisplay}</div>
+              ) : (
+                <div className="mt-10 w-7/12">
+                  <EmptyFavPrograms />
+                </div>
+              )}
+              <ScrollingDivide />
+              <H2Title
+                text="Custom Programs"
+                icon="sparkle"
+                style={delayStyle}
+                id="customHeader"
+                color="indigo"
+              />
+              {addCustomButton}
+              {customProgramDisplay.length > 0 ? (
+                <div className="w-7/12">{customProgramDisplay}</div>
+              ) : (
+                <div className="w-7/12 text-center italic">
+                  <EmptyCustomProgram />
+                </div>
+              )}
+            </div>
+          )}
+        </div>
 
         {showUpdateCustom && !loading && (
           <div className="w-8/12 place-self-center">
