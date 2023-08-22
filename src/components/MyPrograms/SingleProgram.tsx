@@ -96,12 +96,12 @@ const SingleProgram = ({
   return (
     <div
       className="relative my-10 flex w-full flex-col rounded-lg bg-cyan-100 bg-opacity-20 shadow-md shadow-cyan-800"
-      style={{ animation: "fadeInGrow 1s linear" }}
+      style={{ animation: "pullDownTop 1s linear" }}
       id={program.id}
     >
       <div
         className="flex w-full justify-between rounded-t-lg bg-cyan-800 bg-opacity-100 text-cyan-50 opacity-0 shadow-sm shadow-cyan-900"
-        style={{ animation: "fadeIn 1.5s linear forwards" }}
+        style={{ animation: "fadeIn 0.5s linear forwards" }}
       >
         <div className="mx-5 my-2">{basicStar}</div>
         <div className="mx-5 my-2">{basicStar}</div>

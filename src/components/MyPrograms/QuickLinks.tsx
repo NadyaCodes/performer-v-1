@@ -74,11 +74,11 @@ const QuickLinks = ({ keyValueList }: { keyValueList: ObjectList[] }) => {
 
   return (
     <div
-      className={`sticky top-52 z-10 -mt-60 hidden max-w-7xl flex-col justify-start pl-8 transition-all mobileMenu:flex`}
+      className={`sticky top-52 z-10 -mt-60 hidden max-w-xs flex-col justify-start pl-8 transition-all mobileMenu:flex xl:max-w-sm`}
     >
       <div
-        className="flex w-3/12 flex-col place-self-start rounded-lg bg-indigo-100 opacity-0 shadow-lg shadow-indigo-900  "
-        style={{ animation: "flyInFadeInLeft 1s linear 1s forwards" }}
+        className="flex w-full flex-col place-self-start rounded-lg bg-indigo-100 opacity-0 shadow-lg shadow-indigo-900  "
+        style={{ animation: "flyInFadeInLeft 1s ease-out 0.8s forwards" }}
       >
         <div className="hidden mobileMenu:block">
           <div className="w-full rounded-t-md bg-indigo-900 p-2 text-center text-lg font-bold text-indigo-50">
@@ -89,7 +89,7 @@ const QuickLinks = ({ keyValueList }: { keyValueList: ObjectList[] }) => {
           </div>
         </div>
       </div>
-      <div className="h-0 w-3/12 translate-y-7 ">
+      <div className="h-0 translate-y-7 ">
         <ScrollArrow />
       </div>
     </div>

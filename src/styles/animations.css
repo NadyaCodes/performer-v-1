@@ -263,3 +263,9 @@
     to {background-color: transparent;}
     
   }
+
+
+  @keyframes translateRight {
+    to {transform: translateX(12%);}
+    
+  }

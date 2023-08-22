@@ -12,9 +12,11 @@ import H2Title from "./H2Title";
 import QuickLinks from "./QuickLinks";
 import { ObjectList } from "@component/data/types";
 import EmptyFavPrograms from "./EmptyFavPrograms";
-import EmptyCustomProgram from "./EmptyCustomProgram";
+import EmptyCustomProgram from "./EmptyCustomPrograms";
 import ScrollingDivide from "./ScrollingDivide";
 import MobileQuickLinks from "./MobileQuickLinks";
+import LoadingPrograms from "./LoadingPrograms";
+import ProgramDisplay from "./ProgramDisplay";
 
 export type ProgramWithType = {
   id: string;
@@ -44,11 +46,6 @@ export default function MyProgramsComponent() {
   >(false);
   const [displayCustom, setDisplayCustom] = useState<CustomProgram[]>([]);
   const [loadingDelete, setLoadingDelete] = useState<boolean | string>(false);
-
-  const delayStyle = {
-    opacity: "0",
-    animation: "fadeIn 1s linear 1.5s forwards",
-  };
 
   const findProgramObject = async (id: string) => {
     if (userId) {
@@ -290,100 +287,7 @@ export default function MyProgramsComponent() {
               className="mt-10 flex w-full justify-between place-self-center text-lg font-semibold text-cyan-800 opacity-0 xs:w-11/12 xs:text-xl sm:text-3xl md:mt-20 mobileMenu:w-7/12"
               style={{ animation: "fadeIn .8s forwards" }}
             >
-              <div
-                className="px-1"
-                style={{ animation: "upDown 1.5s linear infinite" }}
-              >
-                L
-              </div>
-              <div
-                className="px-1"
-                style={{ animation: "upDown 1.5s linear .2s infinite" }}
-              >
-                o
-              </div>
-              <div
-                className="px-1"
-                style={{ animation: "upDown 1.5s linear .4s infinite" }}
-              >
-                a
-              </div>
-              <div
-                className="px-1"
-                style={{ animation: "upDown 1.5s linear .6s infinite" }}
-              >
-                d
-              </div>
-              <div
-                className="px-1"
-                style={{ animation: "upDown 1.5s linear .8s infinite" }}
-              >
-                i
-              </div>
-              <div
-                className="px-1"
-                style={{ animation: "upDown 1.5s linear 1s infinite" }}
-              >
-                n
-              </div>
-              <div
-                className="px-1"
-                style={{ animation: "upDown 1.5s linear 1.2s infinite" }}
-              >
-                g
-              </div>
-              <div
-                className="px-1"
-                style={{ animation: "upDown 1.5s linear 1.4s infinite" }}
-              ></div>{" "}
-              <div
-                className="px-1"
-                style={{ animation: "upDown 1.5s linear 1.6s infinite" }}
-              >
-                P
-              </div>{" "}
-              <div
-                className="px-1"
-                style={{ animation: "upDown 1.5s linear 1.8s infinite" }}
-              >
-                r
-              </div>
-              <div
-                className="px-1"
-                style={{ animation: "upDown 1.5s linear 2s infinite" }}
-              >
-                o
-              </div>
-              <div
-                className="px-1"
-                style={{ animation: "upDown 1.5s linear 2.2s infinite" }}
-              >
-                g
-              </div>
-              <div
-                className="px-1"
-                style={{ animation: "upDown 1.5s linear 2.4s infinite" }}
-              >
-                r
-              </div>
-              <div
-                className="px-1"
-                style={{ animation: "upDown 1.5s linear 2.6s infinite" }}
-              >
-                a
-              </div>
-              <div
-                className="px-1"
-                style={{ animation: "upDown 1.5s linear 2.8s infinite" }}
-              >
-                m
-              </div>
-              <div
-                className="px-1"
-                style={{ animation: "upDown 1.5s linear 3s infinite" }}
-              >
-                s
-              </div>
+              <LoadingPrograms />
             </div>
             <div className="pt-60">
               <LoadingLines />
@@ -392,12 +296,15 @@ export default function MyProgramsComponent() {
         </div>
       )}
 
-      {keyValueList.length > 3 && !showUpdateCustom && !loading && (
-        <>
-          <QuickLinks keyValueList={keyValueList} />
-          <MobileQuickLinks keyValueList={keyValueList} />
-        </>
-      )}
+      {keyValueList.length > 3 &&
+        !showUpdateCustom &&
+        !loading &&
+        !loadingDelete && (
+          <>
+            <QuickLinks keyValueList={keyValueList} />
+            <MobileQuickLinks keyValueList={keyValueList} />
+          </>
+        )}
 
       <div className="static flex min-h-screen -translate-y-3 flex-col items-center overflow-x-hidden">
         {!loading && (
@@ -431,35 +338,31 @@ export default function MyProgramsComponent() {
           </div>
         )}
 
-        <div className="flex w-full flex-col items-center mobileMenu:-mr-72 mobileMenu:pl-12">
+        <div
+          className="hidden w-full flex-col items-center mobileMenu:flex"
+          style={{
+            animation:
+              keyValueList.length > 3 && !showUpdateCustom
+                ? "translateRight .7s linear 1.7s forwards"
+                : "",
+          }}
+        >
           {!showUpdateCustom && !loading && (
-            <div className="flex w-full flex-col items-center justify-center transition-all">
-              <H2Title text="Saved Programs" icon="star" id="favsHeader" />
+            <ProgramDisplay
+              programDisplay={programDisplay}
+              addCustomButton={addCustomButton}
+              customProgramDisplay={customProgramDisplay}
+            />
+          )}
+        </div>
 
-              {programDisplay && programDisplay.length > 0 ? (
-                <div className="w-7/12">{programDisplay}</div>
-              ) : (
-                <div className="mt-10 w-7/12">
-                  <EmptyFavPrograms />
-                </div>
-              )}
-              <ScrollingDivide />
-              <H2Title
-                text="Custom Programs"
-                icon="sparkle"
-                style={delayStyle}
-                id="customHeader"
-                color="indigo"
-              />
-              {addCustomButton}
-              {customProgramDisplay.length > 0 ? (
-                <div className="w-7/12">{customProgramDisplay}</div>
-              ) : (
-                <div className="w-7/12 text-center italic">
-                  <EmptyCustomProgram />
-                </div>
-              )}
-            </div>
+        <div className="flex w-full flex-col items-center mobileMenu:hidden">
+          {!showUpdateCustom && !loading && (
+            <ProgramDisplay
+              programDisplay={programDisplay}
+              addCustomButton={addCustomButton}
+              customProgramDisplay={customProgramDisplay}
+            />
           )}
         </div>
 
