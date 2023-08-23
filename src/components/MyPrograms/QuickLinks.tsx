@@ -56,6 +56,7 @@ const QuickLinks = ({ keyValueList }: { keyValueList: ObjectList[] }) => {
                 : "",
           }}
           onClick={() => scrollToElement(itemKey)}
+          key={itemKey}
         >
           <button
             key={index}

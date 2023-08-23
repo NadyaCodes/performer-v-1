@@ -60,6 +60,7 @@ const MobileQuickLinks = ({
                 : "",
           }}
           onClick={() => scrollToElement(itemKey)}
+          key={itemKey}
         >
           <button
             key={index}
