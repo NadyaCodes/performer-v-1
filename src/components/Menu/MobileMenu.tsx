@@ -12,7 +12,13 @@ export default function MobileMenu() {
   useEffect(() => {
     const currentURL = window.location.href;
     let isDarkURL = true;
-    const lightPages = ["course-selector", "about", "select-next"];
+    const lightPages = [
+      "course-selector",
+      "about",
+      "select-next",
+      "my-programs",
+      "single-program",
+    ];
     const darkCyanPages = ["course-finder"];
     const slatePages = ["contact"];
 
@@ -26,7 +32,9 @@ export default function MobileMenu() {
       currentURL.includes("contact") ||
       currentURL.includes("course-finder") ||
       currentURL.includes("course-selector") ||
-      currentURL.includes("select-next")
+      currentURL.includes("select-next") ||
+      currentURL.includes("my-programs") ||
+      currentURL.includes("single-program")
     ) {
       setBanner(true);
     }

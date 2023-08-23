@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { ObjectList } from "@component/data/types";
-import ScrollArrow from "../ProgramFinder/ScrollArrow";
-import MiniScrollArrow from "../ProgramFinder/MiniScrollArrow";
 import SelectorScrollArrow from "../ProgramSelector/SelectorScrollArrow";
 
-const QuickLinks = ({ keyValueList }: { keyValueList: ObjectList[] }) => {
+const MobileQuickLinks = ({
+  keyValueList,
+  hideMenu,
+}: {
+  keyValueList: ObjectList[];
+  hideMenu: boolean;
+}) => {
   const [currentProgram, setCurrentProgram] = useState<string | null>(null);
   const [hover, setHover] = useState<string | null>(null);
   const [showLinks, setShowLinks] = useState(false);
@@ -75,26 +79,39 @@ const QuickLinks = ({ keyValueList }: { keyValueList: ObjectList[] }) => {
 
   return (
     <div
-      className={`sticky top-52 z-10 -mt-60 hidden max-w-xs flex-col justify-start pl-8 transition-all mobileMenu:flex xl:max-w-sm`}
+      className={`sticky left-6 z-10 -mt-60 flex w-full translate-y-2 justify-between p-3 transition-all md:px-16 mobileMenu:hidden ${
+        hideMenu && " opacity-0"
+      }`}
+      style={{ top: `${stickyTop}px`, transition: "top 0.5s ease-in-out" }}
     >
       <div
-        className="flex w-full flex-col place-self-start rounded-lg bg-indigo-100 opacity-0 shadow-lg shadow-indigo-900  "
-        style={{ animation: "flyInFadeInLeft 1s ease-out 0.8s forwards" }}
+        className="flex w-9/12 flex-col place-self-start rounded-lg bg-indigo-100 opacity-0 shadow-lg shadow-indigo-900"
+        style={{ animation: "flyInFadeInLeft 1s linear 1s forwards" }}
       >
-        <div className="hidden mobileMenu:block">
-          <div className="w-full rounded-t-md bg-indigo-900 p-2 text-center text-lg font-bold text-indigo-50">
+        <div className="h-0">
+          <div
+            className={` max-w-md ${
+              showLinks ? "rounded-t-md" : "rounded-md"
+            }  bg-indigo-900 p-2 text-center text-lg font-bold text-indigo-50`}
+            onClick={() => setShowLinks(!showLinks)}
+          >
             Quick Links
           </div>
-          <div className="flex h-52 min-h-full w-full flex-col overflow-y-scroll rounded">
+          <div
+            className={`flex h-52 min-h-full w-full max-w-md flex-col overflow-y-scroll rounded bg-indigo-100 shadow-lg shadow-indigo-900 ${
+              showLinks ? "" : "hidden"
+            }`}
+            style={{ animation: "pullDownTop 0.3s linear" }}
+          >
             <div className="">{buttonDisplay}</div>
           </div>
         </div>
       </div>
-      <div className="h-0 translate-y-7 ">
-        <ScrollArrow />
+      <div className="-translate-y-2 scale-75">
+        <SelectorScrollArrow />
       </div>
     </div>
   );
 };
 
-export default QuickLinks;
+export default MobileQuickLinks;

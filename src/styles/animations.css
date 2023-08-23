@@ -208,6 +208,30 @@
     }
     
   }
+
+  @keyframes upDownFadeIn {
+    0% {
+      transform: translateY(0);
+      opacity: 0
+    }
+    25% {
+      transform: translateY(.5rem);
+      opactity: 0.25
+    }
+    50% {
+      transform: translateY(0rem);
+      opacity: 0.5
+    }
+    75% {
+      transform: translateY(-.5rem);
+      opacity: 0.75
+    }
+    100% {
+      transform: translateY(0rem);
+      opacity: 1;
+    }
+    
+  }
   
   
   @keyframes flyInRight {
@@ -261,5 +285,11 @@
   
   @keyframes fadeBackground {
     to {background-color: transparent;}
+    
+  }
+
+
+  @keyframes translateRight {
+    to {transform: translateX(12%);}
     
   }

@@ -25,7 +25,10 @@ export default function MobileMenuOpen({
       }
     }
     return disabled ? (
-      <div className="flex w-2/3 justify-center bg-cyan-900 bg-opacity-70 p-2 font-bold text-cyan-100">
+      <div
+        className="flex w-2/3 justify-center bg-cyan-900 bg-opacity-70 p-2 font-bold text-cyan-100"
+        key={item.name}
+      >
         {item.name}
       </div>
     ) : (
@@ -33,6 +36,7 @@ export default function MobileMenuOpen({
         href={item.link}
         className="flex w-2/3 justify-center bg-cyan-100 p-2 font-bold shadow-md shadow-cyan-700 hover:scale-105 hover:bg-cyan-800 hover:text-cyan-50"
         onClick={() => setViewMenu(false)}
+        key={item.name}
       >
         {item.name}
       </Link>

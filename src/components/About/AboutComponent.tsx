@@ -77,7 +77,7 @@ export default function AboutComponent() {
         </div>
 
         <div
-          className="mb-10 flex w-11/12 flex-col items-center rounded-lg border-2 border-cyan-200 opacity-0 shadow-xl shadow-cyan-700 md:w-10/12 xl:w-8/12 xl:text-lg 2xl:w-6/12"
+          className="mb-10 mt-3 flex w-11/12 flex-col items-center rounded-lg border-2 border-cyan-200 opacity-0 shadow-xl shadow-cyan-700 md:w-10/12 xl:w-8/12 xl:text-lg 2xl:w-6/12"
           style={{
             animation: appearBox.box1 ? "fadeInGrow 1.5s ease-in forwards" : "",
           }}

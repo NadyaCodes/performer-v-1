@@ -8,12 +8,13 @@ import LoadingLines from "../Loading/LoadingLines";
 import { backChevron, plusIcon } from "@component/data/svgs";
 import SingleCustom from "./SingleCustom";
 import CustomProgramForm from "./CustomProgramForm";
-import H2Title from "./H2Title";
 import QuickLinks from "./QuickLinks";
 import { ObjectList } from "@component/data/types";
-import EmptyFavPrograms from "./EmptyFavPrograms";
-import EmptyCustomProgram from "./EmptyCustomProgram";
-import ScrollingDivide from "./ScrollingDivide";
+import MobileQuickLinks from "./MobileQuickLinks";
+import LoadingPrograms from "./LoadingPrograms";
+import ProgramDisplay from "./ProgramDisplay";
+import AuthShowcase from "../Menu/AuthShowcase";
+import H2Title from "./H2Title";
 
 export type ProgramWithType = {
   id: string;
@@ -43,11 +44,6 @@ export default function MyProgramsComponent() {
   >(false);
   const [displayCustom, setDisplayCustom] = useState<CustomProgram[]>([]);
   const [loadingDelete, setLoadingDelete] = useState<boolean | string>(false);
-
-  const delayStyle = {
-    opacity: "0",
-    animation: "fadeIn 1s linear 1.5s forwards",
-  };
 
   const findProgramObject = async (id: string) => {
     if (userId) {
@@ -273,98 +269,166 @@ export default function MyProgramsComponent() {
     </button>
   );
 
-  return (
-    <div className="static flex min-h-screen flex-col items-center pb-10">
+  return typeof userId !== "string" ? (
+    <div className="flex flex-col items-center">
       <div
-        className="absolute left-0 right-0 h-10 bg-cyan-950"
+        className="absolute left-0 right-0 hidden h-10 bg-cyan-950 mobileMenu:block"
         style={{
           boxShadow:
             "inset 0px -1px 2px rgba(0,255,255,0.5), inset 0px -2px 4px rgba(0,255,255,0.5), inset 0px -4px 8px rgba(0,255,255,0.5)",
         }}
       ></div>
-      {loadingDelete && (
-        <div
-          className="fixed inset-0 z-10 transition-all"
-          style={{
-            background: "rgba(0, 0, 0, 0.2)",
-          }}
-        ></div>
-      )}
-      <div className="h-20"></div>
-      {showUpdateCustom && !loading && (
-        <div className="w-2/3">
-          <button
-            className="flex font-semibold text-indigo-900 hover:scale-110 hover:text-indigo-800"
-            onClick={() => setShowUpdateCustom(!showUpdateCustom)}
-          >
-            <span>{backChevron}</span>
-            <span>Back</span>
-          </button>
-        </div>
-      )}
-
-      {!showUpdateCustom && (
+      <div
+        className="text-bold mt-10 flex w-full flex-col content-center items-center p-3 text-center text-lg mobileMenu:mt-20"
+        style={{ animation: "fadeIn .7s linear" }}
+      >
         <H2Title text="Saved Programs" icon="star" id="favsHeader" />
-      )}
-      {keyValueList.length > 3 && !showUpdateCustom && (
-        <QuickLinks keyValueList={keyValueList} />
-      )}
-
+        <div
+          className="m-2 opacity-0"
+          style={{ animation: "pullDownTop .5s linear .2s forwards" }}
+        >
+          Store your favorite programs here!
+        </div>
+        <div
+          className="m-2 opacity-0"
+          style={{ animation: "pullDownTop .5s linear .8s forwards" }}
+        >
+          This page requires an account.
+        </div>
+        <div
+          className="m-2 opacity-0"
+          style={{ animation: "pullDownTop .5s linear 1.4s forwards" }}
+        >
+          Please sign in below.
+        </div>
+      </div>
+      <div className="scale-150">
+        <div style={{ animation: "wiggle .4s linear 2s 2" }}>
+          <AuthShowcase />
+        </div>
+      </div>
+    </div>
+  ) : (
+    <div className="">
       {loading && (
-        <div>
-          <LoadingLines />
+        <div className="flex justify-center">
+          <div
+            className="absolute left-0 right-0 hidden h-10 bg-cyan-950 mobileMenu:block"
+            style={{
+              boxShadow:
+                "inset 0px -1px 2px rgba(0,255,255,0.5), inset 0px -2px 4px rgba(0,255,255,0.5), inset 0px -4px 8px rgba(0,255,255,0.5)",
+            }}
+          ></div>
+          <div className="w-fullxs:w-11/12 flex translate-y-2 justify-center mobileMenu:w-7/12">
+            <div
+              className="mt-10 flex w-full justify-between place-self-center text-lg font-semibold text-cyan-800 opacity-0 xs:w-11/12 xs:text-xl sm:text-3xl md:mt-20 mobileMenu:w-7/12"
+              style={{ animation: "fadeIn .8s forwards" }}
+            >
+              <LoadingPrograms />
+            </div>
+            <div className="pt-60">
+              <LoadingLines />
+            </div>
+          </div>
         </div>
       )}
 
-      {!showUpdateCustom && !loading && (
-        <div className="-mt-16 flex w-full flex-col items-center justify-center">
-          {programDisplay && programDisplay.length > 0 ? (
-            <div className="w-7/12">{programDisplay}</div>
-          ) : (
-            <div className="mt-10 w-7/12">
-              <EmptyFavPrograms />
-            </div>
-          )}
-          <ScrollingDivide />
-          <H2Title
-            text="Custom Programs"
-            icon="sparkle"
-            style={delayStyle}
-            id="customHeader"
-            color="indigo"
-          />
-          {addCustomButton}
-          {customProgramDisplay.length > 0 ? (
-            <div className="w-7/12">{customProgramDisplay}</div>
-          ) : (
-            <div className="w-7/12 text-center italic">
-              <EmptyCustomProgram />
-            </div>
-          )}
-        </div>
+      {keyValueList.length > 3 && !showUpdateCustom && !loading && (
+        <>
+          <QuickLinks keyValueList={keyValueList} />
+        </>
+      )}
+      {!loading && (
+        <MobileQuickLinks
+          keyValueList={keyValueList}
+          hideMenu={keyValueList.length <= 3 || !!showUpdateCustom}
+        />
       )}
 
-      {showUpdateCustom && !loading && (
-        <div className="w-8/12 place-self-center">
-          <CustomProgramForm
-            setShowUpdateCustom={setShowUpdateCustom}
-            findCustomPrograms={findCustomPrograms}
-            setDisplayCustom={setDisplayCustom}
-            currentProgram={showUpdateCustom === true ? null : showUpdateCustom}
-          />
+      <div className="static flex min-h-screen -translate-y-3 flex-col items-center overflow-x-hidden">
+        {!loading && (
+          <div
+            className="absolute left-0 right-0 hidden h-10 bg-cyan-950 mobileMenu:block"
+            style={{
+              boxShadow:
+                "inset 0px -1px 2px rgba(0,255,255,0.5), inset 0px -2px 4px rgba(0,255,255,0.5), inset 0px -4px 8px rgba(0,255,255,0.5)",
+            }}
+          ></div>
+        )}
+        {loadingDelete && (
+          <div
+            className="fixed inset-0 z-10 transition-all"
+            style={{
+              background: "rgba(0, 0, 0, 0.2)",
+            }}
+          ></div>
+        )}
+        <div className="h-60 mobileMenu:h-20"></div>
+
+        {showUpdateCustom && (
+          <div className="flex w-11/12 pb-4 md:w-9/12 mobileMenu:w-2/3">
+            <button
+              className="flex font-semibold text-indigo-900 hover:scale-110 hover:text-indigo-800"
+              onClick={() => setShowUpdateCustom(!showUpdateCustom)}
+            >
+              <span>{backChevron}</span>
+              <span>Back</span>
+            </button>
+          </div>
+        )}
+
+        <div
+          className="hidden w-full flex-col items-center mobileMenu:flex"
+          style={{
+            animation:
+              keyValueList.length > 3 && !showUpdateCustom
+                ? "translateRight .7s linear 1.7s forwards"
+                : "",
+          }}
+        >
+          {!showUpdateCustom && !loading && (
+            <ProgramDisplay
+              programDisplay={programDisplay}
+              addCustomButton={addCustomButton}
+              customProgramDisplay={customProgramDisplay}
+            />
+          )}
         </div>
-      )}
-      {showUpdateCustom && !loading && (
-        <div className="flex w-2/3 justify-end">
-          <button
-            className="flex font-semibold text-indigo-900 hover:scale-110 hover:text-indigo-800"
-            onClick={() => setShowUpdateCustom(!showUpdateCustom)}
-          >
-            <span>{backChevron}</span>
-            <span>Back</span>
-          </button>
+
+        <div className="flex w-full flex-col items-center mobileMenu:hidden">
+          {!showUpdateCustom && !loading && (
+            <ProgramDisplay
+              programDisplay={programDisplay}
+              addCustomButton={addCustomButton}
+              customProgramDisplay={customProgramDisplay}
+            />
+          )}
         </div>
-      )}
+
+        {showUpdateCustom && !loading && (
+          <div className="flex w-full justify-center">
+            <CustomProgramForm
+              setShowUpdateCustom={setShowUpdateCustom}
+              findCustomPrograms={findCustomPrograms}
+              setDisplayCustom={setDisplayCustom}
+              currentProgram={
+                showUpdateCustom === true ? null : showUpdateCustom
+              }
+            />
+          </div>
+        )}
+        {showUpdateCustom && !loading && (
+          <div className="flex w-11/12 justify-end py-4 md:w-9/12 mobileMenu:w-2/3">
+            <button
+              className="flex font-semibold text-indigo-900 hover:scale-110 hover:text-indigo-800"
+              onClick={() => setShowUpdateCustom(!showUpdateCustom)}
+            >
+              <span>{backChevron}</span>
+              <span>Back</span>
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

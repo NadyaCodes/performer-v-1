@@ -186,26 +186,28 @@ export default function CustomProgramForm({
   };
 
   return (
-    <div>
-      <div className="m-5 flex w-full flex-col place-items-center justify-center rounded-lg bg-indigo-50 bg-opacity-20 p-10 shadow-md shadow-indigo-900">
-        <h2 className="text-5xl font-extrabold capitalize tracking-tight text-indigo-900 sm:text-[3rem]">
+    <div className="w-11/12 md:w-9/12 mobileMenu:w-8/12 ">
+      <div className="flex w-full flex-col place-items-center justify-center rounded-lg bg-indigo-50 bg-opacity-20 p-1 pt-4 shadow-md shadow-indigo-900 mobileMenu:m-5 mobileMenu:p-10">
+        <h2 className="text-center text-3xl font-extrabold capitalize tracking-tight text-indigo-900 sm:pt-2 mobileMenu:text-5xl">
           Add/Update Custom Program
         </h2>
-        <div className="m-5 flex flex-col place-items-center italic text-indigo-950">
-          <p>This program will be added to your private list.</p>
-          <p>
+        <div className="m-5 flex flex-col place-items-center text-center italic text-indigo-950">
+          <p className="py-1">
+            This program will be added to your private list.
+          </p>
+          <p className="py-1">
             It is unique to your profile, and will NOT be added to the public
             database.
           </p>
-          <p>
+          <p className="py-1">
             To add a program to the public database, please contact us{" "}
-            <Link href="/contact" className="text-indigo-700">
+            <Link href="/contact" className="text-xl text-indigo-700">
               HERE
             </Link>
           </p>
         </div>
 
-        <div className="m-4 w-9/12 text-indigo-900">
+        <div className="m-4 w-full text-indigo-900 mobileMenu:w-9/12">
           <div className="m-6 ">
             <label
               className="mb-2 block text-xs font-bold uppercase tracking-wide "
@@ -314,11 +316,11 @@ export default function CustomProgramForm({
             />
           </div>
 
-          <div className="mx-6 my-7 flex flex-row justify-around">
-            <div className="">
-              <label className="mb-2 block text-xs font-bold uppercase tracking-wide">
+          <div className="mx-2 mt-7 grid grid-cols-[3fr,4fr] justify-items-center mobileMenu:mx-6 mobileMenu:my-7">
+            <div className="p-1">
+              <label className="mb-2 block text-sm font-bold uppercase tracking-wide">
                 Program Type
-                <div className="m-2 normal-case">
+                <div className="text-xs normal-case">
                   <label className="mb-2 block text-xs font-bold tracking-wide">
                     <input
                       className="mr-2 leading-tight"
@@ -351,10 +353,10 @@ export default function CustomProgramForm({
               </label>
             </div>
             <div className="mb-2 flex flex-wrap">
-              <div className="w-full px-3">
-                <label className="mb-2 block text-xs font-bold uppercase tracking-wide">
+              <div className="w-full mobileMenu:px-3">
+                <label className="mb-2 block p-1 text-sm font-bold uppercase tracking-wide">
                   Disciplines Offered
-                  <div className="m-2 normal-case">
+                  <div className="m-2 text-xs normal-case">
                     <label className="mb-2 block text-xs font-bold tracking-wide">
                       <input
                         className="mr-2 leading-tight"

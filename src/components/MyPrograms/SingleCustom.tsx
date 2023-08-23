@@ -1,11 +1,4 @@
-import React, {
-  SetStateAction,
-  useEffect,
-  useState,
-  Dispatch,
-  // forwardRef,
-  // Ref,
-} from "react";
+import React, { SetStateAction, useEffect, useState, Dispatch } from "react";
 import Link from "next/link";
 import { CustomProgram, Note } from "@prisma/client";
 import { useSession } from "next-auth/react";
@@ -139,11 +132,14 @@ const SingleCustom = ({
 
   return (
     <div
-      className="relative my-10 flex w-full flex-col rounded-lg bg-indigo-100 bg-opacity-20 opacity-0 shadow-md shadow-indigo-900"
-      style={{ animation: "fadeInGrow 1s linear 3s forwards" }}
+      className="relative my-12 flex w-full flex-col rounded-lg bg-indigo-100 bg-opacity-20 text-center shadow-md shadow-indigo-900"
+      style={{ animation: "pullDownTop 1s linear" }}
       id={program.id}
     >
-      <div className="flex w-full justify-between rounded-t-lg bg-indigo-900 bg-opacity-100 text-indigo-50 shadow-sm shadow-indigo-900">
+      <div
+        className="flex w-full justify-between rounded-t-lg bg-indigo-900 bg-opacity-100 text-indigo-50 shadow-sm shadow-indigo-900"
+        style={{ animation: "fadeIn 0.5s linear forwards" }}
+      >
         <div className="mx-5 my-2">{basicStar}</div>
         <div className="mx-5 my-2">{basicStar}</div>
       </div>
@@ -172,48 +168,48 @@ const SingleCustom = ({
 
       <div className="m-3 flex flex-col justify-between p-2">
         <div className="flex flex-col items-center">
-          <div className="flex place-self-end">
+          <div className="flex w-full justify-between">
             <button
               onClick={() => {
                 updateCustomProgram();
               }}
-              className="absolute right-16 -mt-1 flex rounded-full border border-transparent p-1 text-indigo-900 hover:scale-110 hover:border hover:border-indigo-400 hover:text-indigo-400"
+              className="-mt-1 flex rounded-full border border-transparent p-1 text-indigo-900 hover:scale-110 hover:border hover:border-indigo-400 hover:text-indigo-400"
             >
               {pencilBox}
             </button>
             <button
               onClick={() => setDeleteCheck(true)}
-              className="absolute right-4 -mt-1 flex rounded-full border border-transparent p-1 text-indigo-900 hover:scale-110 hover:border hover:border-pink-400 hover:text-pink-400"
+              className="-mt-1 flex rounded-full border border-transparent p-1 text-indigo-900 hover:scale-110 hover:border hover:border-pink-400 hover:text-pink-400"
             >
               {xMark}
             </button>
           </div>
           {program.school && (
-            <div className="w-3/4 break-words text-center text-2xl font-bold capitalize">
+            <div className="w-3/4 text-center text-2xl font-bold capitalize">
               {program.school}
             </div>
           )}
           {program.name && (
-            <div className="w-3/4 break-words  text-center text-xl font-bold capitalize">
+            <div className="w-3/4 text-center text-xl font-bold capitalize">
               {program.name && <div>{program.name}</div>}
             </div>
           )}
 
           {locationArray && (
-            <div className="text-md font-normal capitalize">
+            <div className="text-md w-3/4 font-normal capitalize">
               {locationArray.length > 0 && (
                 <div>{locationArray.join(", ")}</div>
               )}
             </div>
           )}
           {program.website && (
-            <div className="italic">
+            <div className="my-1 break-all italic text-indigo-700 underline md:w-3/4">
               <Link href={program.website} target="blank">
                 {program.website}
               </Link>
             </div>
           )}
-          <div>
+          <div className=" mt-1 w-3/4">
             {typesArray.length > 0 && (
               <div>Program Types: {typesArray.join(", ")}</div>
             )}
@@ -223,12 +219,12 @@ const SingleCustom = ({
           </div>
           <div className="mb-3 w-48 border-b-2 border-indigo-700 p-2"></div>
           {notesDisplay && notesDisplay.length > 0 && (
-            <div className="m-2 flex w-7/12 content-center justify-center">
+            <div className="m-2 flex w-11/12 content-center justify-center mobileMenu:w-7/12">
               <ul className=" w-full">{notesDisplay}</ul>
             </div>
           )}
           {notesDisplay && notesDisplay.length === 0 && (
-            <div className="w-full text-center italic">No Notes</div>
+            <div className="mb-2 w-full text-center italic">No Notes</div>
           )}
           {!notesDisplay && (
             <div className="flex flex-col items-center">
@@ -253,7 +249,7 @@ const SingleCustom = ({
           )}
           {!noteInput && !loadingNotes && (
             <button
-              className="m-2 flex w-32 place-items-center justify-between rounded bg-transparent px-4 py-2 font-semibold text-indigo-700 transition-all hover:bg-indigo-800 hover:text-indigo-50 hover:shadow-md hover:shadow-indigo-900"
+              className="m-2 flex w-40 place-items-center justify-between rounded bg-transparent px-4 py-2 font-semibold text-indigo-700 transition-all hover:bg-indigo-800 hover:text-indigo-50 hover:shadow-md hover:shadow-indigo-900"
               onClick={() => setNoteInput(true)}
             >
               <span>Add Note</span>
@@ -266,7 +262,7 @@ const SingleCustom = ({
                 animation: "pullDown 0.2s ease-out",
                 transformOrigin: "50% 0%",
               }}
-              className="m-3 flex w-7/12 place-items-center place-self-center"
+              className="flex w-full place-items-center place-self-center mobileMenu:m-3 mobileMenu:w-7/12"
             >
               <input
                 type="text"
@@ -275,7 +271,7 @@ const SingleCustom = ({
                 className="block w-full rounded-lg border border-indigo-200 bg-indigo-100 p-2.5 text-sm text-gray-900 focus:border-indigo-600 focus:outline-indigo-600 focus:ring-indigo-600"
               />
               <button
-                className=" p-.5 ml-5 h-fit rounded  text-indigo-700 outline hover:scale-110"
+                className=" p-.5 ml-2 h-fit rounded text-indigo-700  outline hover:scale-110 mobileMenu:ml-5"
                 onClick={() =>
                   userId && program.id && addNote(userId, program.id, inputText)
                 }
@@ -285,7 +281,7 @@ const SingleCustom = ({
             </div>
           )}
           {loadingNotes && (
-            <div className="mt-7">
+            <div className="mt-7 text-indigo-800">
               <LoadingSpinner iconSize="medium" />
             </div>
           )}

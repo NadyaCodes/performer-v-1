@@ -1,8 +1,7 @@
 import React from "react";
-import Link from "next/link";
 import { basicStar } from "@component/data/svgs";
 
-export default function EmptyFavPrograms() {
+export default function EmptyCustomPrograms() {
   return (
     <div
       className="relative mb-10 mt-5 flex w-full flex-col rounded-lg bg-indigo-100 bg-opacity-20 opacity-0 shadow-md shadow-indigo-900"
