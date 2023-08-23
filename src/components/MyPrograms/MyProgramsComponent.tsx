@@ -297,10 +297,10 @@ export default function MyProgramsComponent() {
           <QuickLinks keyValueList={keyValueList} />
         </>
       )}
-      {!showUpdateCustom && !loading && (
+      {!loading && (
         <MobileQuickLinks
           keyValueList={keyValueList}
-          hideMenu={keyValueList.length <= 3}
+          hideMenu={keyValueList.length <= 3 || !!showUpdateCustom}
         />
       )}
 
@@ -325,7 +325,7 @@ export default function MyProgramsComponent() {
         <div className="h-60 mobileMenu:h-20"></div>
 
         {showUpdateCustom && (
-          <div className="w-2/3">
+          <div className="flex w-11/12 pb-4 md:w-9/12 mobileMenu:w-2/3">
             <button
               className="flex font-semibold text-indigo-900 hover:scale-110 hover:text-indigo-800"
               onClick={() => setShowUpdateCustom(!showUpdateCustom)}
@@ -365,7 +365,7 @@ export default function MyProgramsComponent() {
         </div>
 
         {showUpdateCustom && !loading && (
-          <div className="w-8/12 place-self-center">
+          <div className="flex w-full justify-center">
             <CustomProgramForm
               setShowUpdateCustom={setShowUpdateCustom}
               findCustomPrograms={findCustomPrograms}
@@ -377,7 +377,7 @@ export default function MyProgramsComponent() {
           </div>
         )}
         {showUpdateCustom && !loading && (
-          <div className="flex w-2/3 justify-end">
+          <div className="flex w-11/12 justify-end py-4 md:w-9/12 mobileMenu:w-2/3">
             <button
               className="flex font-semibold text-indigo-900 hover:scale-110 hover:text-indigo-800"
               onClick={() => setShowUpdateCustom(!showUpdateCustom)}
