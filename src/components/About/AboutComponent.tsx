@@ -49,7 +49,7 @@ export default function AboutComponent() {
           <h1 className="hidden flex-col text-center text-3xl font-extrabold mobileMenu:flex xl:text-5xl 3xl:text-6xl">
             <span>Looking for Professonal Post-Secondary Training</span>
             <span>in Acting, Singing, Dance or Musical Theatre</span>
-            <span className="scale-125 pt-6">...in Canada?</span>
+            <span className="scale-125 pt-6">&#8230;in Canada?</span>
           </h1>
           <h1 className="flex flex-col text-center text-3xl font-extrabold xs:text-4xl md:text-5xl mobileMenu:hidden">
             <span>Looking for</span>
@@ -57,11 +57,11 @@ export default function AboutComponent() {
             <span>Training in</span>
             <span>Acting, Singing, Dance,</span>
             <span> or Musical Theatre</span>
-            <span className="scale-125 pt-6">...in Canada?</span>
+            <span className="scale-125 pt-6">&#8230;in Canada?</span>
           </h1>
 
           <div className="font-2 flex flex-col text-center text-3xl font-extrabold text-cyan-900 xs:text-3xl 2xl:text-5xl">
-            You've come to the right place!
+            You&apos;ve come to the right place!
           </div>
           <div className="flex w-11/12 -translate-y-3 scale-75 justify-between text-2xl text-cyan-950 sm:w-9/12 sm:scale-100 mobileMenu:w-7/12 2xl:scale-125">
             <span style={{ animation: "upDown 1.5s linear infinite" }}>
@@ -133,7 +133,7 @@ export default function AboutComponent() {
           </div>
           <div className="flex w-full flex-col p-4 md:p-10">
             <span className="mb-2">
-              Create an account, and you'll be able to select and save your
+              Create an account, and you&apos;ll be able to select and save your
               favourite programs.
             </span>
             <span>

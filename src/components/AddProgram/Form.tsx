@@ -1,5 +1,9 @@
 import React from "react";
-import { FormErrorObject, NewProgramSubmission } from "../ProgramFinder/types";
+import type {
+  FormErrorObject,
+  NewProgramSubmission,
+} from "../ProgramFinder/types";
+import type { DeleteFormFunction, UpdateFormFunction } from "./ProgramForm";
 
 export default function Form({
   elementData,
@@ -10,8 +14,8 @@ export default function Form({
 }: {
   elementData: NewProgramSubmission;
   index: number;
-  updateForm: Function;
-  deleteForm: Function;
+  updateForm: UpdateFormFunction;
+  deleteForm: DeleteFormFunction;
   formErrors: FormErrorObject[] | [];
 }) {
   const errorBorder = "rounded border-2 border-red-500";
@@ -63,7 +67,8 @@ export default function Form({
               />
             </div>
             <p className="text-xs italic text-gray-600">
-              For multiple locations, please "Add similar program" below
+              For multiple locations, please &quot;Add similar program&quot;
+              below
             </p>
           </div>
           <div className="w-full px-3 md:w-1/2">
@@ -79,7 +84,7 @@ export default function Form({
                   className="block w-full appearance-none rounded border border-gray-200 bg-gray-200 px-4 py-3 pr-8 capitalize leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
                   id="school-province"
                   value={elementData.province}
-                  onChange={(e) =>
+                  onChange={(e): void =>
                     updateForm(e.target.value, "province", index)
                   }
                 >
@@ -132,7 +137,9 @@ export default function Form({
                 type="text"
                 placeholder="Website"
                 value={elementData.website}
-                onChange={(e) => updateForm(e.target.value, "website", index)}
+                onChange={(e): void =>
+                  updateForm(e.target.value, "website", index)
+                }
               />
             </div>
           </div>
@@ -149,7 +156,7 @@ export default function Form({
                         className="mr-2 leading-tight"
                         type="checkbox"
                         checked={elementData.type.pt || false}
-                        onChange={(e) =>
+                        onChange={(e): void =>
                           updateForm(e.target.checked, "type", index, "pt")
                         }
                       />
@@ -160,7 +167,7 @@ export default function Form({
                         className="mr-2 leading-tight"
                         type="checkbox"
                         checked={elementData.type.ft || false}
-                        onChange={(e) =>
+                        onChange={(e): void =>
                           updateForm(e.target.checked, "type", index, "ft")
                         }
                       />
@@ -183,7 +190,7 @@ export default function Form({
                           className="mr-2 leading-tight"
                           type="checkbox"
                           checked={elementData.discipline.act || false}
-                          onChange={(e) =>
+                          onChange={(e): void =>
                             updateForm(
                               e.target.checked,
                               "discipline",
@@ -199,7 +206,7 @@ export default function Form({
                           className="mr-2 leading-tight"
                           type="checkbox"
                           checked={elementData.discipline.sing || false}
-                          onChange={(e) =>
+                          onChange={(e): void =>
                             updateForm(
                               e.target.checked,
                               "discipline",
@@ -215,7 +222,7 @@ export default function Form({
                           className="mr-2 leading-tight"
                           type="checkbox"
                           checked={elementData.discipline.dance || false}
-                          onChange={(e) =>
+                          onChange={(e): void =>
                             updateForm(
                               e.target.checked,
                               "discipline",
@@ -231,7 +238,7 @@ export default function Form({
                           className="mr-2 leading-tight"
                           type="checkbox"
                           checked={elementData.discipline.mt || false}
-                          onChange={(e) =>
+                          onChange={(e): void =>
                             updateForm(
                               e.target.checked,
                               "discipline",
@@ -263,14 +270,16 @@ export default function Form({
               type="text"
               placeholder="Name"
               value={elementData.programName}
-              onChange={(e) => updateForm(e.target.value, "programName", index)}
+              onChange={(e): void =>
+                updateForm(e.target.value, "programName", index)
+              }
             />
           </div>
         </div>
       </form>
       <button
         className="m-3 justify-end place-self-end rounded bg-red-300 p-4 font-bold hover:shadow-md md:w-1/3"
-        onClick={() => deleteForm(index)}
+        onClick={(): void => deleteForm(index)}
       >
         Delete This Entry
       </button>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import {
+import type {
   DisciplineObject,
   FormErrorObject,
   NewProgramSubmission,
@@ -9,8 +9,17 @@ import {
 } from "../ProgramFinder/types";
 import Form from "./Form";
 
+export type UpdateFormFunction = (
+  value: boolean | string,
+  field: string,
+  index: number,
+  subField?: string
+) => void;
+
+export type DeleteFormFunction = (index: number) => void;
+
 export default function ProgramForm() {
-  let firstId = uuidv4();
+  const firstId = uuidv4();
 
   const blankSchool = {
     schoolName: "",
@@ -33,7 +42,7 @@ export default function ProgramForm() {
     initialFormErrors
   );
 
-  const updateForm = (
+  const updateForm: UpdateFormFunction = (
     value: boolean | string,
     field: string,
     index: number,
@@ -70,26 +79,37 @@ export default function ProgramForm() {
   });
 
   const addBlank = () => {
-    const formDataCopy = JSON.parse(JSON.stringify(formData));
-    formDataCopy.push({ ...blankSchool, tempId: uuidv4() });
-    setFormData(formDataCopy);
+    setFormData((prevFormData) => [
+      ...prevFormData,
+      { ...blankSchool, tempId: uuidv4() },
+    ]);
   };
 
   const addCopy = () => {
-    const formDataCopy = JSON.parse(JSON.stringify(formData));
-    const lastEntry = formDataCopy[formDataCopy.length - 1];
-    formDataCopy.push({ ...lastEntry, tempId: uuidv4() });
-    setFormData(formDataCopy);
+    setFormData((prevFormData) => {
+      const lastEntry = prevFormData[prevFormData.length - 1];
+      const newEntry: NewProgramSubmission = {
+        ...lastEntry,
+        tempId: uuidv4(),
+        schoolName: lastEntry?.schoolName || "",
+        city: lastEntry?.city || "",
+        province: lastEntry?.province || "",
+        website: lastEntry?.website || "",
+        discipline: lastEntry?.discipline || blankSchool.discipline,
+        type: lastEntry?.type || blankSchool.type,
+      };
+      return [...prevFormData, newEntry];
+    });
   };
 
   const checkObject = (formSubmissionObject: NewProgramSubmission) => {
     const formErrorObject: FormErrorObject = {
-      schoolName: !!!formSubmissionObject.schoolName,
-      city: !!!formSubmissionObject.city,
-      province: !!!formSubmissionObject.province,
-      website: !!!formSubmissionObject.website,
-      discipline: !!!formSubmissionObject.discipline,
-      type: !!!formSubmissionObject.type,
+      schoolName: !formSubmissionObject.schoolName,
+      city: !formSubmissionObject.city,
+      province: !formSubmissionObject.province,
+      website: !formSubmissionObject.website,
+      discipline: !formSubmissionObject.discipline,
+      type: !formSubmissionObject.type,
       tempId: formSubmissionObject.tempId,
     };
 
