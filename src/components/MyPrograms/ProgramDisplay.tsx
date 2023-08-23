@@ -57,7 +57,7 @@ export default function ProgramDisplay({
             {customProgramDisplay}
           </div>
         ) : (
-          <div className="w-7/12 text-center italic">
+          <div className="w-11/12 text-center italic mobileMenu:w-7/12">
             <EmptyCustomPrograms />
           </div>
         )}

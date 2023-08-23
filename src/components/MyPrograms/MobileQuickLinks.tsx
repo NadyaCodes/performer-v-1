@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { ObjectList } from "@component/data/types";
-import ScrollArrow from "../ProgramFinder/ScrollArrow";
-import MiniScrollArrow from "../ProgramFinder/MiniScrollArrow";
 import SelectorScrollArrow from "../ProgramSelector/SelectorScrollArrow";
 
-const MobileQuickLinks = ({ keyValueList }: { keyValueList: ObjectList[] }) => {
+const MobileQuickLinks = ({
+  keyValueList,
+  hideMenu,
+}: {
+  keyValueList: ObjectList[];
+  hideMenu: boolean;
+}) => {
   const [currentProgram, setCurrentProgram] = useState<string | null>(null);
   const [hover, setHover] = useState<string | null>(null);
   const [showLinks, setShowLinks] = useState(false);
@@ -74,7 +78,9 @@ const MobileQuickLinks = ({ keyValueList }: { keyValueList: ObjectList[] }) => {
 
   return (
     <div
-      className={`sticky left-6 z-10 -mt-60 flex w-full translate-y-2 justify-between p-3 transition-all md:px-16 mobileMenu:hidden`}
+      className={`sticky left-6 z-10 -mt-60 flex w-full translate-y-2 justify-between p-3 transition-all md:px-16 mobileMenu:hidden ${
+        hideMenu && " opacity-0"
+      }`}
       style={{ top: `${stickyTop}px`, transition: "top 0.5s ease-in-out" }}
     >
       <div
