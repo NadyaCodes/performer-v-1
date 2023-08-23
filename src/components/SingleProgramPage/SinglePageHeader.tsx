@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useLayoutEffect } from "react";
-import { arrowUpRightCorner, arrowUp } from "@component/data/svgs";
+import React from "react";
+import { arrowUp } from "@component/data/svgs";
 
 export default function SinglePageHeader({
   isSignedIn,
@@ -10,25 +10,25 @@ export default function SinglePageHeader({
     signedIn: {
       textHeader: "Add to Faves by Clicking the Star",
       arrowUpWrapperClass:
-        "place-self-center translate-x-20 xs:translate-x-24 md:translate-x-32 mobileMenu:-translate-x-20 lg:-translate-x-24  2xl:-translate-x-28 translate-y-20 rotate-45 w-fit scale-150 opacity-0",
-      arrowUpDivClass: "w-fit mt-1 text-cyan-900 h-0 text-cyan-900",
-      arrowUpAnimation: "upDown 1s linear 3s 3 forwards",
+        "place-self-center translate-x-20 xs:translate-x-24 md:translate-x-28 lg:-translate-x-52 translate-y-18 rotate-45 w-fit scale-150 opacity-0",
+      arrowUpDivClass: "-fit mt-1 text-cyan-900 h-0 text-cyan-800",
+      arrowUpAnimation: "upDown 1s linear 1.5s 3 forwards",
     },
     signedOut: {
       textHeader: "Sign in to Save Program",
       arrowUpWrapperClass:
         "mr-3 xs:mr-1 sm:rotate-45 sm:mr-16 md:translate-y-3 mobileMenu:-translate-y-20 mobileMenu:m-0 mobileMenu:translate-x-5 xl:translate-x-16 w-fit scale-150 place-self-end opacity-0",
-      arrowUpDivClass: "",
-      arrowUpAnimation: "fadeInTranslate 2s linear 3s forwards",
+      arrowUpDivClass: "text-cyan-800",
+      arrowUpAnimation: "fadeInTranslate 2s linear 2.5s forwards",
     },
   };
 
   return (
     <div
-      className="m-3 flex w-11/12 flex-col justify-center text-center text-3xl font-extrabold text-cyan-900 opacity-0 mobileMenu:w-9/12 mobileMenu:flex-row mobileMenu:text-4xl lg:m-10 xl:text-5xl 3xl:p-5"
-      style={{ animation: "expandUp 1s linear 1.5s forwards" }}
+      className="m-3 flex w-11/12 flex-col justify-center text-center text-3xl font-bold text-cyan-900 opacity-0 mobileMenu:w-9/12 mobileMenu:flex-row mobileMenu:text-4xl lg:m-10 xl:text-5xl 3xl:p-5"
+      style={{ animation: "flyInFadeIn 1s linear 1.5s forwards" }}
     >
-      <div className="-mb-10 w-11/12 mobileMenu:mb-0">
+      <div className="-mb-10 w-11/12 place-self-center xs:-mb-6 mobileMenu:mb-10">
         {isSignedIn
           ? contentObject.signedIn.textHeader
           : contentObject.signedOut.textHeader}
@@ -40,7 +40,7 @@ export default function SinglePageHeader({
             : contentObject.signedOut.arrowUpWrapperClass
         }
         style={{
-          animation: "fadeIn 1s linear 3s forwards",
+          animation: "fadeIn 0.5s linear 2.5s forwards",
         }}
       >
         <div className={isSignedIn ? "rotate-90" : ""}>
