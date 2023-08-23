@@ -108,7 +108,7 @@ export default function PageContent({ programId }: { programId: string }) {
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <SinglePageHeader isSignedIn={!!sessionData} programId={programId} />
+      <SinglePageHeader isSignedIn={!!sessionData} />
       <div
         className="m-5 flex flex-col rounded-sm opacity-0 shadow-cyan-700 mobileMenu:w-9/12 mobileMenu:shadow-xl"
         style={{ animation: "fadeInGrow 1s linear forwards" }}
