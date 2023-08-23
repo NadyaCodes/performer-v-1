@@ -17,6 +17,7 @@ export default function MobileMenu() {
       "about",
       "select-next",
       "my-programs",
+      "single-program",
     ];
     const darkCyanPages = ["course-finder"];
     const slatePages = ["contact"];
@@ -32,7 +33,8 @@ export default function MobileMenu() {
       currentURL.includes("course-finder") ||
       currentURL.includes("course-selector") ||
       currentURL.includes("select-next") ||
-      currentURL.includes("my-programs")
+      currentURL.includes("my-programs") ||
+      currentURL.includes("single-program")
     ) {
       setBanner(true);
     }

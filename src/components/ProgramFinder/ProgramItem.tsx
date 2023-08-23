@@ -211,7 +211,10 @@ export default function ProgramItem({
         {share && <ShareOptions program={element} setShare={setShare} />}
       </div>
       {sessionData?.user && !loadingFavs && (
-        <div className="absolute mx-2 my-4 place-self-end hover:scale-150 hover:cursor-pointer md:mx-5">
+        <div
+          className="absolute mx-2 my-4 place-self-end hover:scale-150 hover:cursor-pointer md:mx-5"
+          id={"favStar_" + element.id}
+        >
           <div
             style={{
               animation: starAnimation,
