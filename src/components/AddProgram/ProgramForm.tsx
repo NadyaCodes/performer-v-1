@@ -9,6 +9,15 @@ import {
 } from "../ProgramFinder/types";
 import Form from "./Form";
 
+export type UpdateFormFunction = (
+  value: boolean | string,
+  field: string,
+  index: number,
+  subField?: string
+) => void;
+
+export type DeleteFormFunction = (index: number) => void;
+
 export default function ProgramForm() {
   let firstId = uuidv4();
 
@@ -33,7 +42,7 @@ export default function ProgramForm() {
     initialFormErrors
   );
 
-  const updateForm = (
+  const updateForm: UpdateFormFunction = (
     value: boolean | string,
     field: string,
     index: number,
