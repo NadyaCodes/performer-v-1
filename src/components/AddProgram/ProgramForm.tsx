@@ -86,17 +86,18 @@ export default function ProgramForm() {
   };
 
   const addCopy = () => {
-    setFormData((prevFormData) => {
-      const lastEntry = prevFormData[prevFormData.length - 1];
-      const newEntry: NewProgramSubmission = {
-        ...lastEntry,
+    setFormData((prevFormData: NewProgramSubmission[]) => {
+      const lastEntry = prevFormData[prevFormData.length - 1] || blankSchool;
+
+      const newEntry = {
         tempId: uuidv4(),
-        schoolName: lastEntry?.schoolName || "",
-        city: lastEntry?.city || "",
-        province: lastEntry?.province || "",
-        website: lastEntry?.website || "",
-        discipline: lastEntry?.discipline || blankSchool.discipline,
-        type: lastEntry?.type || blankSchool.type,
+        schoolName: lastEntry.schoolName,
+        city: lastEntry.city,
+        province: lastEntry.province,
+        website: lastEntry.website,
+        discipline: lastEntry.discipline,
+        type: lastEntry.type,
+        programName: lastEntry.programName,
       };
       return [...prevFormData, newEntry];
     });
@@ -130,7 +131,7 @@ export default function ProgramForm() {
 
     const errorsPresent = Object.entries(formErrorObject)
       .filter(([key]) => key !== "tempId")
-      .some(([_, value]) => value as any);
+      .some(([_, value]) => value);
     return errorsPresent ? formErrorObject : false;
   };
 
@@ -144,10 +145,14 @@ export default function ProgramForm() {
         errorsArray.push(newFormErrors);
       }
     });
-    setFormErrors(errorsArray);
+    setFormErrors(errorsArray as FormErrorObject[] | []);
     if (safeToSubmit) {
-      const newFormData = formData.map((dataObject) => {
-        const newDataObject = JSON.parse(JSON.stringify(dataObject));
+      const newFormData: NewProgramSubmission[] = formData.map((dataObject) => {
+        const newDataObject = {
+          ...dataObject,
+          discipline: { ...dataObject.discipline },
+          type: { ...dataObject.type },
+        };
         if (!newDataObject.programName) {
           delete newDataObject.programName;
         }
