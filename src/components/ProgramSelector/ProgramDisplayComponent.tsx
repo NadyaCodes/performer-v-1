@@ -2,17 +2,17 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { api } from "@component/utils/api";
 import { useSession } from "next-auth/react";
-import { ProgramInfoArray } from "@component/pages/[style]/[discipline]/[province]/[city]";
+import type { ProgramInfoArray } from "@component/pages/[style]/[discipline]/[province]/[city]";
 
 import { provincesFull } from "src/data/constants";
-import { ProgramWithInfo } from "@component/components/ProgramFinder/types";
+import type { ProgramWithInfo } from "@component/components/ProgramFinder/types";
 import ProgramItem from "@component/components/ProgramFinder/ProgramItem";
 
 import { stylesFull, disciplinesFull } from "src/data/constants";
 import LoadingLines from "../Loading/LoadingLines";
 import Link from "next/link";
 import { backChevron } from "@component/data/svgs";
-import { FavProgram } from "@prisma/client";
+import type { FavProgram } from "@prisma/client";
 import { convertUserFavs } from "../ProgramFinder/helpers";
 import TitleHeader from "./TitleHeader";
 import SubHeader from "./SubHeader";

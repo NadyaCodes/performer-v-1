@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { LocationObject } from "../ProgramFinder/types";
+import type { LocationObject } from "../ProgramFinder/types";
 import { api } from "@component/utils/api";
 import DOMPurify from "isomorphic-dompurify";
 import { useEffectOnce } from "./helpers";
-import {
+import type {
   FTProgram,
   Location,
   PTProgram,
   School,
   SchoolLocation,
 } from "@prisma/client";
-import { SingleProgramSubmission } from "./AddProgramResultComponent";
+import type { SingleProgramSubmission } from "./AddProgramResultComponent";
 
 interface SingleProgramResultProps {
   schoolObject: SingleProgramSubmission;

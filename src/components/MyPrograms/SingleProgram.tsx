@@ -1,8 +1,13 @@
-import React, { SetStateAction, useEffect, useState, Dispatch } from "react";
-import { ProgramWithInfo } from "../ProgramFinder/types";
+import React, {
+  type SetStateAction,
+  useEffect,
+  useState,
+  type Dispatch,
+} from "react";
+import type { ProgramWithInfo } from "../ProgramFinder/types";
 import { displayDisciplineText } from "../ProgramFinder/helpers";
 import Link from "next/link";
-import { Note } from "@prisma/client";
+import type { Note } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { api } from "@component/utils/api";
 import NoteComponent from "./NoteComponent";
@@ -17,10 +22,9 @@ import {
 import LoadingSpinner from "../Loading/LoadingSpinner";
 import { validateNote } from "./helpers";
 import DeleteCheck from "./DeleteCheck";
-import { ProgramWithType } from "./MyProgramsComponent";
+import type { ProgramWithType } from "./MyProgramsComponent";
 import LoadingLines from "../Loading/LoadingLines";
 import ShareOptions from "../ProgramFinder/ShareOptions";
-import ShareIcon from "../ProgramFinder/ShareIcon";
 
 const SingleProgram = ({
   program,

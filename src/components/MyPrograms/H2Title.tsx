@@ -1,6 +1,6 @@
 import React from "react";
 import { sparkles, outlineStar } from "@component/data/svgs";
-import { ObjectList } from "@component/data/types";
+import type { ObjectList } from "@component/data/types";
 
 export default function H2Title({
   text,

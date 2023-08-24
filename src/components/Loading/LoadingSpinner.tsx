@@ -1,4 +1,4 @@
-import { ObjectList } from "@component/data/types";
+import type { ObjectList } from "@component/data/types";
 import React from "react";
 
 const sizeObject: ObjectList = {

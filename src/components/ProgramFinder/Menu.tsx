@@ -1,4 +1,4 @@
-import React, { SetStateAction, useContext, Dispatch } from "react";
+import React, { SetStateAction, useContext, type Dispatch } from "react";
 import { updateFilter } from "./helpers";
 import { FilterContext } from "./CourseFinderComponent";
 

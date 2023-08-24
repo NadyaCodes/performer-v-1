@@ -1,4 +1,4 @@
-import React, { SetStateAction, Dispatch } from "react";
+import React, { type SetStateAction, type Dispatch } from "react";
 import { bars2 } from "@component/data/svgs";
 
 export default function MenuBubble({

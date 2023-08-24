@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { PageContent } from "./SingleProgramPageComponent";
+import type { PageContent } from "./SingleProgramPageComponent";
 import ProgramItem from "../ProgramFinder/ProgramItem";
 import { api } from "@component/utils/api";
-import { ProgramWithType } from "../MyPrograms/MyProgramsComponent";
-import { ProgramWithInfo } from "../ProgramFinder/types";
-import { FavProgram } from "@prisma/client";
+import type { ProgramWithType } from "../MyPrograms/MyProgramsComponent";
+import type { ProgramWithInfo } from "../ProgramFinder/types";
+import type { FavProgram } from "@prisma/client";
 import { convertUserFavs } from "../ProgramFinder/helpers";
 import SinglePageHeader from "./SinglePageHeader";
 

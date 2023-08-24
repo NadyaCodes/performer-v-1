@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ObjectList } from "@component/data/types";
+import type { ObjectList } from "@component/data/types";
 import SelectorScrollArrow from "../ProgramSelector/SelectorScrollArrow";
 
 const MobileQuickLinks = ({

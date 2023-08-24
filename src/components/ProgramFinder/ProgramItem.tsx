@@ -1,8 +1,8 @@
-import React, { SetStateAction, useEffect, useState } from "react";
-import { ProgramWithInfo } from "./types";
+import React, { type SetStateAction, useEffect, useState } from "react";
+import type { ProgramWithInfo } from "./types";
 import { useSession } from "next-auth/react";
 import { api } from "@component/utils/api";
-import { FavProgram } from "@prisma/client";
+import type { FavProgram } from "@prisma/client";
 import { Dispatch } from "react";
 
 import { displayDisciplineText } from "./helpers";

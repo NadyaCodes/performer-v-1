@@ -4,7 +4,7 @@ import { api } from "@component/utils/api";
 import ProgramItem from "./ProgramItem";
 import FilterMenu from "./FilterMenu";
 import { searchForValue } from "./helpers";
-import {
+import type {
   FilterContextValue,
   FilterContextState,
   ProgramWithInfo,
@@ -14,7 +14,7 @@ import LoadingLines from "../Loading/LoadingLines";
 import TermsDisplay from "./TermsDisplay";
 import ScrollArrow from "./ScrollArrow";
 import NoPrograms from "./NoPrograms";
-import { FavProgram } from "@prisma/client";
+import type { FavProgram } from "@prisma/client";
 import { convertUserFavs } from "./helpers";
 import MiniScrollArrow from "./MiniScrollArrow";
 

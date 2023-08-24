@@ -1,4 +1,4 @@
-import { School, Location } from "@prisma/client";
+import type { School, Location } from "@prisma/client";
 
 export type LocationObject = {
   city: string;

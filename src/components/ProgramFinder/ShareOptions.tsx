@@ -1,5 +1,5 @@
-import React, { SetStateAction, Dispatch } from "react";
-import { ProgramWithInfo } from "./types";
+import React, { type SetStateAction, type Dispatch } from "react";
+import type { ProgramWithInfo } from "./types";
 import {
   FacebookShareButton,
   FacebookIcon,

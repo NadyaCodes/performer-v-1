@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import LocationMenu from "./LocationMenu";
 import Search from "./Search";
 import { FilterContext } from "./CourseFinderComponent";
@@ -6,7 +6,7 @@ import { displayLocation } from "./helpers";
 import Menu from "./Menu";
 import { chevronUp, doubleChevronDown } from "@component/data/svgs";
 import { disciplinesFull } from "@component/data/constants";
-import { LocationObject } from "./types";
+import type { LocationObject } from "./types";
 
 export default function FilterMenu() {
   const filterContext = useContext(FilterContext);

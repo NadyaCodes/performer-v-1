@@ -1,10 +1,10 @@
-import {
+import type {
   LocationObject,
   FilterContextValue,
   ProgramWithInfo,
   FilterContextState,
 } from "./types";
-import { FavProgram } from "@prisma/client";
+import type { FavProgram } from "@prisma/client";
 
 export const displayDisciplineText = (discipline: string) => {
   const disciplineObject: Record<string, string> = {

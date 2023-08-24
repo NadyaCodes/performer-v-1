@@ -1,6 +1,11 @@
-import React, { SetStateAction, useEffect, useState, Dispatch } from "react";
+import React, {
+  type SetStateAction,
+  useEffect,
+  useState,
+  type Dispatch,
+} from "react";
 import Link from "next/link";
-import { CustomProgram, Note } from "@prisma/client";
+import type { CustomProgram, Note } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { api } from "@component/utils/api";
 import NoteComponent from "./NoteComponent";

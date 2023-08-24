@@ -1,8 +1,8 @@
-import React, { SetStateAction, Dispatch } from "react";
+import React, { type SetStateAction, type Dispatch } from "react";
 import { trashCan } from "@component/data/svgs";
 import { api } from "@component/utils/api";
-import { ProgramWithType } from "./MyProgramsComponent";
-import { CustomProgram, FTProgram, PTProgram } from "@prisma/client";
+import type { ProgramWithType } from "./MyProgramsComponent";
+import type { CustomProgram, FTProgram, PTProgram } from "@prisma/client";
 import { useSession } from "next-auth/react";
 
 export default function DeleteCheck({

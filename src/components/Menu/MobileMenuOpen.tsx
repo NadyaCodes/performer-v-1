@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { type Dispatch, type SetStateAction } from "react";
 import { chevronUp } from "@component/data/svgs";
 import { menuItems } from "./Menu";
 import Link from "next/link";

@@ -2,8 +2,8 @@ import React, {
   useEffect,
   useContext,
   useState,
-  Dispatch,
-  SetStateAction,
+  type Dispatch,
+  type SetStateAction,
 } from "react";
 import { FilterContext } from "./CourseFinderComponent";
 import Menu from "./Menu";

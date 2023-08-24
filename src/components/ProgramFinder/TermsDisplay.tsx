@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { FilterContext } from "./CourseFinderComponent";
 import { stylesFull, disciplinesFull } from "@component/data/constants";
-import { FilterContextValue } from "./types";
+import type { FilterContextValue } from "./types";
 import { faceFrown, xMark } from "@component/data/svgs";
 
 export default function TermsDisplay({

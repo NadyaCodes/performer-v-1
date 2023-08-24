@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { ObjectList } from "@component/data/types";
+import type { ObjectList } from "@component/data/types";
 import ScrollArrow from "../ProgramFinder/ScrollArrow";
-import MiniScrollArrow from "../ProgramFinder/MiniScrollArrow";
-import SelectorScrollArrow from "../ProgramSelector/SelectorScrollArrow";
 
 const QuickLinks = ({ keyValueList }: { keyValueList: ObjectList[] }) => {
   const [currentProgram, setCurrentProgram] = useState<string | null>(null);

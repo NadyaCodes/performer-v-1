@@ -1,8 +1,8 @@
 import React, { Dispatch, useState } from "react";
 import { api } from "@component/utils/api";
 import { useSession } from "next-auth/react";
-import { SetStateAction } from "react";
-import { CustomProgram } from "@prisma/client";
+import type { SetStateAction } from "react";
+import type { CustomProgram } from "@prisma/client";
 import { cautionCircle } from "@component/data/svgs";
 import LoadingSpinner from "../Loading/LoadingSpinner";
 import { validateCustom } from "./helpers";

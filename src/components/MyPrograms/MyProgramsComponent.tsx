@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { api } from "@component/utils/api";
-import { PTProgram, FTProgram, CustomProgram } from "@prisma/client";
-import { ProgramWithInfo } from "../ProgramFinder/types";
+import type { PTProgram, FTProgram, CustomProgram } from "@prisma/client";
+import type { ProgramWithInfo } from "../ProgramFinder/types";
 import SingleProgram from "./SingleProgram";
 import LoadingLines from "../Loading/LoadingLines";
 import { backChevron, plusIcon } from "@component/data/svgs";
 import SingleCustom from "./SingleCustom";
 import CustomProgramForm from "./CustomProgramForm";
 import QuickLinks from "./QuickLinks";
-import { ObjectList } from "@component/data/types";
+import type { ObjectList } from "@component/data/types";
 import MobileQuickLinks from "./MobileQuickLinks";
 import LoadingPrograms from "./LoadingPrograms";
 import ProgramDisplay from "./ProgramDisplay";
