@@ -31,7 +31,7 @@ export const validateNote = (text: string, errorMessageSetter: Dispatch<SetState
 };
 
 
-export const validateCustom = (text: string, errorMessageSetter: Function): string | null => {
+export const validateCustom = (text: string, errorMessageSetter: Dispatch<SetStateAction<string>>): string | null => {
   if (text.length > 200) {
     setTimeout(() => errorMessageSetter(""), 3000);
     errorMessageSetter("Entries must be 200 characters or less");
