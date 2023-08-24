@@ -80,7 +80,7 @@ const MobileQuickLinks = ({
   return (
     <div
       className={`sticky left-6 z-10 -mt-60 flex w-full translate-y-2 justify-between p-3 transition-all md:px-16 mobileMenu:hidden ${
-        hideMenu && " opacity-0"
+        hideMenu ? " opacity-0" : ""
       }`}
       style={{ top: `${stickyTop}px`, transition: "top 0.5s ease-in-out" }}
     >

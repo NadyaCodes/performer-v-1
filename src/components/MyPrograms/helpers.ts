@@ -1,6 +1,7 @@
 import { sanitize } from "isomorphic-dompurify";
+import type  { Dispatch, SetStateAction } from "react";
 
-export const validateNote = (text: string, errorMessageSetter: Function): string | null => {
+export const validateNote = (text: string, errorMessageSetter: Dispatch<SetStateAction<string>>): string | null => {
   if (!text) {
     setTimeout(() => errorMessageSetter(""), 3000);
     errorMessageSetter("Notes must have text");

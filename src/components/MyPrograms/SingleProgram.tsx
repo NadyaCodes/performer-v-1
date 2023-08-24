@@ -1,9 +1,4 @@
-import React, {
-  type SetStateAction,
-  useEffect,
-  useState,
-  type Dispatch,
-} from "react";
+import React, { type SetStateAction, useState, type Dispatch } from "react";
 import type { ProgramWithInfo } from "../ProgramFinder/types";
 import { displayDisciplineText } from "../ProgramFinder/helpers";
 import Link from "next/link";
@@ -25,6 +20,7 @@ import DeleteCheck from "./DeleteCheck";
 import type { ProgramWithType } from "./MyProgramsComponent";
 import LoadingLines from "../Loading/LoadingLines";
 import ShareOptions from "../ProgramFinder/ShareOptions";
+import { useEffectOnce } from "../AddProgramResult/helpers";
 
 const SingleProgram = ({
   program,
@@ -59,9 +55,11 @@ const SingleProgram = ({
     }
   };
 
-  useEffect(() => {
-    fetchNotes().then((result) => result && setNotes(result));
-  }, []);
+  useEffectOnce(() => {
+    fetchNotes()
+      .then((result) => result && setNotes(result))
+      .catch((error) => console.error("Error fetching notes: ", error));
+  });
 
   const { mutate: createNote } = api.notes.add.useMutation({
     async onSuccess(data) {
@@ -70,7 +68,8 @@ const SingleProgram = ({
       setInputText("");
       fetchNotes()
         .then((result) => result && setNotes(result))
-        .then(() => setLoadingNotes(false));
+        .then(() => setLoadingNotes(false))
+        .catch((error) => console.error("Error fetching notes: ", error));
       return data;
     },
     onError(error) {

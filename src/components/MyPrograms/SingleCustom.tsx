@@ -1,9 +1,4 @@
-import React, {
-  type SetStateAction,
-  useEffect,
-  useState,
-  type Dispatch,
-} from "react";
+import React, { type SetStateAction, useState, type Dispatch } from "react";
 import Link from "next/link";
 import type { CustomProgram, Note } from "@prisma/client";
 import { useSession } from "next-auth/react";
@@ -21,6 +16,7 @@ import LoadingSpinner from "../Loading/LoadingSpinner";
 import LoadingLines from "../Loading/LoadingLines";
 import { validateNote } from "./helpers";
 import DeleteCheck from "./DeleteCheck";
+import { useEffectOnce } from "../AddProgramResult/helpers";
 
 const SingleCustom = ({
   program,
@@ -55,9 +51,11 @@ const SingleCustom = ({
     }
   };
 
-  useEffect(() => {
-    fetchNotes().then((result) => result && setNotes(result));
-  }, []);
+  useEffectOnce(() => {
+    fetchNotes()
+      .then((result) => result && setNotes(result))
+      .catch((error) => console.error("Error fetching notes: ", error));
+  });
 
   const { mutate: createNote } = api.notes.add.useMutation({
     async onSuccess(data) {
@@ -66,7 +64,8 @@ const SingleCustom = ({
       setInputText("");
       fetchNotes()
         .then((result) => result && setNotes(result))
-        .then(() => setLoadingNotes(false));
+        .then(() => setLoadingNotes(false))
+        .catch((error) => console.error("Error fetching notes: ", error));
       return data;
     },
     onError(error) {
