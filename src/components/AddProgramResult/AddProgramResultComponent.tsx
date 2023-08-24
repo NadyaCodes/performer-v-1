@@ -27,9 +27,9 @@ export default function AddProgramResultComponent() {
   >(dataArray[0] ? [dataArray[0]] : []);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = () => {
       if (router.query.objectToPassToNextURL) {
-        const data = JSON.parse(
+        const data: NewProgramSubmission[] = JSON.parse(
           decodeURIComponent(router.query.objectToPassToNextURL as string)
         );
         const newDataArray: SingleProgramSubmission[] = [];
@@ -73,14 +73,14 @@ export default function AddProgramResultComponent() {
       currentProgram >= 0 &&
       currentProgram < dataArray.length
     ) {
-      let newDisplayPrograms = [...displayPrograms];
+      const newDisplayPrograms = [...displayPrograms];
       const newProgramSubmission = dataArray[currentProgram];
       if (newProgramSubmission) {
         newDisplayPrograms.push(newProgramSubmission);
         setDisplayPrograms(newDisplayPrograms);
       }
     }
-  }, [dataArray, currentProgram]);
+  }, [dataArray, currentProgram, displayPrograms]);
 
   const programDisplay = displayPrograms?.map((object, index) => {
     return (
