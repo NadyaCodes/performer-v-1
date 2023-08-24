@@ -48,12 +48,34 @@ export default function ProgramForm() {
     index: number,
     subField?: string
   ) => {
-    const newFormData = JSON.parse(JSON.stringify(formData));
+    const newFormData: NewProgramSubmission[] = formData.map((dataObject) => ({
+      ...dataObject,
+      discipline: { ...dataObject.discipline },
+      type: { ...dataObject.type },
+    }));
 
-    if (subField) {
-      newFormData[index][field][subField] = value;
-    } else {
-      newFormData[index][field] = value.toString();
+    const dataObject = newFormData[index];
+
+    if (dataObject) {
+      if (field === "discipline" || field === "type") {
+        const nestedField = dataObject[field] as DisciplineObject | TypeObject;
+        if (typeof nestedField === "object" && subField) {
+          if (subField in nestedField) {
+            if (field === "discipline" && typeof value === "boolean") {
+              (nestedField as DisciplineObject)[
+                subField as keyof DisciplineObject
+              ] = value;
+            } else if (field === "type" && typeof value === "boolean") {
+              (nestedField as TypeObject)[subField as keyof TypeObject] = value;
+            }
+          }
+        }
+      } else if (
+        typeof value === "string" &&
+        typeof dataObject[field as keyof NewProgramSubmission] === "string"
+      ) {
+        (dataObject[field as keyof NewProgramSubmission] as string) = value;
+      }
     }
 
     setFormData(newFormData);
