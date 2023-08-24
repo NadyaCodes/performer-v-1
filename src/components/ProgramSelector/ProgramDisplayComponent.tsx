@@ -1,5 +1,4 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { api } from "@component/utils/api";
 import { useSession } from "next-auth/react";
 import type { ProgramInfoArray } from "@component/pages/[style]/[discipline]/[province]/[city]";
@@ -17,6 +16,7 @@ import { convertUserFavs } from "../ProgramFinder/helpers";
 import TitleHeader from "./TitleHeader";
 import SubHeader from "./SubHeader";
 import SelectorScrollArrow from "./SelectorScrollArrow";
+import { useEffectOnce } from "../AddProgramResult/helpers";
 
 interface ProgramDisplayProps {
   dataObject: {
@@ -45,9 +45,9 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
   const utils = api.useContext();
 
   const titleString = `${stylesFull[style]} ${
-    discipline ? disciplinesFull[discipline] : ""
+    !!discipline ? disciplinesFull[discipline] : ""
   } Programs
-  in ${city ? city : ""}${province ? ", " + provincesFull[province] : ""}`;
+  in ${!!city ? city : ""}${province ? ", " + provincesFull[province] : ""}`;
 
   const fetchLocationId = async (city: string, province: string) => {
     const provinceFull = provincesFull[province] || "none";
@@ -171,7 +171,7 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
     }
   };
 
-  useEffect(() => {
+  useEffectOnce(() => {
     fetchData({ style, discipline, city, province })
       .then((result) => {
         if (result) {
@@ -179,17 +179,34 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
         }
       })
       .catch((error) => console.error("Error fetching data: ", error));
-  }, []);
+  });
+
+  // useEffect(() => {
+  //   if (sessionData) {
+  //     fetchFavsObj(sessionData?.user.id)
+  //       .then((result) => result && setUserFavsObject(result))
+  //       .catch((error) => console.error("Error fetching favs: ", error));
+  //   } else {
+  //     setLoadingFavs(false);
+  //   }
+  // }, [sessionData]);
+
+  const fetchFavsObjCB = useCallback(
+    async (userId: string) => {
+      return await utils.favs.getAllForUser.fetch({ userId });
+    },
+    [utils.favs.getAllForUser.fetch]
+  );
 
   useEffect(() => {
     if (sessionData) {
-      fetchFavsObj(sessionData?.user.id)
+      fetchFavsObjCB(sessionData?.user.id)
         .then((result) => result && setUserFavsObject(result))
         .catch((error) => console.error("Error fetching favs: ", error));
     } else {
       setLoadingFavs(false);
     }
-  }, [sessionData]);
+  }, [sessionData, fetchFavsObjCB]);
 
   const fetchFavsObj = async (userId: string) => {
     return await utils.favs.getAllForUser.fetch({ userId });
