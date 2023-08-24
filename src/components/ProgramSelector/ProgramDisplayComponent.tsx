@@ -45,9 +45,9 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
   const utils = api.useContext();
 
   const titleString = `${stylesFull[style]} ${
-    discipline && disciplinesFull[discipline]
+    discipline ? disciplinesFull[discipline] : ""
   } Programs
-  in ${city}, ${province && provincesFull[province]}`;
+  in ${city ? city : ""}${province ? ", " + provincesFull[province] : ""}`;
 
   const fetchLocationId = async (city: string, province: string) => {
     const provinceFull = provincesFull[province] || "none";
@@ -172,18 +172,20 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
   };
 
   useEffect(() => {
-    fetchData({ style, discipline, city, province }).then((result) => {
-      if (result) {
-        setItemArray(result);
-      }
-    });
+    fetchData({ style, discipline, city, province })
+      .then((result) => {
+        if (result) {
+          setItemArray(result);
+        }
+      })
+      .catch((error) => console.error("Error fetching data: ", error));
   }, []);
 
   useEffect(() => {
     if (sessionData) {
-      fetchFavsObj(sessionData?.user.id).then(
-        (result) => result && setUserFavsObject(result)
-      );
+      fetchFavsObj(sessionData?.user.id)
+        .then((result) => result && setUserFavsObject(result))
+        .catch((error) => console.error("Error fetching favs: ", error));
     } else {
       setLoadingFavs(false);
     }
@@ -243,7 +245,9 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
         )}
 
         <Link
-          href={`/${style}/${discipline}/${province}/select-next`}
+          href={`/${style}/${discipline || "act"}/${
+            province || "ontario"
+          }/select-next`}
           className="mt-3 w-screen p-2 opacity-0"
           style={{ animation: "fadeIn 1s linear 2.5s forwards" }}
         >

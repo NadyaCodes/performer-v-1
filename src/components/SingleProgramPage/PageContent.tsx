@@ -9,6 +9,7 @@ import type { ProgramWithInfo } from "../ProgramFinder/types";
 import type { FavProgram } from "@prisma/client";
 import { convertUserFavs } from "../ProgramFinder/helpers";
 import SinglePageHeader from "./SinglePageHeader";
+import { useEffectOnce } from "../AddProgramResult/helpers";
 
 export default function PageContent({ programId }: { programId: string }) {
   const { data: sessionData } = useSession();
@@ -44,37 +45,45 @@ export default function PageContent({ programId }: { programId: string }) {
     return await utils.favs.getAllForUser.fetch({ userId });
   };
 
-  useEffect(() => {
-    fetchFTProgram().then((ftData) => {
-      if (ftData) {
-        setProgramObject({ ...ftData, type: "ft" });
-      } else {
-        fetchPTProgram().then((ptData) => {
-          if (ptData) {
-            setProgramObject({ ...ptData, type: "pt" });
-          }
-        });
-      }
-    });
-  }, []);
+  useEffectOnce(() => {
+    fetchFTProgram()
+      .then((ftData) => {
+        if (ftData) {
+          setProgramObject({ ...ftData, type: "ft" });
+        } else {
+          fetchPTProgram()
+            .then((ptData) => {
+              if (ptData) {
+                setProgramObject({ ...ptData, type: "pt" });
+              }
+            })
+            .catch((error) =>
+              console.error("Error fetching PT Program: ", error)
+            );
+        }
+      })
+      .catch((error) => console.error("Error fetching FT Program: ", error));
+  });
 
   useEffect(() => {
     if (programObject) {
-      fetchSchoolLoc(programObject?.schoolLocationId).then((data) => {
-        if (data) {
-          const allInfo = {
-            id: programObject.id,
-            schoolLocationId: programObject.schoolLocationId,
-            website: programObject.website || data.website,
-            discipline: programObject.discipline,
-            name: programObject.name,
-            type: programObject.type,
-            cityObj: { ...data.location },
-            schoolObj: { ...data.school },
-          };
-          setAllProgramInfo(allInfo);
-        }
-      });
+      fetchSchoolLoc(programObject?.schoolLocationId)
+        .then((data) => {
+          if (data) {
+            const allInfo = {
+              id: programObject.id,
+              schoolLocationId: programObject.schoolLocationId,
+              website: programObject.website || data.website,
+              discipline: programObject.discipline,
+              name: programObject.name,
+              type: programObject.type,
+              cityObj: { ...data.location },
+              schoolObj: { ...data.school },
+            };
+            setAllProgramInfo(allInfo);
+          }
+        })
+        .catch((error) => console.error("Error fetching SchoolLoc: ", error));
     }
   }, [programObject]);
 
@@ -82,13 +91,13 @@ export default function PageContent({ programId }: { programId: string }) {
     if (!sessionData) {
       setLoadingFavs(false);
     }
-  }, []);
+  }, [sessionData]);
 
   useEffect(() => {
     if (sessionData) {
-      fetchFavsObj(sessionData?.user.id).then(
-        (result) => result && setUserFavsObject(result)
-      );
+      fetchFavsObj(sessionData?.user.id)
+        .then((result) => result && setUserFavsObject(result))
+        .catch((error) => console.error("Error fetching FavsObj: ", error));
     } else {
       setLoadingFavs(false);
     }
