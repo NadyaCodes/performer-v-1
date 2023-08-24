@@ -1,4 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
 import type { LocationObject } from "../ProgramFinder/types";
 import { api } from "@component/utils/api";
 import DOMPurify from "isomorphic-dompurify";
@@ -14,7 +19,7 @@ import type { SingleProgramSubmission } from "./AddProgramResultComponent";
 
 interface SingleProgramResultProps {
   schoolObject: SingleProgramSubmission;
-  setCurrentProgram: Function;
+  setCurrentProgram: Dispatch<SetStateAction<number>>;
   currentProgram: number;
 }
 

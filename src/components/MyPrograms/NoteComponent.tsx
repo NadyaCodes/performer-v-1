@@ -12,7 +12,7 @@ export default function NoteComponent({
 }: {
   note: Note;
   setNotes: Dispatch<SetStateAction<Note[] | [] | null>>;
-  fetchNotes: Function;
+  fetchNotes: () => Promise<Note[] | undefined>;
 }) {
   const [loading, setLoading] = useState<boolean>(false);
   const [hover, setHover] = useState<boolean>(false);
@@ -21,7 +21,7 @@ export default function NoteComponent({
     async onSuccess(data) {
       await utils.notes.getAll.invalidate();
       fetchNotes()
-        .then((result: Note[]) => result && setNotes(result))
+        .then((result: Note[] | undefined) => result && setNotes(result))
         .then(() => setLoading(false));
       return data;
     },

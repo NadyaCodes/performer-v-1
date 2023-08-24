@@ -35,7 +35,7 @@ const SingleProgram = ({
   program: ProgramWithInfo;
   loadingDelete: boolean | string;
   setLoadingDelete: Dispatch<SetStateAction<boolean | string>>;
-  findUserFavs: Function;
+  findUserFavs: (userId: string) => Promise<(ProgramWithType | undefined)[]>;
   setUserFavs: Dispatch<SetStateAction<(ProgramWithType | undefined)[] | null>>;
 }) => {
   const { data: sessionData } = useSession();

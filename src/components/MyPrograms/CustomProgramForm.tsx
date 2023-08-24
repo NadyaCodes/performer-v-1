@@ -32,6 +32,8 @@ export type CustomProgramSubmission = InputObject & {
   userId: string;
 };
 
+type FindCustomProgramsFunction = () => Promise<CustomProgram[] | undefined>;
+
 export default function CustomProgramForm({
   setShowUpdateCustom,
   findCustomPrograms,
@@ -39,8 +41,8 @@ export default function CustomProgramForm({
   currentProgram,
 }: {
   setShowUpdateCustom: Dispatch<SetStateAction<boolean | CustomProgram>>;
-  findCustomPrograms: Function;
-  setDisplayCustom: Function;
+  findCustomPrograms: FindCustomProgramsFunction;
+  setDisplayCustom: Dispatch<SetStateAction<CustomProgram[]>>;
   currentProgram: CustomProgram | null;
 }) {
   const { data: sessionData } = useSession();
@@ -89,7 +91,7 @@ export default function CustomProgramForm({
       setLoading(false);
       setUserInput(emptyUserInput);
       findCustomPrograms().then(
-        (customData: CustomProgram[]) =>
+        (customData: CustomProgram[] | undefined) =>
           customData && setDisplayCustom(customData)
       );
       return data;
@@ -108,7 +110,7 @@ export default function CustomProgramForm({
       setLoading(false);
       setUserInput(emptyUserInput);
       findCustomPrograms().then(
-        (customData: CustomProgram[]) =>
+        (customData: CustomProgram[] | undefined) =>
           customData && setDisplayCustom(customData)
       );
       return data;
