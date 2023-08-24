@@ -44,7 +44,7 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
 
   const utils = api.useContext();
 
-  const styleText = stylesFull[style];
+  const styleText = stylesFull[style] || "";
   const disciplineText = (discipline && disciplinesFull[discipline]) || "";
   let locationArray = [city || "", (province && provincesFull[province]) || ""];
   locationArray = locationArray.filter((item) => item !== "");
@@ -195,22 +195,75 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
   //   }
   // }, [sessionData]);
 
-  const fetchFavsObjMemo = useMemo(
-    () => async (userId: string) => {
-      return await utils.favs.getAllForUser.fetch({ userId });
-    },
-    []
-  );
+  // const fetchFavsObjMemo = useMemo(
+  //   () => async (userId: string) => {
+  //     return await utils.favs.getAllForUser.fetch({ userId });
+  //   },
+  //   []
+  // );
+
+  // useEffect(() => {
+  //   if (sessionData) {
+  //     fetchFavsObjMemo(sessionData.user.id)
+  //       .then((result) => result && setUserFavsObject(result))
+  //       .catch((error) => console.error("Error fetching favs: ", error));
+  //   } else {
+  //     setLoadingFavs(false);
+  //   }
+  // }, [sessionData, fetchFavsObjMemo]);
+
+  // useEffect(() => {
+  //   const fetchFavsObj = async (userId: string) => {
+  //     return await utils.favs.getAllForUser.fetch({ userId });
+  //   };
+
+  //   if (sessionData) {
+  //     fetchFavsObj(sessionData.user.id)
+  //       .then((result) => {
+  //         if (result) {
+  //           setUserFavsObject(result);
+  //         }
+  //       })
+  //       .catch((error) => console.error("Error fetching favs: ", error));
+  //   } else {
+  //     setLoadingFavs(false);
+  //   }
+  // }, [sessionData]);
 
   useEffect(() => {
+    const fetchFavsObj = async (userId: string) => {
+      return await utils.favs.getAllForUser.fetch({ userId });
+    };
+
     if (sessionData) {
-      fetchFavsObjMemo(sessionData.user.id)
-        .then((result) => result && setUserFavsObject(result))
+      fetchFavsObj(sessionData.user.id)
+        .then((result) => {
+          if (result) {
+            setUserFavsObject(result);
+          }
+        })
         .catch((error) => console.error("Error fetching favs: ", error));
     } else {
       setLoadingFavs(false);
     }
-  }, [sessionData, fetchFavsObjMemo]);
+  }, [sessionData]);
+
+  // const fetchFavsObjMemo = useMemo(
+  //   () => async (userId: string) => {
+  //     return await utils.favs.getAllForUser.fetch({ userId });
+  //   },
+  //   [utils.favs.getAllForUser.fetch]
+  // );
+
+  // useEffect(() => {
+  //   if (sessionData) {
+  //     fetchFavsObjMemo(sessionData.user.id)
+  //       .then((result) => result && setUserFavsObject(result))
+  //       .catch((error) => console.error("Error fetching favs: ", error));
+  //   } else {
+  //     setLoadingFavs(false);
+  //   }
+  // }, [sessionData, fetchFavsObjMemo]);
 
   // const fetchFavsObjCB = useCallback(
   //   async (userId: string) => {
