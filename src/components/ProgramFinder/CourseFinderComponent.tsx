@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import { NextPage } from "next";
+import type { NextPage } from "next";
 import { api } from "@component/utils/api";
 import ProgramItem from "./ProgramItem";
 import FilterMenu from "./FilterMenu";

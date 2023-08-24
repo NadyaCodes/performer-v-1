@@ -44,6 +44,7 @@ const DisplayPage: NextPage<SelectNextProps> = ({
     titleString = `${stylesFull[style]} Programs in Canada`;
   }
 
+  console.log(titleString);
   return (
     <>
       <Head>
