@@ -17,6 +17,10 @@ export default function MobileMenuOpen({
     }
   };
 
+  const handleSignOut = async () => {
+    signOut();
+  };
+
   const menuDisplay = menuItems.map((item) => {
     let disabled = false;
     if (!sessionData?.user) {
@@ -56,7 +60,7 @@ export default function MobileMenuOpen({
       )}
       <button
         className="flex w-2/3 justify-center bg-indigo-100 p-2 font-bold shadow-md shadow-indigo-900 hover:scale-105 hover:bg-indigo-600 hover:bg-opacity-60 hover:text-indigo-50"
-        onClick={sessionData ? () => void signOut() : handleSignIn}
+        onClick={sessionData ? handleSignOut : handleSignIn}
       >
         {sessionData ? "Sign out" : "Sign in"}
       </button>
