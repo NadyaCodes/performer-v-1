@@ -49,36 +49,44 @@ export default function PageContent({ programId }: { programId: string }) {
   };
 
   useEffect(() => {
-    fetchFTProgram().then((ftData) => {
-      if (ftData) {
-        setProgramObject({ ...ftData, type: "ft" });
-      } else {
-        fetchPTProgram().then((ptData) => {
-          if (ptData) {
-            setProgramObject({ ...ptData, type: "pt" });
-          }
-        });
-      }
-    });
+    fetchFTProgram()
+      .then((ftData) => {
+        if (ftData) {
+          setProgramObject({ ...ftData, type: "ft" });
+        } else {
+          fetchPTProgram()
+            .then((ptData) => {
+              if (ptData) {
+                setProgramObject({ ...ptData, type: "pt" });
+              }
+            })
+            .catch((error) =>
+              console.error("Error fetching PTProgram: ", error)
+            );
+        }
+      })
+      .catch((error) => console.error("error fetching FTProgram: ", error));
   }, []);
 
   useEffect(() => {
     if (programObject) {
-      fetchSchoolLoc(programObject?.schoolLocationId).then((data) => {
-        if (data) {
-          const allInfo = {
-            id: programObject.id,
-            schoolLocationId: programObject.schoolLocationId,
-            website: programObject.website || data.website,
-            discipline: programObject.discipline,
-            name: programObject.name,
-            type: programObject.type,
-            cityObj: { ...data.location },
-            schoolObj: { ...data.school },
-          };
-          setAllProgramInfo(allInfo);
-        }
-      });
+      fetchSchoolLoc(programObject?.schoolLocationId)
+        .then((data) => {
+          if (data) {
+            const allInfo = {
+              id: programObject.id,
+              schoolLocationId: programObject.schoolLocationId,
+              website: programObject.website || data.website,
+              discipline: programObject.discipline,
+              name: programObject.name,
+              type: programObject.type,
+              cityObj: { ...data.location },
+              schoolObj: { ...data.school },
+            };
+            setAllProgramInfo(allInfo);
+          }
+        })
+        .catch((error) => console.error("Error fetching SchoolLoc: ", error));
     }
   }, [programObject]);
 
@@ -90,9 +98,9 @@ export default function PageContent({ programId }: { programId: string }) {
 
   useEffect(() => {
     if (sessionData) {
-      fetchFavsObj(sessionData?.user.id).then(
-        (result) => result && setUserFavsObject(result)
-      );
+      fetchFavsObj(sessionData?.user.id)
+        .then((result) => result && setUserFavsObject(result))
+        .catch((error) => console.error("Error fetching FavsObj: ", error));
     } else {
       setLoadingFavs(false);
     }

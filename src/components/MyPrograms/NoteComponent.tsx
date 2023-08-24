@@ -22,7 +22,8 @@ export default function NoteComponent({
       await utils.notes.getAll.invalidate();
       fetchNotes()
         .then((result: Note[] | undefined) => result && setNotes(result))
-        .then(() => setLoading(false));
+        .then(() => setLoading(false))
+        .catch((error) => console.error("Error fetching notes: ", error));
       return data;
     },
     onError(error) {

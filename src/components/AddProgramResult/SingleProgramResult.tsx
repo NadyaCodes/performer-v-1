@@ -56,25 +56,51 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
       return null;
     }
   };
+  ///////////LEAVING THIS IN HERE IN CASE I SCREWED UP THE LOGIC
+
+  // const { mutate: createLocation } = api.location.add.useMutation({
+  //   async onSuccess(data) {
+  //     await utils.location.getAll.invalidate();
+  //     setPrismaLocationObject(data);
+  //     return data;
+  //   },
+  //   onError(error) {
+  //     console.log("createExample error: ", error);
+  //   },
+  // });
+
+  // const addLocation = (locationObject: LocationObject) => {
+  //   return createLocation(locationObject);
+  // };
+
+  // const addPrismaLocation = async (cityProv: LocationObject) => {
+  //   try {
+  //     const data = await addLocation(cityProv);
+  //     const prismaLocation = await findPrismaLocation(cityProv);
+  //     return prismaLocation;
+  //   } catch (error) {
+  //     console.error("Error fetching Prisma location:", error);
+  //     return null;
+  //   }
+  // };
 
   const { mutate: createLocation } = api.location.add.useMutation({
-    async onSuccess(data) {
+    onSuccess: async (data) => {
       await utils.location.getAll.invalidate();
       setPrismaLocationObject(data);
-      return data;
     },
-    onError(error) {
-      console.log("createExample error: ", error);
+    onError: (error) => {
+      console.log("createLocation error: ", error);
     },
   });
 
   const addLocation = (locationObject: LocationObject) => {
-    return createLocation(locationObject);
+    createLocation(locationObject);
   };
 
   const addPrismaLocation = async (cityProv: LocationObject) => {
     try {
-      const data = await addLocation(cityProv);
+      addLocation(cityProv);
       const prismaLocation = await findPrismaLocation(cityProv);
       return prismaLocation;
     } catch (error) {
@@ -136,7 +162,7 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
 
   const addPrismaSchool = async (name: string) => {
     try {
-      const data = await addSchool(name);
+      addSchool(name);
       const prismaSchool = await findPrismaSchool(name);
       return prismaSchool;
     } catch (error) {
@@ -215,7 +241,7 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
     website: string;
   }) => {
     try {
-      const data = await addSchoolLocation({ schoolId, locationId, website });
+      addSchoolLocation({ schoolId, locationId, website });
       const prismaSchoolLocation = await findPrismaSchoolLocation({
         schoolId,
         locationId,
@@ -325,7 +351,7 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
     website: string;
     name?: string;
   }) => {
-    let programName = name || "* No Name *";
+    const programName = name || "* No Name *";
     if (type === "pt") {
       return createPtProgram({ schoolLocationId, website, discipline });
     }
@@ -353,7 +379,7 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
     name?: string;
   }) => {
     try {
-      const data = await addProgram({
+      addProgram({
         schoolLocationId,
         discipline,
         type,
@@ -399,10 +425,10 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
             website: cleanWebsite,
             name: cleanName ? cleanName : undefined,
           });
-          return addedProgram; // Return the added location
+          return addedProgram;
         } else {
           setPrismaProgram(prismaProgram);
-          return prismaProgram; // Return the existing location
+          return prismaProgram;
         }
       } catch (error) {
         console.error("Error:", error);
@@ -433,7 +459,9 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
       }
     };
 
-    fetchSchoolLocation();
+    fetchSchoolLocation().catch((error) =>
+      console.error("Error fetching school location: ", error)
+    );
   }, [prismaLocationObject, prismaSchoolObject]);
 
   //CREATE PROGRAM
@@ -445,7 +473,9 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
       }
     };
 
-    fetchProgram();
+    fetchProgram().catch((error) =>
+      console.error("Error fetching program: ", error)
+    );
   }, [prismaSchoolLocationObject]);
 
   useEffect(() => {

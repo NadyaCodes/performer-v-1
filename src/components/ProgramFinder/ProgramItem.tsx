@@ -181,8 +181,30 @@ export default function ProgramItem({
       if (favProgram) {
         deleteFav({ id: favProgram.id });
         fetchUserFavsObject &&
-          fetchUserFavsObject(userId)?.then((result: FavProgram[] | null) => {
-            if (result) {
+          fetchUserFavsObject(userId)
+            ?.then((result: FavProgram[] | null) => {
+              if (result) {
+                setFavesObject && setFavesObject(result);
+                const convertedArray = convertUserFavs(result);
+                const filteredArray = convertedArray.filter(
+                  (element) => element !== undefined
+                ) as string[];
+                if (filteredArray.includes(element.id)) {
+                  setFav(true);
+                } else {
+                  setFav(false);
+                }
+              }
+            })
+            .catch((error) =>
+              console.error("Error fetching userFavsObject: ", error)
+            );
+      } else {
+        type === "pt" && addFavPt({ userId, ptProgramId: element.id });
+        type === "ft" && addFavFt({ userId, ftProgramId: element.id });
+        fetchUserFavsObject &&
+          fetchUserFavsObject(userId)
+            ?.then((result: FavProgram[]) => {
               setFavesObject && setFavesObject(result);
               const convertedArray = convertUserFavs(result);
               const filteredArray = convertedArray.filter(
@@ -193,24 +215,10 @@ export default function ProgramItem({
               } else {
                 setFav(false);
               }
-            }
-          });
-      } else {
-        type === "pt" && addFavPt({ userId, ptProgramId: element.id });
-        type === "ft" && addFavFt({ userId, ftProgramId: element.id });
-        fetchUserFavsObject &&
-          fetchUserFavsObject(userId)?.then((result: FavProgram[]) => {
-            setFavesObject && setFavesObject(result);
-            const convertedArray = convertUserFavs(result);
-            const filteredArray = convertedArray.filter(
-              (element) => element !== undefined
-            ) as string[];
-            if (filteredArray.includes(element.id)) {
-              setFav(true);
-            } else {
-              setFav(false);
-            }
-          });
+            })
+            .catch((error) =>
+              console.error("Error fetching UserFavsObject: ", error)
+            );
       }
     }
   };

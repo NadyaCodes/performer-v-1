@@ -116,9 +116,9 @@ const CourseFinderComponent: NextPage = () => {
 
   useEffect(() => {
     if (sessionData) {
-      fetchFavsObj(sessionData?.user.id).then(
-        (result) => result && setUserFavsObject(result)
-      );
+      fetchFavsObj(sessionData?.user.id)
+        .then((result) => result && setUserFavsObject(result))
+        .catch((error) => console.error("Error fetching favsObj: ", error));
     } else {
       setLoadingFavs(false);
     }

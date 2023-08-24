@@ -2,9 +2,14 @@ import { useEffect } from "react";
 
 declare global {
   interface Window {
-    sender: any;
+    sender: SenderType;
   }
 }
+
+type SenderType = {
+  (...args: string[]): void;
+  q?: object[];
+};
 
 const SenderScript = () => {
   useEffect(() => {

@@ -89,10 +89,14 @@ export default function CustomProgramForm({
         });
         setLoading(false);
         setUserInput(emptyUserInput);
-        findCustomPrograms(userId).then(
-          (customData: CustomProgram[] | undefined) =>
-            customData && setDisplayCustom(customData)
-        );
+        findCustomPrograms(userId)
+          .then(
+            (customData: CustomProgram[] | undefined) =>
+              customData && setDisplayCustom(customData)
+          )
+          .catch((error) =>
+            console.error("Error finding custom Programs: ", error)
+          );
         return data;
       }
     },
@@ -110,10 +114,14 @@ export default function CustomProgramForm({
         });
         setLoading(false);
         setUserInput(emptyUserInput);
-        findCustomPrograms(userId).then(
-          (customData: CustomProgram[] | undefined) =>
-            customData && setDisplayCustom(customData)
-        );
+        findCustomPrograms(userId)
+          .then(
+            (customData: CustomProgram[] | undefined) =>
+              customData && setDisplayCustom(customData)
+          )
+          .catch((error) =>
+            console.error("Error finding custom programs: ", error)
+          );
         return data;
       }
     },
