@@ -1,4 +1,4 @@
-import React, { Dispatch, useState } from "react";
+import React, { type Dispatch, useState } from "react";
 import { api } from "@component/utils/api";
 import { useSession } from "next-auth/react";
 import type { SetStateAction } from "react";
@@ -81,7 +81,7 @@ export default function CustomProgramForm({
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const { mutate: addProgram } = api.customProgram.add.useMutation({
-    async onSuccess(data) {
+    onSuccess(data) {
       if (userId) {
         setShowUpdateCustom(false);
         window.scrollTo({
@@ -106,7 +106,7 @@ export default function CustomProgramForm({
   });
 
   const { mutate: updateProgram } = api.customProgram.update.useMutation({
-    async onSuccess(data) {
+    onSuccess(data) {
       if (userId) {
         setShowUpdateCustom(false);
         window.scrollTo({
@@ -172,7 +172,7 @@ export default function CustomProgramForm({
           }, 2000);
           return;
         }
-        const submitNewProgram = await addProgram({
+        const submitNewProgram = addProgram({
           ...submissionObject,
         } as CustomProgramSubmission);
         return submitNewProgram;
@@ -188,7 +188,7 @@ export default function CustomProgramForm({
           return;
         }
         const updatedObject = { ...submissionObject, id: currentProgram.id };
-        const update = await updateProgram(updatedObject);
+        const update = updateProgram(updatedObject);
         return update;
       }
       if (!validated) {
