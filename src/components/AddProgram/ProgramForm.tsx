@@ -58,7 +58,7 @@ export default function ProgramForm() {
 
     if (dataObject) {
       if (field === "discipline" || field === "type") {
-        const nestedField = dataObject[field] as DisciplineObject | TypeObject;
+        const nestedField = dataObject[field];
         if (typeof nestedField === "object" && subField) {
           if (subField in nestedField) {
             if (field === "discipline" && typeof value === "boolean") {
@@ -137,13 +137,12 @@ export default function ProgramForm() {
     };
 
     if (typeof formSubmissionObject.type === "object") {
-      const typeObject = formSubmissionObject.type as TypeObject;
+      const typeObject = formSubmissionObject.type;
       formErrorObject.type = !typeObject.pt && !typeObject.ft;
     }
 
     if (typeof formSubmissionObject.discipline === "object") {
-      const disciplineObject =
-        formSubmissionObject.discipline as DisciplineObject;
+      const disciplineObject = formSubmissionObject.discipline;
       formErrorObject.discipline =
         !disciplineObject.act &&
         !disciplineObject.sing &&

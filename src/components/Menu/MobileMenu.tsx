@@ -59,7 +59,7 @@ export default function MobileMenu() {
       <div className="flex w-full flex-col items-end">
         <div
           className={`relative z-40 flex h-4 w-full flex-col ${
-            !banner && " -translate-y-4"
+            !banner ? " -translate-y-4" : ""
           }`}
           style={{
             boxShadow: `0px 1px 2px rgba(0,255,255,0.5), 0px 2px 4px rgba(0,255,255,0.5), 0px 4px 8px rgba(0,255,255,0.5), 0px 8px 16px rgba(0,255,255,0.5)`,
@@ -67,7 +67,7 @@ export default function MobileMenu() {
         ></div>
         <div
           className={`absolute z-50 flex h-4 w-full flex-col ${bgTop} ${
-            !banner && " -translate-y-4"
+            !banner ? " -translate-y-4" : ""
           }`}
         ></div>
         {banner && (
