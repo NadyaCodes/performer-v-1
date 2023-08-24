@@ -32,8 +32,6 @@ export type CustomProgramSubmission = InputObject & {
   userId: string;
 };
 
-type FindCustomProgramsFunction = () => Promise<CustomProgram[] | undefined>;
-
 export default function CustomProgramForm({
   setShowUpdateCustom,
   findCustomPrograms,
@@ -41,7 +39,7 @@ export default function CustomProgramForm({
   currentProgram,
 }: {
   setShowUpdateCustom: Dispatch<SetStateAction<boolean | CustomProgram>>;
-  findCustomPrograms: FindCustomProgramsFunction;
+  findCustomPrograms: (userId: string) => Promise<CustomProgram[] | undefined>;
   setDisplayCustom: Dispatch<SetStateAction<CustomProgram[]>>;
   currentProgram: CustomProgram | null;
 }) {
@@ -84,17 +82,19 @@ export default function CustomProgramForm({
 
   const { mutate: addProgram } = api.customProgram.add.useMutation({
     async onSuccess(data) {
-      setShowUpdateCustom(false);
-      window.scrollTo({
-        top: 0,
-      });
-      setLoading(false);
-      setUserInput(emptyUserInput);
-      findCustomPrograms().then(
-        (customData: CustomProgram[] | undefined) =>
-          customData && setDisplayCustom(customData)
-      );
-      return data;
+      if (userId) {
+        setShowUpdateCustom(false);
+        window.scrollTo({
+          top: 0,
+        });
+        setLoading(false);
+        setUserInput(emptyUserInput);
+        findCustomPrograms(userId).then(
+          (customData: CustomProgram[] | undefined) =>
+            customData && setDisplayCustom(customData)
+        );
+        return data;
+      }
     },
     onError(error) {
       console.log("addFavPt error: ", error);
@@ -103,17 +103,19 @@ export default function CustomProgramForm({
 
   const { mutate: updateProgram } = api.customProgram.update.useMutation({
     async onSuccess(data) {
-      setShowUpdateCustom(false);
-      window.scrollTo({
-        top: 0,
-      });
-      setLoading(false);
-      setUserInput(emptyUserInput);
-      findCustomPrograms().then(
-        (customData: CustomProgram[] | undefined) =>
-          customData && setDisplayCustom(customData)
-      );
-      return data;
+      if (userId) {
+        setShowUpdateCustom(false);
+        window.scrollTo({
+          top: 0,
+        });
+        setLoading(false);
+        setUserInput(emptyUserInput);
+        findCustomPrograms(userId).then(
+          (customData: CustomProgram[] | undefined) =>
+            customData && setDisplayCustom(customData)
+        );
+        return data;
+      }
     },
     onError(error) {
       console.log("addFavPt error: ", error);

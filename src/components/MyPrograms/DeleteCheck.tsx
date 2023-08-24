@@ -81,10 +81,14 @@ export default function DeleteCheck({
     async onSuccess(data) {
       await utils.favs.getAll.invalidate();
       userId &&
-        findUserFavs(userId).then(
-          (favProgramData: (ProgramWithType | undefined)[]) =>
-            favProgramData && setUserFavs && setUserFavs(favProgramData)
-        );
+        findUserFavs(userId)
+          .then(
+            (favProgramData: (ProgramWithType | undefined)[]) =>
+              favProgramData && setUserFavs && setUserFavs([...favProgramData])
+          )
+          .catch((error) => {
+            console.error("Error fetching user favorites:", error);
+          });
       setDeleteCheck(false);
       return data;
     },
@@ -96,12 +100,16 @@ export default function DeleteCheck({
   const { mutate: deleteCustomProgram } = api.customProgram.delete.useMutation({
     async onSuccess(data) {
       await utils.notes.getAll.invalidate();
-      findCustomPrograms().then(
-        (customProgramData: CustomProgram[] | undefined) =>
-          customProgramData &&
-          setUserCustoms &&
-          setUserCustoms(customProgramData)
-      );
+      findCustomPrograms()
+        .then(
+          (customProgramData: CustomProgram[] | undefined) =>
+            customProgramData &&
+            setUserCustoms &&
+            setUserCustoms([...customProgramData])
+        )
+        .catch((error) => {
+          console.error("Error fetching custom programs:", error);
+        });
       setDeleteCheck(false);
       return data;
     },

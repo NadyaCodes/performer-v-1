@@ -43,11 +43,11 @@ const MobileQuickLinks = ({
   const buttonDisplay = keyValueList.map((item, index) => {
     const itemKey = Object.keys(item)[0];
     const divClass = `py-1 transition-all w-full  ${
-      currentProgram === itemKey && item.type === "fav" && "bg-cyan-50"
+      currentProgram === itemKey && item.type === "fav" ? "bg-cyan-50" : ""
     }
-    ${currentProgram === itemKey && item.type !== "fav" && "bg-indigo-200"}
-    ${hover === itemKey && item.type !== "fav" && "bg-indigo-200"}
-    ${hover === itemKey && item.type === "fav" && "bg-cyan-50"}`;
+    ${currentProgram === itemKey && item.type !== "fav" ? "bg-indigo-200" : ""}
+    ${hover === itemKey && item.type !== "fav" ? "bg-indigo-200" : ""}
+    ${hover === itemKey && item.type === "fav" ? "bg-cyan-50" : ""}`;
 
     return (
       itemKey && (
