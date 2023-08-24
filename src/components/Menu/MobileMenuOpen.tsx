@@ -17,8 +17,8 @@ export default function MobileMenuOpen({
     }
   };
 
-  const handleSignOut = async () => {
-    signOut();
+  const handleSignOut = () => {
+    void signOut();
   };
 
   const menuDisplay = menuItems.map((item) => {

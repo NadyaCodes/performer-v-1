@@ -12,7 +12,7 @@ const AuthShowcase: React.FC = () => {
 
   const handleSignOut: MouseEventHandler<HTMLButtonElement> = (event) => {
     event.preventDefault();
-    signOut();
+    void signOut();
   };
 
   return (

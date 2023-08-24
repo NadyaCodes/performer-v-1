@@ -29,9 +29,9 @@ export default function AddProgramResultComponent() {
   useEffect(() => {
     const fetchData = () => {
       if (router.query.objectToPassToNextURL) {
-        const data: NewProgramSubmission[] = JSON.parse(
+        const data = JSON.parse(
           decodeURIComponent(router.query.objectToPassToNextURL as string)
-        );
+        ) as NewProgramSubmission[];
         const newDataArray: SingleProgramSubmission[] = [];
         data.forEach((item: NewProgramSubmission) => {
           const types: (keyof TypeObject)[] = ["ft", "pt"];
