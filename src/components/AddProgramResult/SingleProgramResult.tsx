@@ -85,7 +85,7 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
   // };
 
   const { mutate: createLocation } = api.location.add.useMutation({
-    onSuccess: async (data) => {
+    async onSuccess(data) {
       await utils.location.getAll.invalidate();
       setPrismaLocationObject(data);
     },

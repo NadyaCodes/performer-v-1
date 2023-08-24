@@ -105,7 +105,7 @@ export default function ProgramItem({
   });
 
   const { mutate: addFavFt } = api.favs.addFT.useMutation({
-    async onSuccess(data) {
+    async onSuccess() {
       if (fetchUserFavsObject && setFavesObject) {
         try {
           if (userId) {
@@ -140,7 +140,7 @@ export default function ProgramItem({
   });
 
   const { mutate: deleteFav } = api.favs.deleteById.useMutation({
-    async onSuccess(data) {
+    async onSuccess() {
       if (fetchUserFavsObject && setFavesObject) {
         try {
           if (userId) {

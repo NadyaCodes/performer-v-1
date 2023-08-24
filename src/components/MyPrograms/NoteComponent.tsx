@@ -1,5 +1,5 @@
 import type { Note } from "@prisma/client";
-import React, { SetStateAction, useState } from "react";
+import React, { type SetStateAction, useState } from "react";
 import type { Dispatch } from "react";
 import { api } from "@component/utils/api";
 import LoadingSpinner from "../Loading/LoadingSpinner";
