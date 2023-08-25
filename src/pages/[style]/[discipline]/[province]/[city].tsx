@@ -33,21 +33,41 @@ const DisplayPage: NextPage<SelectNextProps> = ({
   city,
   province,
 }) => {
+  // let titleString = "";
+  // if (
+  //   discipline &&
+  //   province &&
+  //   city &&
+  //   stylesFull[style] &&
+  //   disciplinesFull[discipline]
+  // ) {
+  //   titleString = `${stylesFull[style] || ""} ${
+  //     disciplinesFull[discipline] || ""
+  //   } Programs in ${city},  ${provincesFull[province]}`;
+  // } else if (discipline && stylesFull[style] && disciplinesFull[discipline]) {
+  //   titleString = `${stylesFull[style] || ""} ${
+  //     disciplinesFull[discipline] || ""
+  //   } Programs in Canada`;
+  // } else if (province && stylesFull[style]) {
+  //   titleString = `${stylesFull[style] || ""} Programs in Canada`;
+  // } else {
+  //   titleString = `${stylesFull[style] || ""} Programs in Canada`;
+  // }
+
   let titleString = "";
-  if (
-    discipline &&
-    province &&
-    city &&
-    stylesFull[style] &&
-    disciplinesFull[discipline]
-  ) {
-    titleString = `${stylesFull[style]} ${disciplinesFull[discipline]} Programs in ${city},  ${provincesFull[province]}`;
-  } else if (discipline && stylesFull[style] && disciplinesFull[discipline]) {
-    titleString = `${stylesFull[style]} ${disciplinesFull[discipline]} Programs in Canada`;
-  } else if (province && stylesFull[style]) {
-    titleString = `${stylesFull[style]} Programs in Canada`;
+
+  const styleFull = stylesFull[style];
+  const disciplineFull = (discipline && disciplinesFull[discipline]) || "";
+  const provinceFull = (province && provincesFull[province]) || "";
+
+  if (discipline && province && city && styleFull && disciplineFull) {
+    titleString = `${styleFull} ${disciplineFull} Programs in ${city}, ${provinceFull}`;
+  } else if (discipline && styleFull && disciplineFull) {
+    titleString = `${styleFull} ${disciplineFull} Programs in Canada`;
+  } else if (province && styleFull) {
+    titleString = `${styleFull} Programs in Canada`;
   } else {
-    titleString = `${stylesFull[style] || ""} Programs in Canada`;
+    titleString = `${styleFull} Programs in Canada`;
   }
 
   return (
