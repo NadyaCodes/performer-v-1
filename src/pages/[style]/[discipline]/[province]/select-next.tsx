@@ -24,8 +24,8 @@ const ProvincePage: NextPage<SelectNextProps> = ({
   const disciplineText = discipline || "act";
   const provinceText = province || "ontario";
   const styleFull = stylesFull[style] || "Full Time";
-  const disciplineFull = discipline ? disciplinesFull[discipline] : "acting";
-  const provinceFull = province ? provincesFull[province] : "ontario";
+  const disciplineFull = disciplinesFull[discipline || ""] || "acting";
+  const provinceFull = provincesFull[province || ""] || "ontario";
 
   const link = `/${styleText}/${disciplineText}/${provinceText}`;
   const backLink = `/${styleText}/${disciplineText}/select-next`;

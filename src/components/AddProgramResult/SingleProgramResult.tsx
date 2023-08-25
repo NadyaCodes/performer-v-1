@@ -438,17 +438,32 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
   };
 
   //CREATE FINAL SCHOOL AND LOCATION
-  useEffectOnce(async () => {
-    try {
-      const locationResult = await fetchDataAndAddLocation();
-      console.log("Location Result:", locationResult);
+  // useEffectOnce(async () => {
+  //   try {
+  //     const locationResult = await fetchDataAndAddLocation();
+  //     console.log("Location Result:", locationResult);
 
-      const schoolResult = await fetchDataAndAddSchool();
-      console.log("School Add Result: ", schoolResult);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  });
+  //     const schoolResult = await fetchDataAndAddSchool();
+  //     console.log("School Add Result: ", schoolResult);
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+  // });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const locationResult = await fetchDataAndAddLocation();
+        console.log("Location Result:", locationResult);
+
+        const schoolResult = await fetchDataAndAddSchool();
+        console.log("School Add Result: ", schoolResult);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   //CREATE FINAL SCHOOL LOCATION
   useEffect(() => {
@@ -473,7 +488,9 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
       }
     };
 
-    fetchSchoolLocation();
+    fetchSchoolLocation().catch((error) =>
+      console.error("Error fetching school location: ", error)
+    );
   }, [prismaLocationObject, prismaSchoolObject]);
 
   //CREATE PROGRAM
@@ -499,7 +516,9 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
       }
     };
 
-    fetchProgram();
+    fetchProgram().catch((error) =>
+      console.error("Error fetching program: ", error)
+    );
   }, [prismaSchoolLocationObject]);
 
   useEffect(() => {

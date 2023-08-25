@@ -1,11 +1,11 @@
-import { type GetStaticProps, type NextPage } from "next";
+import type { GetStaticProps, NextPage } from "next";
 
 import { styles, disciplines, provincesFullReverse } from "src/data/constants";
 import type { SelectNextProps, PathsArray } from "@component/data/types";
 import Head from "next/head";
 import { stylesFull, disciplinesFull, provincesFull } from "src/data/constants";
 
-import {
+import type {
   SchoolLocation,
   School,
   Location,
@@ -37,8 +37,8 @@ const DisplayPage: NextPage<SelectNextProps> = ({
   const provinceText = province || "ontario";
   const cityText = city || "toronto";
   const styleFull = stylesFull[style] || "Full Time";
-  const disciplineFull = discipline ? disciplinesFull[discipline] : "acting";
-  const provinceFull = province ? provincesFull[province] : "ontario";
+  const disciplineFull = disciplinesFull[discipline || ""] || "acting";
+  const provinceFull = provincesFull[province || ""] || "ontario";
 
   if (discipline && province && city) {
     titleString = `${styleFull} ${disciplineFull} Programs in ${cityText}, ${provinceFull}`;
@@ -120,12 +120,20 @@ const createPaths = async (): Promise<Array<PathsArray>> => {
             if (!cityMap[province]) {
               cityMap[province] = [];
             }
+            // if (
+            //   cityMap[province] &&
+            //   location.city &&
+            //   !cityMap[province]!.includes(location.city)
+            // ) {
+            //   cityMap[province]!.push(location.city);
+            // }
             if (
               cityMap[province] &&
-              location.city &&
-              !cityMap[province]!.includes(location.city)
+              location.city !== undefined && // Check if location.city is not undefined
+              cityMap[province] &&
+              cityMap[province]?.indexOf(location.city) === -1
             ) {
-              cityMap[province]!.push(location.city);
+              cityMap[province]?.push(location.city);
             }
           }
         }
