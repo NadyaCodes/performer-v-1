@@ -250,8 +250,29 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
     }
   };
 
+  // const addPrismaSchoolLocationCB = useCallback(
+  //   ({
+  //     schoolId,
+  //     locationId,
+  //     website,
+  //   }: {
+  //     schoolId: string;
+  //     locationId: string;
+  //     website: string;
+  //   }) => {
+  //     addPrismaSchoolLocation({
+  //       schoolId,
+  //       locationId,
+  //       website,
+  //     }).catch((error) =>
+  //       console.error("Error adding Prisma School Location: ", error)
+  //     );
+  //   },
+  //   [addPrismaSchoolLocation]
+  // );
+
   const addPrismaSchoolLocationCB = useCallback(
-    ({
+    async ({
       schoolId,
       locationId,
       website,
@@ -260,15 +281,32 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
       locationId: string;
       website: string;
     }) => {
-      addPrismaSchoolLocation({
-        schoolId,
-        locationId,
-        website,
-      }).catch((error) =>
-        console.error("Error adding Prisma School Location: ", error)
-      );
+      const addPrismaSchoolLocationInternal = async () => {
+        try {
+          const data = addSchoolLocation({
+            schoolId,
+            locationId,
+            website,
+          });
+          const prismaSchoolLocation = await findPrismaSchoolLocation({
+            schoolId,
+            locationId,
+          });
+          console.log("Added School Location: ", data);
+          return prismaSchoolLocation;
+        } catch (error) {
+          console.error("Error fetching Prisma school location:", error);
+          return null;
+        }
+      };
+
+      try {
+        await addPrismaSchoolLocationInternal();
+      } catch (error) {
+        console.error("Error adding Prisma School Location: ", error);
+      }
     },
-    [addPrismaSchoolLocation]
+    [addSchoolLocation, findPrismaSchoolLocation]
   );
 
   // const fetchDataAndAddSchoolLocation = async () => {
