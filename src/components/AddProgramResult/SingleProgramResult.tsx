@@ -3,11 +3,12 @@ import React, {
   useEffect,
   useState,
   type Dispatch,
+  useCallback,
 } from "react";
 import type { LocationObject } from "../ProgramFinder/types";
 import { api } from "@component/utils/api";
 import DOMPurify from "isomorphic-dompurify";
-import { useEffectOnce } from "./helpers";
+import { useEffectOnceVoidReturn } from "./helpers";
 import type {
   FTProgram,
   Location,
@@ -416,14 +417,25 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
   };
 
   //CREATE FINAL SCHOOL AND LOCATION
-  useEffectOnce(async () => {
+  // useEffectOnce(async () => {
+  //   try {
+  //     const locationResult = await fetchDataAndAddLocation();
+  //     console.log("Location Result:", locationResult);
+
+  //     const schoolResult = await fetchDataAndAddSchool();
+  //     console.log("School Add Result: ", schoolResult);
+  //     return;
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+  // });
+  useEffectOnceVoidReturn(async () => {
     try {
       const locationResult = await fetchDataAndAddLocation();
       console.log("Location Result:", locationResult);
 
       const schoolResult = await fetchDataAndAddSchool();
       console.log("School Add Result: ", schoolResult);
-      return;
     } catch (error) {
       console.error("Error:", error);
     }
@@ -457,6 +469,10 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
     );
   }, [prismaSchoolLocationObject]);
 
+  const incrementProgram = useCallback(() => {
+    setCurrentProgram((prev) => prev + 1);
+  }, []);
+
   useEffect(() => {
     if (
       prismaLocationObject &&
@@ -464,13 +480,14 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
       prismaSchoolLocationObject &&
       prismaProgram
     ) {
-      setCurrentProgram(currentProgram + 1);
+      incrementProgram();
     }
   }, [
     prismaLocationObject,
     prismaSchoolObject,
     prismaSchoolLocationObject,
     prismaProgram,
+    incrementProgram,
   ]);
 
   return (
