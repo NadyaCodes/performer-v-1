@@ -172,10 +172,13 @@ export default function CustomProgramForm({
           }, 2000);
           return Promise.resolve();
         }
-        const submitNewProgram = addProgram({
+        // const submitNewProgram = addProgram({
+        //   ...submissionObject,
+        // } as CustomProgramSubmission);
+        // return submitNewProgram;
+        addProgram({
           ...submissionObject,
         } as CustomProgramSubmission);
-        return submitNewProgram;
       }
 
       if (validated && currentProgram) {
@@ -185,17 +188,18 @@ export default function CustomProgramForm({
           setTimeout(() => {
             setErrorMessage("");
           }, 2000);
-          return Promise.resolve();
+          return;
         }
         const updatedObject = { ...submissionObject, id: currentProgram.id };
-        const update = updateProgram(updatedObject);
-        return update;
+        // const update = updateProgram(updatedObject);
+        // return update;
+        updateProgram(updatedObject);
       }
       if (!validated) {
         setLoading(false);
-        return Promise.resolve();
+        return;
       }
-      return Promise.resolve();
+      return;
     }
   };
 
