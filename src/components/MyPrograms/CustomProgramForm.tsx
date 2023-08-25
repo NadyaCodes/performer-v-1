@@ -130,7 +130,7 @@ export default function CustomProgramForm({
     },
   });
 
-  const submitCustomProgram = async () => {
+  const submitCustomProgram = () => {
     setLoading(true);
     const allKeys = Object.keys(emptyUserInput);
 
@@ -170,7 +170,7 @@ export default function CustomProgramForm({
           setTimeout(() => {
             setErrorMessage("");
           }, 2000);
-          return;
+          return Promise.resolve();
         }
         const submitNewProgram = addProgram({
           ...submissionObject,
@@ -185,7 +185,7 @@ export default function CustomProgramForm({
           setTimeout(() => {
             setErrorMessage("");
           }, 2000);
-          return;
+          return Promise.resolve();
         }
         const updatedObject = { ...submissionObject, id: currentProgram.id };
         const update = updateProgram(updatedObject);
@@ -193,7 +193,9 @@ export default function CustomProgramForm({
       }
       if (!validated) {
         setLoading(false);
+        return Promise.resolve();
       }
+      return Promise.resolve();
     }
   };
 
