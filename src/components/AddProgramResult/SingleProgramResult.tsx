@@ -4,6 +4,7 @@ import React, {
   useState,
   type Dispatch,
   useCallback,
+  useMemo,
 } from "react";
 import type { LocationObject } from "../ProgramFinder/types";
 import { api } from "@component/utils/api";
@@ -21,13 +22,11 @@ import type { SingleProgramSubmission } from "./AddProgramResultComponent";
 interface SingleProgramResultProps {
   schoolObject: SingleProgramSubmission;
   setCurrentProgram: Dispatch<SetStateAction<number>>;
-  currentProgram: number;
 }
 
 const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
   schoolObject,
   setCurrentProgram,
-  currentProgram,
 }) => {
   const utils = api.useContext();
   const { schoolName, city, province, website, discipline, type, programName } =
@@ -231,32 +230,32 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
     }
   };
 
-  const fetchDataAndAddSchoolLocation = async () => {
-    const cleanWebsite = DOMPurify.sanitize(website.toLowerCase());
+  // const fetchDataAndAddSchoolLocation = async () => {
+  //   const cleanWebsite = DOMPurify.sanitize(website.toLowerCase());
 
-    if (prismaSchoolObject && prismaLocationObject) {
-      try {
-        const prismaSchoolLocation = await findPrismaSchoolLocation({
-          schoolId: prismaSchoolObject.id,
-          locationId: prismaLocationObject.id,
-        });
-        if (!prismaSchoolLocation) {
-          const addedSchoolLocation = await addPrismaSchoolLocation({
-            schoolId: prismaSchoolObject?.id,
-            locationId: prismaLocationObject?.id,
-            website: cleanWebsite,
-          });
-          return addedSchoolLocation;
-        } else {
-          setPrismaSchoolLocationObject(prismaSchoolLocation);
-          return prismaSchoolLocation;
-        }
-      } catch (error) {
-        console.error("Error:", error);
-        throw error;
-      }
-    }
-  };
+  //   if (prismaSchoolObject && prismaLocationObject) {
+  //     try {
+  //       const prismaSchoolLocation = await findPrismaSchoolLocation({
+  //         schoolId: prismaSchoolObject.id,
+  //         locationId: prismaLocationObject.id,
+  //       });
+  //       if (!prismaSchoolLocation) {
+  //         const addedSchoolLocation = await addPrismaSchoolLocation({
+  //           schoolId: prismaSchoolObject?.id,
+  //           locationId: prismaLocationObject?.id,
+  //           website: cleanWebsite,
+  //         });
+  //         return addedSchoolLocation;
+  //       } else {
+  //         setPrismaSchoolLocationObject(prismaSchoolLocation);
+  //         return prismaSchoolLocation;
+  //       }
+  //     } catch (error) {
+  //       console.error("Error:", error);
+  //       throw error;
+  //     }
+  //   }
+  // };
 
   //FETCHING AND ADDING PROGRAM
   const findPrismaProgram = async ({
@@ -442,10 +441,56 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
   });
 
   //CREATE FINAL SCHOOL LOCATION
+  // useEffect(() => {
+  //   const fetchSchoolLocation = async () => {
+  //     if (prismaLocationObject && prismaSchoolObject) {
+  //       const schoolLocationResult = await fetchDataAndAddSchoolLocation();
+  //       console.log("School Location Result: ", schoolLocationResult);
+  //     }
+  //   };
+
+  //   fetchSchoolLocation().catch((error) =>
+  //     console.error("Error fetching school location: ", error)
+  //   );
+  // }, [prismaLocationObject, prismaSchoolObject, fetchDataAndAddSchoolLocation]);
+  const fetchDataAndAddSchoolLocationCB = useCallback(async () => {
+    const cleanWebsite = DOMPurify.sanitize(website.toLowerCase());
+
+    if (prismaSchoolObject && prismaLocationObject) {
+      try {
+        const prismaSchoolLocation = await findPrismaSchoolLocation({
+          schoolId: prismaSchoolObject.id,
+          locationId: prismaLocationObject.id,
+        });
+        if (!prismaSchoolLocation) {
+          const addedSchoolLocation = await addPrismaSchoolLocation({
+            schoolId: prismaSchoolObject?.id,
+            locationId: prismaLocationObject?.id,
+            website: cleanWebsite,
+          });
+          return addedSchoolLocation;
+        } else {
+          setPrismaSchoolLocationObject(prismaSchoolLocation);
+          return prismaSchoolLocation;
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        throw error;
+      }
+    }
+  }, [prismaSchoolObject, prismaLocationObject]);
+
+  // Memoize the function using useMemo
+  const memoizedFetchDataAndAddSchoolLocation = useMemo(
+    fetchDataAndAddSchoolLocationCB,
+    [prismaSchoolObject, prismaLocationObject]
+  );
+
   useEffect(() => {
     const fetchSchoolLocation = async () => {
       if (prismaLocationObject && prismaSchoolObject) {
-        const schoolLocationResult = await fetchDataAndAddSchoolLocation();
+        const schoolLocationResult =
+          await memoizedFetchDataAndAddSchoolLocation;
         console.log("School Location Result: ", schoolLocationResult);
       }
     };
@@ -453,25 +498,172 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
     fetchSchoolLocation().catch((error) =>
       console.error("Error fetching school location: ", error)
     );
-  }, [prismaLocationObject, prismaSchoolObject]);
+  }, [
+    prismaLocationObject,
+    prismaSchoolObject,
+    memoizedFetchDataAndAddSchoolLocation,
+  ]);
 
   //CREATE PROGRAM
+  const fetchDataAndAddProgramCB = useCallback(fetchDataAndAddProgram, [
+    prismaSchoolLocationObject,
+    prismaLocationObject,
+    prismaSchoolObject,
+    discipline,
+    type,
+    programName,
+    website,
+  ]);
+
   useEffect(() => {
     const fetchProgram = async () => {
       if (prismaSchoolLocationObject) {
-        const programResult = await fetchDataAndAddProgram();
-        console.log("Program result: ", programResult);
+        try {
+          const programResult = await fetchDataAndAddProgramCB();
+          console.log("Program result: ", programResult);
+        } catch (error) {
+          console.error("Error fetching program: ", error);
+        }
       }
     };
 
-    fetchProgram().catch((error) =>
-      console.error("Error fetching program: ", error)
-    );
-  }, [prismaSchoolLocationObject]);
+    fetchProgram();
+  }, [prismaSchoolLocationObject, fetchDataAndAddProgramCB]);
+
+  // Define the callback function outside the component
+
+  // const fetchDataAndAddProgramCB = useCallback(async () => {
+  //   console.log("running callback");
+  //   const cleanWebsite = DOMPurify.sanitize(website.toLowerCase());
+  //   const cleanName = programName
+  //     ? DOMPurify.sanitize(programName.toLowerCase())
+  //     : null;
+
+  //   if (
+  //     prismaSchoolObject &&
+  //     prismaLocationObject &&
+  //     prismaSchoolLocationObject
+  //   ) {
+  //     try {
+  //       const prismaProgram = await findPrismaProgram({
+  //         schoolLocationId: prismaSchoolLocationObject.id,
+  //         discipline,
+  //         type,
+  //         name: programName,
+  //       });
+  //       if (!prismaProgram) {
+  //         const addedProgram = await addPrismaProgram({
+  //           schoolLocationId: prismaSchoolLocationObject.id,
+  //           discipline,
+  //           type,
+  //           website: cleanWebsite,
+  //           name: cleanName ? cleanName : undefined,
+  //         });
+  //         return addedProgram;
+  //       } else {
+  //         setPrismaProgram(prismaProgram);
+  //         return prismaProgram;
+  //       }
+  //     } catch (error) {
+  //       console.error("Error:", error);
+  //       throw error;
+  //     }
+  //   }
+  // }, [
+  //   prismaSchoolLocationObject,
+  //   prismaLocationObject,
+  //   prismaSchoolObject,
+  //   discipline,
+  //   type,
+  //   programName,
+  //   website,
+  // ]);
+  // // const fetchDataAndAddProgramCB = async () => {
+  // //   const cleanWebsite = DOMPurify.sanitize(website.toLowerCase());
+  // //   const cleanName = programName
+  // //     ? DOMPurify.sanitize(programName.toLowerCase())
+  // //     : null;
+
+  // //   if (
+  // //     prismaSchoolObject &&
+  // //     prismaLocationObject &&
+  // //     prismaSchoolLocationObject
+  // //   ) {
+  // //     try {
+  // //       const prismaProgram = await findPrismaProgram({
+  // //         schoolLocationId: prismaSchoolLocationObject.id,
+  // //         discipline,
+  // //         type,
+  // //         name: programName,
+  // //       });
+  // //       if (!prismaProgram) {
+  // //         const addedProgram = await addPrismaProgram({
+  // //           schoolLocationId: prismaSchoolLocationObject.id,
+  // //           discipline,
+  // //           type,
+  // //           website: cleanWebsite,
+  // //           name: cleanName ? cleanName : undefined,
+  // //         });
+  // //         return addedProgram;
+  // //       } else {
+  // //         setPrismaProgram(prismaProgram);
+  // //         return prismaProgram;
+  // //       }
+  // //     } catch (error) {
+  // //       console.error("Error:", error);
+  // //       throw error;
+  // //     }
+  // //   }
+  // // };
+
+  // // Memoize the function using useMemo
+  // const memoizedFetchDataAndAddProgram = useMemo(fetchDataAndAddProgramCB, [
+  //   prismaSchoolLocationObject,
+  //   prismaLocationObject,
+  //   prismaSchoolObject,
+  //   discipline,
+  //   type,
+  //   programName,
+  //   website,
+  // ]);
+
+  // // Then use the memoized function within the useEffect
+  // // useEffect(() => {
+  // //   const fetchProgram = async () => {
+  // //     if (prismaSchoolLocationObject) {
+  // //       try {
+  // //         const programResult = memoizedFetchDataAndAddProgram;
+  // //         console.log("Program result: ", programResult);
+  // //       } catch (error) {
+  // //         console.error("Error fetching program: ", error);
+  // //       }
+  // //     }
+  // //   };
+
+  // //   fetchProgram();
+  // // }, [prismaSchoolLocationObject, memoizedFetchDataAndAddProgram]);
+  // const fetchRef = useRef(false);
+  // useEffect(() => {
+  //   if (!fetchRef.current && prismaSchoolLocationObject) {
+  //     fetchRef.current = true;
+  //     console.log("fetching program");
+  //     const fetchProgram = async () => {
+  //       try {
+  //         const programResult = await memoizedFetchDataAndAddProgram;
+  //         console.log("Program result: ", programResult);
+  //         // setPrismaProgram(programResult)
+  //       } catch (error) {
+  //         console.error("Error fetching program: ", error);
+  //       }
+  //     };
+
+  //     fetchProgram();
+  //   }
+  // }, [prismaSchoolLocationObject, memoizedFetchDataAndAddProgram]);
 
   const incrementProgram = useCallback(() => {
     setCurrentProgram((prev) => prev + 1);
-  }, []);
+  }, [setCurrentProgram]);
 
   useEffect(() => {
     if (

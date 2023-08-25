@@ -91,7 +91,7 @@ export default function AddProgramResultComponent() {
         schoolObject={object}
         key={index}
         setCurrentProgram={setCurrentProgram}
-        currentProgram={currentProgram}
+        // currentProgram={currentProgram}
       />
     );
   });

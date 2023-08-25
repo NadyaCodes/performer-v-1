@@ -17,7 +17,7 @@ export function useEffectOnceVoidReturn(fn: () => Promise<void>) {
   useEffect(() => {
     if (ref.current) {
       ref.current = false;
-      fn();
+      fn().catch((error) => console.error("Error using useEffectOnceVoidReturn: ", error));
     }
   }, [fn]);
 }
