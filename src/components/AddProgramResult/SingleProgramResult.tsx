@@ -292,7 +292,7 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
     type: string;
     name?: string;
   }) => {
-    let programName = name || "* No Name *";
+    const programName = name || "* No Name *";
     try {
       let prismaProgram;
       if (type === "pt") {
@@ -452,30 +452,54 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
 
   //CREATE FINAL SCHOOL LOCATION
   useEffect(() => {
+    // const fetchSchoolLocation = async () => {
+    //   if (prismaLocationObject && prismaSchoolObject) {
+    //     const schoolLocationResult = await fetchDataAndAddSchoolLocation();
+    //     console.log("School Location Result: ", schoolLocationResult);
+    //   }
+    // };
+
+    // fetchSchoolLocation().catch((error) =>
+    //   console.error("Error fetching school location: ", error)
+    // );
     const fetchSchoolLocation = async () => {
-      if (prismaLocationObject && prismaSchoolObject) {
-        const schoolLocationResult = await fetchDataAndAddSchoolLocation();
-        console.log("School Location Result: ", schoolLocationResult);
+      try {
+        if (prismaLocationObject && prismaSchoolObject) {
+          const schoolLocationResult = await fetchDataAndAddSchoolLocation();
+          console.log("School Location Result: ", schoolLocationResult);
+        }
+      } catch (error) {
+        console.error("Error fetching school location: ", error);
       }
     };
 
-    fetchSchoolLocation().catch((error) =>
-      console.error("Error fetching school location: ", error)
-    );
+    fetchSchoolLocation();
   }, [prismaLocationObject, prismaSchoolObject]);
 
   //CREATE PROGRAM
   useEffect(() => {
+    // const fetchProgram = async () => {
+    //   if (prismaSchoolLocationObject) {
+    //     const programResult = await fetchDataAndAddProgram();
+    //     console.log("Program result: ", programResult);
+    //   }
+    // };
+
+    // fetchProgram().catch((error) =>
+    //   console.error("Error fetching program: ", error)
+    // );
     const fetchProgram = async () => {
-      if (prismaSchoolLocationObject) {
-        const programResult = await fetchDataAndAddProgram();
-        console.log("Program result: ", programResult);
+      try {
+        if (prismaSchoolLocationObject) {
+          const programResult = await fetchDataAndAddProgram();
+          console.log("Program result: ", programResult);
+        }
+      } catch (error) {
+        console.error("Error fetching program: ", error);
       }
     };
 
-    fetchProgram().catch((error) =>
-      console.error("Error fetching program: ", error)
-    );
+    fetchProgram();
   }, [prismaSchoolLocationObject]);
 
   useEffect(() => {
