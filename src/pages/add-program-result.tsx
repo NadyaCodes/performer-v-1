@@ -1,5 +1,5 @@
 import AddProgramResultComponent from "@component/components/AddProgramResult/AddProgramResultComponent";
-import { NextPage } from "next";
+import type { NextPage } from "next";
 
 const AddProgramResult: NextPage = () => {
   return <AddProgramResultComponent />;

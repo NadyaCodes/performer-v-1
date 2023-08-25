@@ -2,7 +2,6 @@ import { z } from "zod";
 import {
   createTRPCRouter,
   publicProcedure,
-  protectedProcedure,
 } from "@component/server/api/trpc";
 
 export const schoolRouter = createTRPCRouter({

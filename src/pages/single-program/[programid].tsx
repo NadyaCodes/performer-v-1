@@ -1,5 +1,5 @@
-import { GetStaticProps, GetStaticPaths, NextPage } from "next";
-import { PTProgram, FTProgram } from "@prisma/client";
+import type { GetStaticProps, GetStaticPaths, NextPage } from "next";
+import type { PTProgram, FTProgram } from "@prisma/client";
 import Menu from "@component/components/Menu/Menu";
 import Head from "next/head";
 

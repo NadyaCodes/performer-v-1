@@ -1,9 +1,5 @@
 import { z } from "zod";
-import {
-  createTRPCRouter,
-  publicProcedure,
-  protectedProcedure,
-} from "@component/server/api/trpc";
+import { createTRPCRouter, publicProcedure } from "@component/server/api/trpc";
 
 export const favsRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {
