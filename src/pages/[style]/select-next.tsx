@@ -1,6 +1,6 @@
-import { type NextPage, GetStaticProps } from "next";
+import type { NextPage, GetStaticProps } from "next";
 import { disciplines } from "@component/data/constants";
-import { PathsArray, SelectNextProps } from "@component/data/types";
+import type { PathsArray, SelectNextProps } from "@component/data/types";
 import { styles } from "@component/data/constants";
 import SelectNext from "@component/components/ProgramSelector/SelectNext";
 import { stylesFull } from "@component/data/constants";
@@ -13,7 +13,8 @@ const StylePage: NextPage<SelectNextProps> = ({ style }) => {
   const link = `/${styleText}`;
   const backLink = `/course-selector`;
 
-  let titleString = `${styleFull} Programs in Canada` || "";
+  const titleString =
+    `${styleFull} Programs in Canada` || "Performance Programs in Canada";
 
   const selectNextOptions = {
     style,
@@ -50,7 +51,7 @@ const createPaths = (): Array<PathsArray> => {
   return finalArray;
 };
 
-export async function getStaticPaths() {
+export function getStaticPaths() {
   const paths = createPaths();
 
   return {
@@ -59,7 +60,7 @@ export async function getStaticPaths() {
   };
 }
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps = ({ params }) => {
   const { style } = {
     ...(params || { style: "n/a" }),
     style: params?.style || "n/a",

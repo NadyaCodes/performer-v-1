@@ -120,16 +120,9 @@ const createPaths = async (): Promise<Array<PathsArray>> => {
             if (!cityMap[province]) {
               cityMap[province] = [];
             }
-            // if (
-            //   cityMap[province] &&
-            //   location.city &&
-            //   !cityMap[province]!.includes(location.city)
-            // ) {
-            //   cityMap[province]!.push(location.city);
-            // }
             if (
               cityMap[province] &&
-              location.city !== undefined && // Check if location.city is not undefined
+              location.city !== undefined &&
               cityMap[province] &&
               cityMap[province]?.indexOf(location.city) === -1
             ) {
@@ -165,7 +158,7 @@ export async function getStaticPaths() {
   };
 }
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps = ({ params }) => {
   const { style, discipline, city, province } = {
     ...(params || { style: "n/a" }),
     style: params?.style || "n/a",
