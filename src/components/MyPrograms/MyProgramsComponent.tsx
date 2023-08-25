@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+  useRef,
+} from "react";
 import { useSession } from "next-auth/react";
 import { api } from "@component/utils/api";
 import type { PTProgram, FTProgram, CustomProgram } from "@prisma/client";
@@ -9,7 +15,6 @@ import { backChevron, plusIcon } from "@component/data/svgs";
 import SingleCustom from "./SingleCustom";
 import CustomProgramForm from "./CustomProgramForm";
 import QuickLinks from "./QuickLinks";
-import type { ObjectList } from "@component/data/types";
 import MobileQuickLinks from "./MobileQuickLinks";
 import LoadingPrograms from "./LoadingPrograms";
 import ProgramDisplay from "./ProgramDisplay";
@@ -24,6 +29,14 @@ export type ProgramWithType = {
   name?: string;
   type: string;
   favProgramId?: string;
+};
+
+export type KeyValueListType = {
+  type: string;
+  componentRef?: React.RefObject<HTMLDivElement> | undefined;
+  // [key: string]: string;
+  id: string | null;
+  text: string;
 };
 
 export default function MyProgramsComponent() {
@@ -44,6 +57,12 @@ export default function MyProgramsComponent() {
   >(false);
   const [displayCustom, setDisplayCustom] = useState<CustomProgram[]>([]);
   const [loadingDelete, setLoadingDelete] = useState<boolean | string>(false);
+  const [favProgramRefs, setFavProgramRefs] = useState<
+    Record<string, React.RefObject<HTMLDivElement>>
+  >({});
+  const [customProgramRefs, setCustomProgramRefs] = useState<
+    Record<string, React.RefObject<HTMLDivElement>>
+  >({});
 
   const findProgramObject = async (id: string) => {
     if (userId) {
@@ -192,6 +211,7 @@ export default function MyProgramsComponent() {
           if (customPrograms) {
             setDisplayCustom([...customPrograms]);
           }
+
           setLoading(false);
         } catch (error) {
           console.error("Error fetching data: ", error);
@@ -232,6 +252,30 @@ export default function MyProgramsComponent() {
     [fetchDisplayData, setDisplayData]
   );
 
+  useEffect(() => {
+    if (displayData) {
+      const newProgramRefs: Record<
+        string,
+        React.RefObject<HTMLDivElement>
+      > = {};
+      displayData.forEach((program) => {
+        newProgramRefs[program.id] = React.createRef<HTMLDivElement>();
+      });
+      setFavProgramRefs(newProgramRefs);
+    }
+
+    if (displayCustom.length > 0) {
+      const newCustomProgramRefs: Record<
+        string,
+        React.RefObject<HTMLDivElement>
+      > = {};
+      displayCustom.forEach((program) => {
+        newCustomProgramRefs[program.id] = React.createRef<HTMLDivElement>();
+      });
+      setCustomProgramRefs(newCustomProgramRefs);
+    }
+  }, [displayData, displayCustom]);
+
   const findCustomProgramsCB = useCallback(
     async (userId: string) => {
       const customPrograms = await findCustomPrograms(userId);
@@ -252,11 +296,27 @@ export default function MyProgramsComponent() {
     setLoadingDelete(false);
   }, [displayData, displayCustom]);
 
-  const [keyValueList, setKeyValueList] = useState<ObjectList[]>([]);
+  const [keyValueList, setKeyValueList] = useState<KeyValueListType[]>([]);
+  const favHeaderRef = useRef<HTMLDivElement | null>(null);
+  const customHeaderRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const newKeyValueList: ObjectList[] = [];
-    newKeyValueList.push({ favsHeader: "-- Saved Programs --", type: "fav" });
+    const newKeyValueList: KeyValueListType[] = [];
+    const newProgramRefs: Record<string, React.RefObject<HTMLDivElement>> = {};
+
+    if (displayData) {
+      displayData.forEach((program) => {
+        newProgramRefs[program.id] = React.createRef<HTMLDivElement>();
+      });
+      setFavProgramRefs(newProgramRefs);
+    }
+
+    newKeyValueList.push({
+      text: "-- Saved Programs --",
+      type: "fav",
+      id: "favHeader",
+      componentRef: favHeaderRef,
+    });
 
     displayData?.forEach((program) => {
       const text =
@@ -264,16 +324,36 @@ export default function MyProgramsComponent() {
         program.name ||
         program.website ||
         "Unknown Program";
-      newKeyValueList.push({ [program.id]: text, type: "fav" });
+      const ref = newProgramRefs[program.id];
+      newKeyValueList.push({
+        text,
+        type: "fav",
+        id: program.id,
+        componentRef: ref,
+      });
     });
 
-    newKeyValueList.push({
-      customHeader: "-- Custom Programs --",
-      type: "custom",
-    });
+    const newCustomProgramRefs: Record<
+      string,
+      React.RefObject<HTMLDivElement>
+    > = {};
 
     if (displayCustom.length > 0) {
       displayCustom.forEach((program) => {
+        newCustomProgramRefs[program.id] = React.createRef<HTMLDivElement>();
+      });
+      setCustomProgramRefs(newCustomProgramRefs);
+    }
+
+    newKeyValueList.push({
+      text: "-- Custom Programs --",
+      type: "custom",
+      id: "customHeader",
+      componentRef: customHeaderRef,
+    });
+
+    if (displayCustom.length > 0) {
+      displayCustom.forEach((program, index) => {
         let text = program.school || program.name;
         if (!text) {
           if (program.city) text = `Unknown Program: ${program.city}`;
@@ -292,15 +372,21 @@ export default function MyProgramsComponent() {
             text = "Unknown Program: Musical Theatre";
           else text = "Unknown Program";
         }
+        const ref = newCustomProgramRefs[program.id];
 
-        newKeyValueList.push({ [program.id]: text, type: "custom" });
+        newKeyValueList.push({
+          text,
+          type: "custom",
+          id: program.id,
+          componentRef: ref,
+        });
       });
     }
 
     setKeyValueList(newKeyValueList);
   }, [displayData, displayCustom]);
 
-  const programDisplay = displayData?.map((element: ProgramWithInfo) => {
+  const programDisplay = displayData?.map((element: ProgramWithInfo, index) => {
     return (
       <SingleProgram
         program={element}
@@ -309,11 +395,12 @@ export default function MyProgramsComponent() {
         setLoadingDelete={setLoadingDelete}
         findUserFavs={findUserFavs}
         setUserFavs={setUserFavs}
+        ref={favProgramRefs[element.id]}
       />
     );
   });
 
-  const customProgramDisplay = displayCustom.map((element) => {
+  const customProgramDisplay = displayCustom.map((element, index) => {
     return (
       <SingleCustom
         program={element}
@@ -322,6 +409,7 @@ export default function MyProgramsComponent() {
         setShowUpdateCustom={setShowUpdateCustom}
         loadingDelete={loadingDelete}
         setLoadingDelete={setLoadingDelete}
+        ref={customProgramRefs[element.id]}
       />
     );
   });
@@ -465,6 +553,8 @@ export default function MyProgramsComponent() {
               programDisplay={programDisplay}
               addCustomButton={addCustomButton}
               customProgramDisplay={customProgramDisplay}
+              favHeaderRef={favHeaderRef}
+              customHeaderRef={customHeaderRef}
             />
           )}
         </div>
@@ -475,6 +565,8 @@ export default function MyProgramsComponent() {
               programDisplay={programDisplay}
               addCustomButton={addCustomButton}
               customProgramDisplay={customProgramDisplay}
+              favHeaderRef={favHeaderRef}
+              customHeaderRef={customHeaderRef}
             />
           )}
         </div>
