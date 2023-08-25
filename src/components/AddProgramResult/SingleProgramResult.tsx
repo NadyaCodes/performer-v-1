@@ -165,24 +165,45 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
   };
 
   //FETCHING AND ADDING SCHOOL LOCATION
-  const findPrismaSchoolLocation = async ({
-    schoolId,
-    locationId,
-  }: {
-    schoolId: string;
-    locationId: string;
-  }) => {
-    try {
-      const prismaSchoolLocation = await utils.schoolLocation.getOne.fetch({
-        schoolId,
-        locationId,
-      });
-      return prismaSchoolLocation;
-    } catch (error) {
-      console.error("Error fetching Prisma school location:", error);
-      return null;
-    }
-  };
+  // const findPrismaSchoolLocation = async ({
+  //   schoolId,
+  //   locationId,
+  // }: {
+  //   schoolId: string;
+  //   locationId: string;
+  // }) => {
+  //   try {
+  //     const prismaSchoolLocation = await utils.schoolLocation.getOne.fetch({
+  //       schoolId,
+  //       locationId,
+  //     });
+  //     return prismaSchoolLocation;
+  //   } catch (error) {
+  //     console.error("Error fetching Prisma school location:", error);
+  //     return null;
+  //   }
+  // };
+  const findPrismaSchoolLocation = useCallback(
+    async ({
+      schoolId,
+      locationId,
+    }: {
+      schoolId: string;
+      locationId: string;
+    }) => {
+      try {
+        const prismaSchoolLocation = await utils.schoolLocation.getOne.fetch({
+          schoolId,
+          locationId,
+        });
+        return prismaSchoolLocation;
+      } catch (error) {
+        console.error("Error fetching Prisma school location:", error);
+        return null;
+      }
+    },
+    []
+  );
 
   const { mutate: createSchoolLocation } = api.schoolLocation.add.useMutation({
     async onSuccess(data) {
@@ -453,6 +474,65 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
   //     console.error("Error fetching school location: ", error)
   //   );
   // }, [prismaLocationObject, prismaSchoolObject, fetchDataAndAddSchoolLocation]);
+
+  ////////////////
+  // const fetchDataAndAddSchoolLocationCB = useCallback(async () => {
+  //   const cleanWebsite = DOMPurify.sanitize(website.toLowerCase());
+
+  //   if (prismaSchoolObject && prismaLocationObject) {
+  //     try {
+  //       const prismaSchoolLocation = await findPrismaSchoolLocation({
+  //         schoolId: prismaSchoolObject.id,
+  //         locationId: prismaLocationObject.id,
+  //       });
+  //       if (!prismaSchoolLocation) {
+  //         const addedSchoolLocation = await addPrismaSchoolLocation({
+  //           schoolId: prismaSchoolObject?.id,
+  //           locationId: prismaLocationObject?.id,
+  //           website: cleanWebsite,
+  //         });
+  //         return addedSchoolLocation;
+  //       } else {
+  //         setPrismaSchoolLocationObject(prismaSchoolLocation);
+  //         return prismaSchoolLocation;
+  //       }
+  //     } catch (error) {
+  //       console.error("Error:", error);
+  //       throw error;
+  //     }
+  //   }
+  // }, [
+  //   prismaSchoolObject,
+  //   prismaLocationObject,
+  //   findPrismaSchoolLocation,
+  //   addPrismaSchoolLocation,
+  //   website,
+  // ]);
+
+  // // Memoize the function using useMemo
+  // const memoizedFetchDataAndAddSchoolLocation = useMemo(
+  //   fetchDataAndAddSchoolLocationCB,
+  //   [prismaSchoolObject, prismaLocationObject]
+  // );
+
+  // useEffect(() => {
+  //   const fetchSchoolLocation = async () => {
+  //     if (prismaLocationObject && prismaSchoolObject) {
+  //       const schoolLocationResult =
+  //         await memoizedFetchDataAndAddSchoolLocation;
+  //       console.log("School Location Result: ", schoolLocationResult);
+  //     }
+  //   };
+
+  //   fetchSchoolLocation().catch((error) =>
+  //     console.error("Error fetching school location: ", error)
+  //   );
+  // }, [
+  //   prismaLocationObject,
+  //   prismaSchoolObject,
+  //   memoizedFetchDataAndAddSchoolLocation,
+  // ]);
+
   const fetchDataAndAddSchoolLocationCB = useCallback(async () => {
     const cleanWebsite = DOMPurify.sanitize(website.toLowerCase());
 
@@ -478,31 +558,104 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
         throw error;
       }
     }
-  }, [prismaSchoolObject, prismaLocationObject]);
+  }, [
+    prismaSchoolObject,
+    prismaLocationObject,
+    findPrismaSchoolLocation,
+    addPrismaSchoolLocation,
+    website,
+  ]);
 
-  // Memoize the function using useMemo
-  const memoizedFetchDataAndAddSchoolLocation = useMemo(
-    fetchDataAndAddSchoolLocationCB,
-    [prismaSchoolObject, prismaLocationObject]
-  );
+  const [fetchSchoolLocationFlag, setFetchSchoolLocationFlag] = useState(false);
 
   useEffect(() => {
-    const fetchSchoolLocation = async () => {
-      if (prismaLocationObject && prismaSchoolObject) {
-        const schoolLocationResult =
-          await memoizedFetchDataAndAddSchoolLocation;
-        console.log("School Location Result: ", schoolLocationResult);
-      }
-    };
+    if (fetchSchoolLocationFlag && prismaLocationObject && prismaSchoolObject) {
+      const fetchSchoolLocation = async () => {
+        try {
+          const schoolLocationResult = await fetchDataAndAddSchoolLocationCB();
+          console.log("School Location Result: ", schoolLocationResult);
+        } catch (error) {
+          console.error("Error fetching school location: ", error);
+        }
+      };
 
-    fetchSchoolLocation().catch((error) =>
-      console.error("Error fetching school location: ", error)
-    );
+      fetchSchoolLocation().catch((error) =>
+        console.error("Error fetching school location: ", error)
+      );
+    }
+    // Reset the flag to false to prevent further runs
+    setFetchSchoolLocationFlag(false);
   }, [
+    fetchSchoolLocationFlag,
     prismaLocationObject,
     prismaSchoolObject,
-    memoizedFetchDataAndAddSchoolLocation,
+    fetchDataAndAddSchoolLocationCB,
+    website,
   ]);
+
+  useEffect(() => {
+    if (
+      !fetchSchoolLocationFlag &&
+      prismaLocationObject &&
+      prismaSchoolObject
+    ) {
+      setFetchSchoolLocationFlag(true);
+    }
+  }, [prismaLocationObject, prismaSchoolObject]);
+
+  // const fetchDataAndAddSchoolLocationCB = useCallback(async () => {
+  //   const cleanWebsite = DOMPurify.sanitize(website.toLowerCase());
+
+  //   if (prismaSchoolObject && prismaLocationObject) {
+  //     try {
+  //       const prismaSchoolLocation = await findPrismaSchoolLocation({
+  //         schoolId: prismaSchoolObject.id,
+  //         locationId: prismaLocationObject.id,
+  //       });
+  //       if (!prismaSchoolLocation) {
+  //         const addedSchoolLocation = await addPrismaSchoolLocation({
+  //           schoolId: prismaSchoolObject?.id,
+  //           locationId: prismaLocationObject?.id,
+  //           website: cleanWebsite,
+  //         });
+  //         return addedSchoolLocation;
+  //       } else {
+  //         setPrismaSchoolLocationObject(prismaSchoolLocation);
+  //         return prismaSchoolLocation;
+  //       }
+  //     } catch (error) {
+  //       console.error("Error:", error);
+  //       throw error;
+  //     }
+  //   }
+  // }, [
+  //   prismaSchoolObject,
+  //   prismaLocationObject,
+  //   findPrismaSchoolLocation,
+  //   addPrismaSchoolLocation,
+  //   website,
+  // ]);
+
+  // useEffect(() => {
+  //   const fetchSchoolLocation = async () => {
+  //     if (prismaLocationObject && prismaSchoolObject) {
+  //       try {
+  //         const schoolLocationResult = await fetchDataAndAddSchoolLocationCB();
+  //         console.log("School Location Result: ", schoolLocationResult);
+  //       } catch (error) {
+  //         console.error("Error fetching school location: ", error);
+  //       }
+  //     }
+  //   };
+
+  //   fetchSchoolLocation().catch((error) =>
+  //     console.error("Error fetching school location: ", error)
+  //   );
+  // }, [
+  //   prismaLocationObject,
+  //   prismaSchoolObject,
+  //   fetchDataAndAddSchoolLocationCB, // Just include the function here
+  // ]);
 
   //CREATE PROGRAM
   const fetchDataAndAddProgramCB = useCallback(fetchDataAndAddProgram, [
@@ -527,7 +680,9 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
       }
     };
 
-    fetchProgram();
+    fetchProgram().catch((error) =>
+      console.error("Error fetching program: ", error)
+    );
   }, [prismaSchoolLocationObject, fetchDataAndAddProgramCB]);
 
   // Define the callback function outside the component
