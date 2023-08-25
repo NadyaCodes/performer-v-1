@@ -677,6 +677,43 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
     website,
   ]);
 
+  // const [fetchSchoolLocationFlag, setFetchSchoolLocationFlag] = useState(false);
+
+  // useEffect(() => {
+  //   if (fetchSchoolLocationFlag && prismaLocationObject && prismaSchoolObject) {
+  //     const fetchSchoolLocation = async () => {
+  //       try {
+  //         const schoolLocationResult = await fetchDataAndAddSchoolLocationCB();
+  //         console.log("School Location Result: ", schoolLocationResult);
+  //       } catch (error) {
+  //         console.error("Error fetching school location: ", error);
+  //       }
+  //     };
+
+  //     fetchSchoolLocation().catch((error) =>
+  //       console.error("Error fetching school location: ", error)
+  //     );
+  //   }
+  //   // Reset the flag to false to prevent further runs
+  //   setFetchSchoolLocationFlag(false);
+  // }, [
+  //   fetchSchoolLocationFlag,
+  //   prismaLocationObject,
+  //   prismaSchoolObject,
+  //   fetchDataAndAddSchoolLocationCB,
+  //   website,
+  // ]);
+
+  // useEffect(() => {
+  //   if (
+  //     !fetchSchoolLocationFlag &&
+  //     prismaLocationObject &&
+  //     prismaSchoolObject
+  //   ) {
+  //     setFetchSchoolLocationFlag(true);
+  //   }
+  // }, [prismaLocationObject, prismaSchoolObject]);
+
   const [fetchSchoolLocationFlag, setFetchSchoolLocationFlag] = useState(false);
 
   useEffect(() => {
@@ -694,6 +731,7 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
         console.error("Error fetching school location: ", error)
       );
     }
+
     // Reset the flag to false to prevent further runs
     setFetchSchoolLocationFlag(false);
   }, [
@@ -705,11 +743,8 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
   ]);
 
   useEffect(() => {
-    if (
-      !fetchSchoolLocationFlag &&
-      prismaLocationObject &&
-      prismaSchoolObject
-    ) {
+    // Set the fetchSchoolLocationFlag to true when prismaLocationObject and prismaSchoolObject are available
+    if (prismaLocationObject && prismaSchoolObject) {
       setFetchSchoolLocationFlag(true);
     }
   }, [prismaLocationObject, prismaSchoolObject]);
