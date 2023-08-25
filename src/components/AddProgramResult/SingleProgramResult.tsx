@@ -74,8 +74,9 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
 
   const addPrismaLocation = async (cityProv: LocationObject) => {
     try {
-      const data = await addLocation(cityProv);
+      const data = addLocation(cityProv);
       const prismaLocation = await findPrismaLocation(cityProv);
+      console.log("Added location: ", data);
       return prismaLocation;
     } catch (error) {
       console.error("Error fetching Prisma location:", error);
@@ -136,8 +137,9 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
 
   const addPrismaSchool = async (name: string) => {
     try {
-      const data = await addSchool(name);
+      const data = addSchool(name);
       const prismaSchool = await findPrismaSchool(name);
+      console.log("Added School: ", data);
       return prismaSchool;
     } catch (error) {
       console.error("Error fetching Prisma school:", error);
@@ -215,11 +217,12 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
     website: string;
   }) => {
     try {
-      const data = await addSchoolLocation({ schoolId, locationId, website });
+      const data = addSchoolLocation({ schoolId, locationId, website });
       const prismaSchoolLocation = await findPrismaSchoolLocation({
         schoolId,
         locationId,
       });
+      console.log("Added School Location: ", data);
       return prismaSchoolLocation;
     } catch (error) {
       console.error("Error fetching Prisma school location:", error);
@@ -266,7 +269,7 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
     type: string;
     name?: string;
   }) => {
-    let programName = name || "* No Name *";
+    const programName = name || "* No Name *";
     try {
       let prismaProgram;
       if (type === "pt") {
@@ -325,7 +328,7 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
     website: string;
     name?: string;
   }) => {
-    let programName = name || "* No Name *";
+    const programName = name || "* No Name *";
     if (type === "pt") {
       return createPtProgram({ schoolLocationId, website, discipline });
     }
@@ -353,7 +356,7 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
     name?: string;
   }) => {
     try {
-      const data = await addProgram({
+      const data = addProgram({
         schoolLocationId,
         discipline,
         type,
@@ -366,6 +369,7 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
         type,
         name,
       });
+      console.log("Added Program: ", data);
       return prismaProgram;
     } catch (error) {
       console.error("Error fetching Prisma program:", error);
