@@ -103,7 +103,7 @@
 //   );
 // }
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import type {
   DisciplineObject,
@@ -132,9 +132,9 @@ export default function AddProgramResultComponent() {
   >(dataArray[0] ? [dataArray[0]] : []);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = () => {
       if (router.query.objectToPassToNextURL) {
-        const data = JSON.parse(
+        const data: NewProgramSubmission[] = JSON.parse(
           decodeURIComponent(router.query.objectToPassToNextURL as string)
         );
         const newDataArray: SingleProgramSubmission[] = [];
@@ -178,11 +178,12 @@ export default function AddProgramResultComponent() {
       currentProgram >= 0 &&
       currentProgram < dataArray.length
     ) {
-      let newDisplayPrograms = [...displayPrograms];
       const newProgramSubmission = dataArray[currentProgram];
       if (newProgramSubmission) {
-        newDisplayPrograms.push(newProgramSubmission);
-        setDisplayPrograms(newDisplayPrograms);
+        setDisplayPrograms((prevDisplayPrograms) => [
+          ...prevDisplayPrograms,
+          newProgramSubmission,
+        ]);
       }
     }
   }, [dataArray, currentProgram]);
