@@ -528,6 +528,85 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
   //   ]
   // );
 
+  // const findPrismaProgramCB = useCallback(
+  //   async ({
+  //     schoolLocationId,
+  //     discipline,
+  //     type,
+  //     name,
+  //   }: {
+  //     schoolLocationId: string;
+  //     discipline: string;
+  //     type: string;
+  //     name?: string;
+  //   }) => {
+  //     const ptProgramFetch = useMemo(
+  //       () => utils.ptProgram.getOneByLocationObject.fetch,
+  //       []
+  //     );
+  //     const ftProgramFetch = useMemo(
+  //       () => utils.ftProgram.getOneByLocationObject.fetch,
+  //       []
+  //     );
+
+  //     const findPrismaProgramInternal = useCallback(
+  //       async ({
+  //         schoolLocationId,
+  //         discipline,
+  //         type,
+  //         name,
+  //       }: {
+  //         schoolLocationId: string;
+  //         discipline: string;
+  //         type: string;
+  //         name?: string;
+  //       }) => {
+  //         const programName = name || "* No Name *";
+  //         try {
+  //           let prismaProgram;
+  //           if (type === "pt") {
+  //             prismaProgram = await ptProgramFetch({
+  //               schoolLocationId,
+  //               discipline,
+  //             });
+  //           }
+
+  //           if (type === "ft") {
+  //             prismaProgram = await ftProgramFetch({
+  //               schoolLocationId,
+  //               discipline,
+  //               name: programName,
+  //             });
+  //           }
+  //           return prismaProgram;
+  //         } catch (error) {
+  //           console.error(
+  //             "Error fetching Prisma program in findPrismaProgramCB:",
+  //             error
+  //           );
+  //           return null;
+  //         }
+  //       },
+  //       [ptProgramFetch, ftProgramFetch]
+  //     );
+
+  //     try {
+  //       await findPrismaProgramInternal({
+  //         schoolLocationId,
+  //         discipline,
+  //         type,
+  //         name,
+  //       });
+  //     } catch (error) {
+  //       console.error("Error finding Prisma Program: ", error);
+  //     }
+  //   },
+  //   []
+  // );
+
+  const ptProgramFetch = utils.ptProgram.getOneByLocationObject.fetch;
+  const ftProgramFetch = utils.ftProgram.getOneByLocationObject.fetch;
+
   const findPrismaProgramCB = useCallback(
     async ({
       schoolLocationId,
@@ -540,15 +619,6 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
       type: string;
       name?: string;
     }) => {
-      const ptProgramFetch = useMemo(
-        () => utils.ptProgram.getOneByLocationObject.fetch,
-        []
-      );
-      const ftProgramFetch = useMemo(
-        () => utils.ftProgram.getOneByLocationObject.fetch,
-        []
-      );
-
       const findPrismaProgramInternal = useCallback(
         async ({
           schoolLocationId,
@@ -587,7 +657,7 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
             return null;
           }
         },
-        [ptProgramFetch, ftProgramFetch]
+        []
       );
 
       try {
