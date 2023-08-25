@@ -228,7 +228,7 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
   // };
 
   const addSchoolLocationCB = useCallback(
-    async ({
+    ({
       schoolId,
       locationId,
       website,
