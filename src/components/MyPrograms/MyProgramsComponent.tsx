@@ -138,7 +138,9 @@ export default function MyProgramsComponent() {
 
   useEffect(() => {
     if (memoizedFindUserFavs) {
-      memoizedFindUserFavs();
+      memoizedFindUserFavs().catch((error) =>
+        console.error("Error finding user favs: ", error)
+      );
     }
   }, [memoizedFindUserFavs]);
 
@@ -219,7 +221,7 @@ export default function MyProgramsComponent() {
         }
       }
     };
-    fetchData();
+    fetchData().catch((error) => console.error("Error fetching data: ", error));
   }, [sessionData]);
 
   const updateData = async () => {
@@ -234,7 +236,9 @@ export default function MyProgramsComponent() {
   };
 
   useEffect(() => {
-    updateData();
+    updateData().catch((error) =>
+      console.error("Error updating data: ", error)
+    );
   }, [userFavs, sessionData]);
 
   const fetchDisplayDataCB = useCallback(
@@ -353,7 +357,7 @@ export default function MyProgramsComponent() {
     });
 
     if (displayCustom.length > 0) {
-      displayCustom.forEach((program, index) => {
+      displayCustom.forEach((program) => {
         let text = program.school || program.name;
         if (!text) {
           if (program.city) text = `Unknown Program: ${program.city}`;
@@ -386,7 +390,7 @@ export default function MyProgramsComponent() {
     setKeyValueList(newKeyValueList);
   }, [displayData, displayCustom]);
 
-  const programDisplay = displayData?.map((element: ProgramWithInfo, index) => {
+  const programDisplay = displayData?.map((element: ProgramWithInfo) => {
     return (
       <SingleProgram
         program={element}
@@ -400,7 +404,7 @@ export default function MyProgramsComponent() {
     );
   });
 
-  const customProgramDisplay = displayCustom.map((element, index) => {
+  const customProgramDisplay = displayCustom.map((element) => {
     return (
       <SingleCustom
         program={element}

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import type { ObjectList } from "@component/data/types";
 import SelectorScrollArrow from "../ProgramSelector/SelectorScrollArrow";
 import type { KeyValueListType } from "./MyProgramsComponent";
 
