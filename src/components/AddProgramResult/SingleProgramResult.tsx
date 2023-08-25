@@ -4,7 +4,6 @@ import React, {
   useState,
   type Dispatch,
   useCallback,
-  useMemo,
 } from "react";
 import type { LocationObject } from "../ProgramFinder/types";
 import { api } from "@component/utils/api";
@@ -250,6 +249,27 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
       return null;
     }
   };
+
+  const addPrismaSchoolLocationCB = useCallback(
+    ({
+      schoolId,
+      locationId,
+      website,
+    }: {
+      schoolId: string;
+      locationId: string;
+      website: string;
+    }) => {
+      addPrismaSchoolLocation({
+        schoolId,
+        locationId,
+        website,
+      }).catch((error) =>
+        console.error("Error adding Prisma School Location: ", error)
+      );
+    },
+    [addPrismaSchoolLocation]
+  );
 
   // const fetchDataAndAddSchoolLocation = async () => {
   //   const cleanWebsite = DOMPurify.sanitize(website.toLowerCase());
@@ -543,7 +563,7 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
           locationId: prismaLocationObject.id,
         });
         if (!prismaSchoolLocation) {
-          const addedSchoolLocation = await addPrismaSchoolLocation({
+          const addedSchoolLocation = await addPrismaSchoolLocationCB({
             schoolId: prismaSchoolObject?.id,
             locationId: prismaLocationObject?.id,
             website: cleanWebsite,
@@ -562,7 +582,7 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
     prismaSchoolObject,
     prismaLocationObject,
     findPrismaSchoolLocation,
-    addPrismaSchoolLocation,
+    addPrismaSchoolLocationCB,
     website,
   ]);
 
