@@ -33,7 +33,7 @@ export default function AddProgramResultComponent() {
 
         const data: NewProgramSubmission[] = JSON.parse(
           decodeURIComponent(queryParam)
-        );
+        ) as NewProgramSubmission[];
         const newDataArray: SingleProgramSubmission[] = [];
         data.forEach((item: NewProgramSubmission) => {
           const types: (keyof TypeObject)[] = ["ft", "pt"];

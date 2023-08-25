@@ -403,14 +403,14 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
             website: cleanWebsite,
             name: cleanName ? cleanName : undefined,
           });
-          return addedProgram; // Return the added location
+          return addedProgram;
         } else {
           setPrismaProgram(prismaProgram);
-          return prismaProgram; // Return the existing location
+          return prismaProgram;
         }
       } catch (error) {
         console.error("Error:", error);
-        throw error; // Throw the error to propagate it to the caller
+        throw error;
       }
     }
   };
@@ -423,6 +423,7 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
 
       const schoolResult = await fetchDataAndAddSchool();
       console.log("School Add Result: ", schoolResult);
+      return;
     } catch (error) {
       console.error("Error:", error);
     }
@@ -437,7 +438,9 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
       }
     };
 
-    fetchSchoolLocation();
+    fetchSchoolLocation().catch((error) =>
+      console.error("Error fetching school location: ", error)
+    );
   }, [prismaLocationObject, prismaSchoolObject]);
 
   //CREATE PROGRAM
@@ -449,7 +452,9 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
       }
     };
 
-    fetchProgram();
+    fetchProgram().catch((error) =>
+      console.error("Error fetching program: ", error)
+    );
   }, [prismaSchoolLocationObject]);
 
   useEffect(() => {
