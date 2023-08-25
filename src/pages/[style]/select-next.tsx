@@ -7,10 +7,13 @@ import { stylesFull } from "@component/data/constants";
 import Head from "next/head";
 
 const StylePage: NextPage<SelectNextProps> = ({ style }) => {
-  const link = `/${style}`;
+  const styleText = style || "ft";
+  const styleFull = stylesFull[style] || "Full Time";
+
+  const link = `/${styleText}`;
   const backLink = `/course-selector`;
 
-  let titleString = `${stylesFull[style]} Programs in Canada` || "";
+  let titleString = `${styleFull} Programs in Canada` || "";
 
   const selectNextOptions = {
     style,

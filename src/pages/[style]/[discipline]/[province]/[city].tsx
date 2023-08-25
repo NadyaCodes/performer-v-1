@@ -33,39 +33,19 @@ const DisplayPage: NextPage<SelectNextProps> = ({
   city,
   province,
 }) => {
-  // let titleString = "";
-  // if (
-  //   discipline &&
-  //   province &&
-  //   city &&
-  //   stylesFull[style] &&
-  //   disciplinesFull[discipline]
-  // ) {
-  //   titleString = `${stylesFull[style] || ""} ${
-  //     disciplinesFull[discipline] || ""
-  //   } Programs in ${city},  ${provincesFull[province]}`;
-  // } else if (discipline && stylesFull[style] && disciplinesFull[discipline]) {
-  //   titleString = `${stylesFull[style] || ""} ${
-  //     disciplinesFull[discipline] || ""
-  //   } Programs in Canada`;
-  // } else if (province && stylesFull[style]) {
-  //   titleString = `${stylesFull[style] || ""} Programs in Canada`;
-  // } else {
-  //   titleString = `${stylesFull[style] || ""} Programs in Canada`;
-  // }
-
   let titleString = "";
+  const provinceText = province || "ontario";
+  const cityText = city || "toronto";
+  const styleFull = stylesFull[style] || "Full Time";
+  const disciplineFull = discipline ? disciplinesFull[discipline] : "acting";
+  const provinceFull = province ? provincesFull[province] : "ontario";
 
-  const styleFull = stylesFull[style];
-  const disciplineFull = (discipline && disciplinesFull[discipline]) || "";
-  const provinceFull = (province && provincesFull[province]) || "";
-
-  if (discipline && province && city && styleFull && disciplineFull) {
-    titleString = `${styleFull} ${disciplineFull} Programs in ${city}, ${provinceFull}`;
-  } else if (discipline && styleFull && disciplineFull) {
+  if (discipline && province && city) {
+    titleString = `${styleFull} ${disciplineFull} Programs in ${cityText}, ${provinceFull}`;
+  } else if (discipline) {
     titleString = `${styleFull} ${disciplineFull} Programs in Canada`;
-  } else if (province && styleFull) {
-    titleString = `${styleFull} Programs in Canada`;
+  } else if (province) {
+    titleString = `${styleFull} Programs in ${provinceText}`;
   } else {
     titleString = `${styleFull} Programs in Canada`;
   }
