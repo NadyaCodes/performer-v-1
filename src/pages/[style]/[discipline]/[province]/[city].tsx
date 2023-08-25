@@ -1,7 +1,7 @@
-import { GetStaticProps, type NextPage } from "next";
+import { type GetStaticProps, type NextPage } from "next";
 
 import { styles, disciplines, provincesFullReverse } from "src/data/constants";
-import { SelectNextProps, PathsArray } from "@component/data/types";
+import type { SelectNextProps, PathsArray } from "@component/data/types";
 import Head from "next/head";
 import { stylesFull, disciplinesFull, provincesFull } from "src/data/constants";
 
@@ -34,17 +34,22 @@ const DisplayPage: NextPage<SelectNextProps> = ({
   province,
 }) => {
   let titleString = "";
-  if (discipline && province && city) {
+  if (
+    discipline &&
+    province &&
+    city &&
+    stylesFull[style] &&
+    disciplinesFull[discipline]
+  ) {
     titleString = `${stylesFull[style]} ${disciplinesFull[discipline]} Programs in ${city},  ${provincesFull[province]}`;
-  } else if (discipline) {
+  } else if (discipline && stylesFull[style] && disciplinesFull[discipline]) {
     titleString = `${stylesFull[style]} ${disciplinesFull[discipline]} Programs in Canada`;
-  } else if (province) {
+  } else if (province && stylesFull[style]) {
     titleString = `${stylesFull[style]} Programs in Canada`;
   } else {
-    titleString = `${stylesFull[style]} Programs in Canada`;
+    titleString = `${stylesFull[style] || ""} Programs in Canada`;
   }
 
-  console.log(titleString);
   return (
     <>
       <Head>

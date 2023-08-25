@@ -1,4 +1,4 @@
-import { ObjectList } from "./types";
+import type { ObjectList } from "./types";
 
 export const styles = ["pt", "ft"];
 export const disciplines = ["act", "sing", "dance", "mt"];
