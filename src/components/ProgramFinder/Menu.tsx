@@ -54,7 +54,19 @@ export default function Menu({
     return (
       <button
         className={classString}
-        onClick={() => {
+        // onClick={() => {
+        //   if (element !== "No Available Programs") {
+        //     updateFilter(
+        //       menuType,
+        //       element,
+        //       selectedOptions,
+        //       setSelectedOptions,
+        //       locationType
+        //     );
+        //     setMenu && setMenu(false);
+        //   }
+        // }}
+        onClick={function () {
           if (element !== "No Available Programs") {
             updateFilter(
               menuType,

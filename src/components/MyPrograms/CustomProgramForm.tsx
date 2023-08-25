@@ -170,7 +170,7 @@ export default function CustomProgramForm({
           setTimeout(() => {
             setErrorMessage("");
           }, 2000);
-          return Promise.resolve();
+          return;
         }
         // const submitNewProgram = addProgram({
         //   ...submissionObject,
