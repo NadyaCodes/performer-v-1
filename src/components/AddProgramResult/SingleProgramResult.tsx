@@ -472,27 +472,43 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
       type: string;
       name?: string;
     }) => {
-      // const addPrismaSchoolLocationInternal = async () => {
-      //   try {
-      //     const data = addSchoolLocationCB({
-      //       schoolId,
-      //       locationId,
-      //       website,
-      //     });
-      //     const prismaSchoolLocation = await findPrismaSchoolLocation({
-      //       schoolId,
-      //       locationId,
-      //     });
-      //     console.log("Added School Location: ", data);
-      //     return prismaSchoolLocation;
-      //   } catch (error) {
-      //     console.error("Error fetching Prisma school location:", error);
-      //     return null;
-      //   }
-      // };
+      const findPrismaProgramInternal = async ({
+        schoolLocationId,
+        discipline,
+        type,
+        name,
+      }: {
+        schoolLocationId: string;
+        discipline: string;
+        type: string;
+        name?: string;
+      }) => {
+        const programName = name || "* No Name *";
+        try {
+          let prismaProgram;
+          if (type === "pt") {
+            prismaProgram = await utils.ptProgram.getOneByLocationObject.fetch({
+              schoolLocationId,
+              discipline,
+            });
+          }
+
+          if (type === "ft") {
+            prismaProgram = await utils.ftProgram.getOneByLocationObject.fetch({
+              schoolLocationId,
+              discipline,
+              name: programName,
+            });
+          }
+          return prismaProgram;
+        } catch (error) {
+          console.error("Error fetching Prisma program:", error);
+          return null;
+        }
+      };
 
       try {
-        await findPrismaProgram({
+        await findPrismaProgramInternal({
           schoolLocationId,
           discipline,
           type,
@@ -532,32 +548,93 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
     },
   });
 
-  const addProgram = ({
-    schoolLocationId,
-    discipline,
-    type,
-    website,
-    name,
-  }: {
-    schoolLocationId: string;
-    discipline: string;
-    type: string;
-    website: string;
-    name?: string;
-  }) => {
-    const programName = name || "* No Name *";
-    if (type === "pt") {
-      return createPtProgram({ schoolLocationId, website, discipline });
-    }
-    if (type === "ft") {
-      return createFtProgram({
+  // const addProgram = ({
+  //   schoolLocationId,
+  //   discipline,
+  //   type,
+  //   website,
+  //   name,
+  // }: {
+  //   schoolLocationId: string;
+  //   discipline: string;
+  //   type: string;
+  //   website: string;
+  //   name?: string;
+  // }) => {
+  //   const programName = name || "* No Name *";
+  //   if (type === "pt") {
+  //     return createPtProgram({ schoolLocationId, website, discipline });
+  //   }
+  //   if (type === "ft") {
+  //     return createFtProgram({
+  //       schoolLocationId,
+  //       website,
+  //       discipline,
+  //       name: programName,
+  //     });
+  //   }
+  // };
+
+  const addProgramCB = useCallback(
+    async ({
+      schoolLocationId,
+      discipline,
+      type,
+      website,
+      name,
+    }: {
+      schoolLocationId: string;
+      discipline: string;
+      type: string;
+      website: string;
+      name?: string;
+    }) => {
+      const addProgram = ({
         schoolLocationId,
-        website,
         discipline,
-        name: programName,
-      });
-    }
-  };
+        type,
+        website,
+        name,
+      }: {
+        schoolLocationId: string;
+        discipline: string;
+        type: string;
+        website: string;
+        name?: string;
+      }) => {
+        const programName = name || "* No Name *";
+        if (type === "pt") {
+          return createPtProgram({ schoolLocationId, website, discipline });
+        }
+        if (type === "ft") {
+          return createFtProgram({
+            schoolLocationId,
+            website,
+            discipline,
+            name: programName,
+          });
+        }
+      };
+
+      try {
+        addProgram({
+          schoolLocationId,
+          discipline,
+          type,
+          website,
+          name,
+        });
+      } catch (error) {
+        console.error("Error finding Prisma Program: ", error);
+      }
+    },
+    // [addProgram, findPrismaProgram]
+    // [
+    //   utils.ptProgram.getOneByLocationObject.fetch,
+    //   utils.ftProgram.getOneByLocationObject.fetch,
+    // ]
+    []
+  );
 
   const addPrismaProgramCB = useCallback(
     async ({
@@ -587,7 +664,7 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
         name?: string;
       }) => {
         try {
-          const data = addProgram({
+          const data = addProgramCB({
             schoolLocationId,
             discipline,
             type,
@@ -640,7 +717,7 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
       }
     },
     // [addProgram, findPrismaProgram]
-    []
+    [findPrismaProgramCB, addProgramCB]
   );
 
   const fetchDataAndAddProgram = async () => {
