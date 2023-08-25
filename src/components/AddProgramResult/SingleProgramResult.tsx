@@ -390,6 +390,41 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
   // };
 
   //FETCHING AND ADDING PROGRAM
+  // const findPrismaProgram = async ({
+  //   schoolLocationId,
+  //   discipline,
+  //   type,
+  //   name,
+  // }: {
+  //   schoolLocationId: string;
+  //   discipline: string;
+  //   type: string;
+  //   name?: string;
+  // }) => {
+  //   const programName = name || "* No Name *";
+  //   try {
+  //     let prismaProgram;
+  //     if (type === "pt") {
+  //       prismaProgram = await utils.ptProgram.getOneByLocationObject.fetch({
+  //         schoolLocationId,
+  //         discipline,
+  //       });
+  //     }
+
+  //     if (type === "ft") {
+  //       prismaProgram = await utils.ftProgram.getOneByLocationObject.fetch({
+  //         schoolLocationId,
+  //         discipline,
+  //         name: programName,
+  //       });
+  //     }
+  //     return prismaProgram;
+  //   } catch (error) {
+  //     console.error("Error fetching Prisma program:", error);
+  //     return null;
+  //   }
+  // };
+
   const findPrismaProgram = async ({
     schoolLocationId,
     discipline,
@@ -424,6 +459,56 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
       return null;
     }
   };
+
+  const findPrismaProgramCB = useCallback(
+    async ({
+      schoolLocationId,
+      discipline,
+      type,
+      name,
+    }: {
+      schoolLocationId: string;
+      discipline: string;
+      type: string;
+      name?: string;
+    }) => {
+      // const addPrismaSchoolLocationInternal = async () => {
+      //   try {
+      //     const data = addSchoolLocationCB({
+      //       schoolId,
+      //       locationId,
+      //       website,
+      //     });
+      //     const prismaSchoolLocation = await findPrismaSchoolLocation({
+      //       schoolId,
+      //       locationId,
+      //     });
+      //     console.log("Added School Location: ", data);
+      //     return prismaSchoolLocation;
+      //   } catch (error) {
+      //     console.error("Error fetching Prisma school location:", error);
+      //     return null;
+      //   }
+      // };
+
+      try {
+        await findPrismaProgram({
+          schoolLocationId,
+          discipline,
+          type,
+          name,
+        });
+      } catch (error) {
+        console.error("Error finding Prisma Program: ", error);
+      }
+    },
+    // [addProgram, findPrismaProgram]
+    // [
+    //   utils.ptProgram.getOneByLocationObject.fetch,
+    //   utils.ftProgram.getOneByLocationObject.fetch,
+    // ]
+    []
+  );
 
   const { mutate: createPtProgram } = api.ptProgram.add.useMutation({
     async onSuccess(data) {
@@ -474,40 +559,89 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
     }
   };
 
-  const addPrismaProgram = async ({
-    schoolLocationId,
-    discipline,
-    type,
-    website,
-    name,
-  }: {
-    schoolLocationId: string;
-    discipline: string;
-    type: string;
-    website: string;
-    name?: string;
-  }) => {
-    try {
-      const data = addProgram({
+  const addPrismaProgramCB = useCallback(
+    async ({
+      schoolLocationId,
+      discipline,
+      type,
+      website,
+      name,
+    }: {
+      schoolLocationId: string;
+      discipline: string;
+      type: string;
+      website: string;
+      name?: string;
+    }) => {
+      const addPrismaProgram = async ({
         schoolLocationId,
         discipline,
         type,
         website,
         name,
-      });
-      const prismaProgram = await findPrismaProgram({
-        schoolLocationId,
-        discipline,
-        type,
-        name,
-      });
-      console.log("Added Program: ", data);
-      return prismaProgram;
-    } catch (error) {
-      console.error("Error fetching Prisma program:", error);
-      return null;
-    }
-  };
+      }: {
+        schoolLocationId: string;
+        discipline: string;
+        type: string;
+        website: string;
+        name?: string;
+      }) => {
+        try {
+          const data = addProgram({
+            schoolLocationId,
+            discipline,
+            type,
+            website,
+            name,
+          });
+          const prismaProgram = await findPrismaProgramCB({
+            schoolLocationId,
+            discipline,
+            type,
+            name,
+          });
+          console.log("Added Program: ", data);
+          return prismaProgram;
+        } catch (error) {
+          console.error("Error fetching Prisma program:", error);
+          return null;
+        }
+      };
+
+      // const addPrismaSchoolLocationInternal = async () => {
+      //   try {
+      //     const data = addSchoolLocationCB({
+      //       schoolId,
+      //       locationId,
+      //       website,
+      //     });
+      //     const prismaSchoolLocation = await findPrismaSchoolLocation({
+      //       schoolId,
+      //       locationId,
+      //     });
+      //     console.log("Added School Location: ", data);
+      //     return prismaSchoolLocation;
+      //   } catch (error) {
+      //     console.error("Error fetching Prisma school location:", error);
+      //     return null;
+      //   }
+      // };
+
+      try {
+        await addPrismaProgram({
+          schoolLocationId,
+          discipline,
+          type,
+          website,
+          name,
+        });
+      } catch (error) {
+        console.error("Error adding Prisma School Location: ", error);
+      }
+    },
+    // [addProgram, findPrismaProgram]
+    []
+  );
 
   const fetchDataAndAddProgram = async () => {
     const cleanWebsite = DOMPurify.sanitize(website.toLowerCase());
@@ -528,7 +662,7 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
           name: programName,
         });
         if (!prismaProgram) {
-          const addedProgram = await addPrismaProgram({
+          const addedProgram = await addPrismaProgramCB({
             schoolLocationId: prismaSchoolLocationObject.id,
             discipline,
             type,
@@ -812,6 +946,8 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
     type,
     programName,
     website,
+    addPrismaProgramCB,
+    findPrismaProgramCB,
   ]);
 
   useEffect(() => {
