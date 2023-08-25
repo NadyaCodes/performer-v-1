@@ -315,4 +315,6 @@ const SingleCustom = React.forwardRef<HTMLDivElement, SingleCustomProps>(
   }
 );
 
+SingleCustom.displayName = "SingleCustom";
+
 export default SingleCustom;

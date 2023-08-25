@@ -258,4 +258,6 @@ const SingleProgram = React.forwardRef<HTMLDivElement, SingleProgramProps>(
   }
 );
 
+SingleProgram.displayName = "SingleProgram";
+
 export default SingleProgram;

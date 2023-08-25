@@ -44,4 +44,6 @@ const H2Title = React.forwardRef<HTMLDivElement, H2TitleProps>(
   }
 );
 
+H2Title.displayName = "H2Title";
+
 export default H2Title;
