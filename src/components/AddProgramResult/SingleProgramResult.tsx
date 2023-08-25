@@ -202,7 +202,7 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
         return null;
       }
     },
-    []
+    [utils.schoolLocation.getOne]
   );
 
   const { mutate: createSchoolLocation } = api.schoolLocation.add.useMutation({
