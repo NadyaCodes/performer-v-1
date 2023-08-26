@@ -14,44 +14,12 @@ import type { ProgramWithType } from "./MyProgramsComponent";
 import type { KeyValueListType } from "./MyProgramsComponent";
 import type { PTProgram, FTProgram } from "@prisma/client";
 
-type MyProgramsWithSessionProps = {
-  userId: string;
-  // displayData: ProgramWithInfo[] | null;
-  // findUserFavs: (userId: string) => Promise<(ProgramWithType | undefined)[]>;
-  // setUserFavs: React.Dispatch<
-  //   React.SetStateAction<[] | (ProgramWithType | undefined)[] | null>
-  // >;
-  // // favProgramRefs: Record<string, React.RefObject<HTMLDivElement>>;
-  // // customProgramRefs: Record<string, React.RefObject<HTMLDivElement>>;
-  // displayCustom: CustomProgram[];
-  // setDisplayCustom: React.Dispatch<React.SetStateAction<CustomProgram[]>>;
-  // // keyValueList: KeyValueListType[];
-  // loading: boolean;
-  // findCustomPrograms: () => Promise<CustomProgram[] | undefined>;
-  // favHeaderRef: React.MutableRefObject<HTMLDivElement | null>;
-  // customHeaderRef: React.MutableRefObject<HTMLDivElement | null>;
-};
-
 export type FavsWithSLOType = {
   schoolLocation: SchoolLocation;
   element: ProgramWithType;
 };
 
-export default function MyProgramsWithSession({
-  userId,
-}: // displayData,
-// // findUserFavs,
-// setUserFavs,
-// // favProgramRefs,
-// // customProgramRefs,
-// displayCustom,
-// setDisplayCustom,
-// // keyValueList,
-// loading,
-// findCustomPrograms,
-// favHeaderRef,
-// customHeaderRef,
-MyProgramsWithSessionProps) {
+export default function MyProgramsWithSession({ userId }: { userId: string }) {
   const [showUpdateCustom, setShowUpdateCustom] = useState<
     boolean | CustomProgram
   >(false);
@@ -70,9 +38,6 @@ MyProgramsWithSessionProps) {
     null
   );
   const [loading, setLoading] = useState<boolean>(true);
-  // const [showUpdateCustom, setShowUpdateCustom] = useState<
-  //   boolean | CustomProgram
-  // >(false);
   const [displayCustom, setDisplayCustom] = useState<
     CustomProgram[] | undefined | null
   >(null);
@@ -87,7 +52,6 @@ MyProgramsWithSessionProps) {
 
   const findProgramObject = useCallback(
     async (id: string) => {
-      // if (userId) {
       const ptProgramObject = await utils.ptProgram.getOneById.fetch({ id });
       const ftProgramObject = await utils.ftProgram.getOneById.fetch({ id });
       if (ftProgramObject) {
@@ -96,7 +60,6 @@ MyProgramsWithSessionProps) {
       if (ptProgramObject) {
         return ptProgramObject;
       }
-      // }
     },
     [utils.ptProgram.getOneById, utils.ftProgram.getOneById]
   );
@@ -171,8 +134,6 @@ MyProgramsWithSessionProps) {
 
   const findUserFavsHook = useFindUserFavs();
 
-  ////////////////////
-
   useEffect(() => {
     findUserFavsHook(userId)
       .then((result) => {
@@ -181,16 +142,7 @@ MyProgramsWithSessionProps) {
       .catch((error) => console.error("Error finding user favs: ", error));
   }, [findUserFavsHook, userId]);
 
-  // const findSchoolLocationObject = useCallback(
-  //   async (id: string) => {
-  //     const schoolLocationObject = await utils.schoolLocation.getOneById.fetch({
-  //       id,
-  //     });
-  //     return schoolLocationObject;
-  //   },
-  //   [utils.schoolLocation.getOneById]
-  // );
-
+  //////////////////FINDING CUSTOM PROGRAMS
   const useFindCustomPrograms = () => {
     const findCustomPrograms = useCallback(async () => {
       const allCustomPrograms = await utils.customProgram.getAllForUser.fetch({
@@ -203,104 +155,7 @@ MyProgramsWithSessionProps) {
 
   const findCustomPrograms = useFindCustomPrograms();
 
-  // const findSchool = useCallback(async (id: string) => {
-  //   const schoolLocationObject = await utils.school.getOneById.fetch({ id });
-  //   return schoolLocationObject;
-  // }, []);
-
-  // const findLocation = useCallback(async (id: string) => {
-  //   const locationObject = await utils.location.getOneById.fetch({ id });
-  //   return locationObject;
-  // }, []);
-
-  // const addAllDataToCustomFav = useCallback(
-  //   async (userFavs: [] | (ProgramWithType | undefined)[]) => {
-  //     const fullDataObject = await Promise.all(
-  //       userFavs.map(async (element) => {
-  //         if (element) {
-  //           const result = await findSchoolLocationObject(
-  //             element.schoolLocationId
-  //           );
-  //           if (result) {
-  //             const schoolObject = await findSchool(result.schoolId);
-  //             const locationObject = await findLocation(result.locationId);
-  //             return {
-  //               id: element.id,
-  //               schoolLocationId: element.schoolLocationId,
-  //               website: element.website,
-  //               discipline: element.discipline,
-  //               name: element.name,
-  //               type: element.type,
-  //               cityObj: locationObject,
-  //               schoolObj: schoolObject,
-  //               favId: element.favProgramId,
-  //             };
-  //           }
-  //         }
-  //         return undefined;
-  //       })
-  //     );
-
-  //     return fullDataObject
-  //       .filter((item) => item !== undefined)
-  //       .sort((a, b) =>
-  //         (a?.schoolObj?.name || "").localeCompare(b?.schoolObj?.name || "")
-  //       ) as ProgramWithType[];
-  //   },
-  //   []
-  // );
-  //////////////////GOOD
-  // const addAllDataToCustomFav = useCallback(
-  //   async (userFavs: [] | (ProgramWithType | undefined)[]) => {
-  //     const fullDataObject = await Promise.all(
-  //       userFavs.map(async (element) => {
-  //         if (element) {
-  //           const schoolLocationObject =
-  //             await utils.schoolLocation.getOneById.fetch({
-  //               id: element.schoolLocationId,
-  //             });
-
-  //           if (schoolLocationObject) {
-  //             const schoolObject = await utils.school.getOneById.fetch({
-  //               id: schoolLocationObject.schoolId,
-  //             });
-
-  //             const locationObject = await utils.location.getOneById.fetch({
-  //               id: schoolLocationObject.locationId,
-  //             });
-
-  //             return {
-  //               id: element.id,
-  //               schoolLocationId: element.schoolLocationId,
-  //               website: element.website,
-  //               discipline: element.discipline,
-  //               name: element.name,
-  //               type: element.type,
-  //               cityObj: locationObject,
-  //               schoolObj: schoolObject,
-  //               favId: element.favProgramId,
-  //             };
-  //           }
-  //         }
-  //         return undefined;
-  //       })
-  //     );
-
-  //     return fullDataObject
-  //       .filter((item) => item !== undefined)
-  //       .sort((a, b) =>
-  //         (a?.schoolObj?.name || "").localeCompare(b?.schoolObj?.name || "")
-  //       ) as ProgramWithType[];
-  //   },
-  //   [
-  //     utils.schoolLocation.getOneById,
-  //     utils.school.getOneById,
-  //     utils.location.getOneById,
-  //   ]
-  // );
-
-  ///////////////////
-
+  //////////////////FETCHING ALL THE EXTRA DATA NEEDED FOR FAV PROGRAM DISPLAY
   const schoolLocationRef = useRef<string>("");
   const schoolRef = useRef<string>("");
   const locationRef = useRef<string>("");
@@ -343,11 +198,7 @@ MyProgramsWithSessionProps) {
           userFavs.map(async (element) => {
             if (element) {
               const schoolLocationId = element.schoolLocationId;
-              // const schoolId = element.schoolId;
-              // const locationId = element.locationId;
               schoolLocationRef.current = schoolLocationId;
-
-              // Call the useSchoolLocation function with the specific id
               const schoolLocationObject = await getSchoolLocation();
               if (schoolLocationObject) {
                 schoolRef.current = schoolLocationObject.schoolId;
@@ -385,48 +236,6 @@ MyProgramsWithSessionProps) {
   };
 
   const addAllDataToUserFavHook = useAddAllDataToUserFav();
-
-  // const useProcessUserFavsPlain = () => {
-  //   const processUserFavs = useCallback(
-  //     async (userFavs: [] | (ProgramWithType | undefined)[]) => {
-  //       const processedData = await Promise.all(
-  //         userFavs.map(async (element) => {
-  //           if (element) {
-  //             const result = await findSchoolLocationObject(
-  //               element.schoolLocationId
-  //             );
-  //             if (result) {
-  //               const schoolObject = await findSchool(result.schoolId);
-  //               const locationObject = await findLocation(result.locationId);
-  //               return {
-  //                 id: element.id,
-  //                 schoolLocationId: element.schoolLocationId,
-  //                 website: element.website,
-  //                 discipline: element.discipline,
-  //                 name: element.name,
-  //                 type: element.type,
-  //                 cityObj: locationObject,
-  //                 schoolObj: schoolObject,
-  //                 favId: element.favProgramId,
-  //               };
-  //             }
-  //           }
-  //           return undefined;
-  //         })
-  //       );
-
-  //       return processedData
-  //         .filter((item) => item !== undefined)
-  //         .sort((a, b) =>
-  //           (a?.schoolObj?.name || "").localeCompare(b?.schoolObj?.name || "")
-  //         ) as ProgramWithType[];
-  //     },
-  //     []
-  //   );
-  //   return processUserFavs;
-  // };
-
-  // const processUserFavsPlainHook = useProcessUserFavsPlain();
 
   const useFetchData = (
     addDataToUserFavs: (
@@ -494,10 +303,10 @@ MyProgramsWithSessionProps) {
 
   const fetchDataHook = useFetchData(
     addAllDataToUserFavHook,
-    findCustomPrograms, //happy!
-    userFavs, // happy!
-    memoizedSetDisplayCustom, //happy
-    memoizedSetLoading //happy
+    findCustomPrograms,
+    userFavs,
+    memoizedSetDisplayCustom,
+    memoizedSetLoading
   );
 
   useEffect(() => {
