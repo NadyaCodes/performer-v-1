@@ -691,7 +691,15 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
   //   []
   // );
 
-  const ptProgramFetch = useCallback(async () => {
+  // const ptProgramFetch = useCallback(async () => {
+  //   const schoolLocationId = prismaSchoolLocationObject?.id || "";
+  //   return utils.ptProgram.getOneByLocationObject.fetch({
+  //     schoolLocationId,
+  //     discipline,
+  //   });
+  // }, [prismaSchoolLocationObject?.id, discipline]);
+
+  const ptProgramFetch = useMemo(() => {
     const schoolLocationId = prismaSchoolLocationObject?.id || "";
     return utils.ptProgram.getOneByLocationObject.fetch({
       schoolLocationId,
@@ -712,7 +720,7 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
       discipline,
       name: programName,
     });
-  }, [prismaSchoolLocationObject?.id, discipline]);
+  }, [prismaSchoolLocationObject?.id, discipline, schoolObject.programName]);
 
   const findPrismaProgramCB = useCallback(
     async ({
@@ -741,7 +749,7 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
         try {
           let prismaProgram;
           if (type === "pt") {
-            prismaProgram = await ptProgramFetch();
+            prismaProgram = await ptProgramFetch;
           }
 
           if (type === "ft") {
