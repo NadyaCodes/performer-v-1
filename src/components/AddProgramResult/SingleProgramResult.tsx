@@ -1082,7 +1082,7 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
         name?: string;
       }) => {
         try {
-          const data = await addProgramCB({
+          const data = addProgramCB({
             schoolLocationId,
             discipline,
             type,
