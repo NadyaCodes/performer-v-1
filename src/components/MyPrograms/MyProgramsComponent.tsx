@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  useCallback,
-  useMemo,
-} from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { api } from "@component/utils/api";
 import type { PTProgram, FTProgram, CustomProgram } from "@prisma/client";
@@ -113,6 +107,45 @@ export default function MyProgramsComponent() {
     [findProgramObject, utils.favs.getAllForUser]
   );
 
+  const useFindUserFavs = () => {
+    const findUserFavs = useCallback(
+      async (userId: string) => {
+        const allUserFavs = utils.favs.getAllForUser.fetch({ userId });
+        const userFavPrograms: (ProgramWithType | undefined)[] =
+          await Promise.all(
+            (
+              await allUserFavs
+            ).map(async (element) => {
+              if (element.ftProgramId) {
+                const program = (await findProgramObject(
+                  element.ftProgramId
+                )) as FTProgram;
+                return (
+                  { ...program, type: "ft", favProgramId: element.id } ||
+                  undefined
+                );
+              }
+              if (element.ptProgramId) {
+                const program = (await findProgramObject(
+                  element.ptProgramId
+                )) as PTProgram;
+                return (
+                  { ...program, type: "pt", favProgramId: element.id } ||
+                  undefined
+                );
+              }
+              return undefined;
+            })
+          );
+        return userFavPrograms;
+      },
+      [findProgramObject, utils.favs.getAllForUser, userId]
+    );
+    return findUserFavs;
+  };
+
+  const findUserFavsHook = useFindUserFavs();
+
   const findSchoolLocationObject = useCallback(
     async (id: string) => {
       const schoolLocationObject = await utils.schoolLocation.getOneById.fetch({
@@ -123,14 +156,14 @@ export default function MyProgramsComponent() {
     [utils.schoolLocation.getOneById]
   );
 
-  const findCustomProgramsCB = useCallback(async () => {
-    if (userId) {
-      const allCustomPrograms = await utils.customProgram.getAllForUser.fetch({
-        userId,
-      });
-      return allCustomPrograms;
-    }
-  }, [utils.customProgram.getAllForUser]);
+  // const findCustomProgramsCB = useCallback(async () => {
+  //   if (userId) {
+  //     const allCustomPrograms = await utils.customProgram.getAllForUser.fetch({
+  //       userId,
+  //     });
+  //     return allCustomPrograms;
+  //   }
+  // }, [utils.customProgram.getAllForUser]);
 
   const useFindCustomPrograms = () => {
     const findCustomPrograms = useCallback(async () => {
@@ -166,7 +199,7 @@ export default function MyProgramsComponent() {
 
   useEffect(() => {
     if (sessionData) {
-      findUserFavs(sessionData.user.id)
+      findUserFavsHook(sessionData.user.id)
         .then((result) => {
           result ? setUserFavs(result) : setUserFavs([]);
         })
@@ -174,148 +207,51 @@ export default function MyProgramsComponent() {
     }
   }, [sessionData]);
 
-  // useEffect(() => {
-  //   const fetchDisplayData = async () => {
-  //     if (userFavs) {
-  //       if (userFavs.length > 0) {
-  //         const newData = await Promise.all(
-  //           userFavs.map(async (element) => {
-  //             if (element) {
-  //               const result = await findSchoolLocationObject(
-  //                 element.schoolLocationId
-  //               );
-  //               if (result) {
-  //                 const schoolObject = await findSchool(result.schoolId);
-  //                 const locationObject = await findLocation(result.locationId);
-  //                 return {
-  //                   id: element.id,
-  //                   schoolLocationId: element.schoolLocationId,
-  //                   website: element.website,
-  //                   discipline: element.discipline,
-  //                   name: element.name,
-  //                   type: element.type,
-  //                   cityObj: locationObject,
-  //                   schoolObj: schoolObject,
-  //                   favId: element.favProgramId,
-  //                 };
-  //               }
-  //             }
-  //             return undefined;
-  //           })
+  // const processUserFavs = async (
+  //   userFavs: [] | (ProgramWithType | undefined)[]
+  //   // findSchoolLocationObject: Function,
+  //   // findSchool: Function,
+  //   // findLocation: Function
+  // ) => {
+  //   const processedData = await Promise.all(
+  //     userFavs.map(async (element) => {
+  //       if (element) {
+  //         const result = await findSchoolLocationObject(
+  //           element.schoolLocationId
   //         );
-  //         newData.sort((a, b) => {
-  //           const nameA = a?.schoolObj?.name || "";
-  //           const nameB = b?.schoolObj?.name || "";
-
-  //           return nameA.localeCompare(nameB);
-  //         });
-
-  //         setDisplayData(
-  //           newData.filter((item) => item !== undefined) as ProgramWithInfo[]
-  //         );
-  //         findCustomPrograms()
-  //           .then((data) => data && setDisplayCustom(data))
-  //           .then(() => setLoading(false));
-  //       } else {
-  //         setDisplayData(null);
-  //         findCustomPrograms()
-  //           .then((data) => data && setDisplayCustom(data))
-  //           .then(() => setLoading(false));
+  //         if (result) {
+  //           const schoolObject = await findSchool(result.schoolId);
+  //           const locationObject = await findLocation(result.locationId);
+  //           return {
+  //             id: element.id,
+  //             schoolLocationId: element.schoolLocationId,
+  //             website: element.website,
+  //             discipline: element.discipline,
+  //             name: element.name,
+  //             type: element.type,
+  //             cityObj: locationObject,
+  //             schoolObj: schoolObject,
+  //             favId: element.favProgramId,
+  //           };
+  //         }
   //       }
-  //     }
-  //   };
+  //       return undefined;
+  //     })
+  //   );
 
-  //   fetchDisplayData();
-  // }, [userFavs, findCustomPrograms]);
+  //   return processedData
+  //     .filter((item) => item !== undefined)
+  //     .sort((a, b) =>
+  //       (a?.schoolObj?.name || "").localeCompare(b?.schoolObj?.name || "")
+  //     ) as ProgramWithType[];
+  // };
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       if (!userFavs || userFavs.length === 0) {
-  //         setDisplayData(null);
-  //       } else {
-  //         const newData = await Promise.all(
-  //           userFavs.map(async (element) => {
-  //             if (element) {
-  //               const result = await findSchoolLocationObject(
-  //                 element.schoolLocationId
-  //               );
-  //               if (result) {
-  //                 const schoolObject = await findSchool(result.schoolId);
-  //                 const locationObject = await findLocation(result.locationId);
-  //                 return {
-  //                   id: element.id,
-  //                   schoolLocationId: element.schoolLocationId,
-  //                   website: element.website,
-  //                   discipline: element.discipline,
-  //                   name: element.name,
-  //                   type: element.type,
-  //                   cityObj: locationObject,
-  //                   schoolObj: schoolObject,
-  //                   favId: element.favProgramId,
-  //                 };
-  //               }
-  //             }
-  //             return undefined;
-  //           })
-  //         );
-
-  //         newData.sort((a, b) => {
-  //           const nameA = a?.schoolObj?.name || "";
-  //           const nameB = b?.schoolObj?.name || "";
-  //           return nameA.localeCompare(nameB);
-  //         });
-
-  //         setDisplayData(
-  //           newData.filter((item) => item !== undefined) as ProgramWithInfo[]
-  //         );
-  //       }
-
-  //       const customPrograms = await findCustomPrograms();
-  //       if (customPrograms) {
-  //         setDisplayCustom(customPrograms);
-  //       }
-
-  //       setLoading(false);
-  //     } catch (error) {
-  //       console.error("Error fetching data: ", error);
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [
-  //   userFavs,
-  //   // findSchoolLocationObject,
-  //   // findSchool,
-  //   // findLocation,
-  //   // findCustomPrograms,
-  // ]);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       // setLoading(true);
-
-  //       if (!userFavs || userFavs.length === 0) {
-  //         setDisplayData(null);
-  //       } else {
-  //         const processedData = await processUserFavs(userFavs);
-  //         setDisplayData(processedData);
-  //       }
-
-  //       const customPrograms = await findCustomPrograms();
-  //       setDisplayCustom(customPrograms || []);
-
-  //       setLoading(false);
-  //     } catch (error) {
-  //       console.error("Error fetching data: ", error);
-  //       setLoading(false);
-  //     }
-  //   };
-
+  // const useProcessUserFavs = () => {
   //   const processUserFavs = async (
   //     userFavs: [] | (ProgramWithType | undefined)[]
+  //     // findSchoolLocationObject: Function,
+  //     // findSchool: Function,
+  //     // findLocation: Function
   //   ) => {
   //     const processedData = await Promise.all(
   //       userFavs.map(async (element) => {
@@ -349,12 +285,18 @@ export default function MyProgramsComponent() {
   //         (a?.schoolObj?.name || "").localeCompare(b?.schoolObj?.name || "")
   //       ) as ProgramWithType[];
   //   };
+  //   return processUserFavs;
+  // };
 
-  //   fetchData();
-  // }, [userFavs]);
+  // const processUserFavsHook = useProcessUserFavs();
 
-  // const processUserFavs = useCallback(
-  //   async (userFavs: [] | (ProgramWithType | undefined)[]) => {
+  // const processUserFavsCB = useCallback(
+  //   async (
+  //     userFavs: [] | (ProgramWithType | undefined)[]
+  //     // findSchoolLocationObject: Function,
+  //     // findSchool: Function,
+  //     // findLocation: Function
+  //   ) => {
   //     const processedData = await Promise.all(
   //       userFavs.map(async (element) => {
   //         if (element) {
@@ -390,126 +332,177 @@ export default function MyProgramsComponent() {
   //   [findSchoolLocationObject, findSchool, findLocation]
   // );
 
-  const processUserFavs = async (
-    userFavs: [] | (ProgramWithType | undefined)[]
-    // findSchoolLocationObject: Function,
-    // findSchool: Function,
-    // findLocation: Function
-  ) => {
-    const processedData = await Promise.all(
-      userFavs.map(async (element) => {
-        if (element) {
-          const result = await findSchoolLocationObject(
-            element.schoolLocationId
-          );
-          if (result) {
-            const schoolObject = await findSchool(result.schoolId);
-            const locationObject = await findLocation(result.locationId);
-            return {
-              id: element.id,
-              schoolLocationId: element.schoolLocationId,
-              website: element.website,
-              discipline: element.discipline,
-              name: element.name,
-              type: element.type,
-              cityObj: locationObject,
-              schoolObj: schoolObject,
-              favId: element.favProgramId,
-            };
-          }
-        }
-        return undefined;
-      })
-    );
+  // const memoizedProcessUserFavs = useMemo(
+  //   () => async (userFavs: [] | (ProgramWithType | undefined)[]) => {
+  //     const processedData = await Promise.all(
+  //       userFavs.map(async (element) => {
+  //         if (element) {
+  //           const result = await findSchoolLocationObject(
+  //             element.schoolLocationId
+  //           );
+  //           if (result) {
+  //             const schoolObject = await findSchool(result.schoolId);
+  //             const locationObject = await findLocation(result.locationId);
+  //             return {
+  //               id: element.id,
+  //               schoolLocationId: element.schoolLocationId,
+  //               website: element.website,
+  //               discipline: element.discipline,
+  //               name: element.name,
+  //               type: element.type,
+  //               cityObj: locationObject,
+  //               schoolObj: schoolObject,
+  //               favId: element.favProgramId,
+  //             };
+  //           }
+  //         }
+  //         return undefined;
+  //       })
+  //     );
 
-    return processedData
-      .filter((item) => item !== undefined)
-      .sort((a, b) =>
-        (a?.schoolObj?.name || "").localeCompare(b?.schoolObj?.name || "")
-      ) as ProgramWithType[];
-  };
+  //     return processedData
+  //       .filter((item) => item !== undefined)
+  //       .sort((a, b) =>
+  //         (a?.schoolObj?.name || "").localeCompare(b?.schoolObj?.name || "")
+  //       ) as ProgramWithType[];
+  //   },
+  //   [findSchoolLocationObject, findSchool, findLocation]
+  // );
 
-  const useProcessUserFavs = () => {
-    const processUserFavs = async (
-      userFavs: [] | (ProgramWithType | undefined)[]
-      // findSchoolLocationObject: Function,
-      // findSchool: Function,
-      // findLocation: Function
-    ) => {
-      const processedData = await Promise.all(
-        userFavs.map(async (element) => {
-          if (element) {
-            const result = await findSchoolLocationObject(
-              element.schoolLocationId
-            );
-            if (result) {
-              const schoolObject = await findSchool(result.schoolId);
-              const locationObject = await findLocation(result.locationId);
-              return {
-                id: element.id,
-                schoolLocationId: element.schoolLocationId,
-                website: element.website,
-                discipline: element.discipline,
-                name: element.name,
-                type: element.type,
-                cityObj: locationObject,
-                schoolObj: schoolObject,
-                favId: element.favProgramId,
-              };
+  // const memoizedProcessUserFavs = useMemo(
+  //   () => async (userFavs: [] | (ProgramWithType | undefined)[]) => {
+  //     const processedData = await Promise.all(
+  //       userFavs.map(async (element) => {
+  //         if (element) {
+  //           const result = await findSchoolLocationObject(
+  //             element.schoolLocationId
+  //           );
+  //           if (result) {
+  //             const schoolObject = await findSchool(result.schoolId);
+  //             const locationObject = await findLocation(result.locationId);
+  //             return {
+  //               id: element.id,
+  //               schoolLocationId: element.schoolLocationId,
+  //               website: element.website,
+  //               discipline: element.discipline,
+  //               name: element.name,
+  //               type: element.type,
+  //               cityObj: locationObject,
+  //               schoolObj: schoolObject,
+  //               favId: element.favProgramId,
+  //             };
+  //           }
+  //         }
+  //         return undefined;
+  //       })
+  //     );
+
+  //     return processedData
+  //       .filter((item) => item !== undefined)
+  //       .sort((a, b) =>
+  //         (a?.schoolObj?.name || "").localeCompare(b?.schoolObj?.name || "")
+  //       ) as ProgramWithType[];
+  //   },
+  //   [findSchoolLocationObject, findSchool, findLocation]
+  // );
+
+  // const processUserFavsPlain = async (
+  //   userFavs: [] | (ProgramWithType | undefined)[],
+  //   findSchoolLocationObject: Function,
+  //   findSchool: Function,
+  //   findLocation: Function
+  // ) => {
+  //   const processedData = await Promise.all(
+  //     userFavs.map(async (element) => {
+  //       if (element) {
+  //         const result = await findSchoolLocationObject(
+  //           element.schoolLocationId
+  //         );
+  //         if (result) {
+  //           const schoolObject = await findSchool(result.schoolId);
+  //           const locationObject = await findLocation(result.locationId);
+  //           return {
+  //             id: element.id,
+  //             schoolLocationId: element.schoolLocationId,
+  //             website: element.website,
+  //             discipline: element.discipline,
+  //             name: element.name,
+  //             type: element.type,
+  //             cityObj: locationObject,
+  //             schoolObj: schoolObject,
+  //             favId: element.favProgramId,
+  //           };
+  //         }
+  //       }
+  //       return undefined;
+  //     })
+  //   );
+
+  //   return processedData
+  //     .filter((item) => item !== undefined)
+  //     .sort((a, b) =>
+  //       (a?.schoolObj?.name || "").localeCompare(b?.schoolObj?.name || "")
+  //     ) as ProgramWithType[];
+  // };
+
+  const useProcessUserFavsPlain = () => {
+    const processUserFavs = useCallback(
+      async (
+        userFavs: [] | (ProgramWithType | undefined)[]
+        // findSchoolLocationObject: Function,
+        // findSchool: Function,
+        // findLocation: Function
+      ) => {
+        const processedData = await Promise.all(
+          userFavs.map(async (element) => {
+            if (element) {
+              const result = await findSchoolLocationObject(
+                element.schoolLocationId
+              );
+              if (result) {
+                const schoolObject = await findSchool(result.schoolId);
+                const locationObject = await findLocation(result.locationId);
+                return {
+                  id: element.id,
+                  schoolLocationId: element.schoolLocationId,
+                  website: element.website,
+                  discipline: element.discipline,
+                  name: element.name,
+                  type: element.type,
+                  cityObj: locationObject,
+                  schoolObj: schoolObject,
+                  favId: element.favProgramId,
+                };
+              }
             }
-          }
-          return undefined;
-        })
-      );
+            return undefined;
+          })
+        );
 
-      return processedData
-        .filter((item) => item !== undefined)
-        .sort((a, b) =>
-          (a?.schoolObj?.name || "").localeCompare(b?.schoolObj?.name || "")
-        ) as ProgramWithType[];
-    };
+        return processedData
+          .filter((item) => item !== undefined)
+          .sort((a, b) =>
+            (a?.schoolObj?.name || "").localeCompare(b?.schoolObj?.name || "")
+          ) as ProgramWithType[];
+      },
+      [findSchoolLocationObject, findSchool, findLocation]
+    );
     return processUserFavs;
   };
 
-  const processUserFavsHook = useProcessUserFavs();
+  const processUserFavsPlainHook = useProcessUserFavsPlain();
 
-  const memoizedProcessUserFavs = useMemo(
-    () => async (userFavs: [] | (ProgramWithType | undefined)[]) => {
-      const processedData = await Promise.all(
-        userFavs.map(async (element) => {
-          if (element) {
-            const result = await findSchoolLocationObject(
-              element.schoolLocationId
-            );
-            if (result) {
-              const schoolObject = await findSchool(result.schoolId);
-              const locationObject = await findLocation(result.locationId);
-              return {
-                id: element.id,
-                schoolLocationId: element.schoolLocationId,
-                website: element.website,
-                discipline: element.discipline,
-                name: element.name,
-                type: element.type,
-                cityObj: locationObject,
-                schoolObj: schoolObject,
-                favId: element.favProgramId,
-              };
-            }
-          }
-          return undefined;
-        })
-      );
-
-      return processedData
-        .filter((item) => item !== undefined)
-        .sort((a, b) =>
-          (a?.schoolObj?.name || "").localeCompare(b?.schoolObj?.name || "")
-        ) as ProgramWithType[];
-    },
-    [findSchoolLocationObject, findSchool, findLocation]
-  );
-
+  // const processUserFavsPlainCB = useCallback(
+  //   async (userFavs: [] | (ProgramWithType | undefined)[]) => {
+  //     return processUserFavsPlain(
+  //       userFavs,
+  //       findSchoolLocationObject,
+  //       findSchool,
+  //       findLocation
+  //     );
+  //   },
+  //   [findSchoolLocationObject, findSchool, findLocation]
+  // );
   const useFetchData = (
     processUserFavs: (
       userFavs: [] | (ProgramWithType | undefined)[]
@@ -540,17 +533,15 @@ export default function MyProgramsComponent() {
         console.error("Error fetching data: ", error);
         setLoading(false);
       }
-    }, [userFavs, findCustomPrograms, setDisplayCustom, setLoading]);
+    }, [
+      userFavs,
+      findCustomPrograms,
+      setDisplayCustom,
+      setLoading,
+      // processUserFavs,
+    ]);
     return fetchData;
   };
-
-  // const memoizedSetDisplayCustom = useCallback((newValue: CustomProgram[]) => {
-  //   setDisplayCustom(newValue);
-  // }, []);
-
-  // const memoizedSetLoading = useCallback((newValue: boolean) => {
-  //   setLoading(newValue);
-  // }, []);
 
   const memoizedSetDisplayCustom = useCallback<
     React.Dispatch<React.SetStateAction<CustomProgram[]>>
@@ -572,7 +563,7 @@ export default function MyProgramsComponent() {
   }, []);
 
   const fetchDataHook = useFetchData(
-    processUserFavsHook,
+    processUserFavsPlainHook,
     findCustomPrograms, //happy!
     userFavs, // happy!
     memoizedSetDisplayCustom, //happy
@@ -2151,3 +2142,221 @@ export default function MyProgramsComponent() {
 //     </div>
 //   );
 // }
+
+///////////////////// OLD CODE
+
+// useEffect(() => {
+//   const fetchDisplayData = async () => {
+//     if (userFavs) {
+//       if (userFavs.length > 0) {
+//         const newData = await Promise.all(
+//           userFavs.map(async (element) => {
+//             if (element) {
+//               const result = await findSchoolLocationObject(
+//                 element.schoolLocationId
+//               );
+//               if (result) {
+//                 const schoolObject = await findSchool(result.schoolId);
+//                 const locationObject = await findLocation(result.locationId);
+//                 return {
+//                   id: element.id,
+//                   schoolLocationId: element.schoolLocationId,
+//                   website: element.website,
+//                   discipline: element.discipline,
+//                   name: element.name,
+//                   type: element.type,
+//                   cityObj: locationObject,
+//                   schoolObj: schoolObject,
+//                   favId: element.favProgramId,
+//                 };
+//               }
+//             }
+//             return undefined;
+//           })
+//         );
+//         newData.sort((a, b) => {
+//           const nameA = a?.schoolObj?.name || "";
+//           const nameB = b?.schoolObj?.name || "";
+
+//           return nameA.localeCompare(nameB);
+//         });
+
+//         setDisplayData(
+//           newData.filter((item) => item !== undefined) as ProgramWithInfo[]
+//         );
+//         findCustomPrograms()
+//           .then((data) => data && setDisplayCustom(data))
+//           .then(() => setLoading(false));
+//       } else {
+//         setDisplayData(null);
+//         findCustomPrograms()
+//           .then((data) => data && setDisplayCustom(data))
+//           .then(() => setLoading(false));
+//       }
+//     }
+//   };
+
+//   fetchDisplayData();
+// }, [userFavs, findCustomPrograms]);
+
+// useEffect(() => {
+//   const fetchData = async () => {
+//     try {
+//       if (!userFavs || userFavs.length === 0) {
+//         setDisplayData(null);
+//       } else {
+//         const newData = await Promise.all(
+//           userFavs.map(async (element) => {
+//             if (element) {
+//               const result = await findSchoolLocationObject(
+//                 element.schoolLocationId
+//               );
+//               if (result) {
+//                 const schoolObject = await findSchool(result.schoolId);
+//                 const locationObject = await findLocation(result.locationId);
+//                 return {
+//                   id: element.id,
+//                   schoolLocationId: element.schoolLocationId,
+//                   website: element.website,
+//                   discipline: element.discipline,
+//                   name: element.name,
+//                   type: element.type,
+//                   cityObj: locationObject,
+//                   schoolObj: schoolObject,
+//                   favId: element.favProgramId,
+//                 };
+//               }
+//             }
+//             return undefined;
+//           })
+//         );
+
+//         newData.sort((a, b) => {
+//           const nameA = a?.schoolObj?.name || "";
+//           const nameB = b?.schoolObj?.name || "";
+//           return nameA.localeCompare(nameB);
+//         });
+
+//         setDisplayData(
+//           newData.filter((item) => item !== undefined) as ProgramWithInfo[]
+//         );
+//       }
+
+//       const customPrograms = await findCustomPrograms();
+//       if (customPrograms) {
+//         setDisplayCustom(customPrograms);
+//       }
+
+//       setLoading(false);
+//     } catch (error) {
+//       console.error("Error fetching data: ", error);
+//       setLoading(false);
+//     }
+//   };
+
+//   fetchData();
+// }, [
+//   userFavs,
+//   // findSchoolLocationObject,
+//   // findSchool,
+//   // findLocation,
+//   // findCustomPrograms,
+// ]);
+
+// useEffect(() => {
+//   const fetchData = async () => {
+//     try {
+//       // setLoading(true);
+
+//       if (!userFavs || userFavs.length === 0) {
+//         setDisplayData(null);
+//       } else {
+//         const processedData = await processUserFavs(userFavs);
+//         setDisplayData(processedData);
+//       }
+
+//       const customPrograms = await findCustomPrograms();
+//       setDisplayCustom(customPrograms || []);
+
+//       setLoading(false);
+//     } catch (error) {
+//       console.error("Error fetching data: ", error);
+//       setLoading(false);
+//     }
+//   };
+
+//   const processUserFavs = async (
+//     userFavs: [] | (ProgramWithType | undefined)[]
+//   ) => {
+//     const processedData = await Promise.all(
+//       userFavs.map(async (element) => {
+//         if (element) {
+//           const result = await findSchoolLocationObject(
+//             element.schoolLocationId
+//           );
+//           if (result) {
+//             const schoolObject = await findSchool(result.schoolId);
+//             const locationObject = await findLocation(result.locationId);
+//             return {
+//               id: element.id,
+//               schoolLocationId: element.schoolLocationId,
+//               website: element.website,
+//               discipline: element.discipline,
+//               name: element.name,
+//               type: element.type,
+//               cityObj: locationObject,
+//               schoolObj: schoolObject,
+//               favId: element.favProgramId,
+//             };
+//           }
+//         }
+//         return undefined;
+//       })
+//     );
+
+//     return processedData
+//       .filter((item) => item !== undefined)
+//       .sort((a, b) =>
+//         (a?.schoolObj?.name || "").localeCompare(b?.schoolObj?.name || "")
+//       ) as ProgramWithType[];
+//   };
+
+//   fetchData();
+// }, [userFavs]);
+
+// const processUserFavs = useCallback(
+//   async (userFavs: [] | (ProgramWithType | undefined)[]) => {
+//     const processedData = await Promise.all(
+//       userFavs.map(async (element) => {
+//         if (element) {
+//           const result = await findSchoolLocationObject(
+//             element.schoolLocationId
+//           );
+//           if (result) {
+//             const schoolObject = await findSchool(result.schoolId);
+//             const locationObject = await findLocation(result.locationId);
+//             return {
+//               id: element.id,
+//               schoolLocationId: element.schoolLocationId,
+//               website: element.website,
+//               discipline: element.discipline,
+//               name: element.name,
+//               type: element.type,
+//               cityObj: locationObject,
+//               schoolObj: schoolObject,
+//               favId: element.favProgramId,
+//             };
+//           }
+//         }
+//         return undefined;
+//       })
+//     );
+
+//     return processedData
+//       .filter((item) => item !== undefined)
+//       .sort((a, b) =>
+//         (a?.schoolObj?.name || "").localeCompare(b?.schoolObj?.name || "")
+//       ) as ProgramWithType[];
+//   },
+//   [findSchoolLocationObject, findSchool, findLocation]
+// );
