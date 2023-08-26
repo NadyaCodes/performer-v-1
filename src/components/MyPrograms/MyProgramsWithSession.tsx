@@ -315,7 +315,7 @@ MyProgramsWithSessionProps) {
   // const processUserFavsPlainHook = useProcessUserFavsPlain();
 
   const useFetchData = (
-    processUserFavs: (
+    addDataToUserFavs: (
       userFavs: [] | (ProgramWithType | undefined)[]
     ) => Promise<ProgramWithType[]>,
     findCustomPrograms: () => Promise<CustomProgram[] | undefined>,
@@ -333,10 +333,10 @@ MyProgramsWithSessionProps) {
           setDisplayData([]);
         } else {
           console.log("starting to process data");
-          const processedData: ProgramWithType[] = await processUserFavs(
+          const allFavData: ProgramWithType[] = await addDataToUserFavs(
             userFavs
           );
-          setDisplayData(processedData);
+          setDisplayData(allFavData);
         }
 
         const customPrograms = await findCustomPrograms();
@@ -350,7 +350,7 @@ MyProgramsWithSessionProps) {
       findCustomPrograms,
       setDisplayCustom,
       setLoading,
-      // processUserFavs,
+      addDataToUserFavs,
     ]);
     return fetchData;
   };
