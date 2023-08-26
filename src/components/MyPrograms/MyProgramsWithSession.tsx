@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { api } from "@component/utils/api";
-import type { CustomProgram } from "@prisma/client";
+import type { CustomProgram, SchoolLocation } from "@prisma/client";
 import type { ProgramWithInfo } from "../ProgramFinder/types";
 import SingleProgram from "./SingleProgram";
 import { backChevron, plusIcon } from "@component/data/svgs";
@@ -30,6 +30,11 @@ type MyProgramsWithSessionProps = {
   // findCustomPrograms: () => Promise<CustomProgram[] | undefined>;
   // favHeaderRef: React.MutableRefObject<HTMLDivElement | null>;
   // customHeaderRef: React.MutableRefObject<HTMLDivElement | null>;
+};
+
+export type FavsWithSLOType = {
+  schoolLocation: SchoolLocation;
+  element: ProgramWithType;
 };
 
 export default function MyProgramsWithSession({
@@ -169,24 +174,19 @@ MyProgramsWithSessionProps) {
   ////////////////////
 
   useEffect(() => {
-    // if (userId) {
     findUserFavsHook(userId)
       .then((result) => {
         result ? setUserFavs(result) : setUserFavs([]);
       })
       .catch((error) => console.error("Error finding user favs: ", error));
-    // }
   }, [findUserFavsHook, userId]);
 
-  const findSchoolLocationObject = useCallback(
-    async (id: string) => {
-      const schoolLocationObject = await utils.schoolLocation.getOneById.fetch({
-        id,
-      });
-      return schoolLocationObject;
-    },
-    [utils.schoolLocation.getOneById]
-  );
+  const findSchoolLocationObject = useCallback(async (id: string) => {
+    const schoolLocationObject = await utils.schoolLocation.getOneById.fetch({
+      id,
+    });
+    return schoolLocationObject;
+  }, []);
 
   const useFindCustomPrograms = () => {
     const findCustomPrograms = useCallback(async () => {
@@ -200,40 +200,15 @@ MyProgramsWithSessionProps) {
 
   const findCustomPrograms = useFindCustomPrograms();
 
-  const findSchool = useCallback(
-    async (id: string) => {
-      const schoolLocationObject = await utils.school.getOneById.fetch({ id });
-      return schoolLocationObject;
-    },
-    [utils.school.getOneById]
-  );
+  const findSchool = useCallback(async (id: string) => {
+    const schoolLocationObject = await utils.school.getOneById.fetch({ id });
+    return schoolLocationObject;
+  }, []);
 
-  const findLocation = useCallback(
-    async (id: string) => {
-      const locationObject = await utils.location.getOneById.fetch({ id });
-      return locationObject;
-    },
-    [utils.location.getOneById]
-  );
-
-  // const addAllDataToCustomFavs = useCallback(async () => {
-  //   if (userFavs) {
-  //     const fullFavObjectArray = await Promise.all(
-  //       userFavs.map((element) => {
-  //         if (element) {
-  //           findSchoolLocationObject(element.schoolLocationId).then(
-  //             (result) => {
-  //               if (result) {
-  //                 const schoolLocationObject = result;
-  //               }
-
-  //             }
-  //           );
-  //         }
-  //       })
-  //     );
-  //   }
-  // }, [userFavs]);
+  const findLocation = useCallback(async (id: string) => {
+    const locationObject = await utils.location.getOneById.fetch({ id });
+    return locationObject;
+  }, []);
 
   const addAllDataToCustomFav = useCallback(
     async (userFavs: [] | (ProgramWithType | undefined)[]) => {
@@ -269,7 +244,7 @@ MyProgramsWithSessionProps) {
           (a?.schoolObj?.name || "").localeCompare(b?.schoolObj?.name || "")
         ) as ProgramWithType[];
     },
-    []
+    [findSchool, findLocation, findSchoolLocationObject]
   );
 
   // const useProcessUserFavsPlain = () => {
