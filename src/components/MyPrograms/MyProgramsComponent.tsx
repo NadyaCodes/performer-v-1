@@ -253,6 +253,68 @@ export default function MyProgramsComponent() {
     }
   };
 
+  const fetchDisplayDataCB = useCallback(
+    async (userFavPrograms: (ProgramWithType | undefined)[]) => {
+      if (userFavPrograms) {
+        const newData = await fetchDisplayData(userFavPrograms);
+        if (newData) {
+          const filteredResult = newData.filter(
+            (item) => item !== undefined
+          ) as ProgramWithInfo[];
+          setDisplayData([...filteredResult]);
+          return newData;
+        }
+      }
+    },
+    [fetchDisplayData, setDisplayData]
+  );
+
+  const useFetchDisplayData = () => {
+    const wrappedFetchDisplayDataCB = useCallback(
+      async (userFavs: (ProgramWithType | undefined)[] | null) => {
+        if (userFavs) {
+          const newData = await Promise.all(
+            userFavs.map(async (element) => {
+              if (element) {
+                const result = await findSchoolLocationObject(
+                  element.schoolLocationId
+                );
+                if (result) {
+                  const schoolObject = await findSchool(result.schoolId);
+                  const locationObject = await findLocation(result.locationId);
+                  return {
+                    id: element.id,
+                    schoolLocationId: element.schoolLocationId,
+                    website: element.website,
+                    discipline: element.discipline,
+                    name: element.name,
+                    type: element.type,
+                    cityObj: locationObject,
+                    schoolObj: schoolObject,
+                    favId: element.favProgramId,
+                  };
+                }
+              }
+              return undefined;
+            })
+          );
+          newData.sort((a, b) => {
+            const nameA = a?.schoolObj?.name || "";
+            const nameB = b?.schoolObj?.name || "";
+
+            return nameA.localeCompare(nameB);
+          });
+          newData.filter((item) => item !== undefined) as ProgramWithInfo[];
+          return newData;
+        }
+      },
+      []
+    );
+    return wrappedFetchDisplayDataCB;
+  };
+
+  const customHookFetchDisplayData = useFetchDisplayData();
+
   useEffect(() => {
     const fetchData = async () => {
       if (sessionData && userId) {
@@ -261,7 +323,7 @@ export default function MyProgramsComponent() {
           const userFavPrograms = await findUserFavs(sessionData.user.id);
           setUserFavs(userFavPrograms);
 
-          const newData = await fetchDisplayData(userFavPrograms);
+          const newData = await customHookFetchDisplayData(userFavPrograms);
           if (newData) {
             const filteredResult = newData.filter(
               (item) => item !== undefined
@@ -284,7 +346,7 @@ export default function MyProgramsComponent() {
       }
     };
     fetchData().catch((error) => console.error("Error fetching data: ", error));
-  }, [sessionData, customHookFindCustomPrograms]);
+  }, [sessionData, customHookFindCustomPrograms, customHookFetchDisplayData]);
 
   const updateData = async () => {
     if (sessionData && userFavs) {
@@ -302,21 +364,6 @@ export default function MyProgramsComponent() {
       console.error("Error updating data: ", error)
     );
   }, [userFavs, sessionData]);
-
-  const fetchDisplayDataCB = useCallback(
-    async (userFavPrograms: (ProgramWithType | undefined)[]) => {
-      if (userFavPrograms) {
-        const newData = await fetchDisplayData(userFavPrograms);
-        if (newData) {
-          const filteredResult = newData.filter(
-            (item) => item !== undefined
-          ) as ProgramWithInfo[];
-          setDisplayData([...filteredResult]);
-        }
-      }
-    },
-    [fetchDisplayData, setDisplayData]
-  );
 
   useEffect(() => {
     if (displayData) {
