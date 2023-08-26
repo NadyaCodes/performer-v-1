@@ -104,45 +104,50 @@ export default function MyProgramsComponent() {
     return userFavPrograms;
   };
 
-  const findUserFavsCB = useCallback(async (userId: string) => {
-    try {
-      const allUserFavs = await utils.favs.getAllForUser.fetch({ userId });
-      const userFavPrograms: (ProgramWithType | undefined)[] =
-        await Promise.all(
-          allUserFavs.map(async (element) => {
-            if (element.ftProgramId) {
-              const program = (await findProgramObject(
-                element.ftProgramId
-              )) as FTProgram;
-              return (
-                {
-                  ...program,
-                  type: "ft",
-                  favProgramId: element.id,
-                } || undefined
-              );
-            }
-            if (element.ptProgramId) {
-              const program = (await findProgramObject(
-                element.ptProgramId
-              )) as PTProgram;
-              return (
-                {
-                  ...program,
-                  type: "pt",
-                  favProgramId: element.id,
-                } || undefined
-              );
-            }
-            return undefined;
-          })
-        );
-      return userFavPrograms;
-    } catch (error) {
-      console.error("Error fetching Prisma program:", error);
-      return null;
-    }
-  }, []);
+  const useFindUserFavs = () => {
+    const findUserFavsCB = useCallback(async (userId: string) => {
+      try {
+        const allUserFavs = await utils.favs.getAllForUser.fetch({ userId });
+        const userFavPrograms: (ProgramWithType | undefined)[] =
+          await Promise.all(
+            allUserFavs.map(async (element) => {
+              if (element.ftProgramId) {
+                const program = (await findProgramObject(
+                  element.ftProgramId
+                )) as FTProgram;
+                return (
+                  {
+                    ...program,
+                    type: "ft",
+                    favProgramId: element.id,
+                  } || undefined
+                );
+              }
+              if (element.ptProgramId) {
+                const program = (await findProgramObject(
+                  element.ptProgramId
+                )) as PTProgram;
+                return (
+                  {
+                    ...program,
+                    type: "pt",
+                    favProgramId: element.id,
+                  } || undefined
+                );
+              }
+              return undefined;
+            })
+          );
+        return userFavPrograms;
+      } catch (error) {
+        console.error("Error fetching Prisma program:", error);
+        return null;
+      }
+    }, []);
+    return findUserFavsCB;
+  };
+
+  const customHookFindUserFavs = useFindUserFavs();
 
   const findSchoolLocationObject = async (id: string) => {
     const schoolLocationObject = await utils.schoolLocation.getOneById.fetch({
@@ -165,7 +170,7 @@ export default function MyProgramsComponent() {
     if (sessionData) {
       return async () => {
         try {
-          const result = await findUserFavsCB(sessionData.user.id);
+          const result = await customHookFindUserFavs(sessionData.user.id);
           setUserFavs(result ? result : []);
         } catch (error) {
           console.error("Error finding user Favs: ", error);
@@ -173,7 +178,7 @@ export default function MyProgramsComponent() {
       };
     }
     return null;
-  }, [sessionData, findUserFavsCB]);
+  }, [sessionData, customHookFindUserFavs]);
 
   useEffect(() => {
     if (memoizedFindUserFavs) {
