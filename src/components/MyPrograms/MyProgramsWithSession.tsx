@@ -181,15 +181,15 @@ MyProgramsWithSessionProps) {
       .catch((error) => console.error("Error finding user favs: ", error));
   }, [findUserFavsHook, userId]);
 
-  const findSchoolLocationObject = useCallback(
-    async (id: string) => {
-      const schoolLocationObject = await utils.schoolLocation.getOneById.fetch({
-        id,
-      });
-      return schoolLocationObject;
-    },
-    [utils.schoolLocation.getOneById]
-  );
+  // const findSchoolLocationObject = useCallback(
+  //   async (id: string) => {
+  //     const schoolLocationObject = await utils.schoolLocation.getOneById.fetch({
+  //       id,
+  //     });
+  //     return schoolLocationObject;
+  //   },
+  //   [utils.schoolLocation.getOneById]
+  // );
 
   const useFindCustomPrograms = () => {
     const findCustomPrograms = useCallback(async () => {
@@ -203,15 +203,15 @@ MyProgramsWithSessionProps) {
 
   const findCustomPrograms = useFindCustomPrograms();
 
-  const findSchool = useCallback(async (id: string) => {
-    const schoolLocationObject = await utils.school.getOneById.fetch({ id });
-    return schoolLocationObject;
-  }, []);
+  // const findSchool = useCallback(async (id: string) => {
+  //   const schoolLocationObject = await utils.school.getOneById.fetch({ id });
+  //   return schoolLocationObject;
+  // }, []);
 
-  const findLocation = useCallback(async (id: string) => {
-    const locationObject = await utils.location.getOneById.fetch({ id });
-    return locationObject;
-  }, []);
+  // const findLocation = useCallback(async (id: string) => {
+  //   const locationObject = await utils.location.getOneById.fetch({ id });
+  //   return locationObject;
+  // }, []);
 
   // const addAllDataToCustomFav = useCallback(
   //   async (userFavs: [] | (ProgramWithType | undefined)[]) => {
@@ -311,7 +311,7 @@ MyProgramsWithSessionProps) {
         id: schoolLocationRef.current,
       });
       return schoolLocationObject;
-    }, [schoolLocationRef.current]);
+    }, []);
   };
 
   const useSchool = () => {
@@ -320,7 +320,7 @@ MyProgramsWithSessionProps) {
         id: schoolRef.current,
       });
       return schoolObject;
-    }, [schoolRef.current]);
+    }, []);
   };
 
   const useLocation = () => {
@@ -329,7 +329,7 @@ MyProgramsWithSessionProps) {
         id: locationRef.current,
       });
       return locationObject;
-    }, [locationRef.current]);
+    }, []);
   };
 
   const getSchoolLocation = useSchoolLocation();
@@ -378,7 +378,7 @@ MyProgramsWithSessionProps) {
             (a?.schoolObj?.name || "").localeCompare(b?.schoolObj?.name || "")
           ) as ProgramWithType[];
       },
-      [getSchoolLocation, getSchool, getLocation]
+      []
     );
 
     return addAllDataToUserFav;
