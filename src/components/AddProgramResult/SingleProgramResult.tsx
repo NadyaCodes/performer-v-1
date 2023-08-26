@@ -604,8 +604,13 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
   //   []
   // );
 
-  const ptProgramFetch = utils.ptProgram.getOneByLocationObject.fetch;
-  const ftProgramFetch = utils.ftProgram.getOneByLocationObject.fetch;
+  // const ptProgramFetch = utils.ptProgram.getOneByLocationObject.fetch.bind(
+  //   utils.ptProgram.getOneByLocationObject
+  // );
+
+  // const ftProgramFetch = utils.ftProgram.getOneByLocationObject.fetch.bind(
+  //   utils.ftProgram.getOneByLocationObject
+  // );
 
   // const findPrismaProgramCB = useCallback(
   //   async ({
@@ -674,6 +679,18 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
   //   []
   // );
 
+  // const ptProgramFetch = utils.ptProgram.getOneByLocationObject.fetch;
+  // const ftProgramFetch = utils.ftProgram.getOneByLocationObject.fetch;
+  const ptProgramFetch = useMemo(
+    () => utils.ptProgram.getOneByLocationObject.fetch,
+    []
+  );
+
+  const ftProgramFetch = useMemo(
+    () => utils.ftProgram.getOneByLocationObject.fetch,
+    []
+  );
+
   const findPrismaProgramCB = useCallback(
     async ({
       schoolLocationId,
@@ -735,7 +752,7 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
         console.error("Error finding Prisma Program: ", error);
       }
     },
-    []
+    [ptProgramFetch, ftProgramFetch]
   );
 
   const { mutate: createPtProgram } = api.ptProgram.add.useMutation({
