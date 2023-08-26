@@ -213,45 +213,102 @@ export default function MyProgramsComponent() {
 
   const customHookFindCustomPrograms = useFindCustomProgramsCB();
 
-  const fetchDisplayData = async (
-    userFavs: (ProgramWithType | undefined)[] | null
-  ) => {
-    if (userFavs) {
-      const newData = await Promise.all(
-        userFavs.map(async (element) => {
-          if (element) {
-            const result = await findSchoolLocationObject(
-              element.schoolLocationId
-            );
-            if (result) {
-              const schoolObject = await findSchool(result.schoolId);
-              const locationObject = await findLocation(result.locationId);
-              return {
-                id: element.id,
-                schoolLocationId: element.schoolLocationId,
-                website: element.website,
-                discipline: element.discipline,
-                name: element.name,
-                type: element.type,
-                cityObj: locationObject,
-                schoolObj: schoolObject,
-                favId: element.favProgramId,
-              };
-            }
-          }
-          return undefined;
-        })
-      );
-      newData.sort((a, b) => {
-        const nameA = a?.schoolObj?.name || "";
-        const nameB = b?.schoolObj?.name || "";
+  // const fetchDisplayData = async (
+  //   userFavs: (ProgramWithType | undefined)[] | null
+  // ) => {
+  //   if (userFavs) {
+  //     const newData = await Promise.all(
+  //       userFavs.map(async (element) => {
+  //         if (element) {
+  //           const result = await findSchoolLocationObject(
+  //             element.schoolLocationId
+  //           );
+  //           if (result) {
+  //             const schoolObject = await findSchool(result.schoolId);
+  //             const locationObject = await findLocation(result.locationId);
+  //             return {
+  //               id: element.id,
+  //               schoolLocationId: element.schoolLocationId,
+  //               website: element.website,
+  //               discipline: element.discipline,
+  //               name: element.name,
+  //               type: element.type,
+  //               cityObj: locationObject,
+  //               schoolObj: schoolObject,
+  //               favId: element.favProgramId,
+  //             };
+  //           }
+  //         }
+  //         return undefined;
+  //       })
+  //     );
+  //     newData.sort((a, b) => {
+  //       const nameA = a?.schoolObj?.name || "";
+  //       const nameB = b?.schoolObj?.name || "";
 
-        return nameA.localeCompare(nameB);
-      });
-      newData.filter((item) => item !== undefined) as ProgramWithInfo[];
-      return newData;
-    }
-  };
+  //       return nameA.localeCompare(nameB);
+  //     });
+  //     newData.filter((item) => item !== undefined) as ProgramWithInfo[];
+  //     return newData;
+  //   }
+  // };
+
+  // const fetchDisplayDataCB = useCallback(
+  //   async (userFavPrograms: (ProgramWithType | undefined)[]) => {
+  //     if (userFavPrograms) {
+  //       const newData = await fetchDisplayData(userFavPrograms);
+  //       if (newData) {
+  //         const filteredResult = newData.filter(
+  //           (item) => item !== undefined
+  //         ) as ProgramWithInfo[];
+  //         setDisplayData([...filteredResult]);
+  //         return newData;
+  //       }
+  //     }
+  //   },
+  //   [fetchDisplayData, setDisplayData]
+  // );
+
+  const fetchDisplayData = useCallback(
+    async (userFavs: (ProgramWithType | undefined)[] | null) => {
+      if (userFavs) {
+        const newData = await Promise.all(
+          userFavs.map(async (element) => {
+            if (element) {
+              const result = await findSchoolLocationObject(
+                element.schoolLocationId
+              );
+              if (result) {
+                const schoolObject = await findSchool(result.schoolId);
+                const locationObject = await findLocation(result.locationId);
+                return {
+                  id: element.id,
+                  schoolLocationId: element.schoolLocationId,
+                  website: element.website,
+                  discipline: element.discipline,
+                  name: element.name,
+                  type: element.type,
+                  cityObj: locationObject,
+                  schoolObj: schoolObject,
+                  favId: element.favProgramId,
+                };
+              }
+            }
+            return undefined;
+          })
+        );
+        newData.sort((a, b) => {
+          const nameA = a?.schoolObj?.name || "";
+          const nameB = b?.schoolObj?.name || "";
+
+          return nameA.localeCompare(nameB);
+        });
+        newData.filter((item) => item !== undefined) as ProgramWithInfo[];
+        return newData;
+      }
+    },
+    [findSchoolLocationObject, findSchool, findLocation]
+  );
 
   const fetchDisplayDataCB = useCallback(
     async (userFavPrograms: (ProgramWithType | undefined)[]) => {
