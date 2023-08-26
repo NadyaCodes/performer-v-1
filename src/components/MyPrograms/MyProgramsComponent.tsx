@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useMemo,
+} from "react";
 import { useSession } from "next-auth/react";
 import { api } from "@component/utils/api";
 import type { PTProgram, FTProgram, CustomProgram } from "@prisma/client";
@@ -70,7 +76,7 @@ export default function MyProgramsComponent() {
         }
       }
     },
-    [utils.ptProgram.getOneById, utils.ptProgram.getOneById]
+    [utils.ptProgram.getOneById, utils.ftProgram.getOneById, userId]
   );
 
   const findUserFavs = useCallback(
@@ -104,7 +110,7 @@ export default function MyProgramsComponent() {
         );
       return userFavPrograms;
     },
-    [findProgramObject]
+    [findProgramObject, utils.favs.getAllForUser]
   );
 
   const findSchoolLocationObject = useCallback(
@@ -117,6 +123,15 @@ export default function MyProgramsComponent() {
     [utils.schoolLocation.getOneById]
   );
 
+  const findCustomProgramsCB = useCallback(async () => {
+    if (userId) {
+      const allCustomPrograms = await utils.customProgram.getAllForUser.fetch({
+        userId,
+      });
+      return allCustomPrograms;
+    }
+  }, [utils.customProgram.getAllForUser]);
+
   const useFindCustomPrograms = () => {
     const findCustomPrograms = useCallback(async () => {
       if (userId) {
@@ -127,7 +142,7 @@ export default function MyProgramsComponent() {
         );
         return allCustomPrograms;
       }
-    }, [userId, utils.customProgram.getAllForUser]);
+    }, []);
     return findCustomPrograms;
   };
 
@@ -151,9 +166,11 @@ export default function MyProgramsComponent() {
 
   useEffect(() => {
     if (sessionData) {
-      findUserFavs(sessionData.user.id).then((result) => {
-        result ? setUserFavs(result) : setUserFavs([]);
-      });
+      findUserFavs(sessionData.user.id)
+        .then((result) => {
+          result ? setUserFavs(result) : setUserFavs([]);
+        })
+        .catch((error) => console.error("Error finding user favs: ", error));
     }
   }, [sessionData]);
 
@@ -412,6 +429,87 @@ export default function MyProgramsComponent() {
       ) as ProgramWithType[];
   };
 
+  const useProcessUserFavs = () => {
+    const processUserFavs = async (
+      userFavs: [] | (ProgramWithType | undefined)[]
+      // findSchoolLocationObject: Function,
+      // findSchool: Function,
+      // findLocation: Function
+    ) => {
+      const processedData = await Promise.all(
+        userFavs.map(async (element) => {
+          if (element) {
+            const result = await findSchoolLocationObject(
+              element.schoolLocationId
+            );
+            if (result) {
+              const schoolObject = await findSchool(result.schoolId);
+              const locationObject = await findLocation(result.locationId);
+              return {
+                id: element.id,
+                schoolLocationId: element.schoolLocationId,
+                website: element.website,
+                discipline: element.discipline,
+                name: element.name,
+                type: element.type,
+                cityObj: locationObject,
+                schoolObj: schoolObject,
+                favId: element.favProgramId,
+              };
+            }
+          }
+          return undefined;
+        })
+      );
+
+      return processedData
+        .filter((item) => item !== undefined)
+        .sort((a, b) =>
+          (a?.schoolObj?.name || "").localeCompare(b?.schoolObj?.name || "")
+        ) as ProgramWithType[];
+    };
+    return processUserFavs;
+  };
+
+  const processUserFavsHook = useProcessUserFavs();
+
+  const memoizedProcessUserFavs = useMemo(
+    () => async (userFavs: [] | (ProgramWithType | undefined)[]) => {
+      const processedData = await Promise.all(
+        userFavs.map(async (element) => {
+          if (element) {
+            const result = await findSchoolLocationObject(
+              element.schoolLocationId
+            );
+            if (result) {
+              const schoolObject = await findSchool(result.schoolId);
+              const locationObject = await findLocation(result.locationId);
+              return {
+                id: element.id,
+                schoolLocationId: element.schoolLocationId,
+                website: element.website,
+                discipline: element.discipline,
+                name: element.name,
+                type: element.type,
+                cityObj: locationObject,
+                schoolObj: schoolObject,
+                favId: element.favProgramId,
+              };
+            }
+          }
+          return undefined;
+        })
+      );
+
+      return processedData
+        .filter((item) => item !== undefined)
+        .sort((a, b) =>
+          (a?.schoolObj?.name || "").localeCompare(b?.schoolObj?.name || "")
+        ) as ProgramWithType[];
+    },
+    [findSchoolLocationObject, findSchool, findLocation]
+  );
+
   const useFetchData = (
     processUserFavs: (
       userFavs: [] | (ProgramWithType | undefined)[]
@@ -423,6 +521,7 @@ export default function MyProgramsComponent() {
   ) => {
     const fetchData = useCallback(async () => {
       try {
+        setLoading(true);
         if (!userFavs || userFavs.length === 0) {
           setDisplayData(null);
         } else {
@@ -441,16 +540,43 @@ export default function MyProgramsComponent() {
         console.error("Error fetching data: ", error);
         setLoading(false);
       }
-    }, [userFavs]);
+    }, [userFavs, findCustomPrograms, setDisplayCustom, setLoading]);
     return fetchData;
   };
 
+  // const memoizedSetDisplayCustom = useCallback((newValue: CustomProgram[]) => {
+  //   setDisplayCustom(newValue);
+  // }, []);
+
+  // const memoizedSetLoading = useCallback((newValue: boolean) => {
+  //   setLoading(newValue);
+  // }, []);
+
+  const memoizedSetDisplayCustom = useCallback<
+    React.Dispatch<React.SetStateAction<CustomProgram[]>>
+  >(
+    (
+      newValue:
+        | CustomProgram[]
+        | ((prevState: CustomProgram[]) => CustomProgram[])
+    ) => {
+      setDisplayCustom(newValue);
+    },
+    []
+  );
+
+  const memoizedSetLoading = useCallback<
+    React.Dispatch<React.SetStateAction<boolean>>
+  >((newValue: boolean | ((prevValue: boolean) => boolean)) => {
+    setLoading(newValue);
+  }, []);
+
   const fetchDataHook = useFetchData(
-    processUserFavs,
-    findCustomPrograms,
-    userFavs,
-    setDisplayCustom,
-    setLoading
+    processUserFavsHook,
+    findCustomPrograms, //happy!
+    userFavs, // happy!
+    memoizedSetDisplayCustom, //happy
+    memoizedSetLoading //happy
   );
 
   useEffect(() => {
