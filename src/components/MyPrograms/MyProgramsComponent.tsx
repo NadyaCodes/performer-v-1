@@ -34,7 +34,6 @@ export type ProgramWithType = {
 export type KeyValueListType = {
   type: string;
   componentRef?: React.RefObject<HTMLDivElement> | undefined;
-  // [key: string]: string;
   id: string | null;
   text: string;
 };
@@ -105,6 +104,46 @@ export default function MyProgramsComponent() {
     return userFavPrograms;
   };
 
+  const findUserFavsCB = useCallback(async (userId: string) => {
+    try {
+      const allUserFavs = await utils.favs.getAllForUser.fetch({ userId });
+      const userFavPrograms: (ProgramWithType | undefined)[] =
+        await Promise.all(
+          allUserFavs.map(async (element) => {
+            if (element.ftProgramId) {
+              const program = (await findProgramObject(
+                element.ftProgramId
+              )) as FTProgram;
+              return (
+                {
+                  ...program,
+                  type: "ft",
+                  favProgramId: element.id,
+                } || undefined
+              );
+            }
+            if (element.ptProgramId) {
+              const program = (await findProgramObject(
+                element.ptProgramId
+              )) as PTProgram;
+              return (
+                {
+                  ...program,
+                  type: "pt",
+                  favProgramId: element.id,
+                } || undefined
+              );
+            }
+            return undefined;
+          })
+        );
+      return userFavPrograms;
+    } catch (error) {
+      console.error("Error fetching Prisma program:", error);
+      return null;
+    }
+  }, []);
+
   const findSchoolLocationObject = async (id: string) => {
     const schoolLocationObject = await utils.schoolLocation.getOneById.fetch({
       id,
@@ -126,7 +165,7 @@ export default function MyProgramsComponent() {
     if (sessionData) {
       return async () => {
         try {
-          const result = await findUserFavs(sessionData.user.id);
+          const result = await findUserFavsCB(sessionData.user.id);
           setUserFavs(result ? result : []);
         } catch (error) {
           console.error("Error finding user Favs: ", error);
@@ -134,7 +173,7 @@ export default function MyProgramsComponent() {
       };
     }
     return null;
-  }, [sessionData]);
+  }, [sessionData, findUserFavsCB]);
 
   useEffect(() => {
     if (memoizedFindUserFavs) {
@@ -152,6 +191,22 @@ export default function MyProgramsComponent() {
       return allCustomPrograms;
     }
   };
+
+  const useFindCustomProgramsCB = () => {
+    const findCustomProgramsCB = useCallback(async (userId: string) => {
+      if (userId) {
+        const allCustomPrograms = await utils.customProgram.getAllForUser.fetch(
+          {
+            userId,
+          }
+        );
+        return allCustomPrograms;
+      }
+    }, []);
+    return findCustomProgramsCB;
+  };
+
+  const customHookFindCustomPrograms = useFindCustomProgramsCB();
 
   const fetchDisplayData = async (
     userFavs: (ProgramWithType | undefined)[] | null
@@ -209,7 +264,9 @@ export default function MyProgramsComponent() {
             setDisplayData([...filteredResult]);
           }
 
-          const customPrograms = await findCustomPrograms(sessionData.user.id);
+          const customPrograms = await customHookFindCustomPrograms(
+            sessionData.user.id
+          );
           if (customPrograms) {
             setDisplayCustom([...customPrograms]);
           }
@@ -222,13 +279,13 @@ export default function MyProgramsComponent() {
       }
     };
     fetchData().catch((error) => console.error("Error fetching data: ", error));
-  }, [sessionData]);
+  }, [sessionData, customHookFindCustomPrograms]);
 
   const updateData = async () => {
     if (sessionData && userFavs) {
       try {
         await fetchDisplayDataCB(userFavs);
-        await findCustomProgramsCB(sessionData.user.id);
+        await customHookFindCustomPrograms(sessionData.user.id);
       } catch (error) {
         console.error("Error fetching data: ", error);
       }
@@ -279,16 +336,6 @@ export default function MyProgramsComponent() {
       setCustomProgramRefs(newCustomProgramRefs);
     }
   }, [displayData, displayCustom]);
-
-  const findCustomProgramsCB = useCallback(
-    async (userId: string) => {
-      const customPrograms = await findCustomPrograms(userId);
-      if (customPrograms) {
-        setDisplayCustom([...customPrograms]);
-      }
-    },
-    [findCustomPrograms, setDisplayCustom]
-  );
 
   useEffect(() => {
     if (displayData !== null || displayCustom.length > 0) {
