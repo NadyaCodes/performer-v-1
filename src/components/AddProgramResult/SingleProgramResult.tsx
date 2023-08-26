@@ -994,7 +994,7 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
   // };
 
   const addProgramCB = useCallback(
-    async ({
+    ({
       schoolLocationId,
       discipline,
       type,
@@ -1051,7 +1051,7 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
     //   utils.ptProgram.getOneByLocationObject.fetch,
     //   utils.ftProgram.getOneByLocationObject.fetch,
     // ]
-    []
+    [createPtProgram, createFtProgram]
   );
 
   const addPrismaProgramCB = useCallback(
