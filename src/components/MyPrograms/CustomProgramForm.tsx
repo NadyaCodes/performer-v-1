@@ -40,7 +40,9 @@ export default function CustomProgramForm({
 }: {
   setShowUpdateCustom: Dispatch<SetStateAction<boolean | CustomProgram>>;
   findCustomPrograms: (userId: string) => Promise<CustomProgram[] | undefined>;
-  setDisplayCustom: Dispatch<SetStateAction<CustomProgram[]>>;
+  setDisplayCustom: Dispatch<
+    SetStateAction<CustomProgram[] | undefined | null>
+  >;
   currentProgram: CustomProgram | null;
 }) {
   const { data: sessionData } = useSession();

@@ -20,7 +20,7 @@ export default function DeleteCheck({
     SetStateAction<(ProgramWithType | undefined)[] | null>
   >;
   setLoadingDelete: Dispatch<SetStateAction<boolean | string>>;
-  setUserCustoms?: Dispatch<SetStateAction<CustomProgram[]>>;
+  setUserCustoms?: Dispatch<SetStateAction<CustomProgram[] | undefined | null>>;
   programId?: string;
 }) {
   const { data: sessionData } = useSession();

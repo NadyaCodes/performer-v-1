@@ -20,7 +20,9 @@ import { useEffectOnce } from "../AddProgramResult/helpers";
 
 interface SingleCustomProps {
   program: CustomProgram;
-  setDisplayCustom: React.Dispatch<React.SetStateAction<CustomProgram[]>>;
+  setDisplayCustom: React.Dispatch<
+    React.SetStateAction<CustomProgram[] | undefined | null>
+  >;
   setShowUpdateCustom: React.Dispatch<
     React.SetStateAction<CustomProgram | boolean>
   >;

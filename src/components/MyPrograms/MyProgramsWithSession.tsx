@@ -68,7 +68,9 @@ MyProgramsWithSessionProps) {
   // const [showUpdateCustom, setShowUpdateCustom] = useState<
   //   boolean | CustomProgram
   // >(false);
-  const [displayCustom, setDisplayCustom] = useState<CustomProgram[]>([]);
+  const [displayCustom, setDisplayCustom] = useState<
+    CustomProgram[] | undefined | null
+  >(null);
 
   const utils = api.useContext();
 
@@ -188,12 +190,10 @@ MyProgramsWithSessionProps) {
 
   const useFindCustomPrograms = () => {
     const findCustomPrograms = useCallback(async () => {
-      // if (userId) {
       const allCustomPrograms = await utils.customProgram.getAllForUser.fetch({
         userId,
       });
       return allCustomPrograms;
-      // }
     }, []);
     return findCustomPrograms;
   };
@@ -216,47 +216,103 @@ MyProgramsWithSessionProps) {
     [utils.location.getOneById]
   );
 
-  const useProcessUserFavsPlain = () => {
-    const processUserFavs = useCallback(
-      async (userFavs: [] | (ProgramWithType | undefined)[]) => {
-        const processedData = await Promise.all(
-          userFavs.map(async (element) => {
-            if (element) {
-              const result = await findSchoolLocationObject(
-                element.schoolLocationId
-              );
-              if (result) {
-                const schoolObject = await findSchool(result.schoolId);
-                const locationObject = await findLocation(result.locationId);
-                return {
-                  id: element.id,
-                  schoolLocationId: element.schoolLocationId,
-                  website: element.website,
-                  discipline: element.discipline,
-                  name: element.name,
-                  type: element.type,
-                  cityObj: locationObject,
-                  schoolObj: schoolObject,
-                  favId: element.favProgramId,
-                };
-              }
+  // const addAllDataToCustomFavs = useCallback(async () => {
+  //   if (userFavs) {
+  //     const fullFavObjectArray = await Promise.all(
+  //       userFavs.map((element) => {
+  //         if (element) {
+  //           findSchoolLocationObject(element.schoolLocationId).then(
+  //             (result) => {
+  //               if (result) {
+  //                 const schoolLocationObject = result;
+  //               }
+
+  //             }
+  //           );
+  //         }
+  //       })
+  //     );
+  //   }
+  // }, [userFavs]);
+
+  const addAllDataToCustomFav = useCallback(
+    async (userFavs: [] | (ProgramWithType | undefined)[]) => {
+      const fullDataObject = await Promise.all(
+        userFavs.map(async (element) => {
+          if (element) {
+            const result = await findSchoolLocationObject(
+              element.schoolLocationId
+            );
+            if (result) {
+              const schoolObject = await findSchool(result.schoolId);
+              const locationObject = await findLocation(result.locationId);
+              return {
+                id: element.id,
+                schoolLocationId: element.schoolLocationId,
+                website: element.website,
+                discipline: element.discipline,
+                name: element.name,
+                type: element.type,
+                cityObj: locationObject,
+                schoolObj: schoolObject,
+                favId: element.favProgramId,
+              };
             }
-            return undefined;
-          })
-        );
+          }
+          return undefined;
+        })
+      );
 
-        return processedData
-          .filter((item) => item !== undefined)
-          .sort((a, b) =>
-            (a?.schoolObj?.name || "").localeCompare(b?.schoolObj?.name || "")
-          ) as ProgramWithType[];
-      },
-      []
-    );
-    return processUserFavs;
-  };
+      return fullDataObject
+        .filter((item) => item !== undefined)
+        .sort((a, b) =>
+          (a?.schoolObj?.name || "").localeCompare(b?.schoolObj?.name || "")
+        ) as ProgramWithType[];
+    },
+    []
+  );
 
-  const processUserFavsPlainHook = useProcessUserFavsPlain();
+  // const useProcessUserFavsPlain = () => {
+  //   const processUserFavs = useCallback(
+  //     async (userFavs: [] | (ProgramWithType | undefined)[]) => {
+  //       const processedData = await Promise.all(
+  //         userFavs.map(async (element) => {
+  //           if (element) {
+  //             const result = await findSchoolLocationObject(
+  //               element.schoolLocationId
+  //             );
+  //             if (result) {
+  //               const schoolObject = await findSchool(result.schoolId);
+  //               const locationObject = await findLocation(result.locationId);
+  //               return {
+  //                 id: element.id,
+  //                 schoolLocationId: element.schoolLocationId,
+  //                 website: element.website,
+  //                 discipline: element.discipline,
+  //                 name: element.name,
+  //                 type: element.type,
+  //                 cityObj: locationObject,
+  //                 schoolObj: schoolObject,
+  //                 favId: element.favProgramId,
+  //               };
+  //             }
+  //           }
+  //           return undefined;
+  //         })
+  //       );
+
+  //       return processedData
+  //         .filter((item) => item !== undefined)
+  //         .sort((a, b) =>
+  //           (a?.schoolObj?.name || "").localeCompare(b?.schoolObj?.name || "")
+  //         ) as ProgramWithType[];
+  //     },
+  //     []
+  //   );
+  //   return processUserFavs;
+  // };
+
+  // const processUserFavsPlainHook = useProcessUserFavsPlain();
 
   const useFetchData = (
     processUserFavs: (
@@ -264,13 +320,17 @@ MyProgramsWithSessionProps) {
     ) => Promise<ProgramWithType[]>,
     findCustomPrograms: () => Promise<CustomProgram[] | undefined>,
     userFavs: [] | (ProgramWithType | undefined)[] | null,
-    setDisplayCustom: React.Dispatch<React.SetStateAction<CustomProgram[]>>,
+    setDisplayCustom: React.Dispatch<
+      React.SetStateAction<CustomProgram[] | undefined | null>
+    >,
     setLoading: React.Dispatch<React.SetStateAction<boolean>>
   ) => {
     const fetchData = useCallback(async () => {
       try {
-        if (!userFavs || userFavs.length === 0) {
+        if (userFavs === null) {
           setDisplayData(null);
+        } else if (userFavs === undefined || userFavs.length === 0) {
+          setDisplayData([]);
         } else {
           console.log("starting to process data");
           const processedData: ProgramWithType[] = await processUserFavs(
@@ -280,7 +340,7 @@ MyProgramsWithSessionProps) {
         }
 
         const customPrograms = await findCustomPrograms();
-        setDisplayCustom(customPrograms || []);
+        setDisplayCustom(customPrograms);
       } catch (error) {
         console.error("Error fetching data: ", error);
         setLoading(false);
@@ -296,12 +356,16 @@ MyProgramsWithSessionProps) {
   };
 
   const memoizedSetDisplayCustom = useCallback<
-    React.Dispatch<React.SetStateAction<CustomProgram[]>>
+    React.Dispatch<React.SetStateAction<CustomProgram[] | undefined | null>>
   >(
     (
       newValue:
         | CustomProgram[]
-        | ((prevState: CustomProgram[]) => CustomProgram[])
+        | undefined
+        | null
+        | ((
+            prevState: CustomProgram[] | undefined | null
+          ) => CustomProgram[] | undefined | null)
     ) => {
       setDisplayCustom(newValue);
     },
@@ -315,7 +379,7 @@ MyProgramsWithSessionProps) {
   }, []);
 
   const fetchDataHook = useFetchData(
-    processUserFavsPlainHook,
+    addAllDataToCustomFav,
     findCustomPrograms, //happy!
     userFavs, // happy!
     memoizedSetDisplayCustom, //happy
@@ -329,12 +393,12 @@ MyProgramsWithSessionProps) {
   }, [userFavs, fetchDataHook]);
 
   useEffect(() => {
-    if (displayData !== null || displayCustom.length > 0) {
+    if (displayData !== null && displayCustom !== null) {
       setLoading(false);
     }
   }, [displayCustom, displayData]);
 
-  ///CREATING REFS FOR MENU- PROBABLY MOVE LOGIC TO MY PROGRAMS WITH SESSION
+  ///CREATING REFS FOR QUICKLINKS MENU
   useEffect(() => {
     if (displayData) {
       const newProgramRefs: Record<
@@ -347,7 +411,7 @@ MyProgramsWithSessionProps) {
       setFavProgramRefs(newProgramRefs);
     }
 
-    if (displayCustom.length > 0) {
+    if (displayCustom && displayCustom.length > 0) {
       const newCustomProgramRefs: Record<
         string,
         React.RefObject<HTMLDivElement>
@@ -401,7 +465,7 @@ MyProgramsWithSessionProps) {
       React.RefObject<HTMLDivElement>
     > = {};
 
-    if (displayCustom.length > 0) {
+    if (displayCustom && displayCustom.length > 0) {
       displayCustom.forEach((program) => {
         newCustomProgramRefs[program.id] = React.createRef<HTMLDivElement>();
       });
@@ -415,7 +479,7 @@ MyProgramsWithSessionProps) {
       componentRef: customHeaderRef,
     });
 
-    if (displayCustom.length > 0) {
+    if (displayCustom && displayCustom.length > 0) {
       displayCustom.forEach((program) => {
         let text = program.school || program.name;
         if (!text) {
@@ -463,7 +527,7 @@ MyProgramsWithSessionProps) {
     );
   });
 
-  const customProgramDisplay = displayCustom.map((element) => {
+  const customProgramDisplay = displayCustom?.map((element) => {
     return (
       <SingleCustom
         program={element}
@@ -555,7 +619,7 @@ MyProgramsWithSessionProps) {
             <ProgramDisplay
               programDisplay={programDisplay}
               addCustomButton={addCustomButton}
-              customProgramDisplay={customProgramDisplay}
+              customProgramDisplay={customProgramDisplay || []}
               favHeaderRef={favHeaderRef}
               customHeaderRef={customHeaderRef}
             />
@@ -567,7 +631,7 @@ MyProgramsWithSessionProps) {
             <ProgramDisplay
               programDisplay={programDisplay}
               addCustomButton={addCustomButton}
-              customProgramDisplay={customProgramDisplay}
+              customProgramDisplay={customProgramDisplay || []}
               favHeaderRef={favHeaderRef}
               customHeaderRef={customHeaderRef}
             />
