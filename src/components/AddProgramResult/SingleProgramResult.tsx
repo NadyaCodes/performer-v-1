@@ -681,15 +681,38 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
 
   // const ptProgramFetch = utils.ptProgram.getOneByLocationObject.fetch;
   // const ftProgramFetch = utils.ftProgram.getOneByLocationObject.fetch;
-  const ptProgramFetch = useMemo(
-    () => utils.ptProgram.getOneByLocationObject.fetch,
-    []
-  );
+  // const ptProgramFetch = useMemo(
+  //   () => utils.ptProgram.getOneByLocationObject.fetch,
+  //   []
+  // );
 
-  const ftProgramFetch = useMemo(
-    () => utils.ftProgram.getOneByLocationObject.fetch,
-    []
-  );
+  // const ftProgramFetch = useMemo(
+  //   () => utils.ftProgram.getOneByLocationObject.fetch,
+  //   []
+  // );
+
+  const ptProgramFetch = useCallback(async () => {
+    const schoolLocationId = prismaSchoolLocationObject?.id || "";
+    return utils.ptProgram.getOneByLocationObject.fetch({
+      schoolLocationId,
+      discipline,
+    });
+  }, [prismaSchoolLocationObject?.id, discipline]);
+
+  // const ftProgramFetch = useCallback(
+  //   utils.ftProgram.getOneByLocationObject.fetch,
+  //   []
+  // );
+
+  const ftProgramFetch = useCallback(async () => {
+    const schoolLocationId = prismaSchoolLocationObject?.id || "";
+    const programName = schoolObject.programName || "* No Name *";
+    return utils.ftProgram.getOneByLocationObject.fetch({
+      schoolLocationId,
+      discipline,
+      name: programName,
+    });
+  }, [prismaSchoolLocationObject?.id, discipline]);
 
   const findPrismaProgramCB = useCallback(
     async ({
@@ -704,32 +727,25 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
       name?: string;
     }) => {
       const findPrismaProgramInternal = async ({
-        schoolLocationId,
-        discipline,
+        // schoolLocationId,
+        // discipline,
         type,
-        name,
-      }: {
+      }: // name,
+      {
         schoolLocationId: string;
         discipline: string;
         type: string;
         name?: string;
       }) => {
-        const programName = name || "* No Name *";
+        // const programName = name || "* No Name *";
         try {
           let prismaProgram;
           if (type === "pt") {
-            prismaProgram = await ptProgramFetch({
-              schoolLocationId,
-              discipline,
-            });
+            prismaProgram = await ptProgramFetch();
           }
 
           if (type === "ft") {
-            prismaProgram = await ftProgramFetch({
-              schoolLocationId,
-              discipline,
-              name: programName,
-            });
+            prismaProgram = await ftProgramFetch();
           }
           return prismaProgram;
         } catch (error) {
