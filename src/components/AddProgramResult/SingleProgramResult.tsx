@@ -1139,7 +1139,7 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
       }
     },
     // [addProgram, findPrismaProgram]
-    [addProgramCB]
+    [addProgramCB, findPrismaProgram]
   );
 
   const fetchDataAndAddProgram = async () => {
@@ -1446,6 +1446,7 @@ const SingleProgramResult: React.FC<SingleProgramResultProps> = ({
     programName,
     website,
     addPrismaProgramCB,
+    findPrismaProgram,
     // findPrismaProgramCB,
   ]);
 
