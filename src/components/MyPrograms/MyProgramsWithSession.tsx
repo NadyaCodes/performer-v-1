@@ -11,7 +11,7 @@ import MobileQuickLinks from "./MobileQuickLinks";
 import ProgramDisplay from "./ProgramDisplay";
 import MyProgramsLoading from "./MyProgramsLoading";
 import type { ProgramWithType } from "./MyProgramsComponent";
-import { KeyValueListType } from "./MyProgramsComponent";
+import type { KeyValueListType } from "./MyProgramsComponent";
 import type { PTProgram, FTProgram } from "@prisma/client";
 
 type MyProgramsWithSessionProps = {
@@ -174,7 +174,7 @@ MyProgramsWithSessionProps) {
       })
       .catch((error) => console.error("Error finding user favs: ", error));
     // }
-  }, []);
+  }, [findUserFavsHook, userId]);
 
   const findSchoolLocationObject = useCallback(
     async (id: string) => {
@@ -251,7 +251,7 @@ MyProgramsWithSessionProps) {
             (a?.schoolObj?.name || "").localeCompare(b?.schoolObj?.name || "")
           ) as ProgramWithType[];
       },
-      [findSchoolLocationObject, findSchool, findLocation]
+      []
     );
     return processUserFavs;
   };

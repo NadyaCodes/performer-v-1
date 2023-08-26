@@ -2,7 +2,7 @@ import React from "react";
 import { useSession } from "next-auth/react";
 import MyProgramsWithSession from "./MyProgramsWithSession";
 import MyProgramsNoSession from "./MyProgramsNoSession";
-import { api } from "@component/utils/api";
+// import { api } from "@component/utils/api";
 // import type { PTProgram, FTProgram, CustomProgram } from "@prisma/client";
 // import type { ProgramWithInfo } from "../ProgramFinder/types";
 
