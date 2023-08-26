@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React from "react";
 import { useSession } from "next-auth/react";
 import MyProgramsWithSession from "./MyProgramsWithSession";
 import MyProgramsNoSession from "./MyProgramsNoSession";
 import { api } from "@component/utils/api";
-import type { PTProgram, FTProgram, CustomProgram } from "@prisma/client";
-import type { ProgramWithInfo } from "../ProgramFinder/types";
+// import type { PTProgram, FTProgram, CustomProgram } from "@prisma/client";
+// import type { ProgramWithInfo } from "../ProgramFinder/types";
 
 export type ProgramWithType = {
   id: string;
@@ -27,296 +27,298 @@ export default function MyProgramsComponent() {
   const { data: sessionData } = useSession();
   const userId = sessionData?.user.id || null;
 
-  const utils = api.useContext();
+  // const utils = api.useContext();
 
-  const [userFavs, setUserFavs] = useState<
-    (ProgramWithType | ProgramWithType | undefined)[] | [] | null
-  >(null);
+  // const [userFavs, setUserFavs] = useState<
+  //   (ProgramWithType | ProgramWithType | undefined)[] | [] | null
+  // >(null);
 
-  const [displayData, setDisplayData] = useState<ProgramWithInfo[] | null>(
-    null
-  );
-  const [loading, setLoading] = useState<boolean>(true);
-  // const [showUpdateCustom, setShowUpdateCustom] = useState<
-  //   boolean | CustomProgram
-  // >(false);
-  const [displayCustom, setDisplayCustom] = useState<CustomProgram[]>([]);
+  // const [displayData, setDisplayData] = useState<ProgramWithInfo[] | null>(
+  //   null
+  // );
+  // const [loading, setLoading] = useState<boolean>(true);
+  // // const [showUpdateCustom, setShowUpdateCustom] = useState<
+  // //   boolean | CustomProgram
+  // // >(false);
+  // const [displayCustom, setDisplayCustom] = useState<CustomProgram[]>([]);
   // const [loadingDelete, setLoadingDelete] = useState<boolean | string>(false);
 
-  const findProgramObject = useCallback(
-    async (id: string) => {
-      if (userId) {
-        const ptProgramObject = await utils.ptProgram.getOneById.fetch({ id });
-        const ftProgramObject = await utils.ftProgram.getOneById.fetch({ id });
-        if (ftProgramObject) {
-          return ftProgramObject;
-        }
-        if (ptProgramObject) {
-          return ptProgramObject;
-        }
-      }
-    },
-    [utils.ptProgram.getOneById, utils.ftProgram.getOneById, userId]
-  );
+  // const findProgramObject = useCallback(
+  //   async (id: string) => {
+  //     if (userId) {
+  //       const ptProgramObject = await utils.ptProgram.getOneById.fetch({ id });
+  //       const ftProgramObject = await utils.ftProgram.getOneById.fetch({ id });
+  //       if (ftProgramObject) {
+  //         return ftProgramObject;
+  //       }
+  //       if (ptProgramObject) {
+  //         return ptProgramObject;
+  //       }
+  //     }
+  //   },
+  //   [utils.ptProgram.getOneById, utils.ftProgram.getOneById, userId]
+  // );
 
-  const findUserFavs = useCallback(
-    async (userId: string) => {
-      const allUserFavs = utils.favs.getAllForUser.fetch({ userId });
-      const userFavPrograms: (ProgramWithType | undefined)[] =
-        await Promise.all(
-          (
-            await allUserFavs
-          ).map(async (element) => {
-            if (element.ftProgramId) {
-              const program = (await findProgramObject(
-                element.ftProgramId
-              )) as FTProgram;
-              return (
-                { ...program, type: "ft", favProgramId: element.id } ||
-                undefined
-              );
-            }
-            if (element.ptProgramId) {
-              const program = (await findProgramObject(
-                element.ptProgramId
-              )) as PTProgram;
-              return (
-                { ...program, type: "pt", favProgramId: element.id } ||
-                undefined
-              );
-            }
-            return undefined;
-          })
-        );
-      return userFavPrograms;
-    },
-    [findProgramObject, utils.favs.getAllForUser]
-  );
+  // const findUserFavs = useCallback(
+  //   async (userId: string) => {
+  //     const allUserFavs = utils.favs.getAllForUser.fetch({ userId });
+  //     const userFavPrograms: (ProgramWithType | undefined)[] =
+  //       await Promise.all(
+  //         (
+  //           await allUserFavs
+  //         ).map(async (element) => {
+  //           if (element.ftProgramId) {
+  //             const program = (await findProgramObject(
+  //               element.ftProgramId
+  //             )) as FTProgram;
+  //             return (
+  //               { ...program, type: "ft", favProgramId: element.id } ||
+  //               undefined
+  //             );
+  //           }
+  //           if (element.ptProgramId) {
+  //             const program = (await findProgramObject(
+  //               element.ptProgramId
+  //             )) as PTProgram;
+  //             return (
+  //               { ...program, type: "pt", favProgramId: element.id } ||
+  //               undefined
+  //             );
+  //           }
+  //           return undefined;
+  //         })
+  //       );
+  //     return userFavPrograms;
+  //   },
+  //   [findProgramObject, utils.favs.getAllForUser]
+  // );
 
-  const useFindUserFavs = () => {
-    const findUserFavs = useCallback(
-      async (userId: string) => {
-        const allUserFavs = utils.favs.getAllForUser.fetch({ userId });
-        const userFavPrograms: (ProgramWithType | undefined)[] =
-          await Promise.all(
-            (
-              await allUserFavs
-            ).map(async (element) => {
-              if (element.ftProgramId) {
-                const program = (await findProgramObject(
-                  element.ftProgramId
-                )) as FTProgram;
-                return (
-                  { ...program, type: "ft", favProgramId: element.id } ||
-                  undefined
-                );
-              }
-              if (element.ptProgramId) {
-                const program = (await findProgramObject(
-                  element.ptProgramId
-                )) as PTProgram;
-                return (
-                  { ...program, type: "pt", favProgramId: element.id } ||
-                  undefined
-                );
-              }
-              return undefined;
-            })
-          );
-        return userFavPrograms;
-      },
-      [userId]
-    );
-    return findUserFavs;
-  };
+  // const useFindUserFavs = () => {
+  //   const findUserFavs = useCallback(
+  //     async (userId: string) => {
+  //       const allUserFavs = utils.favs.getAllForUser.fetch({ userId });
+  //       const userFavPrograms: (ProgramWithType | undefined)[] =
+  //         await Promise.all(
+  //           (
+  //             await allUserFavs
+  //           ).map(async (element) => {
+  //             if (element.ftProgramId) {
+  //               const program = (await findProgramObject(
+  //                 element.ftProgramId
+  //               )) as FTProgram;
+  //               return (
+  //                 { ...program, type: "ft", favProgramId: element.id } ||
+  //                 undefined
+  //               );
+  //             }
+  //             if (element.ptProgramId) {
+  //               const program = (await findProgramObject(
+  //                 element.ptProgramId
+  //               )) as PTProgram;
+  //               return (
+  //                 { ...program, type: "pt", favProgramId: element.id } ||
+  //                 undefined
+  //               );
+  //             }
+  //             return undefined;
+  //           })
+  //         );
+  //       return userFavPrograms;
+  //     },
+  //     [userId]
+  //   );
+  //   return findUserFavs;
+  // };
 
-  const findUserFavsHook = useFindUserFavs();
+  // const findUserFavsHook = useFindUserFavs();
 
-  const findSchoolLocationObject = useCallback(
-    async (id: string) => {
-      const schoolLocationObject = await utils.schoolLocation.getOneById.fetch({
-        id,
-      });
-      return schoolLocationObject;
-    },
-    [utils.schoolLocation.getOneById]
-  );
+  // ////////////////////
 
-  const useFindCustomPrograms = () => {
-    const findCustomPrograms = useCallback(async () => {
-      if (userId) {
-        const allCustomPrograms = await utils.customProgram.getAllForUser.fetch(
-          {
-            userId,
-          }
-        );
-        return allCustomPrograms;
-      }
-    }, []);
-    return findCustomPrograms;
-  };
+  // useEffect(() => {
+  //   if (userId) {
+  //     findUserFavsHook(userId)
+  //       .then((result) => {
+  //         result ? setUserFavs(result) : setUserFavs([]);
+  //       })
+  //       .catch((error) => console.error("Error finding user favs: ", error));
+  //   }
+  // }, [userId]);
 
-  const findCustomPrograms = useFindCustomPrograms();
+  // const findSchoolLocationObject = useCallback(
+  //   async (id: string) => {
+  //     const schoolLocationObject = await utils.schoolLocation.getOneById.fetch({
+  //       id,
+  //     });
+  //     return schoolLocationObject;
+  //   },
+  //   [utils.schoolLocation.getOneById]
+  // );
 
-  const findSchool = useCallback(
-    async (id: string) => {
-      const schoolLocationObject = await utils.school.getOneById.fetch({ id });
-      return schoolLocationObject;
-    },
-    [utils.school.getOneById]
-  );
+  // const useFindCustomPrograms = () => {
+  //   const findCustomPrograms = useCallback(async () => {
+  //     if (userId) {
+  //       const allCustomPrograms = await utils.customProgram.getAllForUser.fetch(
+  //         {
+  //           userId,
+  //         }
+  //       );
+  //       return allCustomPrograms;
+  //     }
+  //   }, []);
+  //   return findCustomPrograms;
+  // };
 
-  const findLocation = useCallback(
-    async (id: string) => {
-      const locationObject = await utils.location.getOneById.fetch({ id });
-      return locationObject;
-    },
-    [utils.location.getOneById]
-  );
+  // const findCustomPrograms = useFindCustomPrograms();
 
-  useEffect(() => {
-    if (userId) {
-      findUserFavsHook(userId)
-        .then((result) => {
-          result ? setUserFavs(result) : setUserFavs([]);
-        })
-        .catch((error) => console.error("Error finding user favs: ", error));
-    }
-  }, [userId]);
+  // const findSchool = useCallback(
+  //   async (id: string) => {
+  //     const schoolLocationObject = await utils.school.getOneById.fetch({ id });
+  //     return schoolLocationObject;
+  //   },
+  //   [utils.school.getOneById]
+  // );
 
-  const useProcessUserFavsPlain = () => {
-    const processUserFavs = useCallback(
-      async (userFavs: [] | (ProgramWithType | undefined)[]) => {
-        const processedData = await Promise.all(
-          userFavs.map(async (element) => {
-            if (element) {
-              const result = await findSchoolLocationObject(
-                element.schoolLocationId
-              );
-              if (result) {
-                const schoolObject = await findSchool(result.schoolId);
-                const locationObject = await findLocation(result.locationId);
-                return {
-                  id: element.id,
-                  schoolLocationId: element.schoolLocationId,
-                  website: element.website,
-                  discipline: element.discipline,
-                  name: element.name,
-                  type: element.type,
-                  cityObj: locationObject,
-                  schoolObj: schoolObject,
-                  favId: element.favProgramId,
-                };
-              }
-            }
-            return undefined;
-          })
-        );
+  // const findLocation = useCallback(
+  //   async (id: string) => {
+  //     const locationObject = await utils.location.getOneById.fetch({ id });
+  //     return locationObject;
+  //   },
+  //   [utils.location.getOneById]
+  // );
 
-        return processedData
-          .filter((item) => item !== undefined)
-          .sort((a, b) =>
-            (a?.schoolObj?.name || "").localeCompare(b?.schoolObj?.name || "")
-          ) as ProgramWithType[];
-      },
-      [findSchoolLocationObject, findSchool, findLocation]
-    );
-    return processUserFavs;
-  };
+  // const useProcessUserFavsPlain = () => {
+  //   const processUserFavs = useCallback(
+  //     async (userFavs: [] | (ProgramWithType | undefined)[]) => {
+  //       const processedData = await Promise.all(
+  //         userFavs.map(async (element) => {
+  //           if (element) {
+  //             const result = await findSchoolLocationObject(
+  //               element.schoolLocationId
+  //             );
+  //             if (result) {
+  //               const schoolObject = await findSchool(result.schoolId);
+  //               const locationObject = await findLocation(result.locationId);
+  //               return {
+  //                 id: element.id,
+  //                 schoolLocationId: element.schoolLocationId,
+  //                 website: element.website,
+  //                 discipline: element.discipline,
+  //                 name: element.name,
+  //                 type: element.type,
+  //                 cityObj: locationObject,
+  //                 schoolObj: schoolObject,
+  //                 favId: element.favProgramId,
+  //               };
+  //             }
+  //           }
+  //           return undefined;
+  //         })
+  //       );
 
-  const processUserFavsPlainHook = useProcessUserFavsPlain();
+  //       return processedData
+  //         .filter((item) => item !== undefined)
+  //         .sort((a, b) =>
+  //           (a?.schoolObj?.name || "").localeCompare(b?.schoolObj?.name || "")
+  //         ) as ProgramWithType[];
+  //     },
+  //     [findSchoolLocationObject, findSchool, findLocation]
+  //   );
+  //   return processUserFavs;
+  // };
 
-  const useFetchData = (
-    processUserFavs: (
-      userFavs: [] | (ProgramWithType | undefined)[]
-    ) => Promise<ProgramWithType[]>,
-    findCustomPrograms: () => Promise<CustomProgram[] | undefined>,
-    userFavs: [] | (ProgramWithType | undefined)[] | null,
-    setDisplayCustom: React.Dispatch<React.SetStateAction<CustomProgram[]>>,
-    setLoading: React.Dispatch<React.SetStateAction<boolean>>
-  ) => {
-    const fetchData = useCallback(async () => {
-      try {
-        if (!userFavs || userFavs.length === 0) {
-          setDisplayData(null);
-        } else {
-          console.log("starting to process data");
-          const processedData: ProgramWithType[] = await processUserFavs(
-            userFavs
-          );
-          setDisplayData(processedData);
-        }
+  // const processUserFavsPlainHook = useProcessUserFavsPlain();
 
-        const customPrograms = await findCustomPrograms();
-        setDisplayCustom(customPrograms || []);
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-        setLoading(false);
-      }
-    }, [
-      userFavs,
-      findCustomPrograms,
-      setDisplayCustom,
-      setLoading,
-      // processUserFavs,
-    ]);
-    return fetchData;
-  };
+  // const useFetchData = (
+  //   processUserFavs: (
+  //     userFavs: [] | (ProgramWithType | undefined)[]
+  //   ) => Promise<ProgramWithType[]>,
+  //   findCustomPrograms: () => Promise<CustomProgram[] | undefined>,
+  //   userFavs: [] | (ProgramWithType | undefined)[] | null,
+  //   setDisplayCustom: React.Dispatch<React.SetStateAction<CustomProgram[]>>,
+  //   setLoading: React.Dispatch<React.SetStateAction<boolean>>
+  // ) => {
+  //   const fetchData = useCallback(async () => {
+  //     try {
+  //       if (!userFavs || userFavs.length === 0) {
+  //         setDisplayData(null);
+  //       } else {
+  //         console.log("starting to process data");
+  //         const processedData: ProgramWithType[] = await processUserFavs(
+  //           userFavs
+  //         );
+  //         setDisplayData(processedData);
+  //       }
 
-  const memoizedSetDisplayCustom = useCallback<
-    React.Dispatch<React.SetStateAction<CustomProgram[]>>
-  >(
-    (
-      newValue:
-        | CustomProgram[]
-        | ((prevState: CustomProgram[]) => CustomProgram[])
-    ) => {
-      setDisplayCustom(newValue);
-    },
-    []
-  );
+  //       const customPrograms = await findCustomPrograms();
+  //       setDisplayCustom(customPrograms || []);
+  //     } catch (error) {
+  //       console.error("Error fetching data: ", error);
+  //       setLoading(false);
+  //     }
+  //   }, [
+  //     userFavs,
+  //     findCustomPrograms,
+  //     setDisplayCustom,
+  //     setLoading,
+  //     // processUserFavs,
+  //   ]);
+  //   return fetchData;
+  // };
 
-  const memoizedSetLoading = useCallback<
-    React.Dispatch<React.SetStateAction<boolean>>
-  >((newValue: boolean | ((prevValue: boolean) => boolean)) => {
-    setLoading(newValue);
-  }, []);
+  // const memoizedSetDisplayCustom = useCallback<
+  //   React.Dispatch<React.SetStateAction<CustomProgram[]>>
+  // >(
+  //   (
+  //     newValue:
+  //       | CustomProgram[]
+  //       | ((prevState: CustomProgram[]) => CustomProgram[])
+  //   ) => {
+  //     setDisplayCustom(newValue);
+  //   },
+  //   []
+  // );
 
-  const fetchDataHook = useFetchData(
-    processUserFavsPlainHook,
-    findCustomPrograms, //happy!
-    userFavs, // happy!
-    memoizedSetDisplayCustom, //happy
-    memoizedSetLoading //happy
-  );
+  // const memoizedSetLoading = useCallback<
+  //   React.Dispatch<React.SetStateAction<boolean>>
+  // >((newValue: boolean | ((prevValue: boolean) => boolean)) => {
+  //   setLoading(newValue);
+  // }, []);
 
-  useEffect(() => {
-    fetchDataHook().catch((error) =>
-      console.error("Error fetching data: ", error)
-    );
-  }, [userFavs, fetchDataHook]);
+  // const fetchDataHook = useFetchData(
+  //   processUserFavsPlainHook,
+  //   findCustomPrograms, //happy!
+  //   userFavs, // happy!
+  //   memoizedSetDisplayCustom, //happy
+  //   memoizedSetLoading //happy
+  // );
 
-  useEffect(() => {
-    if (displayData !== null || displayCustom.length > 0) {
-      setLoading(false);
-    }
-  }, [displayCustom, displayData]);
+  // useEffect(() => {
+  //   fetchDataHook().catch((error) =>
+  //     console.error("Error fetching data: ", error)
+  //   );
+  // }, [userFavs, fetchDataHook]);
+
+  // useEffect(() => {
+  //   if (displayData !== null || displayCustom.length > 0) {
+  //     setLoading(false);
+  //   }
+  // }, [displayCustom, displayData]);
 
   return (
     <div>
       {userId ? (
         <MyProgramsWithSession
           userId={userId}
-          displayData={displayData}
-          findUserFavs={findUserFavs}
-          setUserFavs={setUserFavs}
-          // favProgramRefs={favProgramRefs}
-          // customProgramRefs={customProgramRefs}
-          displayCustom={displayCustom}
-          setDisplayCustom={setDisplayCustom}
-          // keyValueList={keyValueList}
-          loading={loading}
-          findCustomPrograms={findCustomPrograms}
+          // displayData={displayData}
+          // findUserFavs={findUserFavs}
+          // setUserFavs={setUserFavs}
+          // // favProgramRefs={favProgramRefs}
+          // // customProgramRefs={customProgramRefs}
+          // displayCustom={displayCustom}
+          // setDisplayCustom={setDisplayCustom}
+          // // keyValueList={keyValueList}
+          // loading={loading}
+          // findCustomPrograms={findCustomPrograms}
           // favHeaderRef={favHeaderRef}
           // customHeaderRef={customHeaderRef}
         />

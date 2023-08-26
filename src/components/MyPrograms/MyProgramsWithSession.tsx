@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { api } from "@component/utils/api";
 import type { CustomProgram } from "@prisma/client";
 import type { ProgramWithInfo } from "../ProgramFinder/types";
 import SingleProgram from "./SingleProgram";
@@ -11,38 +12,39 @@ import ProgramDisplay from "./ProgramDisplay";
 import MyProgramsLoading from "./MyProgramsLoading";
 import type { ProgramWithType } from "./MyProgramsComponent";
 import { KeyValueListType } from "./MyProgramsComponent";
+import type { PTProgram, FTProgram } from "@prisma/client";
 
 type MyProgramsWithSessionProps = {
   userId: string;
-  displayData: ProgramWithInfo[] | null;
-  findUserFavs: (userId: string) => Promise<(ProgramWithType | undefined)[]>;
-  setUserFavs: React.Dispatch<
-    React.SetStateAction<[] | (ProgramWithType | undefined)[] | null>
-  >;
-  // favProgramRefs: Record<string, React.RefObject<HTMLDivElement>>;
-  // customProgramRefs: Record<string, React.RefObject<HTMLDivElement>>;
-  displayCustom: CustomProgram[];
-  setDisplayCustom: React.Dispatch<React.SetStateAction<CustomProgram[]>>;
-  // keyValueList: KeyValueListType[];
-  loading: boolean;
-  findCustomPrograms: () => Promise<CustomProgram[] | undefined>;
+  // displayData: ProgramWithInfo[] | null;
+  // findUserFavs: (userId: string) => Promise<(ProgramWithType | undefined)[]>;
+  // setUserFavs: React.Dispatch<
+  //   React.SetStateAction<[] | (ProgramWithType | undefined)[] | null>
+  // >;
+  // // favProgramRefs: Record<string, React.RefObject<HTMLDivElement>>;
+  // // customProgramRefs: Record<string, React.RefObject<HTMLDivElement>>;
+  // displayCustom: CustomProgram[];
+  // setDisplayCustom: React.Dispatch<React.SetStateAction<CustomProgram[]>>;
+  // // keyValueList: KeyValueListType[];
+  // loading: boolean;
+  // findCustomPrograms: () => Promise<CustomProgram[] | undefined>;
   // favHeaderRef: React.MutableRefObject<HTMLDivElement | null>;
   // customHeaderRef: React.MutableRefObject<HTMLDivElement | null>;
 };
 
 export default function MyProgramsWithSession({
   userId,
-  displayData,
-  findUserFavs,
-  setUserFavs,
-  // favProgramRefs,
-  // customProgramRefs,
-  displayCustom,
-  setDisplayCustom,
-  // keyValueList,
-  loading,
-  findCustomPrograms,
-}: // favHeaderRef,
+}: // displayData,
+// // findUserFavs,
+// setUserFavs,
+// // favProgramRefs,
+// // customProgramRefs,
+// displayCustom,
+// setDisplayCustom,
+// // keyValueList,
+// loading,
+// findCustomPrograms,
+// favHeaderRef,
 // customHeaderRef,
 MyProgramsWithSessionProps) {
   const [showUpdateCustom, setShowUpdateCustom] = useState<
@@ -55,12 +57,284 @@ MyProgramsWithSessionProps) {
   const [customProgramRefs, setCustomProgramRefs] = useState<
     Record<string, React.RefObject<HTMLDivElement>>
   >({});
+  const [userFavs, setUserFavs] = useState<
+    (ProgramWithType | ProgramWithType | undefined)[] | [] | null
+  >(null);
+
+  const [displayData, setDisplayData] = useState<ProgramWithInfo[] | null>(
+    null
+  );
+  const [loading, setLoading] = useState<boolean>(true);
+  // const [showUpdateCustom, setShowUpdateCustom] = useState<
+  //   boolean | CustomProgram
+  // >(false);
+  const [displayCustom, setDisplayCustom] = useState<CustomProgram[]>([]);
+
+  const utils = api.useContext();
 
   useEffect(() => {
     setLoadingDelete(false);
   }, [displayData, displayCustom]);
 
-  ///CREATING REFS - PROBABLY MOVE LOGIC TO MY PROGRAMS WITH SESSION
+  /////////////////FINDING FAVES
+
+  const findProgramObject = useCallback(
+    async (id: string) => {
+      // if (userId) {
+      const ptProgramObject = await utils.ptProgram.getOneById.fetch({ id });
+      const ftProgramObject = await utils.ftProgram.getOneById.fetch({ id });
+      if (ftProgramObject) {
+        return ftProgramObject;
+      }
+      if (ptProgramObject) {
+        return ptProgramObject;
+      }
+      // }
+    },
+    [utils.ptProgram.getOneById, utils.ftProgram.getOneById]
+  );
+
+  const findUserFavs = useCallback(
+    async (userId: string) => {
+      const allUserFavs = utils.favs.getAllForUser.fetch({ userId });
+      const userFavPrograms: (ProgramWithType | undefined)[] =
+        await Promise.all(
+          (
+            await allUserFavs
+          ).map(async (element) => {
+            if (element.ftProgramId) {
+              const program = (await findProgramObject(
+                element.ftProgramId
+              )) as FTProgram;
+              return (
+                { ...program, type: "ft", favProgramId: element.id } ||
+                undefined
+              );
+            }
+            if (element.ptProgramId) {
+              const program = (await findProgramObject(
+                element.ptProgramId
+              )) as PTProgram;
+              return (
+                { ...program, type: "pt", favProgramId: element.id } ||
+                undefined
+              );
+            }
+            return undefined;
+          })
+        );
+      return userFavPrograms;
+    },
+    [findProgramObject, utils.favs.getAllForUser]
+  );
+
+  const useFindUserFavs = () => {
+    const findUserFavs = useCallback(async (userId: string) => {
+      const allUserFavs = utils.favs.getAllForUser.fetch({ userId });
+      const userFavPrograms: (ProgramWithType | undefined)[] =
+        await Promise.all(
+          (
+            await allUserFavs
+          ).map(async (element) => {
+            if (element.ftProgramId) {
+              const program = (await findProgramObject(
+                element.ftProgramId
+              )) as FTProgram;
+              return (
+                { ...program, type: "ft", favProgramId: element.id } ||
+                undefined
+              );
+            }
+            if (element.ptProgramId) {
+              const program = (await findProgramObject(
+                element.ptProgramId
+              )) as PTProgram;
+              return (
+                { ...program, type: "pt", favProgramId: element.id } ||
+                undefined
+              );
+            }
+            return undefined;
+          })
+        );
+      return userFavPrograms;
+    }, []);
+    return findUserFavs;
+  };
+
+  const findUserFavsHook = useFindUserFavs();
+
+  ////////////////////
+
+  useEffect(() => {
+    // if (userId) {
+    findUserFavsHook(userId)
+      .then((result) => {
+        result ? setUserFavs(result) : setUserFavs([]);
+      })
+      .catch((error) => console.error("Error finding user favs: ", error));
+    // }
+  }, []);
+
+  const findSchoolLocationObject = useCallback(
+    async (id: string) => {
+      const schoolLocationObject = await utils.schoolLocation.getOneById.fetch({
+        id,
+      });
+      return schoolLocationObject;
+    },
+    [utils.schoolLocation.getOneById]
+  );
+
+  const useFindCustomPrograms = () => {
+    const findCustomPrograms = useCallback(async () => {
+      // if (userId) {
+      const allCustomPrograms = await utils.customProgram.getAllForUser.fetch({
+        userId,
+      });
+      return allCustomPrograms;
+      // }
+    }, []);
+    return findCustomPrograms;
+  };
+
+  const findCustomPrograms = useFindCustomPrograms();
+
+  const findSchool = useCallback(
+    async (id: string) => {
+      const schoolLocationObject = await utils.school.getOneById.fetch({ id });
+      return schoolLocationObject;
+    },
+    [utils.school.getOneById]
+  );
+
+  const findLocation = useCallback(
+    async (id: string) => {
+      const locationObject = await utils.location.getOneById.fetch({ id });
+      return locationObject;
+    },
+    [utils.location.getOneById]
+  );
+
+  const useProcessUserFavsPlain = () => {
+    const processUserFavs = useCallback(
+      async (userFavs: [] | (ProgramWithType | undefined)[]) => {
+        const processedData = await Promise.all(
+          userFavs.map(async (element) => {
+            if (element) {
+              const result = await findSchoolLocationObject(
+                element.schoolLocationId
+              );
+              if (result) {
+                const schoolObject = await findSchool(result.schoolId);
+                const locationObject = await findLocation(result.locationId);
+                return {
+                  id: element.id,
+                  schoolLocationId: element.schoolLocationId,
+                  website: element.website,
+                  discipline: element.discipline,
+                  name: element.name,
+                  type: element.type,
+                  cityObj: locationObject,
+                  schoolObj: schoolObject,
+                  favId: element.favProgramId,
+                };
+              }
+            }
+            return undefined;
+          })
+        );
+
+        return processedData
+          .filter((item) => item !== undefined)
+          .sort((a, b) =>
+            (a?.schoolObj?.name || "").localeCompare(b?.schoolObj?.name || "")
+          ) as ProgramWithType[];
+      },
+      [findSchoolLocationObject, findSchool, findLocation]
+    );
+    return processUserFavs;
+  };
+
+  const processUserFavsPlainHook = useProcessUserFavsPlain();
+
+  const useFetchData = (
+    processUserFavs: (
+      userFavs: [] | (ProgramWithType | undefined)[]
+    ) => Promise<ProgramWithType[]>,
+    findCustomPrograms: () => Promise<CustomProgram[] | undefined>,
+    userFavs: [] | (ProgramWithType | undefined)[] | null,
+    setDisplayCustom: React.Dispatch<React.SetStateAction<CustomProgram[]>>,
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
+    const fetchData = useCallback(async () => {
+      try {
+        if (!userFavs || userFavs.length === 0) {
+          setDisplayData(null);
+        } else {
+          console.log("starting to process data");
+          const processedData: ProgramWithType[] = await processUserFavs(
+            userFavs
+          );
+          setDisplayData(processedData);
+        }
+
+        const customPrograms = await findCustomPrograms();
+        setDisplayCustom(customPrograms || []);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+        setLoading(false);
+      }
+    }, [
+      userFavs,
+      findCustomPrograms,
+      setDisplayCustom,
+      setLoading,
+      // processUserFavs,
+    ]);
+    return fetchData;
+  };
+
+  const memoizedSetDisplayCustom = useCallback<
+    React.Dispatch<React.SetStateAction<CustomProgram[]>>
+  >(
+    (
+      newValue:
+        | CustomProgram[]
+        | ((prevState: CustomProgram[]) => CustomProgram[])
+    ) => {
+      setDisplayCustom(newValue);
+    },
+    []
+  );
+
+  const memoizedSetLoading = useCallback<
+    React.Dispatch<React.SetStateAction<boolean>>
+  >((newValue: boolean | ((prevValue: boolean) => boolean)) => {
+    setLoading(newValue);
+  }, []);
+
+  const fetchDataHook = useFetchData(
+    processUserFavsPlainHook,
+    findCustomPrograms, //happy!
+    userFavs, // happy!
+    memoizedSetDisplayCustom, //happy
+    memoizedSetLoading //happy
+  );
+
+  useEffect(() => {
+    fetchDataHook().catch((error) =>
+      console.error("Error fetching data: ", error)
+    );
+  }, [userFavs, fetchDataHook]);
+
+  useEffect(() => {
+    if (displayData !== null || displayCustom.length > 0) {
+      setLoading(false);
+    }
+  }, [displayCustom, displayData]);
+
+  ///CREATING REFS FOR MENU- PROBABLY MOVE LOGIC TO MY PROGRAMS WITH SESSION
   useEffect(() => {
     if (displayData) {
       const newProgramRefs: Record<
