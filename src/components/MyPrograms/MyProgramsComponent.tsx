@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useMemo,
-  useCallback,
-  useRef,
-} from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { api } from "@component/utils/api";
 import type { PTProgram, FTProgram, CustomProgram } from "@prisma/client";
@@ -63,142 +57,68 @@ export default function MyProgramsComponent() {
     Record<string, React.RefObject<HTMLDivElement>>
   >({});
 
-  const findProgramObject = async (id: string) => {
-    if (userId) {
-      const ptProgramObject = await utils.ptProgram.getOneById.fetch({ id });
-      const ftProgramObject = await utils.ftProgram.getOneById.fetch({ id });
-      if (ftProgramObject) {
-        return ftProgramObject;
-      }
-      if (ptProgramObject) {
-        return ptProgramObject;
-      }
-    }
-  };
-
-  const findUserFavs = async (userId: string) => {
-    const allUserFavs = utils.favs.getAllForUser.fetch({ userId });
-    const userFavPrograms: (ProgramWithType | undefined)[] = await Promise.all(
-      (
-        await allUserFavs
-      ).map(async (element) => {
-        if (element.ftProgramId) {
-          const program = (await findProgramObject(
-            element.ftProgramId
-          )) as FTProgram;
-          return (
-            { ...program, type: "ft", favProgramId: element.id } || undefined
-          );
+  const findProgramObject = useCallback(
+    async (id: string) => {
+      if (userId) {
+        const ptProgramObject = await utils.ptProgram.getOneById.fetch({ id });
+        const ftProgramObject = await utils.ftProgram.getOneById.fetch({ id });
+        if (ftProgramObject) {
+          return ftProgramObject;
         }
-        if (element.ptProgramId) {
-          const program = (await findProgramObject(
-            element.ptProgramId
-          )) as PTProgram;
-          return (
-            { ...program, type: "pt", favProgramId: element.id } || undefined
-          );
+        if (ptProgramObject) {
+          return ptProgramObject;
         }
-        return undefined;
-      })
-    );
-    return userFavPrograms;
-  };
-
-  const useFindUserFavs = () => {
-    const findUserFavsCB = useCallback(async (userId: string) => {
-      try {
-        const allUserFavs = await utils.favs.getAllForUser.fetch({ userId });
-        const userFavPrograms: (ProgramWithType | undefined)[] =
-          await Promise.all(
-            allUserFavs.map(async (element) => {
-              if (element.ftProgramId) {
-                const program = (await findProgramObject(
-                  element.ftProgramId
-                )) as FTProgram;
-                return (
-                  {
-                    ...program,
-                    type: "ft",
-                    favProgramId: element.id,
-                  } || undefined
-                );
-              }
-              if (element.ptProgramId) {
-                const program = (await findProgramObject(
-                  element.ptProgramId
-                )) as PTProgram;
-                return (
-                  {
-                    ...program,
-                    type: "pt",
-                    favProgramId: element.id,
-                  } || undefined
-                );
-              }
-              return undefined;
-            })
-          );
-        return userFavPrograms;
-      } catch (error) {
-        console.error("Error fetching Prisma program:", error);
-        return null;
       }
-    }, []);
-    return findUserFavsCB;
-  };
+    },
+    [utils.ptProgram.getOneById, utils.ptProgram.getOneById]
+  );
 
-  const customHookFindUserFavs = useFindUserFavs();
+  const findUserFavs = useCallback(
+    async (userId: string) => {
+      const allUserFavs = utils.favs.getAllForUser.fetch({ userId });
+      const userFavPrograms: (ProgramWithType | undefined)[] =
+        await Promise.all(
+          (
+            await allUserFavs
+          ).map(async (element) => {
+            if (element.ftProgramId) {
+              const program = (await findProgramObject(
+                element.ftProgramId
+              )) as FTProgram;
+              return (
+                { ...program, type: "ft", favProgramId: element.id } ||
+                undefined
+              );
+            }
+            if (element.ptProgramId) {
+              const program = (await findProgramObject(
+                element.ptProgramId
+              )) as PTProgram;
+              return (
+                { ...program, type: "pt", favProgramId: element.id } ||
+                undefined
+              );
+            }
+            return undefined;
+          })
+        );
+      return userFavPrograms;
+    },
+    [findProgramObject]
+  );
 
-  const findSchoolLocationObject = async (id: string) => {
-    const schoolLocationObject = await utils.schoolLocation.getOneById.fetch({
-      id,
-    });
-    return schoolLocationObject;
-  };
-
-  const findSchool = async (id: string) => {
-    const schoolLocationObject = await utils.school.getOneById.fetch({ id });
-    return schoolLocationObject;
-  };
-
-  const findLocation = async (id: string) => {
-    const locationObject = await utils.location.getOneById.fetch({ id });
-    return locationObject;
-  };
-
-  const memoizedFindUserFavs = useMemo(() => {
-    if (sessionData) {
-      return async () => {
-        try {
-          const result = await customHookFindUserFavs(sessionData.user.id);
-          setUserFavs(result ? result : []);
-        } catch (error) {
-          console.error("Error finding user Favs: ", error);
-        }
-      };
-    }
-    return null;
-  }, [sessionData, customHookFindUserFavs]);
-
-  useEffect(() => {
-    if (memoizedFindUserFavs) {
-      memoizedFindUserFavs().catch((error) =>
-        console.error("Error finding user favs: ", error)
-      );
-    }
-  }, [memoizedFindUserFavs]);
-
-  const findCustomPrograms = async (userId: string) => {
-    if (userId) {
-      const allCustomPrograms = await utils.customProgram.getAllForUser.fetch({
-        userId,
+  const findSchoolLocationObject = useCallback(
+    async (id: string) => {
+      const schoolLocationObject = await utils.schoolLocation.getOneById.fetch({
+        id,
       });
-      return allCustomPrograms;
-    }
-  };
+      return schoolLocationObject;
+    },
+    [utils.schoolLocation.getOneById]
+  );
 
-  const useFindCustomProgramsCB = () => {
-    const findCustomProgramsCB = useCallback(async (userId: string) => {
+  const useFindCustomPrograms = () => {
+    const findCustomPrograms = useCallback(async () => {
       if (userId) {
         const allCustomPrograms = await utils.customProgram.getAllForUser.fetch(
           {
@@ -207,171 +127,631 @@ export default function MyProgramsComponent() {
         );
         return allCustomPrograms;
       }
-    }, []);
-    return findCustomProgramsCB;
+    }, [userId, utils.customProgram.getAllForUser]);
+    return findCustomPrograms;
   };
 
-  const customHookFindCustomPrograms = useFindCustomProgramsCB();
+  const findCustomPrograms = useFindCustomPrograms();
 
-  const fetchDisplayData = useCallback(
-    async (userFavs: (ProgramWithType | undefined)[] | null) => {
-      if (userFavs) {
-        const newData = await Promise.all(
-          userFavs.map(async (element) => {
-            if (element) {
-              const result = await findSchoolLocationObject(
-                element.schoolLocationId
-              );
-              if (result) {
-                const schoolObject = await findSchool(result.schoolId);
-                const locationObject = await findLocation(result.locationId);
-                return {
-                  id: element.id,
-                  schoolLocationId: element.schoolLocationId,
-                  website: element.website,
-                  discipline: element.discipline,
-                  name: element.name,
-                  type: element.type,
-                  cityObj: locationObject,
-                  schoolObj: schoolObject,
-                  favId: element.favProgramId,
-                };
-              }
-            }
-            return undefined;
-          })
-        );
-        newData.sort((a, b) => {
-          const nameA = a?.schoolObj?.name || "";
-          const nameB = b?.schoolObj?.name || "";
-
-          return nameA.localeCompare(nameB);
-        });
-        newData.filter((item) => item !== undefined) as ProgramWithInfo[];
-        return newData;
-      }
+  const findSchool = useCallback(
+    async (id: string) => {
+      const schoolLocationObject = await utils.school.getOneById.fetch({ id });
+      return schoolLocationObject;
     },
-    [findSchoolLocationObject, findSchool, findLocation]
+    [utils.school.getOneById]
   );
 
-  const fetchDisplayDataCB = useCallback(
-    async (userFavPrograms: (ProgramWithType | undefined)[]) => {
-      if (userFavPrograms) {
-        const newData = await fetchDisplayData(userFavPrograms);
-        if (newData) {
-          const filteredResult = newData.filter(
-            (item) => item !== undefined
-          ) as ProgramWithInfo[];
-          setDisplayData([...filteredResult]);
-          return newData;
-        }
-      }
+  const findLocation = useCallback(
+    async (id: string) => {
+      const locationObject = await utils.location.getOneById.fetch({ id });
+      return locationObject;
     },
-    [fetchDisplayData, setDisplayData]
+    [utils.location.getOneById]
   );
-
-  const useFetchDisplayData = () => {
-    const wrappedFetchDisplayDataCB = useCallback(
-      async (userFavs: (ProgramWithType | undefined)[] | null) => {
-        if (userFavs) {
-          const newData = await Promise.all(
-            userFavs.map(async (element) => {
-              if (element) {
-                const result = await findSchoolLocationObject(
-                  element.schoolLocationId
-                );
-                if (result) {
-                  const schoolObject = await findSchool(result.schoolId);
-                  const locationObject = await findLocation(result.locationId);
-                  return {
-                    id: element.id,
-                    schoolLocationId: element.schoolLocationId,
-                    website: element.website,
-                    discipline: element.discipline,
-                    name: element.name,
-                    type: element.type,
-                    cityObj: locationObject,
-                    schoolObj: schoolObject,
-                    favId: element.favProgramId,
-                  };
-                }
-              }
-              return undefined;
-            })
-          );
-          newData.sort((a, b) => {
-            const nameA = a?.schoolObj?.name || "";
-            const nameB = b?.schoolObj?.name || "";
-
-            return nameA.localeCompare(nameB);
-          });
-          newData.filter((item) => item !== undefined) as ProgramWithInfo[];
-          return newData;
-        }
-      },
-      []
-    );
-    return wrappedFetchDisplayDataCB;
-  };
-
-  const customHookFetchDisplayData = useFetchDisplayData();
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (sessionData && userId) {
-        try {
-          setLoading(true);
-          const userFavPrograms = await customHookFindUserFavs(
-            sessionData.user.id
+    if (sessionData) {
+      findUserFavs(sessionData.user.id).then((result) => {
+        result ? setUserFavs(result) : setUserFavs([]);
+      });
+    }
+  }, [sessionData]);
+
+  // useEffect(() => {
+  //   const fetchDisplayData = async () => {
+  //     if (userFavs) {
+  //       if (userFavs.length > 0) {
+  //         const newData = await Promise.all(
+  //           userFavs.map(async (element) => {
+  //             if (element) {
+  //               const result = await findSchoolLocationObject(
+  //                 element.schoolLocationId
+  //               );
+  //               if (result) {
+  //                 const schoolObject = await findSchool(result.schoolId);
+  //                 const locationObject = await findLocation(result.locationId);
+  //                 return {
+  //                   id: element.id,
+  //                   schoolLocationId: element.schoolLocationId,
+  //                   website: element.website,
+  //                   discipline: element.discipline,
+  //                   name: element.name,
+  //                   type: element.type,
+  //                   cityObj: locationObject,
+  //                   schoolObj: schoolObject,
+  //                   favId: element.favProgramId,
+  //                 };
+  //               }
+  //             }
+  //             return undefined;
+  //           })
+  //         );
+  //         newData.sort((a, b) => {
+  //           const nameA = a?.schoolObj?.name || "";
+  //           const nameB = b?.schoolObj?.name || "";
+
+  //           return nameA.localeCompare(nameB);
+  //         });
+
+  //         setDisplayData(
+  //           newData.filter((item) => item !== undefined) as ProgramWithInfo[]
+  //         );
+  //         findCustomPrograms()
+  //           .then((data) => data && setDisplayCustom(data))
+  //           .then(() => setLoading(false));
+  //       } else {
+  //         setDisplayData(null);
+  //         findCustomPrograms()
+  //           .then((data) => data && setDisplayCustom(data))
+  //           .then(() => setLoading(false));
+  //       }
+  //     }
+  //   };
+
+  //   fetchDisplayData();
+  // }, [userFavs, findCustomPrograms]);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       if (!userFavs || userFavs.length === 0) {
+  //         setDisplayData(null);
+  //       } else {
+  //         const newData = await Promise.all(
+  //           userFavs.map(async (element) => {
+  //             if (element) {
+  //               const result = await findSchoolLocationObject(
+  //                 element.schoolLocationId
+  //               );
+  //               if (result) {
+  //                 const schoolObject = await findSchool(result.schoolId);
+  //                 const locationObject = await findLocation(result.locationId);
+  //                 return {
+  //                   id: element.id,
+  //                   schoolLocationId: element.schoolLocationId,
+  //                   website: element.website,
+  //                   discipline: element.discipline,
+  //                   name: element.name,
+  //                   type: element.type,
+  //                   cityObj: locationObject,
+  //                   schoolObj: schoolObject,
+  //                   favId: element.favProgramId,
+  //                 };
+  //               }
+  //             }
+  //             return undefined;
+  //           })
+  //         );
+
+  //         newData.sort((a, b) => {
+  //           const nameA = a?.schoolObj?.name || "";
+  //           const nameB = b?.schoolObj?.name || "";
+  //           return nameA.localeCompare(nameB);
+  //         });
+
+  //         setDisplayData(
+  //           newData.filter((item) => item !== undefined) as ProgramWithInfo[]
+  //         );
+  //       }
+
+  //       const customPrograms = await findCustomPrograms();
+  //       if (customPrograms) {
+  //         setDisplayCustom(customPrograms);
+  //       }
+
+  //       setLoading(false);
+  //     } catch (error) {
+  //       console.error("Error fetching data: ", error);
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [
+  //   userFavs,
+  //   // findSchoolLocationObject,
+  //   // findSchool,
+  //   // findLocation,
+  //   // findCustomPrograms,
+  // ]);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       // setLoading(true);
+
+  //       if (!userFavs || userFavs.length === 0) {
+  //         setDisplayData(null);
+  //       } else {
+  //         const processedData = await processUserFavs(userFavs);
+  //         setDisplayData(processedData);
+  //       }
+
+  //       const customPrograms = await findCustomPrograms();
+  //       setDisplayCustom(customPrograms || []);
+
+  //       setLoading(false);
+  //     } catch (error) {
+  //       console.error("Error fetching data: ", error);
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   const processUserFavs = async (
+  //     userFavs: [] | (ProgramWithType | undefined)[]
+  //   ) => {
+  //     const processedData = await Promise.all(
+  //       userFavs.map(async (element) => {
+  //         if (element) {
+  //           const result = await findSchoolLocationObject(
+  //             element.schoolLocationId
+  //           );
+  //           if (result) {
+  //             const schoolObject = await findSchool(result.schoolId);
+  //             const locationObject = await findLocation(result.locationId);
+  //             return {
+  //               id: element.id,
+  //               schoolLocationId: element.schoolLocationId,
+  //               website: element.website,
+  //               discipline: element.discipline,
+  //               name: element.name,
+  //               type: element.type,
+  //               cityObj: locationObject,
+  //               schoolObj: schoolObject,
+  //               favId: element.favProgramId,
+  //             };
+  //           }
+  //         }
+  //         return undefined;
+  //       })
+  //     );
+
+  //     return processedData
+  //       .filter((item) => item !== undefined)
+  //       .sort((a, b) =>
+  //         (a?.schoolObj?.name || "").localeCompare(b?.schoolObj?.name || "")
+  //       ) as ProgramWithType[];
+  //   };
+
+  //   fetchData();
+  // }, [userFavs]);
+
+  // const processUserFavs = useCallback(
+  //   async (userFavs: [] | (ProgramWithType | undefined)[]) => {
+  //     const processedData = await Promise.all(
+  //       userFavs.map(async (element) => {
+  //         if (element) {
+  //           const result = await findSchoolLocationObject(
+  //             element.schoolLocationId
+  //           );
+  //           if (result) {
+  //             const schoolObject = await findSchool(result.schoolId);
+  //             const locationObject = await findLocation(result.locationId);
+  //             return {
+  //               id: element.id,
+  //               schoolLocationId: element.schoolLocationId,
+  //               website: element.website,
+  //               discipline: element.discipline,
+  //               name: element.name,
+  //               type: element.type,
+  //               cityObj: locationObject,
+  //               schoolObj: schoolObject,
+  //               favId: element.favProgramId,
+  //             };
+  //           }
+  //         }
+  //         return undefined;
+  //       })
+  //     );
+
+  //     return processedData
+  //       .filter((item) => item !== undefined)
+  //       .sort((a, b) =>
+  //         (a?.schoolObj?.name || "").localeCompare(b?.schoolObj?.name || "")
+  //       ) as ProgramWithType[];
+  //   },
+  //   [findSchoolLocationObject, findSchool, findLocation]
+  // );
+
+  const processUserFavs = async (
+    userFavs: [] | (ProgramWithType | undefined)[]
+    // findSchoolLocationObject: Function,
+    // findSchool: Function,
+    // findLocation: Function
+  ) => {
+    const processedData = await Promise.all(
+      userFavs.map(async (element) => {
+        if (element) {
+          const result = await findSchoolLocationObject(
+            element.schoolLocationId
           );
-          setUserFavs(userFavPrograms);
-
-          const newData = await customHookFetchDisplayData(userFavPrograms);
-          if (newData) {
-            const filteredResult = newData.filter(
-              (item) => item !== undefined
-            ) as ProgramWithInfo[];
-            setDisplayData([...filteredResult]);
+          if (result) {
+            const schoolObject = await findSchool(result.schoolId);
+            const locationObject = await findLocation(result.locationId);
+            return {
+              id: element.id,
+              schoolLocationId: element.schoolLocationId,
+              website: element.website,
+              discipline: element.discipline,
+              name: element.name,
+              type: element.type,
+              cityObj: locationObject,
+              schoolObj: schoolObject,
+              favId: element.favProgramId,
+            };
           }
-
-          const customPrograms = await customHookFindCustomPrograms(
-            sessionData.user.id
-          );
-          if (customPrograms) {
-            setDisplayCustom([...customPrograms]);
-          }
-
-          setLoading(false);
-        } catch (error) {
-          console.error("Error fetching data: ", error);
-          setLoading(false);
         }
-      }
-    };
-    fetchData().catch((error) => console.error("Error fetching data: ", error));
-  }, [
-    sessionData,
-    customHookFindCustomPrograms,
-    customHookFetchDisplayData,
-    customHookFindUserFavs,
-  ]);
+        return undefined;
+      })
+    );
 
-  const updateData = async () => {
-    if (sessionData && userFavs) {
+    return processedData
+      .filter((item) => item !== undefined)
+      .sort((a, b) =>
+        (a?.schoolObj?.name || "").localeCompare(b?.schoolObj?.name || "")
+      ) as ProgramWithType[];
+  };
+
+  const useFetchData = (
+    processUserFavs: (
+      userFavs: [] | (ProgramWithType | undefined)[]
+    ) => Promise<ProgramWithType[]>,
+    findCustomPrograms: () => Promise<CustomProgram[] | undefined>,
+    userFavs: [] | (ProgramWithType | undefined)[] | null,
+    setDisplayCustom: React.Dispatch<React.SetStateAction<CustomProgram[]>>,
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
+    const fetchData = useCallback(async () => {
       try {
-        await fetchDisplayDataCB(userFavs);
-        await customHookFindCustomPrograms(sessionData.user.id);
+        if (!userFavs || userFavs.length === 0) {
+          setDisplayData(null);
+        } else {
+          console.log("starting to process data");
+          const processedData: ProgramWithType[] = await processUserFavs(
+            userFavs
+          );
+          setDisplayData(processedData);
+        }
+
+        const customPrograms = await findCustomPrograms();
+        setDisplayCustom(customPrograms || []);
+
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching data: ", error);
+        setLoading(false);
       }
-    }
+    }, [userFavs]);
+    return fetchData;
   };
 
+  const fetchDataHook = useFetchData(
+    processUserFavs,
+    findCustomPrograms,
+    userFavs,
+    setDisplayCustom,
+    setLoading
+  );
+
   useEffect(() => {
-    updateData().catch((error) =>
-      console.error("Error updating data: ", error)
+    fetchDataHook().catch((error) =>
+      console.error("Error fetching data: ", error)
     );
-  }, [userFavs, sessionData]);
+  }, [userFavs, sessionData, fetchDataHook]);
+
+  // useEffect(() => {
+  //   setLoading(true);
+  // }, []);
+
+  // const initialLoadRef = useRef(true);
+
+  // useEffect(() => {
+  //   if (sessionData?.user && ) {
+  //     initialLoadRef.current = false;
+  //   }
+  // }, [sessionData]);
+
+  // useEffect(() => {
+  //   if (sessionData) {
+  //     findUserFavs(sessionData.user.id)
+  //       .then((result) => {
+  //         setUserFavs(result || []);
+  //         setLoading(true);
+  //         return result;
+  //       })
+  //       .then((result) => processUserFavs(result))
+  //       .then((processedData) => {
+  //         setDisplayData(processedData);
+  //         return findCustomPrograms();
+  //       })
+  //       .then((customPrograms) => {
+  //         setDisplayCustom(customPrograms || []);
+  //         setLoading(false);
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error fetching data: ", error);
+  //         setLoading(false);
+  //       });
+  //   }
+  // }, [sessionData, findUserFavs, processUserFavs, findCustomPrograms]);
+
+  // useEffect(() => {
+  //   setLoadingDelete(false);
+  // }, [displayData, displayCustom]);
+
+  // const [keyValueList, setKeyValueList] = useState<ObjectList[]>([]);
+
+  // useEffect(() => {
+  //   const newKeyValueList: ObjectList[] = [];
+  //   newKeyValueList.push({ favsHeader: "-- Saved Programs --", type: "fav" });
+
+  //   displayData?.forEach((program) => {
+  //     const text =
+  //       program.schoolObj?.name ||
+  //       program.name ||
+  //       program.website ||
+  //       "Unknown Program";
+  //     newKeyValueList.push({ [program.id]: text, type: "fav" });
+  //   });
+
+  //   newKeyValueList.push({
+  //     customHeader: "-- Custom Programs --",
+  //     type: "custom",
+  //   });
+
+  //   if (displayCustom.length > 0) {
+  //     displayCustom.forEach((program) => {
+  //       let text = program.school || program.name;
+  //       if (!text) {
+  //         if (program.city) text = `Unknown Program: ${program.city}`;
+  //         else if (program.province)
+  //           text = `Unknown Program: ${program.province}`;
+  //         else if (program.country)
+  //           text = `Unknown Program: ${program.country}`;
+  //         else if (program.website)
+  //           text = `Unknown Program: ${program.website}`;
+  //         else if (program.typeFt) text = "Unknown Program: Full Time";
+  //         else if (program.typePt) text = "Unknown Program: Part Time";
+  //         else if (program.disciplineAct) text = "Unknown Program: Acting";
+  //         else if (program.disciplineSing) text = "Unknown Program: Singing";
+  //         else if (program.disciplineDance) text = "Unknown Program: Dance";
+  //         else if (program.disciplineMT)
+  //           text = "Unknown Program: Musical Theatre";
+  //         else text = "Unknown Program";
+  //       }
+
+  //       newKeyValueList.push({ [program.id]: text, type: "custom" });
+  //     });
+  //   }
+
+  //   setKeyValueList(newKeyValueList);
+  // }, [displayData, displayCustom]);
+
+  // const programDisplay = displayData?.map((element: ProgramWithInfo) => {
+  //   return (
+  //     <SingleProgram
+  //       program={element}
+  //       key={element.id}
+  //       loadingDelete={loadingDelete}
+  //       setLoadingDelete={setLoadingDelete}
+  //       findUserFavs={findUserFavs}
+  //       setUserFavs={setUserFavs}
+  //     />
+  //   );
+  // });
+
+  // const customProgramDisplay = displayCustom.map((element) => {
+  //   return (
+  //     <SingleCustom
+  //       program={element}
+  //       key={element.id}
+  //       setDisplayCustom={setDisplayCustom}
+  //       setShowUpdateCustom={setShowUpdateCustom}
+  //       loadingDelete={loadingDelete}
+  //       setLoadingDelete={setLoadingDelete}
+  //     />
+  //   );
+  // });
+
+  // const addCustomButton = (
+  //   <button
+  //     onClick={() => {
+  //       setShowUpdateCustom(!showUpdateCustom);
+  //       window.scrollTo({
+  //         top: 100,
+  //         behavior: "smooth",
+  //       });
+  //     }}
+  //     className="-mt-3 flex w-56 place-items-center justify-between rounded  px-4  py-2 font-semibold text-indigo-800  opacity-0 hover:scale-110  hover:bg-indigo-900 hover:text-indigo-50"
+  //     style={{ animation: "pullDownTop 0.3s linear 3s forwards" }}
+  //   >
+  //     <span>Add Custom Program </span>
+  //     <span>{plusIcon}</span>
+  //   </button>
+  // );
+
+  // return typeof userId !== "string" ? (
+  //   <div className="flex flex-col items-center">
+  //     <div
+  //       className="absolute left-0 right-0 hidden h-10 bg-cyan-950 mobileMenu:block"
+  //       style={{
+  //         boxShadow:
+  //           "inset 0px -1px 2px rgba(0,255,255,0.5), inset 0px -2px 4px rgba(0,255,255,0.5), inset 0px -4px 8px rgba(0,255,255,0.5)",
+  //       }}
+  //     ></div>
+  //     <div
+  //       className="text-bold mt-10 flex w-full flex-col content-center items-center p-3 text-center text-lg mobileMenu:mt-20"
+  //       style={{ animation: "fadeIn .7s linear" }}
+  //     >
+  //       <H2Title text="Saved Programs" icon="star" id="favsHeader" />
+  //       <div
+  //         className="m-2 opacity-0"
+  //         style={{ animation: "pullDownTop .5s linear .2s forwards" }}
+  //       >
+  //         Store your favorite programs here!
+  //       </div>
+  //       <div
+  //         className="m-2 opacity-0"
+  //         style={{ animation: "pullDownTop .5s linear .8s forwards" }}
+  //       >
+  //         This page requires an account.
+  //       </div>
+  //       <div
+  //         className="m-2 opacity-0"
+  //         style={{ animation: "pullDownTop .5s linear 1.4s forwards" }}
+  //       >
+  //         Please sign in below.
+  //       </div>
+  //     </div>
+  //     <div className="scale-150">
+  //       <div style={{ animation: "wiggle .4s linear 2s 2" }}>
+  //         <AuthShowcase />
+  //       </div>
+  //     </div>
+  //   </div>
+  // ) : (
+  //   <div className="">
+  //     {loading && (
+  //       <div className="flex justify-center">
+  //         <div
+  //           className="absolute left-0 right-0 hidden h-10 bg-cyan-950 mobileMenu:block"
+  //           style={{
+  //             boxShadow:
+  //               "inset 0px -1px 2px rgba(0,255,255,0.5), inset 0px -2px 4px rgba(0,255,255,0.5), inset 0px -4px 8px rgba(0,255,255,0.5)",
+  //           }}
+  //         ></div>
+  //         <div className="w-fullxs:w-11/12 flex translate-y-2 justify-center mobileMenu:w-7/12">
+  //           <div
+  //             className="mt-10 flex w-full justify-between place-self-center text-lg font-semibold text-cyan-800 opacity-0 xs:w-11/12 xs:text-xl sm:text-3xl md:mt-20 mobileMenu:w-7/12"
+  //             style={{ animation: "fadeIn .8s forwards" }}
+  //           >
+  //             <LoadingPrograms />
+  //           </div>
+  //           <div className="pt-60">
+  //             <LoadingLines />
+  //           </div>
+  //         </div>
+  //       </div>
+  //     )}
+
+  //     {keyValueList.length > 3 && !showUpdateCustom && !loading && (
+  //       <>
+  //         <QuickLinks keyValueList={keyValueList} />
+  //       </>
+  //     )}
+  //     {!loading && (
+  //       <MobileQuickLinks
+  //         keyValueList={keyValueList}
+  //         hideMenu={keyValueList.length <= 3 || !!showUpdateCustom}
+  //       />
+  //     )}
+
+  //     <div className="static flex min-h-screen -translate-y-3 flex-col items-center overflow-x-hidden">
+  //       {!loading && (
+  //         <div
+  //           className="absolute left-0 right-0 hidden h-10 bg-cyan-950 mobileMenu:block"
+  //           style={{
+  //             boxShadow:
+  //               "inset 0px -1px 2px rgba(0,255,255,0.5), inset 0px -2px 4px rgba(0,255,255,0.5), inset 0px -4px 8px rgba(0,255,255,0.5)",
+  //           }}
+  //         ></div>
+  //       )}
+  //       {loadingDelete && (
+  //         <div
+  //           className="fixed inset-0 z-10 transition-all"
+  //           style={{
+  //             background: "rgba(0, 0, 0, 0.2)",
+  //           }}
+  //         ></div>
+  //       )}
+  //       <div className="h-60 mobileMenu:h-20"></div>
+
+  //       {showUpdateCustom && (
+  //         <div className="flex w-11/12 pb-4 md:w-9/12 mobileMenu:w-2/3">
+  //           <button
+  //             className="flex font-semibold text-indigo-900 hover:scale-110 hover:text-indigo-800"
+  //             onClick={() => setShowUpdateCustom(!showUpdateCustom)}
+  //           >
+  //             <span>{backChevron}</span>
+  //             <span>Back</span>
+  //           </button>
+  //         </div>
+  //       )}
+
+  //       <div
+  //         className="hidden w-full flex-col items-center mobileMenu:flex"
+  //         style={{
+  //           animation:
+  //             keyValueList.length > 3 && !showUpdateCustom
+  //               ? "translateRight .7s linear 1.7s forwards"
+  //               : "",
+  //         }}
+  //       >
+  //         {!showUpdateCustom && !loading && (
+  //           <ProgramDisplay
+  //             programDisplay={programDisplay}
+  //             addCustomButton={addCustomButton}
+  //             customProgramDisplay={customProgramDisplay}
+  //           />
+  //         )}
+  //       </div>
+
+  //       <div className="flex w-full flex-col items-center mobileMenu:hidden">
+  //         {!showUpdateCustom && !loading && (
+  //           <ProgramDisplay
+  //             programDisplay={programDisplay}
+  //             addCustomButton={addCustomButton}
+  //             customProgramDisplay={customProgramDisplay}
+  //           />
+  //         )}
+  //       </div>
+
+  //       {showUpdateCustom && !loading && (
+  //         <div className="flex w-full justify-center">
+  //           <CustomProgramForm
+  //             setShowUpdateCustom={setShowUpdateCustom}
+  //             findCustomPrograms={findCustomPrograms}
+  //             setDisplayCustom={setDisplayCustom}
+  //             currentProgram={
+  //               showUpdateCustom === true ? null : showUpdateCustom
+  //             }
+  //           />
+  //         </div>
+  //       )}
+  //       {showUpdateCustom && !loading && (
+  //         <div className="flex w-11/12 justify-end py-4 md:w-9/12 mobileMenu:w-2/3">
+  //           <button
+  //             className="flex font-semibold text-indigo-900 hover:scale-110 hover:text-indigo-800"
+  //             onClick={() => setShowUpdateCustom(!showUpdateCustom)}
+  //           >
+  //             <span>{backChevron}</span>
+  //             <span>Back</span>
+  //           </button>
+  //         </div>
+  //       )}
+  //     </div>
+  //   </div>
+  // );
 
   useEffect(() => {
     if (displayData) {
@@ -709,3 +1089,939 @@ export default function MyProgramsComponent() {
     </div>
   );
 }
+
+// import React, {
+//   useState,
+//   useEffect,
+//   useMemo,
+//   useCallback,
+//   useRef,
+// } from "react";
+// import { useSession } from "next-auth/react";
+// import { api } from "@component/utils/api";
+// import type { PTProgram, FTProgram, CustomProgram } from "@prisma/client";
+// import type { ProgramWithInfo } from "../ProgramFinder/types";
+// import SingleProgram from "./SingleProgram";
+// import LoadingLines from "../Loading/LoadingLines";
+// import { backChevron, plusIcon } from "@component/data/svgs";
+// import SingleCustom from "./SingleCustom";
+// import CustomProgramForm from "./CustomProgramForm";
+// import QuickLinks from "./QuickLinks";
+// import MobileQuickLinks from "./MobileQuickLinks";
+// import LoadingPrograms from "./LoadingPrograms";
+// import ProgramDisplay from "./ProgramDisplay";
+// import AuthShowcase from "../Menu/AuthShowcase";
+// import H2Title from "./H2Title";
+// import type { Location, School, SchoolLocation } from "@prisma/client";
+
+// export type ProgramWithType = {
+//   id: string;
+//   schoolLocationId: string;
+//   website: string;
+//   discipline: string;
+//   name?: string;
+//   type: string;
+//   favProgramId?: string;
+// };
+
+// export type KeyValueListType = {
+//   type: string;
+//   componentRef?: React.RefObject<HTMLDivElement> | undefined;
+//   id: string | null;
+//   text: string;
+// };
+
+// export default function MyProgramsComponent() {
+//   const { data: sessionData } = useSession();
+//   const utils = api.useContext();
+//   const userId = sessionData?.user.id;
+
+//   const [userFavs, setUserFavs] = useState<
+//     (ProgramWithType | ProgramWithType | undefined)[] | [] | null
+//   >(null);
+
+//   const [displayData, setDisplayData] = useState<ProgramWithInfo[] | null>(
+//     null
+//   );
+//   const [loading, setLoading] = useState<boolean>(true);
+//   const [showUpdateCustom, setShowUpdateCustom] = useState<
+//     boolean | CustomProgram
+//   >(false);
+//   const [displayCustom, setDisplayCustom] = useState<CustomProgram[]>([]);
+//   const [loadingDelete, setLoadingDelete] = useState<boolean | string>(false);
+//   const [favProgramRefs, setFavProgramRefs] = useState<
+//     Record<string, React.RefObject<HTMLDivElement>>
+//   >({});
+//   const [customProgramRefs, setCustomProgramRefs] = useState<
+//     Record<string, React.RefObject<HTMLDivElement>>
+//   >({});
+
+//   const findProgramObject = async (id: string) => {
+//     if (userId) {
+//       const ptProgramObject = await utils.ptProgram.getOneById.fetch({ id });
+//       const ftProgramObject = await utils.ftProgram.getOneById.fetch({ id });
+//       if (ftProgramObject) {
+//         return ftProgramObject;
+//       }
+//       if (ptProgramObject) {
+//         return ptProgramObject;
+//       }
+//     }
+//   };
+
+//   const useFindProgramObject = () => {
+//     const findProgramObjectCB = useCallback(async (id: string) => {
+//       if (userId) {
+//         try {
+//           const ptProgramObject = await utils.ptProgram.getOneById.fetch({
+//             id,
+//           });
+//           const ftProgramObject = await utils.ftProgram.getOneById.fetch({
+//             id,
+//           });
+//           if (ftProgramObject) {
+//             return ftProgramObject;
+//           }
+//           if (ptProgramObject) {
+//             return ptProgramObject;
+//           }
+//         } catch (error) {
+//           console.error("Error finding Program Object: ", error);
+//         }
+//       }
+//     }, []);
+//   };
+
+//   const customHookFindProgramObject = useFindProgramObject();
+
+//   const findUserFavs = async (userId: string) => {
+//     const allUserFavs = utils.favs.getAllForUser.fetch({ userId });
+//     console.log("alluserFavs: 107", allUserFavs);
+//     const userFavPrograms: (ProgramWithType | undefined)[] = await Promise.all(
+//       (
+//         await allUserFavs
+//       ).map(async (element) => {
+//         console.log("element 111: ", element);
+//         if (element.ftProgramId) {
+//           const program = await utils.ftProgram.getOneById.fetch({
+//             id: element.ftProgramId,
+//           });
+//           console.log("program: 116", program);
+//           return (
+//             { ...program, type: "ft", favProgramId: element.id } || undefined
+//           );
+//         }
+//         if (element.ptProgramId) {
+//           const program = await utils.ptProgram.getOneById.fetch({
+//             id: element.ptProgramId,
+//           });
+//           console.log("program: 125", program);
+//           return (
+//             { ...program, type: "pt", favProgramId: element.id } || undefined
+//           );
+//         }
+//         return undefined;
+//       })
+//     );
+//     return userFavPrograms;
+//   };
+
+//   // const useFindUserFavs = () => {
+//   const findUserFavsCB = useCallback(async (userId: string) => {
+//     try {
+//       const allUserFavs = utils.favs.getAllForUser.fetch({ userId });
+//       console.log("allUserFavs in findUserFavsCB: ", allUserFavs);
+//       const userFavPrograms: (ProgramWithType | undefined)[] =
+//         await Promise.all(
+//           (
+//             await allUserFavs
+//           ).map(async (element) => {
+//             if (element.ftProgramId) {
+//               const program = (await findProgramObject(
+//                 element.ftProgramId
+//               )) as FTProgram;
+//               console.log("program: ", program);
+//               return (
+//                 { ...program, type: "ft", favProgramId: element.id } ||
+//                 undefined
+//               );
+//             }
+//             if (element.ptProgramId) {
+//               const program = (await findProgramObject(
+//                 element.ptProgramId
+//               )) as PTProgram;
+//               return (
+//                 { ...program, type: "pt", favProgramId: element.id } ||
+//                 undefined
+//               );
+//             }
+//             return undefined;
+//           })
+//         );
+//       console.log("userFavPrograms", userFavPrograms);
+//       return userFavPrograms;
+//     } catch (error) {
+//       console.error("Error fetching Prisma program:", error);
+//       return null;
+//     }
+//   }, []);
+//   //   return findUserFavsCB;
+//   // };
+
+//   // const customHookFindUserFavs = useFindUserFavs();
+
+//   const findSchoolLocationObject = async (id: string) => {
+//     const schoolLocationObject = await utils.schoolLocation.getOneById.fetch({
+//       id,
+//     });
+//     return schoolLocationObject;
+//   };
+
+//   const findSchoolLocationObjectCB = useCallback(
+//     async (id: string) => {
+//       try {
+//         // console.log("trying");
+//         // console.log(id);
+//         const schoolLocationObject =
+//           await utils.schoolLocation.getOneById.fetch({
+//             id,
+//           });
+//         // console.log(schoolLocationObject);
+//         return schoolLocationObject;
+//       } catch (error) {
+//         console.error("Error fetching school location: ", error);
+//       }
+//     },
+//     [utils.schoolLocation.getOneById]
+//   );
+
+//   // const useFindSchoolLocationObject = () => {
+//   //   const findSchoolLocationObject = useCallback(
+//   //     async (schoolLocationId: string) => {
+//   //       const schoolLocationObject =
+//   //         await utils.schoolLocation.getOneById.fetch({
+//   //           id: schoolLocationId,
+//   //         });
+//   //       return schoolLocationObject;
+//   //     },
+//   //     []
+//   //   );
+//   //   return findSchoolLocationObject;
+//   // };
+
+//   const useFindSchoolLocationObject = (schoolLocationId: string) => {
+//     const [schoolLocationObject, setSchoolLocationObject] =
+//       useState<SchoolLocation | null>(null);
+
+//     useEffect(() => {
+//       const fetchSchoolLocationObject = async () => {
+//         const result = await utils.schoolLocation.getOneById.fetch({
+//           id: schoolLocationId,
+//         });
+//         setSchoolLocationObject(result);
+//       };
+
+//       fetchSchoolLocationObject();
+//     }, [schoolLocationId]);
+
+//     return schoolLocationObject;
+//   };
+
+//   const findSchool = async (id: string) => {
+//     const schoolLocationObject = await utils.school.getOneById.fetch({ id });
+//     return schoolLocationObject;
+//   };
+
+//   const findSchoolCB = useCallback(
+//     async (id: string) => {
+//       try {
+//         const schoolLocationObject = await utils.school.getOneById.fetch({
+//           id,
+//         });
+//         return schoolLocationObject;
+//       } catch (error) {
+//         console.error("Error fetching school: ", error);
+//       }
+//     },
+//     [utils.school.getOneById]
+//   );
+
+//   // const useFindSchool = async () => {
+//   //   const findSchool = useCallback(async (schoolId: string) => {
+//   //     const schoolLocationObject = await utils.school.getOneById.fetch({ id: schoolId });
+//   //     return schoolLocationObject;
+//   //   }, []);
+//   //   return findSchool;
+//   // };
+//   // const useFindSchool = (schoolId: string) => {
+//   //   const [schoolObject, setSchoolObject] = useState<School | null>(null);
+
+//   //   useEffect(() => {
+//   //     const fetchSchoolObject = async () => {
+//   //       const result = await utils.school.getOneById.fetch({ id: schoolId });
+//   //       setSchoolObject(result);
+//   //     };
+
+//   //     fetchSchoolObject();
+//   //   }, [schoolId]);
+
+//   //   return schoolObject;
+//   // };
+
+//   const findLocation = async (id: string) => {
+//     const locationObject = await utils.location.getOneById.fetch({ id });
+//     return locationObject;
+//   };
+
+//   const findLocationCB = useCallback(
+//     async (id: string) => {
+//       try {
+//         const locationObject = await utils.location.getOneById.fetch({ id });
+//         return locationObject;
+//       } catch (error) {
+//         console.error("Error fetching location: ", error);
+//       }
+//     },
+//     [utils.location.getOneById]
+//   );
+
+//   // const useFindLocation = () => {
+//   //   const findLocation = useCallback(async (locationId: string) => {
+//   //     const locationObject = await utils.location.getOneById.fetch({
+//   //       id: locationId,
+//   //     });
+//   //     return locationObject;
+//   //   }, []);
+//   //   return findLocation;
+//   // };
+
+//   // const useFindLocation = (locationId: string) => {
+//   //   const [locationObject, setLocationObject] = useState<Location | null>(null);
+
+//   //   useEffect(() => {
+//   //     const fetchLocationObject = async () => {
+//   //       const result = await utils.location.getOneById.fetch({
+//   //         id: locationId,
+//   //       });
+//   //       setLocationObject(result);
+//   //     };
+
+//   //     fetchLocationObject();
+//   //   }, [locationId]);
+
+//   //   return locationObject;
+//   // };
+
+//   // const memoizedFindUserFavs = useMemo(() => {
+//   //   if (sessionData) {
+//   //     return async () => {
+//   //       try {
+//   //         const result = await customHookFindUserFavs(sessionData.user.id);
+//   //         setUserFavs(result ? result : []);
+//   //       } catch (error) {
+//   //         console.error("Error finding user Favs: ", error);
+//   //       }
+//   //     };
+//   //   }
+//   //   return null;
+//   // }, [sessionData, customHookFindUserFavs]);
+
+//   // useEffect(() => {
+//   //   if (memoizedFindUserFavs) {
+//   //     memoizedFindUserFavs().catch((error) =>
+//   //       console.error("Error finding user favs: ", error)
+//   //     );
+//   //   }
+//   // }, [memoizedFindUserFavs]);
+
+//   const findCustomPrograms = async (userId: string) => {
+//     if (userId) {
+//       const allCustomPrograms = await utils.customProgram.getAllForUser.fetch({
+//         userId,
+//       });
+//       return allCustomPrograms;
+//     }
+//   };
+
+//   const useFindCustomPrograms = () => {
+//     const findCustomPrograms = useCallback(async (userId: string) => {
+//       if (userId) {
+//         const allCustomPrograms = await utils.customProgram.getAllForUser.fetch(
+//           {
+//             userId,
+//           }
+//         );
+//         return allCustomPrograms;
+//       }
+//     }, []);
+//     return findCustomPrograms;
+//   };
+
+//   const customHookFindCustomPrograms = useFindCustomPrograms();
+
+//   // const fetchDisplayData = useCallback(
+//   //   async (userFavs: (ProgramWithType | undefined)[] | null) => {
+//   //     if (userFavs) {
+//   //       const newData = await Promise.all(
+//   //         userFavs.map(async (element) => {
+//   //           if (element) {
+//   //             const schoolLocationId = element.schoolLocationId;
+//   //             const customHookFindSchoolLocationObject =
+//   //               useFindSchoolLocationObject;
+
+//   //             const result = customHookFindSchoolLocationObject;
+
+//   //             //HOW DO I MAKE THIS WORK?
+//   //             // (
+//   //             //   element.schoolLocationId
+//   //             // );
+//   //             if (result) {
+//   //               const schoolId = result.schoolId;
+//   //               const locationId = result.locationId;
+
+//   //               const customHookUseFindSchool = useFindSchool();
+//   //               const customHookFindLocation = useFindLocation();
+//   //               const schoolObject = customHookUseFindSchool;
+//   //               // (result.schoolId);
+//   //               const locationObject = customHookFindLocation;
+//   //               // (result.locationId);
+//   //               return {
+//   //                 id: element.id,
+//   //                 schoolLocationId: element.schoolLocationId,
+//   //                 website: element.website,
+//   //                 discipline: element.discipline,
+//   //                 name: element.name,
+//   //                 type: element.type,
+//   //                 cityObj: locationObject,
+//   //                 schoolObj: schoolObject,
+//   //                 favId: element.favProgramId,
+//   //               };
+//   //             }
+//   //           }
+//   //           return undefined;
+//   //         })
+//   //       );
+//   //       newData.sort((a, b) => {
+//   //         const nameA = a?.schoolObj?.name || "";
+//   //         const nameB = b?.schoolObj?.name || "";
+
+//   //         return nameA.localeCompare(nameB);
+//   //       });
+//   //       newData.filter((item) => item !== undefined) as ProgramWithInfo[];
+//   //       return newData;
+//   //     }
+//   //   },
+//   //   [findSchoolLocationObject, findSchool, findLocation]
+//   // );
+
+//   const fetchDisplayData = useCallback(
+//     async (userFavs: (ProgramWithType | undefined)[] | null) => {
+//       if (userFavs) {
+//         const newData = await Promise.all(
+//           userFavs.map(async (element) => {
+//             if (element) {
+//               console.log(element);
+//               const schoolLocationId = element.schoolLocationId;
+//               console.log("searching for schoolLocationObject");
+//               console.log("schoolLocationId", schoolLocationId);
+
+//               const schoolLocationObject = await findSchoolLocationObjectCB(
+//                 schoolLocationId
+//               );
+//               if (schoolLocationObject) {
+//                 console.log(
+//                   "schoolLocationObject found!",
+//                   schoolLocationObject
+//                 );
+//                 const schoolId = schoolLocationObject.schoolId;
+//                 const locationId = schoolLocationObject.locationId;
+
+//                 const schoolObject = findSchoolCB(schoolId);
+//                 const locationObject = findLocationCB(locationId);
+
+//                 return {
+//                   id: element.id,
+//                   schoolLocationId: element.schoolLocationId,
+//                   website: element.website,
+//                   discipline: element.discipline,
+//                   name: element.name,
+//                   type: element.type,
+//                   cityObj: locationObject,
+//                   schoolObj: schoolObject,
+//                   favId: element.favProgramId,
+//                 };
+//               }
+//             }
+//             return undefined;
+//           })
+//         );
+
+//         const filteredResult = newData.filter(
+//           (item) => item !== undefined
+//         ) as ProgramWithInfo[];
+
+//         filteredResult.sort((a, b) => {
+//           const nameA = a?.schoolObj?.name || "";
+//           const nameB = b?.schoolObj?.name || "";
+//           return nameA.localeCompare(nameB);
+//         });
+
+//         return filteredResult;
+//       }
+//     },
+//     [findSchoolCB, findLocationCB, findSchoolLocationObjectCB]
+//   );
+
+//   // const fetchDisplayDataCB = useCallback(
+//   //   async (userFavPrograms: (ProgramWithType | undefined)[]) => {
+//   //     if (userFavPrograms) {
+//   //       const newData = await fetchDisplayData(userFavPrograms);
+//   //       if (newData) {
+//   //         const filteredResult = newData.filter(
+//   //           (item) => item !== undefined
+//   //         ) as ProgramWithInfo[];
+//   //         setDisplayData([...filteredResult]);
+//   //         return newData;
+//   //       }
+//   //     }
+//   //   },
+//   //   [fetchDisplayData, setDisplayData]
+//   // );
+
+//   const useFetchDisplayData = () => {
+//     const wrappedFetchDisplayDataCB = useCallback(
+//       async (userFavs: (ProgramWithType | undefined)[] | null) => {
+//         if (userFavs) {
+//           const newData = await Promise.all(
+//             userFavs.map(async (element) => {
+//               if (element) {
+//                 const result = await findSchoolLocationObject(
+//                   element.schoolLocationId
+//                 );
+//                 if (result) {
+//                   const schoolObject = await findSchool(result.schoolId);
+//                   const locationObject = await findLocation(result.locationId);
+//                   return {
+//                     id: element.id,
+//                     schoolLocationId: element.schoolLocationId,
+//                     website: element.website,
+//                     discipline: element.discipline,
+//                     name: element.name,
+//                     type: element.type,
+//                     cityObj: locationObject,
+//                     schoolObj: schoolObject,
+//                     favId: element.favProgramId,
+//                   };
+//                 }
+//               }
+//               return undefined;
+//             })
+//           );
+//           newData.sort((a, b) => {
+//             const nameA = a?.schoolObj?.name || "";
+//             const nameB = b?.schoolObj?.name || "";
+
+//             return nameA.localeCompare(nameB);
+//           });
+//           newData.filter((item) => item !== undefined) as ProgramWithInfo[];
+//           return newData;
+//         }
+//       },
+//       []
+//     );
+//     return wrappedFetchDisplayDataCB;
+//   };
+
+//   const customHookFetchDisplayData = useFetchDisplayData();
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       if (sessionData && userId) {
+//         try {
+//           setLoading(true);
+//           const userFavPrograms = await findUserFavsCB(sessionData.user.id);
+//           setUserFavs(userFavPrograms);
+
+//           const newData = await customHookFetchDisplayData(userFavPrograms);
+//           if (newData) {
+//             const filteredResult = newData.filter(
+//               (item) => item !== undefined
+//             ) as ProgramWithInfo[];
+//             setDisplayData([...filteredResult]);
+//           }
+
+//           const customPrograms = await customHookFindCustomPrograms(
+//             sessionData.user.id
+//           );
+//           if (customPrograms) {
+//             setDisplayCustom([...customPrograms]);
+//           }
+
+//           setLoading(false);
+//         } catch (error) {
+//           console.error("Error fetching data: ", error);
+//           setLoading(false);
+//         }
+//       }
+//     };
+//     fetchData().catch((error) => console.error("Error fetching data: ", error));
+//   }, [
+//     sessionData,
+//     customHookFindCustomPrograms,
+//     customHookFetchDisplayData,
+//     // customHookFindUserFavs,
+//   ]);
+
+//   const updateData = async () => {
+//     if (sessionData && userFavs) {
+//       try {
+//         await fetchDisplayData(userFavs);
+//         await customHookFindCustomPrograms(sessionData.user.id);
+//       } catch (error) {
+//         console.error("Error fetching data line 532: ", error);
+//       }
+//     }
+//   };
+
+//   useEffect(() => {
+//     updateData().catch((error) =>
+//       console.error("Error updating data: ", error)
+//     );
+//   }, [userFavs, sessionData]);
+
+//   useEffect(() => {
+//     if (displayData) {
+//       const newProgramRefs: Record<
+//         string,
+//         React.RefObject<HTMLDivElement>
+//       > = {};
+//       displayData.forEach((program) => {
+//         newProgramRefs[program.id] = React.createRef<HTMLDivElement>();
+//       });
+//       setFavProgramRefs(newProgramRefs);
+//     }
+
+//     if (displayCustom.length > 0) {
+//       const newCustomProgramRefs: Record<
+//         string,
+//         React.RefObject<HTMLDivElement>
+//       > = {};
+//       displayCustom.forEach((program) => {
+//         newCustomProgramRefs[program.id] = React.createRef<HTMLDivElement>();
+//       });
+//       setCustomProgramRefs(newCustomProgramRefs);
+//     }
+//   }, [displayData, displayCustom]);
+
+//   useEffect(() => {
+//     if (displayData !== null || displayCustom.length > 0) {
+//       setLoading(false);
+//     }
+//   }, [displayCustom, displayData]);
+
+//   useEffect(() => {
+//     setLoadingDelete(false);
+//   }, [displayData, displayCustom]);
+
+//   const [keyValueList, setKeyValueList] = useState<KeyValueListType[]>([]);
+//   const favHeaderRef = useRef<HTMLDivElement | null>(null);
+//   const customHeaderRef = useRef<HTMLDivElement | null>(null);
+
+//   useEffect(() => {
+//     const newKeyValueList: KeyValueListType[] = [];
+//     const newProgramRefs: Record<string, React.RefObject<HTMLDivElement>> = {};
+
+//     if (displayData) {
+//       displayData.forEach((program) => {
+//         newProgramRefs[program.id] = React.createRef<HTMLDivElement>();
+//       });
+//       setFavProgramRefs(newProgramRefs);
+//     }
+
+//     newKeyValueList.push({
+//       text: "-- Saved Programs --",
+//       type: "fav",
+//       id: "favHeader",
+//       componentRef: favHeaderRef,
+//     });
+
+//     displayData?.forEach((program) => {
+//       const text =
+//         program.schoolObj?.name ||
+//         program.name ||
+//         program.website ||
+//         "Unknown Program";
+//       const ref = newProgramRefs[program.id];
+//       newKeyValueList.push({
+//         text,
+//         type: "fav",
+//         id: program.id,
+//         componentRef: ref,
+//       });
+//     });
+
+//     const newCustomProgramRefs: Record<
+//       string,
+//       React.RefObject<HTMLDivElement>
+//     > = {};
+
+//     if (displayCustom.length > 0) {
+//       displayCustom.forEach((program) => {
+//         newCustomProgramRefs[program.id] = React.createRef<HTMLDivElement>();
+//       });
+//       setCustomProgramRefs(newCustomProgramRefs);
+//     }
+
+//     newKeyValueList.push({
+//       text: "-- Custom Programs --",
+//       type: "custom",
+//       id: "customHeader",
+//       componentRef: customHeaderRef,
+//     });
+
+//     if (displayCustom.length > 0) {
+//       displayCustom.forEach((program) => {
+//         let text = program.school || program.name;
+//         if (!text) {
+//           if (program.city) text = `Unknown Program: ${program.city}`;
+//           else if (program.province)
+//             text = `Unknown Program: ${program.province}`;
+//           else if (program.country)
+//             text = `Unknown Program: ${program.country}`;
+//           else if (program.website)
+//             text = `Unknown Program: ${program.website}`;
+//           else if (program.typeFt) text = "Unknown Program: Full Time";
+//           else if (program.typePt) text = "Unknown Program: Part Time";
+//           else if (program.disciplineAct) text = "Unknown Program: Acting";
+//           else if (program.disciplineSing) text = "Unknown Program: Singing";
+//           else if (program.disciplineDance) text = "Unknown Program: Dance";
+//           else if (program.disciplineMT)
+//             text = "Unknown Program: Musical Theatre";
+//           else text = "Unknown Program";
+//         }
+//         const ref = newCustomProgramRefs[program.id];
+
+//         newKeyValueList.push({
+//           text,
+//           type: "custom",
+//           id: program.id,
+//           componentRef: ref,
+//         });
+//       });
+//     }
+
+//     setKeyValueList(newKeyValueList);
+//   }, [displayData, displayCustom]);
+
+//   const programDisplay = displayData?.map((element: ProgramWithInfo) => {
+//     return (
+//       <SingleProgram
+//         program={element}
+//         key={element.id}
+//         loadingDelete={loadingDelete}
+//         setLoadingDelete={setLoadingDelete}
+//         findUserFavs={findUserFavs}
+//         setUserFavs={setUserFavs}
+//         ref={favProgramRefs[element.id]}
+//       />
+//     );
+//   });
+
+//   const customProgramDisplay = displayCustom.map((element) => {
+//     return (
+//       <SingleCustom
+//         program={element}
+//         key={element.id}
+//         setDisplayCustom={setDisplayCustom}
+//         setShowUpdateCustom={setShowUpdateCustom}
+//         loadingDelete={loadingDelete}
+//         setLoadingDelete={setLoadingDelete}
+//         ref={customProgramRefs[element.id]}
+//       />
+//     );
+//   });
+
+//   const addCustomButton = (
+//     <button
+//       onClick={() => {
+//         setShowUpdateCustom(!showUpdateCustom);
+//         window.scrollTo({
+//           top: 100,
+//           behavior: "smooth",
+//         });
+//       }}
+//       className="-mt-3 flex w-56 place-items-center justify-between rounded  px-4  py-2 font-semibold text-indigo-800  opacity-0 hover:scale-110  hover:bg-indigo-900 hover:text-indigo-50"
+//       style={{ animation: "pullDownTop 0.3s linear 3s forwards" }}
+//     >
+//       <span>Add Custom Program </span>
+//       <span>{plusIcon}</span>
+//     </button>
+//   );
+
+//   return typeof userId !== "string" ? (
+//     <div className="flex flex-col items-center">
+//       <div
+//         className="absolute left-0 right-0 hidden h-10 bg-cyan-950 mobileMenu:block"
+//         style={{
+//           boxShadow:
+//             "inset 0px -1px 2px rgba(0,255,255,0.5), inset 0px -2px 4px rgba(0,255,255,0.5), inset 0px -4px 8px rgba(0,255,255,0.5)",
+//         }}
+//       ></div>
+//       <div
+//         className="text-bold mt-10 flex w-full flex-col content-center items-center p-3 text-center text-lg mobileMenu:mt-20"
+//         style={{ animation: "fadeIn .7s linear" }}
+//       >
+//         <H2Title text="Saved Programs" icon="star" id="favsHeader" />
+//         <div
+//           className="m-2 opacity-0"
+//           style={{ animation: "pullDownTop .5s linear .2s forwards" }}
+//         >
+//           Store your favorite programs here!
+//         </div>
+//         <div
+//           className="m-2 opacity-0"
+//           style={{ animation: "pullDownTop .5s linear .8s forwards" }}
+//         >
+//           This page requires an account.
+//         </div>
+//         <div
+//           className="m-2 opacity-0"
+//           style={{ animation: "pullDownTop .5s linear 1.4s forwards" }}
+//         >
+//           Please sign in below.
+//         </div>
+//       </div>
+//       <div className="scale-150">
+//         <div style={{ animation: "wiggle .4s linear 2s 2" }}>
+//           <AuthShowcase />
+//         </div>
+//       </div>
+//     </div>
+//   ) : (
+//     <div className="">
+//       {loading && (
+//         <div className="flex justify-center">
+//           <div
+//             className="absolute left-0 right-0 hidden h-10 bg-cyan-950 mobileMenu:block"
+//             style={{
+//               boxShadow:
+//                 "inset 0px -1px 2px rgba(0,255,255,0.5), inset 0px -2px 4px rgba(0,255,255,0.5), inset 0px -4px 8px rgba(0,255,255,0.5)",
+//             }}
+//           ></div>
+//           <div className="w-fullxs:w-11/12 flex translate-y-2 justify-center mobileMenu:w-7/12">
+//             <div
+//               className="mt-10 flex w-full justify-between place-self-center text-lg font-semibold text-cyan-800 opacity-0 xs:w-11/12 xs:text-xl sm:text-3xl md:mt-20 mobileMenu:w-7/12"
+//               style={{ animation: "fadeIn .8s forwards" }}
+//             >
+//               <LoadingPrograms />
+//             </div>
+//             <div className="pt-60">
+//               <LoadingLines />
+//             </div>
+//           </div>
+//         </div>
+//       )}
+
+//       {keyValueList.length > 3 && !showUpdateCustom && !loading && (
+//         <>
+//           <QuickLinks keyValueList={keyValueList} />
+//         </>
+//       )}
+//       {!loading && (
+//         <MobileQuickLinks
+//           keyValueList={keyValueList}
+//           hideMenu={keyValueList.length <= 3 || !!showUpdateCustom}
+//         />
+//       )}
+
+//       <div className="static flex min-h-screen -translate-y-3 flex-col items-center overflow-x-hidden">
+//         {!loading && (
+//           <div
+//             className="absolute left-0 right-0 hidden h-10 bg-cyan-950 mobileMenu:block"
+//             style={{
+//               boxShadow:
+//                 "inset 0px -1px 2px rgba(0,255,255,0.5), inset 0px -2px 4px rgba(0,255,255,0.5), inset 0px -4px 8px rgba(0,255,255,0.5)",
+//             }}
+//           ></div>
+//         )}
+//         {loadingDelete && (
+//           <div
+//             className="fixed inset-0 z-10 transition-all"
+//             style={{
+//               background: "rgba(0, 0, 0, 0.2)",
+//             }}
+//           ></div>
+//         )}
+//         <div className="h-60 mobileMenu:h-20"></div>
+
+//         {showUpdateCustom && (
+//           <div className="flex w-11/12 pb-4 md:w-9/12 mobileMenu:w-2/3">
+//             <button
+//               className="flex font-semibold text-indigo-900 hover:scale-110 hover:text-indigo-800"
+//               onClick={() => setShowUpdateCustom(!showUpdateCustom)}
+//             >
+//               <span>{backChevron}</span>
+//               <span>Back</span>
+//             </button>
+//           </div>
+//         )}
+
+//         <div
+//           className="hidden w-full flex-col items-center mobileMenu:flex"
+//           style={{
+//             animation:
+//               keyValueList.length > 3 && !showUpdateCustom
+//                 ? "translateRight .7s linear 1.7s forwards"
+//                 : "",
+//           }}
+//         >
+//           {!showUpdateCustom && !loading && (
+//             <ProgramDisplay
+//               programDisplay={programDisplay}
+//               addCustomButton={addCustomButton}
+//               customProgramDisplay={customProgramDisplay}
+//               favHeaderRef={favHeaderRef}
+//               customHeaderRef={customHeaderRef}
+//             />
+//           )}
+//         </div>
+
+//         <div className="flex w-full flex-col items-center mobileMenu:hidden">
+//           {!showUpdateCustom && !loading && (
+//             <ProgramDisplay
+//               programDisplay={programDisplay}
+//               addCustomButton={addCustomButton}
+//               customProgramDisplay={customProgramDisplay}
+//               favHeaderRef={favHeaderRef}
+//               customHeaderRef={customHeaderRef}
+//             />
+//           )}
+//         </div>
+
+//         {showUpdateCustom && !loading && (
+//           <div className="flex w-full justify-center">
+//             <CustomProgramForm
+//               setShowUpdateCustom={setShowUpdateCustom}
+//               findCustomPrograms={findCustomPrograms}
+//               setDisplayCustom={setDisplayCustom}
+//               currentProgram={
+//                 showUpdateCustom === true ? null : showUpdateCustom
+//               }
+//             />
+//           </div>
+//         )}
+//         {showUpdateCustom && !loading && (
+//           <div className="flex w-11/12 justify-end py-4 md:w-9/12 mobileMenu:w-2/3">
+//             <button
+//               className="flex font-semibold text-indigo-900 hover:scale-110 hover:text-indigo-800"
+//               onClick={() => setShowUpdateCustom(!showUpdateCustom)}
+//             >
+//               <span>{backChevron}</span>
+//               <span>Back</span>
+//             </button>
+//           </div>
+//         )}
+//       </div>
+//     </div>
+//   );
+// }
