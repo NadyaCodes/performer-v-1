@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState, useCallback } from "react";
 import type { NextPage } from "next";
 import { api } from "@component/utils/api";
 import ProgramItem from "./ProgramItem";
@@ -49,6 +49,8 @@ const CourseFinderComponent: NextPage = () => {
   const [activeSearchTerm, setActiveSearchTerm] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [loadingPageData, setLoadingPageData] = useState(true);
+
+  const userId = sessionData?.user.id || null;
 
   //Capture all program data, and add type to object
   useEffect(() => {
@@ -104,9 +106,52 @@ const CourseFinderComponent: NextPage = () => {
     null
   );
 
-  const fetchFavsObj = async (userId: string) => {
-    return await utils.favs.getAllForUser.fetch({ userId });
+  const fetchFavsObj = useCallback(
+    async (userId: string) => {
+      const userObj = await utils.favs.getAllForUser.fetch({ userId });
+      if (userObj) {
+        return userObj;
+      }
+    },
+    [utils.favs.getAllForUser]
+  );
+
+  const fetchFavsObjToPass = async (userId: string) => {
+    const userObj = await utils.favs.getAllForUser.fetch({ userId });
+
+    return userObj;
   };
+
+  const useFetchFavsObj = () => {
+    const fetchFavsObj = useCallback(async (userId: string) => {
+      const userObj = await utils.favs.getAllForUser.fetch({ userId });
+      if (userObj) {
+        return userObj;
+      }
+    }, []);
+    return fetchFavsObj;
+  };
+
+  const fetchFavsObjHook = useFetchFavsObj();
+
+  // const useFetchFavsObject = () => {
+  //   const fetchFavsObj = useCallback(
+  //     async (userId: string) => {
+  //       if (userId) {
+  //         return await utils.favs.getAllForUser.fetch({ userId });
+  //       }
+  //     },
+  //     [utils.favs.getAllForUser]
+  //   );
+  //   return fetchFavsObj;
+  //   // if (userId) {
+  //   //   return fetchFavsObj
+  //   // }  else {
+  //   //   return
+  //   // }
+  // };
+
+  // const fetchFavsObjHook = useFetchFavsObject();
 
   useEffect(() => {
     if (!sessionData) {
@@ -114,15 +159,29 @@ const CourseFinderComponent: NextPage = () => {
     }
   }, [sessionData]);
 
+  const memoizedSetUserFavsObject = useCallback<
+    React.Dispatch<React.SetStateAction<FavProgram[] | null>>
+  >(
+    (
+      newValue:
+        | FavProgram[]
+        | null
+        | ((prevState: FavProgram[] | null) => FavProgram[] | null)
+    ) => {
+      setUserFavsObject(newValue);
+    },
+    []
+  );
+
   useEffect(() => {
-    if (sessionData) {
-      fetchFavsObj(sessionData?.user.id)
-        .then((result) => result && setUserFavsObject(result))
+    if (userId) {
+      fetchFavsObjHook(userId)
+        .then((result) => result && memoizedSetUserFavsObject(result))
         .catch((error) => console.error("Error fetching favsObj: ", error));
     } else {
       setLoadingFavs(false);
     }
-  }, [sessionData]);
+  }, [userId, fetchFavsObjHook, memoizedSetUserFavsObject]);
 
   useEffect(() => {
     if (userFavsObject) {
@@ -170,7 +229,7 @@ const CourseFinderComponent: NextPage = () => {
           <ProgramItem
             key={element.id}
             element={element}
-            fetchUserFavsObject={fetchFavsObj}
+            fetchUserFavsObject={fetchFavsObjToPass}
             favesObject={userFavsObject}
             setFavesObject={setUserFavsObject}
             favProgramIdsArray={favProgramIdsArray}
