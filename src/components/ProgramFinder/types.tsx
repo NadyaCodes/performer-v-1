@@ -27,7 +27,7 @@ export type ProgramWithInfo = {
 export type FilterContextState = {
   selectedOptions: FilterContextValue;
   setSelectedOptions(selectedOptions: FilterContextValue): void;
-  filteredPrograms: ProgramWithInfo[];
+  filteredPrograms?: ProgramWithInfo[];
   setFilteredPrograms(filteredPrograms: ProgramWithInfo[]): void;
   allPrograms: ProgramWithInfo[];
   setProgramDisplay(programDisplay: JSX.Element[]): void;
