@@ -106,14 +106,6 @@ const CourseFinderComponent: NextPage = () => {
     null
   );
 
-  const fetchFavsObjToPass = useCallback(
-    async (userId: string) => {
-      const userObj = await utils.favs.getAllForUser.fetch({ userId });
-      return userObj;
-    },
-    [utils.favs.getAllForUser]
-  );
-
   const useFetchFavsObj = () => {
     const fetchFavsObj = useCallback(async (userId: string) => {
       const userObj = await utils.favs.getAllForUser.fetch({ userId });
