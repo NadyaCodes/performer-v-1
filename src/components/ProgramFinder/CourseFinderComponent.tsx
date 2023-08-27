@@ -106,15 +106,15 @@ const CourseFinderComponent: NextPage = () => {
     null
   );
 
-  const fetchFavsObj = useCallback(
-    async (userId: string) => {
-      const userObj = await utils.favs.getAllForUser.fetch({ userId });
-      if (userObj) {
-        return userObj;
-      }
-    },
-    [utils.favs.getAllForUser]
-  );
+  // const fetchFavsObj = useCallback(
+  //   async (userId: string) => {
+  //     const userObj = await utils.favs.getAllForUser.fetch({ userId });
+  //     if (userObj) {
+  //       return userObj;
+  //     }
+  //   },
+  //   [utils.favs.getAllForUser]
+  // );
 
   const fetchFavsObjToPass = async (userId: string) => {
     const userObj = await utils.favs.getAllForUser.fetch({ userId });
@@ -194,6 +194,19 @@ const CourseFinderComponent: NextPage = () => {
     }
   }, [userFavsObject]);
 
+  const memoizedSetFilteredPrograms = useCallback<
+    React.Dispatch<React.SetStateAction<ProgramWithInfo[]>>
+  >(
+    (
+      newValue:
+        | ProgramWithInfo[]
+        | ((prevState: ProgramWithInfo[]) => ProgramWithInfo[])
+    ) => {
+      setFilteredPrograms(newValue);
+    },
+    []
+  );
+
   //filter and display correct data
   useEffect(() => {
     if (allPrograms) {
@@ -214,13 +227,20 @@ const CourseFinderComponent: NextPage = () => {
         filterContextObject
       );
 
-      setFilteredPrograms(newFilteredPrograms);
+      memoizedSetFilteredPrograms(newFilteredPrograms);
 
       setTimeout(() => {
         setLoadingPageData(false);
       }, 1500);
     }
-  }, [selectedOptions, allPrograms]);
+  }, [
+    selectedOptions,
+    allPrograms,
+    activeSearchTerm,
+    memoizedSetFilteredPrograms,
+    filteredPrograms,
+    searchTerm,
+  ]);
 
   useEffect(() => {
     const tempProgramDisplay: JSX.Element[] = filteredPrograms.map(
@@ -240,7 +260,13 @@ const CourseFinderComponent: NextPage = () => {
     );
 
     setProgramDisplay(tempProgramDisplay);
-  }, [filteredPrograms, userFavsObject, favProgramIdsArray]);
+  }, [
+    filteredPrograms,
+    userFavsObject,
+    favProgramIdsArray,
+    loadingFavs,
+    fetchFavsObjToPass,
+  ]);
 
   return (
     <div className="min-h-screen">
