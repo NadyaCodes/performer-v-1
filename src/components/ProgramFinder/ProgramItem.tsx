@@ -27,7 +27,9 @@ export default function ProgramItem({
   element: ProgramWithInfo;
   favesObject: FavProgram[] | null;
   setFavesObject: Dispatch<SetStateAction<FavProgram[] | null>> | null;
-  fetchUserFavsObject: (userId: string) => Promise<FavProgram[]> | null;
+  fetchUserFavsObject: (
+    userId: string
+  ) => Promise<FavProgram[] | undefined | null>;
   favProgramIdsArray: string[] | null;
   loadingFavs: boolean | null;
 }) {
@@ -76,9 +78,8 @@ export default function ProgramItem({
       if (fetchUserFavsObject && setFavesObject) {
         try {
           if (userId) {
-            const result: FavProgram[] | null = await fetchUserFavsObject(
-              userId
-            );
+            const result: FavProgram[] | null | undefined =
+              await fetchUserFavsObject(userId);
             if (result) {
               const newUserFavs = result;
               setFavesObject(newUserFavs);
@@ -112,9 +113,8 @@ export default function ProgramItem({
       if (fetchUserFavsObject && setFavesObject) {
         try {
           if (userId) {
-            const result: FavProgram[] | null = await fetchUserFavsObject(
-              userId
-            );
+            const result: FavProgram[] | null | undefined =
+              await fetchUserFavsObject(userId);
             if (result) {
               const newUserFavs = result;
               setFavesObject(newUserFavs);
@@ -147,9 +147,8 @@ export default function ProgramItem({
       if (fetchUserFavsObject && setFavesObject) {
         try {
           if (userId) {
-            const result: FavProgram[] | null = await fetchUserFavsObject(
-              userId
-            );
+            const result: FavProgram[] | null | undefined =
+              await fetchUserFavsObject(userId);
             if (result) {
               const newUserFavs = result;
               setFavesObject(newUserFavs);
@@ -185,7 +184,7 @@ export default function ProgramItem({
         deleteFav({ id: favProgram.id });
         fetchUserFavsObject &&
           fetchUserFavsObject(userId)
-            ?.then((result: FavProgram[] | null) => {
+            ?.then((result: FavProgram[] | null | undefined) => {
               if (result) {
                 setFavesObject && setFavesObject(result);
                 const convertedArray = convertUserFavs(result);
@@ -207,18 +206,21 @@ export default function ProgramItem({
         type === "ft" && addFavFt({ userId, ftProgramId: element.id });
         fetchUserFavsObject &&
           fetchUserFavsObject(userId)
-            ?.then((result: FavProgram[]) => {
-              setFavesObject && setFavesObject(result);
-              const convertedArray = convertUserFavs(result);
-              const filteredArray = convertedArray.filter(
-                (element) => element !== undefined
-              ) as string[];
-              if (filteredArray.includes(element.id)) {
-                setFav(true);
-              } else {
-                setFav(false);
+            ?.then((result: FavProgram[] | null | undefined) => {
+              if (result) {
+                setFavesObject && setFavesObject(result);
+                const convertedArray = convertUserFavs(result);
+                const filteredArray = convertedArray.filter(
+                  (element) => element !== undefined
+                ) as string[];
+                if (filteredArray.includes(element.id)) {
+                  setFav(true);
+                } else {
+                  setFav(false);
+                }
               }
             })
+
             .catch((error) =>
               console.error("Error fetching UserFavsObject: ", error)
             );

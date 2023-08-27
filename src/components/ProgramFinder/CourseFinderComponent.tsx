@@ -106,10 +106,13 @@ const CourseFinderComponent: NextPage = () => {
     null
   );
 
-  const fetchFavsObjToPass = useCallback(async (userId: string) => {
-    const userObj = await utils.favs.getAllForUser.fetch({ userId });
-    return userObj;
-  }, []);
+  const fetchFavsObjToPass = useCallback(
+    async (userId: string) => {
+      const userObj = await utils.favs.getAllForUser.fetch({ userId });
+      return userObj;
+    },
+    [utils.favs.getAllForUser]
+  );
 
   const useFetchFavsObj = () => {
     const fetchFavsObj = useCallback(async (userId: string) => {
@@ -203,7 +206,12 @@ const CourseFinderComponent: NextPage = () => {
         setLoadingPageData(false);
       }, 1500);
     }
-  }, [selectedOptions, allPrograms, activeSearchTerm]);
+  }, [
+    selectedOptions,
+    allPrograms,
+    activeSearchTerm,
+    memoizedSetFilteredPrograms,
+  ]);
 
   const memoizedSetProgramDisplay = useCallback<
     React.Dispatch<React.SetStateAction<JSX.Element[] | null>>
@@ -226,7 +234,7 @@ const CourseFinderComponent: NextPage = () => {
           <ProgramItem
             key={element.id}
             element={element}
-            fetchUserFavsObject={fetchFavsObjToPass}
+            fetchUserFavsObject={fetchFavsObjHook}
             favesObject={userFavsObject}
             setFavesObject={setUserFavsObject}
             favProgramIdsArray={favProgramIdsArray}
@@ -237,7 +245,14 @@ const CourseFinderComponent: NextPage = () => {
     );
 
     memoizedSetProgramDisplay(tempProgramDisplay);
-  }, [filteredPrograms, userFavsObject, favProgramIdsArray, loadingFavs]);
+  }, [
+    filteredPrograms,
+    userFavsObject,
+    favProgramIdsArray,
+    loadingFavs,
+    memoizedSetProgramDisplay,
+    fetchFavsObjHook,
+  ]);
 
   return (
     <div className="min-h-screen">
