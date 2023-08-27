@@ -105,7 +105,14 @@ export default function LocationMenu({
         setCities(allCities);
       }
     }
-  }, [provinces]);
+  }, [
+    provinces,
+    allPrograms,
+    filteredPrograms,
+    selectedOptions?.discipline,
+    selectedOptions?.location.province,
+    selectedOptions?.type,
+  ]);
 
   return (
     <div className="flex flex-col">

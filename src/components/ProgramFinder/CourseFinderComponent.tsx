@@ -93,7 +93,7 @@ const CourseFinderComponent: NextPage = () => {
       return nameA.localeCompare(nameB);
     });
     setAllPrograms(tempArray);
-  }, [ftProgramData, ptProgramData]);
+  }, [ftProgramData, ptProgramData, locations, schoolLocationData, schools]);
 
   //FAVE PROGRAMS
 
@@ -112,7 +112,7 @@ const CourseFinderComponent: NextPage = () => {
     if (!sessionData) {
       setLoadingFavs(false);
     }
-  }, []);
+  }, [sessionData]);
 
   useEffect(() => {
     if (sessionData) {
