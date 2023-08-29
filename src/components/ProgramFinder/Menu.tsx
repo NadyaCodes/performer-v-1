@@ -15,7 +15,7 @@ export default function Menu({
 }) {
   const filterContext = useContext(FilterContext);
   const selectedOptions = filterContext?.selectedOptions;
-  const setSelectedOptions = filterContext?.setSelectedOptions!;
+  const setSelectedOptions = filterContext?.setSelectedOptions;
 
   const displayText = (element: string) => {
     switch (element) {
