@@ -176,57 +176,129 @@ export default function ProgramItem({
     },
   });
 
-  const toggleFav: () => Promise<void> = async () => {
+  // const handleToggleFav = async () => {
+  //   if (userId) {
+  //     setAnimateStar(true);
+  //     const favProgram = await findFav(type, userId, element.id);
+  //     if (favProgram) {
+  //       deleteFav({ id: favProgram.id });
+  //       try {
+  //         const result = await fetchUserFavsObject(userId);
+  //         if (result) {
+  //           setFavesObject && setFavesObject(result);
+  //           const convertedArray = convertUserFavs(result);
+  //           const filteredArray = convertedArray.filter(
+  //             (element) => element !== undefined
+  //           ) as string[];
+  //           if (filteredArray.includes(element.id)) {
+  //             setFav(true);
+  //           } else {
+  //             setFav(false);
+  //           }
+  //         }
+  //       } catch (error) {
+  //         console.error("Error fetching userFavsObject: ", error);
+  //       }
+  //     } else {
+  //       if (type === "pt") {
+  //         addFavPt({ userId, ptProgramId: element.id });
+  //       } else if (type === "ft") {
+  //         addFavFt({ userId, ftProgramId: element.id });
+  //       }
+  //       try {
+  //         const result = await fetchUserFavsObject(userId);
+  //         if (result) {
+  //           setFavesObject && setFavesObject(result);
+  //           const convertedArray = convertUserFavs(result);
+  //           const filteredArray = convertedArray.filter(
+  //             (element) => element !== undefined
+  //           ) as string[];
+  //           if (filteredArray.includes(element.id)) {
+  //             setFav(true);
+  //           } else {
+  //             setFav(false);
+  //           }
+  //         }
+  //       } catch (error) {
+  //         console.error("Error fetching UserFavsObject: ", error);
+  //       }
+  //     }
+  //     setAnimateStar(false);
+  //   }
+  // };
+
+  // const toggleFavHook = handleToggleFav();
+
+  const handleToggleFav = async () => {
     if (userId) {
       setAnimateStar(true);
-      const favProgram = await findFav(type, userId, element.id);
-      if (favProgram) {
-        deleteFav({ id: favProgram.id });
-        fetchUserFavsObject &&
-          fetchUserFavsObject(userId)
-            ?.then((result: FavProgram[] | null | undefined) => {
-              if (result) {
-                setFavesObject && setFavesObject(result);
-                const convertedArray = convertUserFavs(result);
-                const filteredArray = convertedArray.filter(
-                  (element) => element !== undefined
-                ) as string[];
-                if (filteredArray.includes(element.id)) {
-                  setFav(true);
-                } else {
-                  setFav(false);
-                }
-              }
-            })
-            .catch((error) =>
-              console.error("Error fetching userFavsObject: ", error)
-            );
-      } else {
-        type === "pt" && addFavPt({ userId, ptProgramId: element.id });
-        type === "ft" && addFavFt({ userId, ftProgramId: element.id });
-        fetchUserFavsObject &&
-          fetchUserFavsObject(userId)
-            ?.then((result: FavProgram[] | null | undefined) => {
-              if (result) {
-                setFavesObject && setFavesObject(result);
-                const convertedArray = convertUserFavs(result);
-                const filteredArray = convertedArray.filter(
-                  (element) => element !== undefined
-                ) as string[];
-                if (filteredArray.includes(element.id)) {
-                  setFav(true);
-                } else {
-                  setFav(false);
-                }
-              }
-            })
+      try {
+        const favProgram = await findFav(type, userId, element.id);
+        if (favProgram && setFavesObject) {
+          deleteFav({ id: favProgram.id });
 
-            .catch((error) =>
-              console.error("Error fetching UserFavsObject: ", error)
-            );
+          // No need to fetch user favorites here, just update state
+          setFavesObject(
+            (prevFaves) =>
+              prevFaves && prevFaves.filter((fave) => fave.id !== favProgram.id)
+          );
+        } else {
+          if (type === "pt") {
+            addFavPt({ userId, ptProgramId: element.id });
+
+            // No need to fetch user favorites here, just update state
+            if (setFavesObject) {
+              setFavesObject((prevFaves) =>
+                prevFaves
+                  ? [
+                      ...prevFaves,
+                      {
+                        id: element.id,
+                        userId,
+                        ptProgramId: element.id,
+                        ftProgramId: "",
+                      },
+                    ]
+                  : []
+              );
+            }
+          } else if (type === "ft") {
+            addFavFt({ userId, ftProgramId: element.id });
+
+            // No need to fetch user favorites here, just update state
+            if (setFavesObject) {
+              setFavesObject((prevFaves) =>
+                prevFaves
+                  ? [
+                      ...prevFaves,
+                      {
+                        id: element.id,
+                        userId,
+                        ptProgramId: "",
+                        ftProgramId: element.id,
+                      },
+                    ]
+                  : []
+              );
+            }
+          }
+          // Update the fav state directly
+          setFav(true);
+        }
+      } catch (error) {
+        console.error("Error toggling favorite: ", error);
+      } finally {
+        setAnimateStar(false);
       }
     }
   };
+
+  useEffect(() => {
+    if (favProgramIdsArray) {
+      setFav(favProgramIdsArray.includes(element.id));
+    }
+  }, [favProgramIdsArray, element.id]);
+
   // const toggleFav = async () => {
   //   if (userId) {
   //     setAnimateStar(true);
@@ -304,7 +376,7 @@ export default function ProgramItem({
               stroke-width="1.2"
               stroke="#7986cb"
               className="h-6 w-6"
-              onClick={toggleFav as () => Promise<void>}
+              onClick={handleToggleFav}
             >
               <path
                 stroke-linecap="round"
