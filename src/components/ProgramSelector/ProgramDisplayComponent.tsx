@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { api } from "@component/utils/api";
 import { useSession } from "next-auth/react";
 import type { ProgramInfoArray } from "@component/pages/[style]/[discipline]/[province]/[city]";
@@ -31,6 +31,7 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
   dataObject,
 }) => {
   const { style, discipline, city, province } = dataObject;
+
   const [itemArray, setItemArray] = useState<ProgramWithInfo[] | null>(null);
   const [loadingFavs, setLoadingFavs] = useState(true);
   const [userFavsObject, setUserFavsObject] = useState<FavProgram[] | null>(
@@ -41,6 +42,7 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
   );
 
   const { data: sessionData } = useSession();
+  const userId = sessionData?.user.id || null;
 
   const utils = api.useContext();
 
@@ -229,14 +231,18 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
   //     setLoadingFavs(false);
   //   }
   // }, [sessionData]);
+  const useFetchFavsObjCB = () => {
+    const fetchFavsObjCB = useCallback(async (userId: string) => {
+      return await utils.favs.getAllForUser.fetch({ userId });
+    }, []);
+    return fetchFavsObjCB;
+  };
+
+  const fetchFavsObjHook = useFetchFavsObjCB();
 
   useEffect(() => {
-    const fetchFavsObj = async (userId: string) => {
-      return await utils.favs.getAllForUser.fetch({ userId });
-    };
-
-    if (sessionData) {
-      fetchFavsObj(sessionData.user.id)
+    if (userId) {
+      fetchFavsObjHook(userId)
         .then((result) => {
           if (result) {
             setUserFavsObject(result);
@@ -246,7 +252,7 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
     } else {
       setLoadingFavs(false);
     }
-  }, [sessionData]);
+  }, [userId, fetchFavsObjHook]);
 
   // const fetchFavsObjMemo = useMemo(
   //   () => async (userId: string) => {
