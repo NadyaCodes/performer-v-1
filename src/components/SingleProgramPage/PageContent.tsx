@@ -193,15 +193,16 @@ export default function PageContent({ programId }: { programId: string }) {
     return null;
   }, [utils.favs.getAllForUser, userId]);
 
-  const fetchFavsObjcRef = useRef(fetchFavsObj);
+  const fetchFavsObjRef = useRef(fetchFavsObj);
 
   useEffect(() => {
-    fetchFavsObjcRef.current = fetchFavsObj;
+    fetchFavsObjRef.current = fetchFavsObj;
   }, [fetchFavsObj]);
 
   useEffect(() => {
     if (userId) {
-      fetchFavsObj()
+      fetchFavsObjRef
+        .current()
         .then((result) => result && setUserFavsObject(result))
         .catch((error) => console.error("Error fetching FavsObj: ", error));
     } else {
