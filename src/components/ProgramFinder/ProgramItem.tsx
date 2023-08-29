@@ -304,7 +304,7 @@ export default function ProgramItem({
               stroke-width="1.2"
               stroke="#7986cb"
               className="h-6 w-6"
-              onClick={toggleFav}
+              onClick={toggleFav as () => Promise<void>}
             >
               <path
                 stroke-linecap="round"
