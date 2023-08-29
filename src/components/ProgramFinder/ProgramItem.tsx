@@ -1,9 +1,4 @@
-import React, {
-  type SetStateAction,
-  useEffect,
-  useState,
-  type Dispatch,
-} from "react";
+import React, { type SetStateAction, useState, type Dispatch } from "react";
 import type { ProgramWithInfo } from "./types";
 import { useSession } from "next-auth/react";
 import { api } from "@component/utils/api";
@@ -19,13 +14,13 @@ import ShareIcon from "./ShareIcon";
 export default function ProgramItem({
   element,
   fetchUserFavsObject,
-  favesObject,
+  // favesObject,
   setFavesObject,
   favProgramIdsArray,
   loadingFavs,
 }: {
   element: ProgramWithInfo;
-  favesObject: FavProgram[] | null;
+  // favesObject: FavProgram[] | null;
   setFavesObject: Dispatch<SetStateAction<FavProgram[] | null>> | null;
   fetchUserFavsObject: (
     userId: string

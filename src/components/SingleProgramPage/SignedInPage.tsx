@@ -191,7 +191,7 @@ export default function PageContent({ programId }: { programId: string }) {
               key={allProgramInfo.id}
               element={allProgramInfo}
               fetchUserFavsObject={fetchFavsObj}
-              favesObject={userFavsObject}
+              // favesObject={userFavsObject}
               setFavesObject={setUserFavsObject}
               favProgramIdsArray={favProgramIdsArray}
               loadingFavs={loadingFavs}

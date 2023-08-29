@@ -227,7 +227,7 @@ const CourseFinderComponent: NextPage = () => {
             key={element.id}
             element={element}
             fetchUserFavsObject={fetchFavsObjHook}
-            favesObject={userFavsObject}
+            // favesObject={userFavsObject}
             setFavesObject={setUserFavsObject}
             favProgramIdsArray={favProgramIdsArray}
             loadingFavs={loadingFavs}

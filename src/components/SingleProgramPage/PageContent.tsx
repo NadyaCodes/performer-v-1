@@ -46,13 +46,6 @@ export default function PageContent({ programId }: { programId: string }) {
 
   // const fetchSchoolLocHook = useFetchSchoolLoc();
 
-  const fetchFavsObj = useCallback(
-    async (userId: string) => {
-      return await utils.favs.getAllForUser.fetch({ userId });
-    },
-    [utils.favs.getAllForUser.fetch]
-  );
-
   useEffectOnce(() => {
     fetchFTProgram()
       .then((ftData) => {
@@ -137,7 +130,11 @@ export default function PageContent({ programId }: { programId: string }) {
       });
     }
     return null;
-  }, [utils.schoolLocation.getOneByIdPlusInfo.fetch]);
+  }, [
+    utils.schoolLocation.getOneByIdPlusInfo.fetch,
+    utils.schoolLocation.getOneByIdPlusInfo,
+    schoolLocId,
+  ]);
 
   const fetchSchoolLocRef = useRef(fetchSchoolLoc);
 
@@ -170,7 +167,9 @@ export default function PageContent({ programId }: { programId: string }) {
         }
       };
 
-      fetchData();
+      fetchData().catch((error) =>
+        console.error("Error fetching program info: ", error)
+      );
     }
   }, [programObject, schoolLocId]);
 
@@ -186,9 +185,22 @@ export default function PageContent({ programId }: { programId: string }) {
     }
   }, [sessionData]);
 
+  const fetchFavsObj = useCallback(async () => {
+    if (userId) {
+      return await utils.favs.getAllForUser.fetch({ userId });
+    }
+    return null;
+  }, [utils.favs.getAllForUser, utils.favs.getAllForUser.fetch, userId]);
+
+  const fetchFavsObjcRef = useRef(fetchFavsObj);
+
+  useEffect(() => {
+    fetchFavsObjcRef.current = fetchFavsObj;
+  }, [fetchFavsObj]);
+
   useEffect(() => {
     if (userId) {
-      fetchFavsObj(userId)
+      fetchFavsObj()
         .then((result) => result && setUserFavsObject(result))
         .catch((error) => console.error("Error fetching FavsObj: ", error));
     } else {
@@ -223,7 +235,7 @@ export default function PageContent({ programId }: { programId: string }) {
               key={allProgramInfo.id}
               element={allProgramInfo}
               fetchUserFavsObject={fetchFavsObj}
-              favesObject={userFavsObject}
+              // favesObject={userFavsObject}
               setFavesObject={setUserFavsObject}
               favProgramIdsArray={favProgramIdsArray}
               loadingFavs={loadingFavs}
