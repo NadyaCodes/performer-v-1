@@ -19,7 +19,7 @@ export default function ShareOptions({
   program: ProgramWithInfo;
   setShare: Dispatch<SetStateAction<boolean>>;
 }) {
-  const programUrl = `https://www.localhost:3000/single-program/${program.id}`;
+  const programUrl = `https://www.actsingdancerepeat.com/single-program/${program.id}`;
   return (
     <div className="flex flex-row items-center md:-translate-y-1 lg:-translate-x-8 lg:flex-col 2xl:-translate-x-3">
       <div
