@@ -108,6 +108,24 @@ const createPaths = async (): Promise<Array<PathsArray>> => {
           const location = allLocations.find(
             (loc) => loc.id === schoolLocation.locationId
           );
+          // if (location) {
+          //   const province = provincesFullReverse[location.province] || "N/A";
+
+          //   if (!provinceArray.includes(province)) {
+          //     provinceArray.push(province);
+          //   }
+
+          //   if (!cityMap[province]) {
+          //     cityMap[province] = [];
+          //   }
+          //   if (
+          //     cityMap[province] &&
+          //     location.city &&
+          //     !cityMap[province]!.includes(location.city)
+          //   ) {
+          //     cityMap[province]!.push(location.city);
+          //   }
+          // }
           if (location) {
             const province = provincesFullReverse[location.province] || "N/A";
 
@@ -118,12 +136,12 @@ const createPaths = async (): Promise<Array<PathsArray>> => {
             if (!cityMap[province]) {
               cityMap[province] = [];
             }
-            if (
-              cityMap[province] &&
-              location.city &&
-              !cityMap[province]!.includes(location.city)
-            ) {
-              cityMap[province]!.push(location.city);
+
+            const cityList = cityMap[province];
+            const city = location.city;
+
+            if (cityList && city && !cityList.includes(city)) {
+              cityList.push(city);
             }
           }
         }
