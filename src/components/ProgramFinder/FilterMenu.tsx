@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import LocationMenu from "./LocationMenu";
 import Search from "./Search";
 import { FilterContext } from "./CourseFinderComponent";
@@ -6,114 +6,108 @@ import { displayLocation } from "./helpers";
 import Menu from "./Menu";
 import { chevronUp, doubleChevronDown } from "@component/data/svgs";
 import { disciplinesFull } from "@component/data/constants";
-import { LocationObject } from "./types";
+import type { LocationObject } from "./types";
 
 export default function FilterMenu() {
   const filterContext = useContext(FilterContext);
   const selectedOptions = filterContext?.selectedOptions;
   const [menu, setMenu] = useState<string | false>(false);
 
-  const buttonFilter = ["type", "discipline", "location"].map(
-    (element, index) => {
-      let currentSelection: string | LocationObject | undefined = "";
-      if (
-        selectedOptions &&
-        typeof selectedOptions[element as keyof typeof selectedOptions] ===
-          "string"
-      ) {
-        currentSelection =
-          selectedOptions[element as keyof typeof selectedOptions];
-        if (typeof currentSelection === "string") {
-          Object.keys(disciplinesFull).forEach((key) => {
-            if (currentSelection && currentSelection === key) {
-              currentSelection = disciplinesFull[key];
-            }
-          });
-          if (currentSelection === "pt") {
-            currentSelection = "Part Time";
+  const buttonFilter = ["type", "discipline", "location"].map((element) => {
+    let currentSelection: string | LocationObject | undefined = "";
+    if (
+      selectedOptions &&
+      typeof selectedOptions[element as keyof typeof selectedOptions] ===
+        "string"
+    ) {
+      currentSelection =
+        selectedOptions[element as keyof typeof selectedOptions];
+      if (typeof currentSelection === "string") {
+        Object.keys(disciplinesFull).forEach((key) => {
+          if (currentSelection && currentSelection === key) {
+            currentSelection = disciplinesFull[key];
           }
-          if (currentSelection === "ft") {
-            currentSelection = "Full Time";
-          }
+        });
+        if (currentSelection === "pt") {
+          currentSelection = "Part Time";
         }
-      } else if (selectedOptions) {
-        currentSelection = displayLocation(selectedOptions.location);
+        if (currentSelection === "ft") {
+          currentSelection = "Full Time";
+        }
       }
-
-      return (
-        <div
-          className="mx-4 my-2 md:mx-2 md:mb-0 lg:my-0 2xl:mx-16 2xl:mt-10"
-          key={element}
-        >
-          <div className="flex flex-col items-center">
-            <button
-              className="h-28 w-64 rounded-t-lg border border-cyan-700 bg-cyan-800 p-1 text-xl capitalize transition duration-300 hover:shadow-md hover:shadow-indigo-200 md:h-32 md:w-52 lg:w-64 xl:hidden"
-              onClick={() =>
-                menu === element ? setMenu(false) : setMenu(element)
-              }
-              style={{ zIndex: 35 }}
-            >
-              <div className="flex items-center justify-around">
-                {currentSelection ? (
-                  <div className="flex w-full flex-col">
-                    <span className="flex w-full justify-around pb-2">
-                      <span>{element}:</span>
-                      <span>{menu ? chevronUp : doubleChevronDown}</span>
-                    </span>
-                    <span className="px-2 italic">
-                      {typeof currentSelection === "string" && currentSelection}
-                    </span>
-                  </div>
-                ) : (
-                  <div className="flex w-full justify-around">
-                    {element}
-                    {menu ? chevronUp : doubleChevronDown}
-                  </div>
-                )}
-              </div>
-            </button>
-            <button
-              className="hidden h-24 w-96 rounded-t-lg border border-cyan-700 bg-cyan-800 p-4 text-xl capitalize transition duration-300 hover:shadow-md hover:shadow-indigo-200 xl:block "
-              onClick={() =>
-                menu === element ? setMenu(false) : setMenu(element)
-              }
-              style={{ zIndex: 35 }}
-            >
-              <div className="flex items-center justify-around">
-                {element}
-                {currentSelection && ":"}
-
-                {currentSelection && typeof currentSelection === "string" && (
-                  <span className="px-2 italic">{currentSelection}</span>
-                )}
-                {menu === element ? chevronUp : doubleChevronDown}
-              </div>
-            </button>
-            <div className="h-1 w-72 rounded bg-indigo-400 opacity-50 md:hidden md:w-56"></div>
-          </div>
-          <div className="m-auto w-64  md:w-52 lg:w-64 xl:w-96">
-            {menu === "type" && element === "type" && (
-              <Menu
-                menuType="type"
-                valueArray={["ft", "pt"]}
-                setMenu={setMenu}
-              />
-            )}
-            {menu === "discipline" && element === "discipline" && (
-              <Menu
-                menuType="discipline"
-                valueArray={["act", "sing", "dance", "mt"]}
-                setMenu={setMenu}
-              />
-            )}
-            {menu === "location" && element === "location" && (
-              <LocationMenu setMenu={setMenu} />
-            )}
-          </div>
-        </div>
-      );
+    } else if (selectedOptions) {
+      currentSelection = displayLocation(selectedOptions.location);
     }
-  );
+
+    return (
+      <div
+        className="mx-4 my-2 md:mx-2 md:mb-0 lg:my-0 2xl:mx-16 2xl:mt-10"
+        key={element}
+      >
+        <div className="flex flex-col items-center">
+          <button
+            className="h-28 w-64 rounded-t-lg border border-cyan-700 bg-cyan-800 p-1 text-xl capitalize transition duration-300 hover:shadow-md hover:shadow-indigo-200 md:h-32 md:w-52 lg:w-64 xl:hidden"
+            onClick={() =>
+              menu === element ? setMenu(false) : setMenu(element)
+            }
+            style={{ zIndex: 35 }}
+          >
+            <div className="flex items-center justify-around">
+              {currentSelection ? (
+                <div className="flex w-full flex-col">
+                  <span className="flex w-full justify-around pb-2">
+                    <span>{element}:</span>
+                    <span>{menu ? chevronUp : doubleChevronDown}</span>
+                  </span>
+                  <span className="px-2 italic">
+                    {typeof currentSelection === "string" && currentSelection}
+                  </span>
+                </div>
+              ) : (
+                <div className="flex w-full justify-around">
+                  {element}
+                  {menu ? chevronUp : doubleChevronDown}
+                </div>
+              )}
+            </div>
+          </button>
+          <button
+            className="hidden h-24 w-96 rounded-t-lg border border-cyan-700 bg-cyan-800 p-4 text-xl capitalize transition duration-300 hover:shadow-md hover:shadow-indigo-200 xl:block "
+            onClick={() =>
+              menu === element ? setMenu(false) : setMenu(element)
+            }
+            style={{ zIndex: 35 }}
+          >
+            <div className="flex items-center justify-around">
+              {element}
+              {currentSelection && ":"}
+
+              {currentSelection && typeof currentSelection === "string" && (
+                <span className="px-2 italic">{currentSelection}</span>
+              )}
+              {menu === element ? chevronUp : doubleChevronDown}
+            </div>
+          </button>
+          <div className="h-1 w-72 rounded bg-indigo-400 opacity-50 md:hidden md:w-56"></div>
+        </div>
+        <div className="m-auto w-64  md:w-52 lg:w-64 xl:w-96">
+          {menu === "type" && element === "type" && (
+            <Menu menuType="type" valueArray={["ft", "pt"]} setMenu={setMenu} />
+          )}
+          {menu === "discipline" && element === "discipline" && (
+            <Menu
+              menuType="discipline"
+              valueArray={["act", "sing", "dance", "mt"]}
+              setMenu={setMenu}
+            />
+          )}
+          {menu === "location" && element === "location" && (
+            <LocationMenu setMenu={setMenu} />
+          )}
+        </div>
+      </div>
+    );
+  });
 
   return (
     <div

@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { PageContent } from "./SingleProgramPageComponent";
+import type { PageContent } from "./SingleProgramPageComponent";
 import ProgramItem from "../ProgramFinder/ProgramItem";
 import { api } from "@component/utils/api";
-import { ProgramWithType } from "../MyPrograms/MyProgramsComponent";
-import { ProgramWithInfo } from "../ProgramFinder/types";
-import { FavProgram } from "@prisma/client";
+import type { ProgramWithType } from "../MyPrograms/MyProgramsComponent";
+import type { ProgramWithInfo } from "../ProgramFinder/types";
+import type { FavProgram } from "@prisma/client";
 import { convertUserFavs } from "../ProgramFinder/helpers";
 import SinglePageHeader from "./SinglePageHeader";
+import { useEffectOnce } from "../AddProgramResult/helpers";
 
 export default function PageContent({ programId }: { programId: string }) {
   const { data: sessionData } = useSession();
   const utils = api.useContext();
+  const userId = sessionData?.user.id || null;
 
   const [programObject, setProgramObject] = useState<ProgramWithType | null>(
     null
@@ -36,63 +38,177 @@ export default function PageContent({ programId }: { programId: string }) {
     return await utils.ptProgram.getOneByIdPlusInfo.fetch({ id: programId });
   };
 
-  const fetchSchoolLoc = async (id: string) => {
-    return await utils.schoolLocation.getOneByIdPlusInfo.fetch({ id });
-  };
+  const [schoolLocId, setSchoolLocId] = useState<string | null>(null);
+  // const useFetchSchoolLoc = () => {
 
-  const fetchFavsObj = async (userId: string) => {
-    return await utils.favs.getAllForUser.fetch({ userId });
-  };
+  //   return fetchSchoolLoc();
+  // };
 
-  useEffect(() => {
-    fetchFTProgram().then((ftData) => {
-      if (ftData) {
-        setProgramObject({ ...ftData, type: "ft" });
-      } else {
-        fetchPTProgram().then((ptData) => {
-          if (ptData) {
-            setProgramObject({ ...ptData, type: "pt" });
-          }
-        });
-      }
-    });
-  }, []);
+  // const fetchSchoolLocHook = useFetchSchoolLoc();
 
-  useEffect(() => {
-    if (programObject) {
-      fetchSchoolLoc(programObject?.schoolLocationId).then((data) => {
-        if (data) {
-          const allInfo = {
-            id: programObject.id,
-            schoolLocationId: programObject.schoolLocationId,
-            website: programObject.website || data.website,
-            discipline: programObject.discipline,
-            name: programObject.name,
-            type: programObject.type,
-            cityObj: { ...data.location },
-            schoolObj: { ...data.school },
-          };
-          setAllProgramInfo(allInfo);
+  useEffectOnce(() => {
+    fetchFTProgram()
+      .then((ftData) => {
+        if (ftData) {
+          setProgramObject({ ...ftData, type: "ft" });
+          setSchoolLocId(ftData.schoolLocationId);
+        } else {
+          fetchPTProgram()
+            .then((ptData) => {
+              if (ptData) {
+                setProgramObject({ ...ptData, type: "pt" });
+                setSchoolLocId(ptData.schoolLocationId);
+              }
+            })
+            .catch((error) =>
+              console.error("Error fetching PT Program: ", error)
+            );
         }
+      })
+      .catch((error) => console.error("Error fetching FT Program: ", error));
+  });
+
+  // useEffect(() => {
+  //   if (programObject) {
+  //     fetchSchoolLoc()
+  //       .then((data) => {
+  //         if (data) {
+  //           const allInfo = {
+  //             id: programObject.id,
+  //             schoolLocationId: programObject.schoolLocationId,
+  //             website: programObject.website || data.website,
+  //             discipline: programObject.discipline,
+  //             name: programObject.name,
+  //             type: programObject.type,
+  //             cityObj: { ...data.location },
+  //             schoolObj: { ...data.school },
+  //           };
+  //           setAllProgramInfo(allInfo);
+  //         }
+  //       })
+  //       .catch((error) => console.error("Error fetching SchoolLoc: ", error));
+  //   }
+  // }, [programObject, fetchSchoolLoc]);
+
+  // useEffect(() => {
+  //   if (programObject && schoolLocId) {
+  //     const fetchSchoolLocation = async () => {
+  //       try {
+  //         const data = await utils.schoolLocation.getOneByIdPlusInfo.fetch({
+  //           id: schoolLocId,
+  //         });
+  //         if (data) {
+  //           const allInfo = {
+  //             id: programObject.id,
+  //             schoolLocationId: programObject.schoolLocationId,
+  //             website: programObject.website || data.website,
+  //             discipline: programObject.discipline,
+  //             name: programObject.name,
+  //             type: programObject.type,
+  //             cityObj: { ...data.location },
+  //             schoolObj: { ...data.school },
+  //           };
+  //           setAllProgramInfo(allInfo);
+  //         }
+  //       } catch (error) {
+  //         console.error("Error fetching SchoolLoc: ", error);
+  //       }
+  //     };
+
+  //     fetchSchoolLocation();
+  //   }
+  // }, [
+  //   programObject,
+  //   schoolLocId,
+  //   utils.schoolLocation.getOneByIdPlusInfo.fetch,
+  // ]);
+
+  const fetchSchoolLoc = useCallback(async () => {
+    if (schoolLocId) {
+      return await utils.schoolLocation.getOneByIdPlusInfo.fetch({
+        id: schoolLocId,
       });
     }
-  }, [programObject]);
+    return null;
+  }, [
+    // utils.schoolLocation.getOneByIdPlusInfo.fetch,
+    utils.schoolLocation.getOneByIdPlusInfo,
+    schoolLocId,
+  ]);
+
+  const fetchSchoolLocRef = useRef(fetchSchoolLoc);
+
+  useEffect(() => {
+    fetchSchoolLocRef.current = fetchSchoolLoc;
+  }, [fetchSchoolLoc]);
+
+  const [updatedProgramInfo, setUpdatedProgramInfo] =
+    useState<ProgramWithInfo | null>(null);
+
+  useEffect(() => {
+    if (programObject && schoolLocId) {
+      const fetchData = async () => {
+        try {
+          const data = await fetchSchoolLocRef.current();
+          if (data) {
+            const updatedInfo = {
+              id: programObject.id,
+              schoolLocationId: programObject.schoolLocationId,
+              website: programObject.website || data.website,
+              discipline: programObject.discipline,
+              name: programObject.name,
+              type: programObject.type,
+              cityObj: { ...data.location },
+              schoolObj: { ...data.school },
+            };
+            setUpdatedProgramInfo(updatedInfo);
+          }
+        } catch (error) {
+          console.error("Error fetching SchoolLoc: ", error);
+        }
+      };
+
+      fetchData().catch((error) =>
+        console.error("Error fetching program info: ", error)
+      );
+    }
+  }, [programObject, schoolLocId]);
+
+  useEffect(() => {
+    if (updatedProgramInfo) {
+      setAllProgramInfo(updatedProgramInfo);
+    }
+  }, [updatedProgramInfo]);
 
   useEffect(() => {
     if (!sessionData) {
       setLoadingFavs(false);
     }
-  }, []);
+  }, [sessionData]);
+
+  const fetchFavsObj = useCallback(async () => {
+    if (userId) {
+      return await utils.favs.getAllForUser.fetch({ userId });
+    }
+    return null;
+  }, [utils.favs.getAllForUser, userId]);
+
+  const fetchFavsObjRef = useRef(fetchFavsObj);
 
   useEffect(() => {
-    if (sessionData) {
-      fetchFavsObj(sessionData?.user.id).then(
-        (result) => result && setUserFavsObject(result)
-      );
+    fetchFavsObjRef.current = fetchFavsObj;
+  }, [fetchFavsObj]);
+
+  useEffect(() => {
+    if (userId) {
+      fetchFavsObjRef
+        .current()
+        .then((result) => result && setUserFavsObject(result))
+        .catch((error) => console.error("Error fetching FavsObj: ", error));
     } else {
       setLoadingFavs(false);
     }
-  }, [sessionData]);
+  }, [userId]);
 
   useEffect(() => {
     if (userFavsObject) {
@@ -107,7 +223,7 @@ export default function PageContent({ programId }: { programId: string }) {
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <SinglePageHeader isSignedIn={!!sessionData} />
+      <SinglePageHeader isSignedIn={!!userId} />
       <div
         className="m-5 flex flex-col rounded-md opacity-0 mobileMenu:w-9/12 mobileMenu:px-16 mobileMenu:shadow-lg mobileMenu:shadow-cyan-800 2xl:shadow-2xl 2xl:shadow-cyan-800"
         style={{ animation: "fadeInGrow 1s linear forwards" }}
@@ -121,7 +237,7 @@ export default function PageContent({ programId }: { programId: string }) {
               key={allProgramInfo.id}
               element={allProgramInfo}
               fetchUserFavsObject={fetchFavsObj}
-              favesObject={userFavsObject}
+              // favesObject={userFavsObject}
               setFavesObject={setUserFavsObject}
               favProgramIdsArray={favProgramIdsArray}
               loadingFavs={loadingFavs}

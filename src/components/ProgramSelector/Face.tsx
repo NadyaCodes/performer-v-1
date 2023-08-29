@@ -5,10 +5,10 @@ export default function Face({ eyesClass }: { eyesClass: string }) {
     const eyeball = (event: MouseEvent) => {
       const eyeArray = document.querySelectorAll(".eye");
       eyeArray.forEach(function (eye) {
-        let x = eye.getBoundingClientRect().left + eye.clientWidth / 2;
-        let y = eye.getBoundingClientRect().top + eye.clientHeight / 2;
-        let radian = Math.atan2(event.pageX - x, event.pageY - y);
-        let rot = radian * (180 / Math.PI) * -1 + 270;
+        const x = eye.getBoundingClientRect().left + eye.clientWidth / 2;
+        const y = eye.getBoundingClientRect().top + eye.clientHeight / 2;
+        const radian = Math.atan2(event.pageX - x, event.pageY - y);
+        const rot = radian * (180 / Math.PI) * -1 + 270;
         const eyeElement = eye as HTMLElement;
         eyeElement.style.transform = `rotate(${rot}deg)`;
       });

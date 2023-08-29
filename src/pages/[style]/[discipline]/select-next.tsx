@@ -1,11 +1,11 @@
-import { type NextPage, GetStaticProps } from "next";
+import type { NextPage, GetStaticProps } from "next";
 import {
   disciplines,
   disciplinesFull,
   provincesFullReverse,
   stylesFull,
 } from "@component/data/constants";
-import { PathsArray, SelectNextProps } from "@component/data/types";
+import type { PathsArray, SelectNextProps } from "@component/data/types";
 import { styles } from "@component/data/constants";
 import SelectNext from "@component/components/ProgramSelector/SelectNext";
 import Head from "next/head";
@@ -18,13 +18,18 @@ const DisciplinePage: NextPage<SelectNextProps> = ({
   discipline,
   provincesList,
 }) => {
-  const link = `/${style}/${discipline}/`;
-  const backLink = `/${style}/select-next`;
+  const styleText = style || "ft";
+  const disciplineText = discipline || "act";
+  const styleFull = stylesFull[style] || "Full Time";
+  const disciplineFull = disciplinesFull[discipline || ""] || "acting";
+
+  const link = `/${styleText}/${disciplineText}/`;
+  const backLink = `/${styleText}/select-next`;
   let titleString = "";
   if (discipline) {
-    titleString = `${stylesFull[style]} ${disciplinesFull[discipline]} Programs in Canada`;
+    titleString = `${styleFull} ${disciplineFull} Programs in Canada`;
   } else {
-    titleString = `${stylesFull[style]} programs in Canada`;
+    titleString = `${styleFull} programs in Canada`;
   }
 
   const selectNextOptions = {

@@ -1,8 +1,8 @@
-import React, { Dispatch, useState } from "react";
+import React, { type Dispatch, useState } from "react";
 import { api } from "@component/utils/api";
 import { useSession } from "next-auth/react";
-import { SetStateAction } from "react";
-import { CustomProgram } from "@prisma/client";
+import type { SetStateAction } from "react";
+import type { CustomProgram } from "@prisma/client";
 import { cautionCircle } from "@component/data/svgs";
 import LoadingSpinner from "../Loading/LoadingSpinner";
 import { validateCustom } from "./helpers";
@@ -39,8 +39,10 @@ export default function CustomProgramForm({
   currentProgram,
 }: {
   setShowUpdateCustom: Dispatch<SetStateAction<boolean | CustomProgram>>;
-  findCustomPrograms: Function;
-  setDisplayCustom: Function;
+  findCustomPrograms: (userId: string) => Promise<CustomProgram[] | undefined>;
+  setDisplayCustom: Dispatch<
+    SetStateAction<CustomProgram[] | undefined | null>
+  >;
   currentProgram: CustomProgram | null;
 }) {
   const { data: sessionData } = useSession();
@@ -81,18 +83,24 @@ export default function CustomProgramForm({
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const { mutate: addProgram } = api.customProgram.add.useMutation({
-    async onSuccess(data) {
-      setShowUpdateCustom(false);
-      window.scrollTo({
-        top: 0,
-      });
-      setLoading(false);
-      setUserInput(emptyUserInput);
-      findCustomPrograms().then(
-        (customData: CustomProgram[]) =>
-          customData && setDisplayCustom(customData)
-      );
-      return data;
+    onSuccess(data) {
+      if (userId) {
+        setShowUpdateCustom(false);
+        window.scrollTo({
+          top: 0,
+        });
+        setLoading(false);
+        setUserInput(emptyUserInput);
+        findCustomPrograms(userId)
+          .then(
+            (customData: CustomProgram[] | undefined) =>
+              customData && setDisplayCustom(customData)
+          )
+          .catch((error) =>
+            console.error("Error finding custom Programs: ", error)
+          );
+        return data;
+      }
     },
     onError(error) {
       console.log("addFavPt error: ", error);
@@ -100,25 +108,31 @@ export default function CustomProgramForm({
   });
 
   const { mutate: updateProgram } = api.customProgram.update.useMutation({
-    async onSuccess(data) {
-      setShowUpdateCustom(false);
-      window.scrollTo({
-        top: 0,
-      });
-      setLoading(false);
-      setUserInput(emptyUserInput);
-      findCustomPrograms().then(
-        (customData: CustomProgram[]) =>
-          customData && setDisplayCustom(customData)
-      );
-      return data;
+    onSuccess(data) {
+      if (userId) {
+        setShowUpdateCustom(false);
+        window.scrollTo({
+          top: 0,
+        });
+        setLoading(false);
+        setUserInput(emptyUserInput);
+        findCustomPrograms(userId)
+          .then(
+            (customData: CustomProgram[] | undefined) =>
+              customData && setDisplayCustom(customData)
+          )
+          .catch((error) =>
+            console.error("Error finding custom programs: ", error)
+          );
+        return data;
+      }
     },
     onError(error) {
       console.log("addFavPt error: ", error);
     },
   });
 
-  const submitCustomProgram = async () => {
+  const submitCustomProgram = () => {
     setLoading(true);
     const allKeys = Object.keys(emptyUserInput);
 
@@ -160,10 +174,13 @@ export default function CustomProgramForm({
           }, 2000);
           return;
         }
-        const submitNewProgram = await addProgram({
+        // const submitNewProgram = addProgram({
+        //   ...submissionObject,
+        // } as CustomProgramSubmission);
+        // return submitNewProgram;
+        addProgram({
           ...submissionObject,
         } as CustomProgramSubmission);
-        return submitNewProgram;
       }
 
       if (validated && currentProgram) {
@@ -176,12 +193,15 @@ export default function CustomProgramForm({
           return;
         }
         const updatedObject = { ...submissionObject, id: currentProgram.id };
-        const update = await updateProgram(updatedObject);
-        return update;
+        // const update = updateProgram(updatedObject);
+        // return update;
+        updateProgram(updatedObject);
       }
       if (!validated) {
         setLoading(false);
+        return;
       }
+      return;
     }
   };
 

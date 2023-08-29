@@ -2,16 +2,21 @@ import { useEffect } from "react";
 
 declare global {
   interface Window {
-    sender: any;
+    sender: SenderType;
   }
 }
+
+type SenderType = {
+  (...args: string[]): void;
+  q?: object[];
+};
 
 const SenderScript = () => {
   useEffect(() => {
     const loadSenderScript = async () => {
       if (typeof window !== "undefined") {
-        window.sender = function () {
-          (window.sender.q = window.sender.q || []).push(arguments);
+        window.sender = function (...args: string[]) {
+          (window.sender.q = window.sender.q || []).push(args);
         };
 
         const senderScript = document.createElement("script");
@@ -29,7 +34,9 @@ const SenderScript = () => {
       }
     };
 
-    loadSenderScript();
+    loadSenderScript().catch((error) =>
+      console.error("Error loading sender script: ", error)
+    );
   }, []);
 
   return null;

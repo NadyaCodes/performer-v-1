@@ -11,3 +11,13 @@ export function useEffectOnce(fn: () => void) {
     };
   }, [fn]);
 }
+
+export function useEffectOnceVoidReturn(fn: () => Promise<void>) {
+  const ref = useRef(true);
+  useEffect(() => {
+    if (ref.current) {
+      ref.current = false;
+      fn().catch((error) => console.error("Error using useEffectOnceVoidReturn: ", error));
+    }
+  }, [fn]);
+}

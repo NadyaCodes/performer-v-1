@@ -1,5 +1,5 @@
-import React, { SetStateAction, Dispatch } from "react";
-import { ProgramWithInfo } from "./types";
+import React, { type SetStateAction, type Dispatch } from "react";
+import type { ProgramWithInfo } from "./types";
 import {
   FacebookShareButton,
   FacebookIcon,
@@ -81,7 +81,11 @@ export default function ShareOptions({
             subject={
               "Check out this cool program I found on Act Sing Dance Repeat!"
             }
-            body={`${program.schoolObj?.name.toUpperCase()} has a program you might like! Check it out on Act Sing Dance Repeat here:`}
+            body={`${
+              program.schoolObj?.name
+                ? program.schoolObj?.name.toUpperCase() + " has "
+                : "Here is "
+            }a program you might like! Check it out on Act Sing Dance Repeat here:`}
           >
             <div style={{ filter: "sepia(100%) hue-rotate(230deg)" }}>
               <EmailIcon size={32} round />

@@ -17,7 +17,9 @@ export default function Search({ menu }: { menu: string | false }) {
 
   return (
     <div
-      className={`z-20 mb-3 mt-7 flex justify-around ${menu && " opacity-0"}`}
+      className={`z-20 mb-3 mt-7 flex justify-around ${
+        menu ? " opacity-0" : ""
+      }`}
     >
       {!filterContext?.activeSearchTerm ? (
         <div className="flex flex-col md:flex-row">

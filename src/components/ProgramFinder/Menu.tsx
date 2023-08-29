@@ -1,6 +1,7 @@
-import React, { SetStateAction, useContext, Dispatch } from "react";
+import React, { type SetStateAction, useContext, type Dispatch } from "react";
 import { updateFilter } from "./helpers";
 import { FilterContext } from "./CourseFinderComponent";
+import type { FilterContextValue } from "./types";
 
 export default function Menu({
   valueArray,
@@ -15,7 +16,9 @@ export default function Menu({
 }) {
   const filterContext = useContext(FilterContext);
   const selectedOptions = filterContext?.selectedOptions;
-  const setSelectedOptions = filterContext?.setSelectedOptions;
+  const setSelectedOptions = filterContext?.setSelectedOptions
+    ? (options: FilterContextValue) => filterContext.setSelectedOptions(options)
+    : undefined;
 
   const displayText = (element: string) => {
     switch (element) {
@@ -35,42 +38,46 @@ export default function Menu({
   };
 
   const buttonList = valueArray.map((element) => {
-    const bgColor =
-      (element === selectedOptions?.type && "bg-cyan-700 text-cyan-50") ||
-      (element === selectedOptions?.discipline && "bg-cyan-700 text-cyan-50") ||
-      (element === selectedOptions?.location.province &&
-        "bg-cyan-800 text-cyan-50") ||
-      (element === selectedOptions?.location.city &&
-        "bg-cyan-800 text-cyan-50") ||
-      (element === "No Available Locations" && "bg-indigo-400 text-cyan-50") ||
-      "";
+    if (filterContext?.setSelectedOptions) {
+      const bgColor =
+        (element === selectedOptions?.type && "bg-cyan-700 text-cyan-50") ||
+        (element === selectedOptions?.discipline &&
+          "bg-cyan-700 text-cyan-50") ||
+        (element === selectedOptions?.location.province &&
+          "bg-cyan-800 text-cyan-50") ||
+        (element === selectedOptions?.location.city &&
+          "bg-cyan-800 text-cyan-50") ||
+        (element === "No Available Locations" &&
+          "bg-indigo-400 text-cyan-50") ||
+        "";
 
-    const hover =
-      element === "No Available Locations"
-        ? ""
-        : "hover:bg-cyan-200 hover:text-cyan-950 focus:bg-cyan-700 focus:text-cyan-50";
+      const hover =
+        element === "No Available Locations"
+          ? ""
+          : "hover:bg-cyan-200 hover:text-cyan-950 focus:bg-cyan-700 focus:text-cyan-50";
 
-    const classString = `w-full p-2 capitalize ${bgColor} ${hover}`;
-    return (
-      <button
-        className={classString}
-        onClick={() => {
-          if (element !== "No Available Programs") {
-            updateFilter(
-              menuType,
-              element,
-              selectedOptions,
-              setSelectedOptions,
-              locationType
-            );
-            setMenu && setMenu(false);
-          }
-        }}
-        key={element}
-      >
-        {displayText(element)}
-      </button>
-    );
+      const classString = `w-full p-2 capitalize ${bgColor} ${hover}`;
+      return (
+        <button
+          className={classString}
+          onClick={() => {
+            if (element !== "No Available Programs") {
+              updateFilter(
+                menuType,
+                element,
+                selectedOptions,
+                setSelectedOptions,
+                locationType
+              );
+              setMenu && setMenu(false);
+            }
+          }}
+          key={element}
+        >
+          {displayText(element)}
+        </button>
+      );
+    }
   });
 
   return (

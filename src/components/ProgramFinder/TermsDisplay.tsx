@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { FilterContext } from "./CourseFinderComponent";
 import { stylesFull, disciplinesFull } from "@component/data/constants";
-import { FilterContextValue } from "./types";
+import type { FilterContextValue } from "./types";
 import { faceFrown, xMark } from "@component/data/svgs";
 
 export default function TermsDisplay({
@@ -18,9 +18,12 @@ export default function TermsDisplay({
   const undoSearch = () => {
     filterContext?.setActiveSearchTerm("");
     filterContext?.setSearchTerm("");
-    filterContext?.setSelectedOptions(
-      JSON.parse(JSON.stringify(filterContext?.selectedOptions))
-    );
+    filterContext?.setSelectedOptions({
+      ...filterContext?.selectedOptions,
+      location: {
+        ...filterContext?.selectedOptions.location,
+      },
+    });
   };
 
   useEffect(() => {
@@ -56,7 +59,7 @@ export default function TermsDisplay({
         };
       }
     });
-  }, [filterContext?.activeSearchTerm, filterContext?.selectedOptions]);
+  }, [filterContext?.activeSearchTerm, filterContext?.selectedOptions, idTag]);
 
   return (
     <div className="sticky top-20 flex w-full flex-col rounded border border-indigo-300 shadow-md shadow-indigo-300">

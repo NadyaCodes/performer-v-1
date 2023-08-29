@@ -1,6 +1,7 @@
 import { sanitize } from "isomorphic-dompurify";
+import type  { Dispatch, SetStateAction } from "react";
 
-export const validateNote = (text: string, errorMessageSetter: Function): string | null => {
+export const validateNote = (text: string, errorMessageSetter: Dispatch<SetStateAction<string>>): string | null => {
   if (!text) {
     setTimeout(() => errorMessageSetter(""), 3000);
     errorMessageSetter("Notes must have text");
@@ -30,7 +31,7 @@ export const validateNote = (text: string, errorMessageSetter: Function): string
 };
 
 
-export const validateCustom = (text: string, errorMessageSetter: Function): string | null => {
+export const validateCustom = (text: string, errorMessageSetter: Dispatch<SetStateAction<string>>): string | null => {
   if (text.length > 200) {
     setTimeout(() => errorMessageSetter(""), 3000);
     errorMessageSetter("Entries must be 200 characters or less");

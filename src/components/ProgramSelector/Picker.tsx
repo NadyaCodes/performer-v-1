@@ -6,8 +6,7 @@ import {
 import { type NextPage } from "next";
 
 import Link from "next/link";
-import { SetStateAction } from "react";
-import { Dispatch } from "react";
+import type { SetStateAction, Dispatch } from "react";
 
 type PickerProps = {
   buttonOptions: string[];

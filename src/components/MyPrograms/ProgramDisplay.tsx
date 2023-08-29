@@ -8,10 +8,14 @@ export default function ProgramDisplay({
   programDisplay,
   addCustomButton,
   customProgramDisplay,
+  favHeaderRef,
+  customHeaderRef,
 }: {
   programDisplay: React.JSX.Element[] | undefined;
   addCustomButton: React.JSX.Element;
   customProgramDisplay: React.JSX.Element[];
+  favHeaderRef: React.RefObject<HTMLDivElement>;
+  customHeaderRef: React.RefObject<HTMLDivElement>;
 }) {
   const delayStyle = {
     opacity: "0",
@@ -25,7 +29,12 @@ export default function ProgramDisplay({
           className="flex w-full justify-center"
           style={{ animation: "fadeInTranslate 1s linear" }}
         >
-          <H2Title text="Saved Programs" icon="star" id="favsHeader" />
+          <H2Title
+            text="Saved Programs"
+            icon="star"
+            id="favHeader"
+            ref={favHeaderRef}
+          />
         </div>
 
         {programDisplay && programDisplay.length > 0 ? (
@@ -47,6 +56,7 @@ export default function ProgramDisplay({
           style={delayStyle}
           id="customHeader"
           color="indigo"
+          ref={customHeaderRef}
         />
         {addCustomButton}
         {customProgramDisplay.length > 0 ? (

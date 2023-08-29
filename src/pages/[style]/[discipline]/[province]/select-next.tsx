@@ -1,6 +1,6 @@
-import { type NextPage, GetStaticProps } from "next";
+import type { NextPage, GetStaticProps } from "next";
 import SelectNext from "@component/components/ProgramSelector/SelectNext";
-import { PathsArray, SelectNextProps } from "@component/data/types";
+import type { PathsArray, SelectNextProps } from "@component/data/types";
 import {
   styles,
   disciplines,
@@ -20,18 +20,26 @@ const ProvincePage: NextPage<SelectNextProps> = ({
   province,
   citiesList,
 }) => {
-  const link = `/${style}/${discipline}/${province}`;
-  const backLink = `/${style}/${discipline}/select-next`;
+  const styleText = style || "ft";
+  const disciplineText = discipline || "act";
+  const provinceText = province || "ontario";
+  const styleFull = stylesFull[style] || "Full Time";
+  const disciplineFull = disciplinesFull[discipline || ""] || "acting";
+  const provinceFull = provincesFull[province || ""] || "ontario";
+
+  const link = `/${styleText}/${disciplineText}/${provinceText}`;
+  const backLink = `/${styleText}/${disciplineText}/select-next`;
 
   let titleString = "";
+
   if (discipline && province) {
-    titleString = `${stylesFull[style]} ${disciplinesFull[discipline]} Programs in ${provincesFull[province]}`;
+    titleString = `${styleFull} ${disciplineFull} Programs in ${provinceFull}`;
   } else if (discipline) {
-    titleString = `${stylesFull[style]} ${disciplinesFull[discipline]} Programs in Canada`;
+    titleString = `${styleFull} ${disciplineFull} Programs in Canada`;
   } else if (province) {
-    titleString = `${stylesFull[style]} Programs in Canada`;
+    titleString = `${styleFull} Programs in ${provinceText}`;
   } else {
-    titleString = `${stylesFull[style]} Programs in Canada`;
+    titleString = `${styleFull} Programs in Canada`;
   }
 
   const selectNextOptions = {
@@ -100,6 +108,24 @@ const createPaths = async (): Promise<Array<PathsArray>> => {
           const location = allLocations.find(
             (loc) => loc.id === schoolLocation.locationId
           );
+          // if (location) {
+          //   const province = provincesFullReverse[location.province] || "N/A";
+
+          //   if (!provinceArray.includes(province)) {
+          //     provinceArray.push(province);
+          //   }
+
+          //   if (!cityMap[province]) {
+          //     cityMap[province] = [];
+          //   }
+          //   if (
+          //     cityMap[province] &&
+          //     location.city &&
+          //     !cityMap[province]!.includes(location.city)
+          //   ) {
+          //     cityMap[province]!.push(location.city);
+          //   }
+          // }
           if (location) {
             const province = provincesFullReverse[location.province] || "N/A";
 
@@ -110,12 +136,12 @@ const createPaths = async (): Promise<Array<PathsArray>> => {
             if (!cityMap[province]) {
               cityMap[province] = [];
             }
-            if (
-              cityMap[province] &&
-              location.city &&
-              !cityMap[province]!.includes(location.city)
-            ) {
-              cityMap[province]!.push(location.city);
+
+            const cityList = cityMap[province];
+            const city = location.city;
+
+            if (cityList && city && !cityList.includes(city)) {
+              cityList.push(city);
             }
           }
         }

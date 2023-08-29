@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { type Dispatch, type SetStateAction } from "react";
 import { chevronUp } from "@component/data/svgs";
 import { menuItems } from "./Menu";
 import Link from "next/link";
@@ -15,6 +15,10 @@ export default function MobileMenuOpen({
     if (!sessionData) {
       await signIn("google");
     }
+  };
+
+  const handleSignOut = () => {
+    void signOut();
   };
 
   const menuDisplay = menuItems.map((item) => {
@@ -56,7 +60,7 @@ export default function MobileMenuOpen({
       )}
       <button
         className="flex w-2/3 justify-center bg-indigo-100 p-2 font-bold shadow-md shadow-indigo-900 hover:scale-105 hover:bg-indigo-600 hover:bg-opacity-60 hover:text-indigo-50"
-        onClick={sessionData ? () => void signOut() : handleSignIn}
+        onClick={sessionData ? handleSignOut : handleSignIn}
       >
         {sessionData ? "Sign out" : "Sign in"}
       </button>

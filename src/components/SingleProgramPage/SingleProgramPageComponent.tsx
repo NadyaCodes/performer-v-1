@@ -1,5 +1,5 @@
 import React from "react";
-import { ProgramWithInfo } from "../ProgramFinder/types";
+import type { ProgramWithInfo } from "../ProgramFinder/types";
 import PageContent from "./PageContent";
 
 export type PageContent = {

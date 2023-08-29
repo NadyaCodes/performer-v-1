@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import {
+import type {
   DisciplineObject,
   NewProgramSubmission,
   TypeObject,
@@ -27,11 +27,13 @@ export default function AddProgramResultComponent() {
   >(dataArray[0] ? [dataArray[0]] : []);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = () => {
       if (router.query.objectToPassToNextURL) {
-        const data = JSON.parse(
-          decodeURIComponent(router.query.objectToPassToNextURL as string)
-        );
+        const queryParam: string = router.query.objectToPassToNextURL as string;
+
+        const data: NewProgramSubmission[] = JSON.parse(
+          decodeURIComponent(queryParam)
+        ) as NewProgramSubmission[];
         const newDataArray: SingleProgramSubmission[] = [];
         data.forEach((item: NewProgramSubmission) => {
           const types: (keyof TypeObject)[] = ["ft", "pt"];
@@ -73,11 +75,12 @@ export default function AddProgramResultComponent() {
       currentProgram >= 0 &&
       currentProgram < dataArray.length
     ) {
-      let newDisplayPrograms = [...displayPrograms];
       const newProgramSubmission = dataArray[currentProgram];
       if (newProgramSubmission) {
-        newDisplayPrograms.push(newProgramSubmission);
-        setDisplayPrograms(newDisplayPrograms);
+        setDisplayPrograms((prevDisplayPrograms) => [
+          ...prevDisplayPrograms,
+          newProgramSubmission,
+        ]);
       }
     }
   }, [dataArray, currentProgram]);
@@ -88,7 +91,7 @@ export default function AddProgramResultComponent() {
         schoolObject={object}
         key={index}
         setCurrentProgram={setCurrentProgram}
-        currentProgram={currentProgram}
+        // currentProgram={currentProgram}
       />
     );
   });

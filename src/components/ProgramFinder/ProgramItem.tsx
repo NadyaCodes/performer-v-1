@@ -1,10 +1,8 @@
-import React, { SetStateAction, useEffect, useState } from "react";
-import { ProgramWithInfo } from "./types";
+import React, { type SetStateAction, useState, type Dispatch } from "react";
+import type { ProgramWithInfo } from "./types";
 import { useSession } from "next-auth/react";
 import { api } from "@component/utils/api";
-import { FavProgram } from "@prisma/client";
-import { Dispatch } from "react";
-
+import type { FavProgram } from "@prisma/client";
 import { displayDisciplineText } from "./helpers";
 import Link from "next/link";
 import LoadingSpinner from "../Loading/LoadingSpinner";
@@ -16,15 +14,17 @@ import ShareIcon from "./ShareIcon";
 export default function ProgramItem({
   element,
   fetchUserFavsObject,
-  favesObject,
+  // favesObject,
   setFavesObject,
   favProgramIdsArray,
   loadingFavs,
 }: {
   element: ProgramWithInfo;
-  favesObject: FavProgram[] | null;
+  // favesObject: FavProgram[] | null;
   setFavesObject: Dispatch<SetStateAction<FavProgram[] | null>> | null;
-  fetchUserFavsObject: Function | null;
+  fetchUserFavsObject: (
+    userId: string
+  ) => Promise<FavProgram[] | undefined | null>;
   favProgramIdsArray: string[] | null;
   loadingFavs: boolean | null;
 }) {
@@ -69,31 +69,35 @@ export default function ProgramItem({
   };
 
   const { mutate: addFavPt } = api.favs.addPT.useMutation({
-    async onSuccess(data) {
+    async onSuccess() {
       if (fetchUserFavsObject && setFavesObject) {
         try {
-          const result: FavProgram[] = await fetchUserFavsObject(userId);
-          if (result) {
-            const newUserFavs = result;
-            setFavesObject(newUserFavs);
-            const convertedArray = convertUserFavs(result);
-            const filteredArray = convertedArray.filter(
-              (element) => element !== undefined
-            ) as string[];
-            if (filteredArray.includes(element.id)) {
-              setFav(true);
+          if (userId) {
+            const result: FavProgram[] | null | undefined =
+              await fetchUserFavsObject(userId);
+            if (result) {
+              const newUserFavs = result;
+              setFavesObject(newUserFavs);
+              const convertedArray = convertUserFavs(result);
+              const filteredArray = convertedArray.filter(
+                (element) => element !== undefined
+              ) as string[];
+              if (filteredArray.includes(element.id)) {
+                setFav(true);
+              } else {
+                setFav(false);
+              }
             } else {
-              setFav(false);
+              setFavesObject([]);
             }
-          } else {
-            setFavesObject([]);
+            setTimeout(() => {
+              setAnimateStar(false);
+            }, 500);
           }
-          setAnimateStar(false);
         } catch (error) {
           console.log("Error fetching user favorites: ", error);
         }
       }
-      return data;
     },
     onError(error) {
       console.log("addFavPt error: ", error);
@@ -101,26 +105,31 @@ export default function ProgramItem({
   });
 
   const { mutate: addFavFt } = api.favs.addFT.useMutation({
-    async onSuccess(data) {
+    async onSuccess() {
       if (fetchUserFavsObject && setFavesObject) {
         try {
-          const result: FavProgram[] = await fetchUserFavsObject(userId);
-          if (result) {
-            const newUserFavs = result;
-            setFavesObject(newUserFavs);
-            const convertedArray = convertUserFavs(result);
-            const filteredArray = convertedArray.filter(
-              (element) => element !== undefined
-            ) as string[];
-            if (filteredArray.includes(element.id)) {
-              setFav(true);
+          if (userId) {
+            const result: FavProgram[] | null | undefined =
+              await fetchUserFavsObject(userId);
+            if (result) {
+              const newUserFavs = result;
+              setFavesObject(newUserFavs);
+              const convertedArray = convertUserFavs(result);
+              const filteredArray = convertedArray.filter(
+                (element) => element !== undefined
+              ) as string[];
+              if (filteredArray.includes(element.id)) {
+                setFav(true);
+              } else {
+                setFav(false);
+              }
             } else {
-              setFav(false);
+              setFavesObject([]);
             }
-          } else {
-            setFavesObject([]);
+            setTimeout(() => {
+              setAnimateStar(false);
+            }, 500);
           }
-          setAnimateStar(false);
         } catch (error) {
           console.log("Error fetching user favorites: ", error);
         }
@@ -132,26 +141,31 @@ export default function ProgramItem({
   });
 
   const { mutate: deleteFav } = api.favs.deleteById.useMutation({
-    async onSuccess(data) {
+    async onSuccess() {
       if (fetchUserFavsObject && setFavesObject) {
         try {
-          const result: FavProgram[] = await fetchUserFavsObject(userId);
-          if (result) {
-            const newUserFavs = result;
-            setFavesObject(newUserFavs);
-            const convertedArray = convertUserFavs(result);
-            const filteredArray = convertedArray.filter(
-              (element) => element !== undefined
-            ) as string[];
-            if (filteredArray.includes(element.id)) {
-              setFav(true);
+          if (userId) {
+            const result: FavProgram[] | null | undefined =
+              await fetchUserFavsObject(userId);
+            if (result) {
+              const newUserFavs = result;
+              setFavesObject(newUserFavs);
+              const convertedArray = convertUserFavs(result);
+              const filteredArray = convertedArray.filter(
+                (element) => element !== undefined
+              ) as string[];
+              if (filteredArray.includes(element.id)) {
+                setFav(true);
+              } else {
+                setFav(false);
+              }
             } else {
-              setFav(false);
+              setFavesObject([]);
             }
-          } else {
-            setFavesObject([]);
+            setTimeout(() => {
+              setAnimateStar(false);
+            }, 500);
           }
-          setAnimateStar(false);
         } catch (error) {
           console.log("Error fetching user favorites: ", error);
         }
@@ -162,15 +176,83 @@ export default function ProgramItem({
     },
   });
 
-  const toggleFav = async () => {
+  // const handleToggleFav = () => {
+  //   if (userId) {
+  //     setAnimateStar(true);
+  //     findFav(type, userId, element.id).then((favProgram) => {
+  //       if (favProgram) {
+  //         deleteFav({ id: favProgram.id });
+  //         try {
+  //           const result = await fetchUserFavsObject(userId);
+  //           if (result && setFavesObject) {
+  //             setFavesObject(result);
+  //             const convertedArray = convertUserFavs(result);
+  //             const filteredArray = convertedArray.filter(
+  //               (element) => element !== undefined
+  //             ) as string[];
+  //             if (filteredArray.includes(element.id)) {
+  //               setFav(true);
+  //             } else {
+  //               setFav(false);
+  //             }
+  //           }
+  //         } catch (error) {
+  //           console.error("Error fetching userFavsObject: ", error);
+  //         }
+  //       } else {
+  //         if (type === "pt") {
+  //           addFavPt({ userId, ptProgramId: element.id });
+  //         } else if (type === "ft") {
+  //           addFavFt({ userId, ftProgramId: element.id });
+  //         }
+  //         try {
+  //           const result = await fetchUserFavsObject(userId);
+  //           if (result && setFavesObject) {
+  //             setFavesObject(result);
+  //             const convertedArray = convertUserFavs(result);
+  //             const filteredArray = convertedArray.filter(
+  //               (element) => element !== undefined
+  //             ) as string[];
+  //             if (filteredArray.includes(element.id)) {
+  //               setFav(true);
+  //             } else {
+  //               setFav(false);
+  //             }
+  //           }
+  //         } catch (error) {
+  //           console.error("Error fetching UserFavsObject: ", error);
+  //         }
+  //       }
+
+  //     })
+
+  //   }
+  // };
+
+  const handleToggleFav = () => {
     if (userId) {
       setAnimateStar(true);
-      const favProgram = await findFav(type, userId, element.id);
-      if (favProgram) {
-        deleteFav({ id: favProgram.id });
-        fetchUserFavsObject &&
-          fetchUserFavsObject(userId).then((result: FavProgram[]) => {
-            setFavesObject && setFavesObject(result);
+      findFav(type, userId, element.id)
+        .then((favProgram) => {
+          console.log("element.id, ", element.id);
+          console.log(userId);
+          console.log(type);
+          if (favProgram) {
+            return deleteFav({ id: favProgram.id });
+          } else {
+            if (type === "pt") {
+              return addFavPt({ userId, ptProgramId: element.id });
+            } else if (type === "ft") {
+              return addFavFt({ userId, ftProgramId: element.id });
+            }
+          }
+        })
+        .then(() => {
+          return fetchUserFavsObject(userId);
+        })
+        .then((result) => {
+          if (result && setFavesObject) {
+            setFavesObject(result);
             const convertedArray = convertUserFavs(result);
             const filteredArray = convertedArray.filter(
               (element) => element !== undefined
@@ -180,30 +262,13 @@ export default function ProgramItem({
             } else {
               setFav(false);
             }
-          });
-      } else {
-        type === "pt" && addFavPt({ userId, ptProgramId: element.id });
-        type === "ft" && addFavFt({ userId, ftProgramId: element.id });
-        fetchUserFavsObject &&
-          fetchUserFavsObject(userId).then((result: FavProgram[]) => {
-            setFavesObject && setFavesObject(result);
-            const convertedArray = convertUserFavs(result);
-            const filteredArray = convertedArray.filter(
-              (element) => element !== undefined
-            ) as string[];
-            if (filteredArray.includes(element.id)) {
-              setFav(true);
-            } else {
-              setFav(false);
-            }
-          });
-      }
+          }
+        })
+        .catch((error) => {
+          console.error("Error toggling favorite: ", error);
+        });
     }
   };
-
-  useEffect(() => {
-    favProgramIdsArray && setFav(favProgramIdsArray.includes(element.id));
-  }, [favProgramIdsArray, favesObject]);
 
   return (
     <div className="my-16 flex flex-col rounded-md border border-cyan-600 shadow-md shadow-slate-500 transition-all hover:border-cyan-400  hover:shadow-lg hover:shadow-cyan-800 lg:m-10 3xl:p-5">
@@ -228,7 +293,7 @@ export default function ProgramItem({
               stroke-width="1.2"
               stroke="#7986cb"
               className="h-6 w-6"
-              onClick={() => toggleFav()}
+              onClick={handleToggleFav}
             >
               <path
                 stroke-linecap="round"

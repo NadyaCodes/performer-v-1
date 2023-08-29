@@ -1,6 +1,6 @@
-import { Note } from "@prisma/client";
-import React, { SetStateAction, useState } from "react";
-import { Dispatch } from "react";
+import type { Note } from "@prisma/client";
+import React, { type SetStateAction, useState } from "react";
+import type { Dispatch } from "react";
 import { api } from "@component/utils/api";
 import LoadingSpinner from "../Loading/LoadingSpinner";
 import { trashCan } from "@component/data/svgs";
@@ -12,7 +12,7 @@ export default function NoteComponent({
 }: {
   note: Note;
   setNotes: Dispatch<SetStateAction<Note[] | [] | null>>;
-  fetchNotes: Function;
+  fetchNotes: () => Promise<Note[] | undefined>;
 }) {
   const [loading, setLoading] = useState<boolean>(false);
   const [hover, setHover] = useState<boolean>(false);
@@ -21,8 +21,9 @@ export default function NoteComponent({
     async onSuccess(data) {
       await utils.notes.getAll.invalidate();
       fetchNotes()
-        .then((result: Note[]) => result && setNotes(result))
-        .then(() => setLoading(false));
+        .then((result: Note[] | undefined) => result && setNotes(result))
+        .then(() => setLoading(false))
+        .catch((error) => console.error("Error fetching notes: ", error));
       return data;
     },
     onError(error) {

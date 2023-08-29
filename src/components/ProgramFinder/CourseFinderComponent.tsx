@@ -1,10 +1,10 @@
-import { createContext, useEffect, useState } from "react";
-import { NextPage } from "next";
+import { createContext, useEffect, useState, useCallback } from "react";
+import type { NextPage } from "next";
 import { api } from "@component/utils/api";
 import ProgramItem from "./ProgramItem";
 import FilterMenu from "./FilterMenu";
-import { searchForValue } from "./helpers";
-import {
+import { searchForValueSimple } from "./helpers";
+import type {
   FilterContextValue,
   FilterContextState,
   ProgramWithInfo,
@@ -14,7 +14,7 @@ import LoadingLines from "../Loading/LoadingLines";
 import TermsDisplay from "./TermsDisplay";
 import ScrollArrow from "./ScrollArrow";
 import NoPrograms from "./NoPrograms";
-import { FavProgram } from "@prisma/client";
+import type { FavProgram } from "@prisma/client";
 import { convertUserFavs } from "./helpers";
 import MiniScrollArrow from "./MiniScrollArrow";
 
@@ -49,6 +49,8 @@ const CourseFinderComponent: NextPage = () => {
   const [activeSearchTerm, setActiveSearchTerm] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [loadingPageData, setLoadingPageData] = useState(true);
+
+  const userId = sessionData?.user.id || null;
 
   //Capture all program data, and add type to object
   useEffect(() => {
@@ -93,7 +95,7 @@ const CourseFinderComponent: NextPage = () => {
       return nameA.localeCompare(nameB);
     });
     setAllPrograms(tempArray);
-  }, [ftProgramData, ptProgramData]);
+  }, [ftProgramData, ptProgramData, locations, schoolLocationData, schools]);
 
   //FAVE PROGRAMS
 
@@ -104,64 +106,118 @@ const CourseFinderComponent: NextPage = () => {
     null
   );
 
-  const fetchFavsObj = async (userId: string) => {
-    return await utils.favs.getAllForUser.fetch({ userId });
+  const useFetchFavsObj = () => {
+    const fetchFavsObj = useCallback(async (userId: string) => {
+      const userObj = await utils.favs.getAllForUser.fetch({ userId });
+      if (userObj) {
+        return userObj;
+      }
+    }, []);
+    return fetchFavsObj;
   };
 
-  useEffect(() => {
-    if (!sessionData) {
-      setLoadingFavs(false);
-    }
+  const fetchFavsObjHook = useFetchFavsObj();
+
+  const memoizedSetLoadingFavs = useCallback<
+    React.Dispatch<React.SetStateAction<boolean>>
+  >((newValue: boolean | ((prevState: boolean) => boolean)) => {
+    setLoadingFavs(newValue);
   }, []);
 
   useEffect(() => {
-    if (sessionData) {
-      fetchFavsObj(sessionData?.user.id).then(
-        (result) => result && setUserFavsObject(result)
-      );
-    } else {
-      setLoadingFavs(false);
+    if (!sessionData) {
+      memoizedSetLoadingFavs(false);
     }
-  }, [sessionData]);
+  }, [sessionData, memoizedSetLoadingFavs]);
+
+  const memoizedSetUserFavsObject = useCallback<
+    React.Dispatch<React.SetStateAction<FavProgram[] | null>>
+  >(
+    (
+      newValue:
+        | FavProgram[]
+        | null
+        | ((prevState: FavProgram[] | null) => FavProgram[] | null)
+    ) => {
+      setUserFavsObject(newValue);
+    },
+    []
+  );
+
+  useEffect(() => {
+    if (userId) {
+      fetchFavsObjHook(userId)
+        .then((result) => result && memoizedSetUserFavsObject(result))
+        .catch((error) => console.error("Error fetching favsObj: ", error));
+    } else {
+      memoizedSetLoadingFavs(false);
+    }
+  }, [
+    userId,
+    fetchFavsObjHook,
+    memoizedSetUserFavsObject,
+    memoizedSetLoadingFavs,
+  ]);
 
   useEffect(() => {
     if (userFavsObject) {
       const newArray = convertUserFavs(userFavsObject);
       newArray.filter((element) => element !== undefined);
       setFavProgramIdsArray([...newArray] as string[]);
-      setLoadingFavs(false);
+      memoizedSetLoadingFavs(false);
     } else {
-      setLoadingFavs(false);
+      memoizedSetLoadingFavs(false);
     }
-  }, [userFavsObject]);
+  }, [userFavsObject, memoizedSetLoadingFavs]);
+
+  const memoizedSetFilteredPrograms = useCallback<
+    React.Dispatch<React.SetStateAction<ProgramWithInfo[]>>
+  >(
+    (
+      newValue:
+        | ProgramWithInfo[]
+        | ((prevState: ProgramWithInfo[]) => ProgramWithInfo[])
+    ) => {
+      setFilteredPrograms(newValue);
+    },
+    []
+  );
 
   //filter and display correct data
   useEffect(() => {
     if (allPrograms) {
-      const filterContextObject = {
-        selectedOptions,
-        setSelectedOptions,
-        filteredPrograms,
-        setFilteredPrograms,
+      const newFilteredPrograms = searchForValueSimple(
+        activeSearchTerm,
         allPrograms,
-        setProgramDisplay,
-        activeSearchTerm,
-        setActiveSearchTerm,
-        searchTerm,
-        setSearchTerm,
-      };
-      const newFilteredPrograms = searchForValue(
-        activeSearchTerm,
-        filterContextObject
+        selectedOptions
       );
 
-      setFilteredPrograms(newFilteredPrograms);
+      memoizedSetFilteredPrograms(newFilteredPrograms);
 
       setTimeout(() => {
         setLoadingPageData(false);
       }, 1500);
     }
-  }, [selectedOptions, allPrograms]);
+  }, [
+    selectedOptions,
+    allPrograms,
+    activeSearchTerm,
+    memoizedSetFilteredPrograms,
+  ]);
+
+  const memoizedSetProgramDisplay = useCallback<
+    React.Dispatch<React.SetStateAction<JSX.Element[] | null>>
+  >(
+    (
+      newValue:
+        | JSX.Element[]
+        | null
+        | ((prevState: JSX.Element[] | null) => JSX.Element[] | null)
+    ) => {
+      setProgramDisplay(newValue);
+    },
+    []
+  );
 
   useEffect(() => {
     const tempProgramDisplay: JSX.Element[] = filteredPrograms.map(
@@ -170,8 +226,8 @@ const CourseFinderComponent: NextPage = () => {
           <ProgramItem
             key={element.id}
             element={element}
-            fetchUserFavsObject={fetchFavsObj}
-            favesObject={userFavsObject}
+            fetchUserFavsObject={fetchFavsObjHook}
+            // favesObject={userFavsObject}
             setFavesObject={setUserFavsObject}
             favProgramIdsArray={favProgramIdsArray}
             loadingFavs={loadingFavs}
@@ -180,8 +236,15 @@ const CourseFinderComponent: NextPage = () => {
       }
     );
 
-    setProgramDisplay(tempProgramDisplay);
-  }, [filteredPrograms, userFavsObject, favProgramIdsArray]);
+    memoizedSetProgramDisplay(tempProgramDisplay);
+  }, [
+    filteredPrograms,
+    userFavsObject,
+    favProgramIdsArray,
+    loadingFavs,
+    memoizedSetProgramDisplay,
+    fetchFavsObjHook,
+  ]);
 
   return (
     <div className="min-h-screen">

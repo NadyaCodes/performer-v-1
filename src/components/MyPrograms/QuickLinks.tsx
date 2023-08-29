@@ -1,49 +1,29 @@
-import React, { useState, useEffect } from "react";
-import { ObjectList } from "@component/data/types";
+import React, { useState } from "react";
 import ScrollArrow from "../ProgramFinder/ScrollArrow";
-import MiniScrollArrow from "../ProgramFinder/MiniScrollArrow";
-import SelectorScrollArrow from "../ProgramSelector/SelectorScrollArrow";
+import type { KeyValueListType } from "./MyProgramsComponent";
 
-const QuickLinks = ({ keyValueList }: { keyValueList: ObjectList[] }) => {
+const QuickLinks = ({ keyValueList }: { keyValueList: KeyValueListType[] }) => {
   const [currentProgram, setCurrentProgram] = useState<string | null>(null);
   const [hover, setHover] = useState<string | null>(null);
-  const [showLinks, setShowLinks] = useState(false);
-  const [stickyTop, setStickyTop] = useState(78);
 
-  const scrollToElement = (id: string) => {
+  const scrollToId = (id: string) => {
     const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-    if (id === "top") {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-    }
-    setCurrentProgram(id);
+    const currentProgram = keyValueList.find((element) => element.id === id);
+    currentProgram && setCurrentProgram(currentProgram?.id);
+    setTimeout(() => {
+      setCurrentProgram("");
+    }, 1500);
+    element?.scrollIntoView({ behavior: "smooth" });
   };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const newTop = scrollY >= 100 ? -15 : 78;
-      setStickyTop(newTop);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  const buttonDisplay = keyValueList.map((item, index) => {
-    const itemKey = Object.keys(item)[0];
+  const buttonDisplay = keyValueList.map((item) => {
+    const itemKey = item.id;
     const divClass = `py-1 transition-all w-full  ${
-      currentProgram === itemKey && item.type === "fav" && "bg-cyan-50"
+      currentProgram === itemKey && item.type === "fav" ? "bg-cyan-50" : ""
     }
-    ${currentProgram === itemKey && item.type !== "fav" && "bg-indigo-200"}
-    ${hover === itemKey && item.type !== "fav" && "bg-indigo-200"}
-    ${hover === itemKey && item.type === "fav" && "bg-cyan-50"}`;
+    ${currentProgram === itemKey && item.type !== "fav" ? "bg-indigo-200" : ""}
+    ${hover === itemKey && item.type !== "fav" ? "bg-indigo-200" : ""}
+    ${hover === itemKey && item.type === "fav" ? "bg-cyan-50" : ""}`;
 
     return (
       itemKey && (
@@ -55,18 +35,18 @@ const QuickLinks = ({ keyValueList }: { keyValueList: ObjectList[] }) => {
                 ? "fadeBackground 1s linear 2s forwards"
                 : "",
           }}
-          onClick={() => scrollToElement(itemKey)}
+          onClick={() => item.id && scrollToId(item.id)}
           key={itemKey}
         >
           <button
-            key={index}
+            key={item.id}
             className={`flex w-full justify-center break-all px-3 py-1 text-center capitalize ${
               item.type === "fav" ? "text-cyan-900" : "text-indigo-900"
             }`}
             onMouseEnter={() => setHover(itemKey)}
             onMouseLeave={() => setHover(null)}
           >
-            {item[itemKey]}
+            {item.text}
           </button>
         </div>
       )

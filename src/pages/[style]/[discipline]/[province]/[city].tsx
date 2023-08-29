@@ -1,11 +1,11 @@
-import { GetStaticProps, type NextPage } from "next";
+import type { GetStaticProps, NextPage } from "next";
 
 import { styles, disciplines, provincesFullReverse } from "src/data/constants";
-import { SelectNextProps, PathsArray } from "@component/data/types";
+import type { SelectNextProps, PathsArray } from "@component/data/types";
 import Head from "next/head";
 import { stylesFull, disciplinesFull, provincesFull } from "src/data/constants";
 
-import {
+import type {
   SchoolLocation,
   School,
   Location,
@@ -34,14 +34,20 @@ const DisplayPage: NextPage<SelectNextProps> = ({
   province,
 }) => {
   let titleString = "";
+  const provinceText = province || "ontario";
+  const cityText = city || "toronto";
+  const styleFull = stylesFull[style] || "Full Time";
+  const disciplineFull = disciplinesFull[discipline || ""] || "acting";
+  const provinceFull = provincesFull[province || ""] || "ontario";
+
   if (discipline && province && city) {
-    titleString = `${stylesFull[style]} ${disciplinesFull[discipline]} Programs in ${city},  ${provincesFull[province]}`;
+    titleString = `${styleFull} ${disciplineFull} Programs in ${cityText}, ${provinceFull}`;
   } else if (discipline) {
-    titleString = `${stylesFull[style]} ${disciplinesFull[discipline]} Programs in Canada`;
+    titleString = `${styleFull} ${disciplineFull} Programs in Canada`;
   } else if (province) {
-    titleString = `${stylesFull[style]} Programs in Canada`;
+    titleString = `${styleFull} Programs in ${provinceText}`;
   } else {
-    titleString = `${stylesFull[style]} Programs in Canada`;
+    titleString = `${styleFull} Programs in Canada`;
   }
 
   return (
@@ -116,10 +122,11 @@ const createPaths = async (): Promise<Array<PathsArray>> => {
             }
             if (
               cityMap[province] &&
-              location.city &&
-              !cityMap[province]!.includes(location.city)
+              location.city !== undefined &&
+              cityMap[province] &&
+              cityMap[province]?.indexOf(location.city) === -1
             ) {
-              cityMap[province]!.push(location.city);
+              cityMap[province]?.push(location.city);
             }
           }
         }
@@ -151,7 +158,7 @@ export async function getStaticPaths() {
   };
 }
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps = ({ params }) => {
   const { style, discipline, city, province } = {
     ...(params || { style: "n/a" }),
     style: params?.style || "n/a",

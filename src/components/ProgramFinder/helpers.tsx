@@ -1,10 +1,10 @@
-import {
+import type {
   LocationObject,
   FilterContextValue,
   ProgramWithInfo,
   FilterContextState,
 } from "./types";
-import { FavProgram } from "@prisma/client";
+import type { FavProgram } from "@prisma/client";
 
 export const displayDisciplineText = (discipline: string) => {
   const disciplineObject: Record<string, string> = {
@@ -85,6 +85,38 @@ export const searchForValue = (
   const resetSearchFilterPrograms = filterPrograms(
     filterContext?.allPrograms,
     filterContext?.selectedOptions
+  );
+  const newFilteredPrograms = resetSearchFilterPrograms.map((program) => {
+    if (
+      program?.website?.toLowerCase().includes(value.toLowerCase()) ||
+      program?.name?.toLowerCase().includes(value.toLowerCase()) ||
+      (program?.cityObj &&
+        program.cityObj.city.toLowerCase().includes(value.toLowerCase())) ||
+      (program?.cityObj &&
+        program.cityObj.province.toLowerCase().includes(value.toLowerCase())) ||
+      (program?.schoolObj &&
+        program.schoolObj.name.toLowerCase().includes(value.toLowerCase()))
+    ) {
+      return program;
+    }
+    return null;
+  });
+
+  const filteredProgramsArray = newFilteredPrograms.filter(
+    (program): program is ProgramWithInfo => program !== null
+  );
+  return filteredProgramsArray;
+};
+
+export const searchForValueSimple = (
+  value: string,
+  // filterContext: FilterContextState,
+  allPrograms: ProgramWithInfo[],
+  selectedOptions: FilterContextValue
+) => {
+  const resetSearchFilterPrograms = filterPrograms(
+    allPrograms,
+    selectedOptions
   );
   const newFilteredPrograms = resetSearchFilterPrograms.map((program) => {
     if (

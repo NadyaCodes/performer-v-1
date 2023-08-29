@@ -1,8 +1,8 @@
-import React, { SetStateAction, Dispatch } from "react";
+import React, { type SetStateAction, type Dispatch } from "react";
 import { trashCan } from "@component/data/svgs";
 import { api } from "@component/utils/api";
-import { ProgramWithType } from "./MyProgramsComponent";
-import { CustomProgram, FTProgram, PTProgram } from "@prisma/client";
+import type { ProgramWithType } from "./MyProgramsComponent";
+import type { CustomProgram, FTProgram, PTProgram } from "@prisma/client";
 import { useSession } from "next-auth/react";
 
 export default function DeleteCheck({
@@ -20,7 +20,7 @@ export default function DeleteCheck({
     SetStateAction<(ProgramWithType | undefined)[] | null>
   >;
   setLoadingDelete: Dispatch<SetStateAction<boolean | string>>;
-  setUserCustoms?: Dispatch<SetStateAction<CustomProgram[]>>;
+  setUserCustoms?: Dispatch<SetStateAction<CustomProgram[] | undefined | null>>;
   programId?: string;
 }) {
   const { data: sessionData } = useSession();
@@ -81,10 +81,14 @@ export default function DeleteCheck({
     async onSuccess(data) {
       await utils.favs.getAll.invalidate();
       userId &&
-        findUserFavs(userId).then(
-          (favProgramData: (ProgramWithType | undefined)[]) =>
-            favProgramData && setUserFavs && setUserFavs(favProgramData)
-        );
+        findUserFavs(userId)
+          .then(
+            (favProgramData: (ProgramWithType | undefined)[]) =>
+              favProgramData && setUserFavs && setUserFavs([...favProgramData])
+          )
+          .catch((error) => {
+            console.error("Error fetching user favorites:", error);
+          });
       setDeleteCheck(false);
       return data;
     },
@@ -96,12 +100,16 @@ export default function DeleteCheck({
   const { mutate: deleteCustomProgram } = api.customProgram.delete.useMutation({
     async onSuccess(data) {
       await utils.notes.getAll.invalidate();
-      findCustomPrograms().then(
-        (customProgramData: CustomProgram[] | undefined) =>
-          customProgramData &&
-          setUserCustoms &&
-          setUserCustoms(customProgramData)
-      );
+      findCustomPrograms()
+        .then(
+          (customProgramData: CustomProgram[] | undefined) =>
+            customProgramData &&
+            setUserCustoms &&
+            setUserCustoms([...customProgramData])
+        )
+        .catch((error) => {
+          console.error("Error fetching custom programs:", error);
+        });
       setDeleteCheck(false);
       return data;
     },

@@ -1,22 +1,22 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { api } from "@component/utils/api";
 import { useSession } from "next-auth/react";
-import { ProgramInfoArray } from "@component/pages/[style]/[discipline]/[province]/[city]";
+import type { ProgramInfoArray } from "@component/pages/[style]/[discipline]/[province]/[city]";
 
 import { provincesFull } from "src/data/constants";
-import { ProgramWithInfo } from "@component/components/ProgramFinder/types";
+import type { ProgramWithInfo } from "@component/components/ProgramFinder/types";
 import ProgramItem from "@component/components/ProgramFinder/ProgramItem";
 
 import { stylesFull, disciplinesFull } from "src/data/constants";
 import LoadingLines from "../Loading/LoadingLines";
 import Link from "next/link";
 import { backChevron } from "@component/data/svgs";
-import { FavProgram } from "@prisma/client";
+import type { FavProgram } from "@prisma/client";
 import { convertUserFavs } from "../ProgramFinder/helpers";
 import TitleHeader from "./TitleHeader";
 import SubHeader from "./SubHeader";
 import SelectorScrollArrow from "./SelectorScrollArrow";
+import { useEffectOnce } from "../AddProgramResult/helpers";
 
 interface ProgramDisplayProps {
   dataObject: {
@@ -31,6 +31,7 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
   dataObject,
 }) => {
   const { style, discipline, city, province } = dataObject;
+
   const [itemArray, setItemArray] = useState<ProgramWithInfo[] | null>(null);
   const [loadingFavs, setLoadingFavs] = useState(true);
   const [userFavsObject, setUserFavsObject] = useState<FavProgram[] | null>(
@@ -41,13 +42,18 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
   );
 
   const { data: sessionData } = useSession();
+  const userId = sessionData?.user.id || null;
 
   const utils = api.useContext();
 
-  const titleString = `${stylesFull[style]} ${
-    discipline && disciplinesFull[discipline]
-  } Programs
-  in ${city}, ${province && provincesFull[province]}`;
+  const styleText = stylesFull[style] || "";
+  const disciplineText = (discipline && disciplinesFull[discipline]) || "";
+  let locationArray = [city || "", (province && provincesFull[province]) || ""];
+  locationArray = locationArray.filter((item) => item !== "");
+  const locationString = locationArray.join(", ");
+
+  const titleString = `${styleText} ${disciplineText} Programs
+  in ${locationString}`;
 
   const fetchLocationId = async (city: string, province: string) => {
     const provinceFull = provincesFull[province] || "none";
@@ -113,7 +119,7 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
               schoolLocationId: program.schoolLocationId,
               website: program.website,
               discipline: program.discipline,
-              type: "pt",
+              type: "ft",
               name: program.name,
               cityObj: element.location,
               schoolObj: element.school,
@@ -171,23 +177,116 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
     }
   };
 
-  useEffect(() => {
-    fetchData({ style, discipline, city, province }).then((result) => {
-      if (result) {
-        setItemArray(result);
-      }
-    });
-  }, []);
+  useEffectOnce(() => {
+    fetchData({ style, discipline, city, province })
+      .then((result) => {
+        if (result) {
+          setItemArray(result);
+        }
+      })
+      .catch((error) => console.error("Error fetching data: ", error));
+  });
+
+  // useEffect(() => {
+  //   if (sessionData) {
+  //     fetchFavsObj(sessionData?.user.id)
+  //       .then((result) => result && setUserFavsObject(result))
+  //       .catch((error) => console.error("Error fetching favs: ", error));
+  //   } else {
+  //     setLoadingFavs(false);
+  //   }
+  // }, [sessionData]);
+
+  // const fetchFavsObjMemo = useMemo(
+  //   () => async (userId: string) => {
+  //     return await utils.favs.getAllForUser.fetch({ userId });
+  //   },
+  //   []
+  // );
+
+  // useEffect(() => {
+  //   if (sessionData) {
+  //     fetchFavsObjMemo(sessionData.user.id)
+  //       .then((result) => result && setUserFavsObject(result))
+  //       .catch((error) => console.error("Error fetching favs: ", error));
+  //   } else {
+  //     setLoadingFavs(false);
+  //   }
+  // }, [sessionData, fetchFavsObjMemo]);
+
+  // useEffect(() => {
+  //   const fetchFavsObj = async (userId: string) => {
+  //     return await utils.favs.getAllForUser.fetch({ userId });
+  //   };
+
+  //   if (sessionData) {
+  //     fetchFavsObj(sessionData.user.id)
+  //       .then((result) => {
+  //         if (result) {
+  //           setUserFavsObject(result);
+  //         }
+  //       })
+  //       .catch((error) => console.error("Error fetching favs: ", error));
+  //   } else {
+  //     setLoadingFavs(false);
+  //   }
+  // }, [sessionData]);
+  const useFetchFavsObjCB = () => {
+    const fetchFavsObjCB = useCallback(async (userId: string) => {
+      return await utils.favs.getAllForUser.fetch({ userId });
+    }, []);
+    return fetchFavsObjCB;
+  };
+
+  const fetchFavsObjHook = useFetchFavsObjCB();
 
   useEffect(() => {
-    if (sessionData) {
-      fetchFavsObj(sessionData?.user.id).then(
-        (result) => result && setUserFavsObject(result)
-      );
+    if (userId) {
+      fetchFavsObjHook(userId)
+        .then((result) => {
+          if (result) {
+            setUserFavsObject(result);
+          }
+        })
+        .catch((error) => console.error("Error fetching favs: ", error));
     } else {
       setLoadingFavs(false);
     }
-  }, [sessionData]);
+  }, [userId, fetchFavsObjHook]);
+
+  // const fetchFavsObjMemo = useMemo(
+  //   () => async (userId: string) => {
+  //     return await utils.favs.getAllForUser.fetch({ userId });
+  //   },
+  //   [utils.favs.getAllForUser.fetch]
+  // );
+
+  // useEffect(() => {
+  //   if (sessionData) {
+  //     fetchFavsObjMemo(sessionData.user.id)
+  //       .then((result) => result && setUserFavsObject(result))
+  //       .catch((error) => console.error("Error fetching favs: ", error));
+  //   } else {
+  //     setLoadingFavs(false);
+  //   }
+  // }, [sessionData, fetchFavsObjMemo]);
+
+  // const fetchFavsObjCB = useCallback(
+  //   async (userId: string) => {
+  //     return await utils.favs.getAllForUser.fetch({ userId });
+  //   }
+  //   [utils.favs.getAllForUser.fetch]
+  // );
+
+  // useEffect(() => {
+  //   if (sessionData) {
+  //     fetchFavsObjCB(sessionData?.user.id)
+  //       .then((result) => result && setUserFavsObject(result))
+  //       .catch((error) => console.error("Error fetching favs: ", error));
+  //   } else {
+  //     setLoadingFavs(false);
+  //   }
+  // }, [sessionData, fetchFavsObjCB]);
 
   const fetchFavsObj = async (userId: string) => {
     return await utils.favs.getAllForUser.fetch({ userId });
@@ -210,7 +309,7 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
         key={program.id}
         element={program}
         fetchUserFavsObject={fetchFavsObj}
-        favesObject={userFavsObject}
+        // favesObject={userFavsObject}
         setFavesObject={setUserFavsObject}
         favProgramIdsArray={favProgramIdsArray}
         loadingFavs={loadingFavs}
@@ -243,7 +342,9 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
         )}
 
         <Link
-          href={`/${style}/${discipline}/${province}/select-next`}
+          href={`/${style}/${discipline || "act"}/${
+            province || "ontario"
+          }/select-next`}
           className="mt-3 w-screen p-2 opacity-0"
           style={{ animation: "fadeIn 1s linear 2.5s forwards" }}
         >

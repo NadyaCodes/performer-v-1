@@ -1,5 +1,5 @@
 import AddProgramComponent from "@component/components/AddProgram/AddProgramComponent";
-import { GetServerSideProps, NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import { getSession } from "next-auth/react";
 
 interface AddProgramProps {

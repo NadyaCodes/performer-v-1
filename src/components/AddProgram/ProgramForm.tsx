@@ -48,12 +48,34 @@ export default function ProgramForm() {
     index: number,
     subField?: string
   ) => {
-    const newFormData = JSON.parse(JSON.stringify(formData));
+    const newFormData: NewProgramSubmission[] = formData.map((dataObject) => ({
+      ...dataObject,
+      discipline: { ...dataObject.discipline },
+      type: { ...dataObject.type },
+    }));
 
-    if (subField) {
-      newFormData[index][field][subField] = value;
-    } else {
-      newFormData[index][field] = value.toString();
+    const dataObject = newFormData[index];
+
+    if (dataObject) {
+      if (field === "discipline" || field === "type") {
+        const nestedField = dataObject[field];
+        if (typeof nestedField === "object" && subField) {
+          if (subField in nestedField) {
+            if (field === "discipline" && typeof value === "boolean") {
+              (nestedField as DisciplineObject)[
+                subField as keyof DisciplineObject
+              ] = value;
+            } else if (field === "type" && typeof value === "boolean") {
+              (nestedField as TypeObject)[subField as keyof TypeObject] = value;
+            }
+          }
+        }
+      } else if (
+        typeof value === "string" &&
+        typeof dataObject[field as keyof NewProgramSubmission] === "string"
+      ) {
+        (dataObject[field as keyof NewProgramSubmission] as string) = value;
+      }
     }
 
     setFormData(newFormData);
@@ -86,17 +108,18 @@ export default function ProgramForm() {
   };
 
   const addCopy = () => {
-    setFormData((prevFormData) => {
-      const lastEntry = prevFormData[prevFormData.length - 1];
-      const newEntry: NewProgramSubmission = {
-        ...lastEntry,
+    setFormData((prevFormData: NewProgramSubmission[]) => {
+      const lastEntry = prevFormData[prevFormData.length - 1] || blankSchool;
+
+      const newEntry = {
         tempId: uuidv4(),
-        schoolName: lastEntry?.schoolName || "",
-        city: lastEntry?.city || "",
-        province: lastEntry?.province || "",
-        website: lastEntry?.website || "",
-        discipline: lastEntry?.discipline || blankSchool.discipline,
-        type: lastEntry?.type || blankSchool.type,
+        schoolName: lastEntry.schoolName,
+        city: lastEntry.city,
+        province: lastEntry.province,
+        website: lastEntry.website,
+        discipline: lastEntry.discipline,
+        type: lastEntry.type,
+        programName: lastEntry.programName,
       };
       return [...prevFormData, newEntry];
     });
@@ -114,13 +137,12 @@ export default function ProgramForm() {
     };
 
     if (typeof formSubmissionObject.type === "object") {
-      const typeObject = formSubmissionObject.type as TypeObject;
+      const typeObject = formSubmissionObject.type;
       formErrorObject.type = !typeObject.pt && !typeObject.ft;
     }
 
     if (typeof formSubmissionObject.discipline === "object") {
-      const disciplineObject =
-        formSubmissionObject.discipline as DisciplineObject;
+      const disciplineObject = formSubmissionObject.discipline;
       formErrorObject.discipline =
         !disciplineObject.act &&
         !disciplineObject.sing &&
@@ -130,7 +152,7 @@ export default function ProgramForm() {
 
     const errorsPresent = Object.entries(formErrorObject)
       .filter(([key]) => key !== "tempId")
-      .some(([_, value]) => value as any);
+      .some(([_, value]) => value);
     return errorsPresent ? formErrorObject : false;
   };
 
@@ -144,10 +166,14 @@ export default function ProgramForm() {
         errorsArray.push(newFormErrors);
       }
     });
-    setFormErrors(errorsArray);
+    setFormErrors(errorsArray as FormErrorObject[] | []);
     if (safeToSubmit) {
-      const newFormData = formData.map((dataObject) => {
-        const newDataObject = JSON.parse(JSON.stringify(dataObject));
+      const newFormData: NewProgramSubmission[] = formData.map((dataObject) => {
+        const newDataObject = {
+          ...dataObject,
+          discipline: { ...dataObject.discipline },
+          type: { ...dataObject.type },
+        };
         if (!newDataObject.programName) {
           delete newDataObject.programName;
         }
