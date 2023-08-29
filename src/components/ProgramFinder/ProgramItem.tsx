@@ -227,10 +227,59 @@ export default function ProgramItem({
       }
     }
   };
+  // const toggleFav = async () => {
+  //   if (userId) {
+  //     setAnimateStar(true);
+  //     try {
+  //       const favProgram = await findFav(type, userId, element.id);
+  //       if (favProgram) {
+  //         deleteFav({ id: favProgram.id });
+
+  //         const result = await fetchUserFavsObject(userId);
+  //         if (result) {
+  //           setFavesObject && setFavesObject(result);
+  //           const convertedArray = convertUserFavs(result);
+  //           const filteredArray = convertedArray.filter(
+  //             (element) => element !== undefined
+  //           ) as string[];
+  //           if (filteredArray.includes(element.id)) {
+  //             setFav(true);
+  //           } else {
+  //             setFav(false);
+  //           }
+  //         }
+  //       } else {
+  //         if (type === "pt") {
+  //           addFavPt({ userId, ptProgramId: element.id });
+  //         } else if (type === "ft") {
+  //           addFavFt({ userId, ftProgramId: element.id });
+  //         }
+
+  //         const result = await fetchUserFavsObject(userId);
+  //         if (result) {
+  //           setFavesObject && setFavesObject(result);
+  //           const convertedArray = convertUserFavs(result);
+  //           const filteredArray = convertedArray.filter(
+  //             (element) => element !== undefined
+  //           ) as string[];
+  //           if (filteredArray.includes(element.id)) {
+  //             setFav(true);
+  //           } else {
+  //             setFav(false);
+  //           }
+  //         }
+  //       }
+  //     } catch (error) {
+  //       console.error("Error toggling favorite: ", error);
+  //     } finally {
+  //       setAnimateStar(false);
+  //     }
+  //   }
+  // };
 
   useEffect(() => {
     favProgramIdsArray && setFav(favProgramIdsArray.includes(element.id));
-  }, [favProgramIdsArray, favesObject]);
+  }, [favProgramIdsArray, favesObject, element.id]);
 
   return (
     <div className="my-16 flex flex-col rounded-md border border-cyan-600 shadow-md shadow-slate-500 transition-all hover:border-cyan-400  hover:shadow-lg hover:shadow-cyan-800 lg:m-10 3xl:p-5">
@@ -255,7 +304,7 @@ export default function ProgramItem({
               stroke-width="1.2"
               stroke="#7986cb"
               className="h-6 w-6"
-              onClick={() => toggleFav()}
+              onClick={toggleFav as () => Promise<void>}
             >
               <path
                 stroke-linecap="round"
