@@ -131,7 +131,7 @@ export default function PageContent({ programId }: { programId: string }) {
     }
     return null;
   }, [
-    utils.schoolLocation.getOneByIdPlusInfo.fetch,
+    // utils.schoolLocation.getOneByIdPlusInfo.fetch,
     utils.schoolLocation.getOneByIdPlusInfo,
     schoolLocId,
   ]);
@@ -144,6 +144,7 @@ export default function PageContent({ programId }: { programId: string }) {
 
   const [updatedProgramInfo, setUpdatedProgramInfo] =
     useState<ProgramWithInfo | null>(null);
+
   useEffect(() => {
     if (programObject && schoolLocId) {
       const fetchData = async () => {
@@ -190,7 +191,7 @@ export default function PageContent({ programId }: { programId: string }) {
       return await utils.favs.getAllForUser.fetch({ userId });
     }
     return null;
-  }, [utils.favs.getAllForUser, utils.favs.getAllForUser.fetch, userId]);
+  }, [utils.favs.getAllForUser, userId]);
 
   const fetchFavsObjcRef = useRef(fetchFavsObj);
 
