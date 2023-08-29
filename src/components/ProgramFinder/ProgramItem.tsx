@@ -177,7 +177,7 @@ export default function ProgramItem({
     },
   });
 
-  const handleToggleFav = async (): Promise<FavProgram | null> => {
+  const handleToggleFav = async (): Promise<void> => {
     if (userId) {
       setAnimateStar(true);
       const favProgram = await findFav(type, userId, element.id);
@@ -225,7 +225,6 @@ export default function ProgramItem({
         }
       }
     }
-    return null;
   };
 
   return (
