@@ -176,7 +176,7 @@ export default function ProgramItem({
     },
   });
 
-  const toggleFav = async () => {
+  const toggleFav: () => Promise<void> = async () => {
     if (userId) {
       setAnimateStar(true);
       const favProgram = await findFav(type, userId, element.id);
@@ -304,7 +304,7 @@ export default function ProgramItem({
               stroke-width="1.2"
               stroke="#7986cb"
               className="h-6 w-6"
-              onClick={toggleFav as () => Promise<void>}
+              onClick={toggleFav}
             >
               <path
                 stroke-linecap="round"
