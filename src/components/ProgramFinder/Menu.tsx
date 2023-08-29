@@ -1,6 +1,7 @@
 import React, { type SetStateAction, useContext, type Dispatch } from "react";
 import { updateFilter } from "./helpers";
 import { FilterContext } from "./CourseFinderComponent";
+import { FilterContextValue } from "./types";
 
 export default function Menu({
   valueArray,
@@ -15,7 +16,9 @@ export default function Menu({
 }) {
   const filterContext = useContext(FilterContext);
   const selectedOptions = filterContext?.selectedOptions;
-  const setSelectedOptions = filterContext?.setSelectedOptions;
+  const setSelectedOptions = filterContext?.setSelectedOptions
+    ? (options: FilterContextValue) => filterContext.setSelectedOptions(options)
+    : undefined;
 
   const displayText = (element: string) => {
     switch (element) {
