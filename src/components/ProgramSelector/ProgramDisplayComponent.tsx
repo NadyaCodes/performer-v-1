@@ -119,7 +119,7 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
               schoolLocationId: program.schoolLocationId,
               website: program.website,
               discipline: program.discipline,
-              type: "pt",
+              type: "ft",
               name: program.name,
               cityObj: element.location,
               schoolObj: element.school,

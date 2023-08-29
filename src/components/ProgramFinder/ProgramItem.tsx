@@ -69,7 +69,7 @@ export default function ProgramItem({
   };
 
   const { mutate: addFavPt } = api.favs.addPT.useMutation({
-    async onSuccess(data) {
+    async onSuccess() {
       if (fetchUserFavsObject && setFavesObject) {
         try {
           if (userId) {
@@ -234,6 +234,9 @@ export default function ProgramItem({
       setAnimateStar(true);
       findFav(type, userId, element.id)
         .then((favProgram) => {
+          console.log("element.id, ", element.id);
+          console.log(userId);
+          console.log(type);
           if (favProgram) {
             return deleteFav({ id: favProgram.id });
           } else {
