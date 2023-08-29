@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import type { PageContent } from "./SingleProgramPageComponent";
@@ -14,6 +14,7 @@ import { useEffectOnce } from "../AddProgramResult/helpers";
 export default function PageContent({ programId }: { programId: string }) {
   const { data: sessionData } = useSession();
   const utils = api.useContext();
+  const userId = sessionData?.user.id || null;
 
   const [programObject, setProgramObject] = useState<ProgramWithType | null>(
     null
@@ -37,24 +38,33 @@ export default function PageContent({ programId }: { programId: string }) {
     return await utils.ptProgram.getOneByIdPlusInfo.fetch({ id: programId });
   };
 
-  const fetchSchoolLoc = async (id: string) => {
-    return await utils.schoolLocation.getOneByIdPlusInfo.fetch({ id });
-  };
+  const [schoolLocId, setSchoolLocId] = useState<string | null>(null);
+  // const useFetchSchoolLoc = () => {
 
-  const fetchFavsObj = async (userId: string) => {
-    return await utils.favs.getAllForUser.fetch({ userId });
-  };
+  //   return fetchSchoolLoc();
+  // };
+
+  // const fetchSchoolLocHook = useFetchSchoolLoc();
+
+  const fetchFavsObj = useCallback(
+    async (userId: string) => {
+      return await utils.favs.getAllForUser.fetch({ userId });
+    },
+    [utils.favs.getAllForUser.fetch]
+  );
 
   useEffectOnce(() => {
     fetchFTProgram()
       .then((ftData) => {
         if (ftData) {
           setProgramObject({ ...ftData, type: "ft" });
+          setSchoolLocId(ftData.schoolLocationId);
         } else {
           fetchPTProgram()
             .then((ptData) => {
               if (ptData) {
                 setProgramObject({ ...ptData, type: "pt" });
+                setSchoolLocId(ptData.schoolLocationId);
               }
             })
             .catch((error) =>
@@ -65,12 +75,85 @@ export default function PageContent({ programId }: { programId: string }) {
       .catch((error) => console.error("Error fetching FT Program: ", error));
   });
 
+  // useEffect(() => {
+  //   if (programObject) {
+  //     fetchSchoolLoc()
+  //       .then((data) => {
+  //         if (data) {
+  //           const allInfo = {
+  //             id: programObject.id,
+  //             schoolLocationId: programObject.schoolLocationId,
+  //             website: programObject.website || data.website,
+  //             discipline: programObject.discipline,
+  //             name: programObject.name,
+  //             type: programObject.type,
+  //             cityObj: { ...data.location },
+  //             schoolObj: { ...data.school },
+  //           };
+  //           setAllProgramInfo(allInfo);
+  //         }
+  //       })
+  //       .catch((error) => console.error("Error fetching SchoolLoc: ", error));
+  //   }
+  // }, [programObject, fetchSchoolLoc]);
+
+  // useEffect(() => {
+  //   if (programObject && schoolLocId) {
+  //     const fetchSchoolLocation = async () => {
+  //       try {
+  //         const data = await utils.schoolLocation.getOneByIdPlusInfo.fetch({
+  //           id: schoolLocId,
+  //         });
+  //         if (data) {
+  //           const allInfo = {
+  //             id: programObject.id,
+  //             schoolLocationId: programObject.schoolLocationId,
+  //             website: programObject.website || data.website,
+  //             discipline: programObject.discipline,
+  //             name: programObject.name,
+  //             type: programObject.type,
+  //             cityObj: { ...data.location },
+  //             schoolObj: { ...data.school },
+  //           };
+  //           setAllProgramInfo(allInfo);
+  //         }
+  //       } catch (error) {
+  //         console.error("Error fetching SchoolLoc: ", error);
+  //       }
+  //     };
+
+  //     fetchSchoolLocation();
+  //   }
+  // }, [
+  //   programObject,
+  //   schoolLocId,
+  //   utils.schoolLocation.getOneByIdPlusInfo.fetch,
+  // ]);
+
+  const fetchSchoolLoc = useCallback(async () => {
+    if (schoolLocId) {
+      return await utils.schoolLocation.getOneByIdPlusInfo.fetch({
+        id: schoolLocId,
+      });
+    }
+    return null;
+  }, [utils.schoolLocation.getOneByIdPlusInfo.fetch]);
+
+  const fetchSchoolLocRef = useRef(fetchSchoolLoc);
+
   useEffect(() => {
-    if (programObject) {
-      fetchSchoolLoc(programObject?.schoolLocationId)
-        .then((data) => {
+    fetchSchoolLocRef.current = fetchSchoolLoc;
+  }, [fetchSchoolLoc]);
+
+  const [updatedProgramInfo, setUpdatedProgramInfo] =
+    useState<ProgramWithInfo | null>(null);
+  useEffect(() => {
+    if (programObject && schoolLocId) {
+      const fetchData = async () => {
+        try {
+          const data = await fetchSchoolLocRef.current();
           if (data) {
-            const allInfo = {
+            const updatedInfo = {
               id: programObject.id,
               schoolLocationId: programObject.schoolLocationId,
               website: programObject.website || data.website,
@@ -80,12 +163,22 @@ export default function PageContent({ programId }: { programId: string }) {
               cityObj: { ...data.location },
               schoolObj: { ...data.school },
             };
-            setAllProgramInfo(allInfo);
+            setUpdatedProgramInfo(updatedInfo);
           }
-        })
-        .catch((error) => console.error("Error fetching SchoolLoc: ", error));
+        } catch (error) {
+          console.error("Error fetching SchoolLoc: ", error);
+        }
+      };
+
+      fetchData();
     }
-  }, [programObject]);
+  }, [programObject, schoolLocId]);
+
+  useEffect(() => {
+    if (updatedProgramInfo) {
+      setAllProgramInfo(updatedProgramInfo);
+    }
+  }, [updatedProgramInfo]);
 
   useEffect(() => {
     if (!sessionData) {
@@ -94,14 +187,14 @@ export default function PageContent({ programId }: { programId: string }) {
   }, [sessionData]);
 
   useEffect(() => {
-    if (sessionData) {
-      fetchFavsObj(sessionData?.user.id)
+    if (userId) {
+      fetchFavsObj(userId)
         .then((result) => result && setUserFavsObject(result))
         .catch((error) => console.error("Error fetching FavsObj: ", error));
     } else {
       setLoadingFavs(false);
     }
-  }, [sessionData]);
+  }, [userId]);
 
   useEffect(() => {
     if (userFavsObject) {
@@ -116,7 +209,7 @@ export default function PageContent({ programId }: { programId: string }) {
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <SinglePageHeader isSignedIn={!!sessionData} />
+      <SinglePageHeader isSignedIn={!!userId} />
       <div
         className="m-5 flex flex-col rounded-md opacity-0 mobileMenu:w-9/12 mobileMenu:px-16 mobileMenu:shadow-lg mobileMenu:shadow-cyan-800 2xl:shadow-2xl 2xl:shadow-cyan-800"
         style={{ animation: "fadeInGrow 1s linear forwards" }}
