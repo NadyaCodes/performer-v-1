@@ -176,14 +176,78 @@ export default function ProgramItem({
     },
   });
 
-  const handleToggleFav = async () => {
+  // const handleToggleFav = () => {
+  //   if (userId) {
+  //     setAnimateStar(true);
+  //     findFav(type, userId, element.id).then((favProgram) => {
+  //       if (favProgram) {
+  //         deleteFav({ id: favProgram.id });
+  //         try {
+  //           const result = await fetchUserFavsObject(userId);
+  //           if (result && setFavesObject) {
+  //             setFavesObject(result);
+  //             const convertedArray = convertUserFavs(result);
+  //             const filteredArray = convertedArray.filter(
+  //               (element) => element !== undefined
+  //             ) as string[];
+  //             if (filteredArray.includes(element.id)) {
+  //               setFav(true);
+  //             } else {
+  //               setFav(false);
+  //             }
+  //           }
+  //         } catch (error) {
+  //           console.error("Error fetching userFavsObject: ", error);
+  //         }
+  //       } else {
+  //         if (type === "pt") {
+  //           addFavPt({ userId, ptProgramId: element.id });
+  //         } else if (type === "ft") {
+  //           addFavFt({ userId, ftProgramId: element.id });
+  //         }
+  //         try {
+  //           const result = await fetchUserFavsObject(userId);
+  //           if (result && setFavesObject) {
+  //             setFavesObject(result);
+  //             const convertedArray = convertUserFavs(result);
+  //             const filteredArray = convertedArray.filter(
+  //               (element) => element !== undefined
+  //             ) as string[];
+  //             if (filteredArray.includes(element.id)) {
+  //               setFav(true);
+  //             } else {
+  //               setFav(false);
+  //             }
+  //           }
+  //         } catch (error) {
+  //           console.error("Error fetching UserFavsObject: ", error);
+  //         }
+  //       }
+
+  //     })
+
+  //   }
+  // };
+
+  const handleToggleFav = () => {
     if (userId) {
       setAnimateStar(true);
-      const favProgram = await findFav(type, userId, element.id);
-      if (favProgram) {
-        deleteFav({ id: favProgram.id });
-        try {
-          const result = await fetchUserFavsObject(userId);
+      findFav(type, userId, element.id)
+        .then((favProgram) => {
+          if (favProgram) {
+            return deleteFav({ id: favProgram.id });
+          } else {
+            if (type === "pt") {
+              return addFavPt({ userId, ptProgramId: element.id });
+            } else if (type === "ft") {
+              return addFavFt({ userId, ftProgramId: element.id });
+            }
+          }
+        })
+        .then(() => {
+          return fetchUserFavsObject(userId);
+        })
+        .then((result) => {
           if (result && setFavesObject) {
             setFavesObject(result);
             const convertedArray = convertUserFavs(result);
@@ -196,33 +260,10 @@ export default function ProgramItem({
               setFav(false);
             }
           }
-        } catch (error) {
-          console.error("Error fetching userFavsObject: ", error);
-        }
-      } else {
-        if (type === "pt") {
-          addFavPt({ userId, ptProgramId: element.id });
-        } else if (type === "ft") {
-          addFavFt({ userId, ftProgramId: element.id });
-        }
-        try {
-          const result = await fetchUserFavsObject(userId);
-          if (result && setFavesObject) {
-            setFavesObject(result);
-            const convertedArray = convertUserFavs(result);
-            const filteredArray = convertedArray.filter(
-              (element) => element !== undefined
-            ) as string[];
-            if (filteredArray.includes(element.id)) {
-              setFav(true);
-            } else {
-              setFav(false);
-            }
-          }
-        } catch (error) {
-          console.error("Error fetching UserFavsObject: ", error);
-        }
-      }
+        })
+        .catch((error) => {
+          console.error("Error toggling favorite: ", error);
+        });
     }
   };
 
