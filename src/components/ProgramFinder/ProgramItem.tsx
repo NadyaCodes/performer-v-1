@@ -98,7 +98,6 @@ export default function ProgramItem({
           console.log("Error fetching user favorites: ", error);
         }
       }
-      return data;
     },
     onError(error) {
       console.log("addFavPt error: ", error);
@@ -177,7 +176,7 @@ export default function ProgramItem({
     },
   });
 
-  const handleToggleFav = async (): Promise<void> => {
+  const handleToggleFav = async () => {
     if (userId) {
       setAnimateStar(true);
       const favProgram = await findFav(type, userId, element.id);
