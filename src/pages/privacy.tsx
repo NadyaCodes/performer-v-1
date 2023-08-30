@@ -121,10 +121,10 @@ const Privacy: NextPage = () => {
                 </ol>
 
                 <p className="mb-2 italic">
-                  We require such third party's to use the personal information
-                  we transfer to them only for the purpose for which it was
-                  transferred and not to retain it for longer than is required
-                  for fulfilling the said purpose.
+                  We require such third party&apos;s to use the personal
+                  information we transfer to them only for the purpose for which
+                  it was transferred and not to retain it for longer than is
+                  required for fulfilling the said purpose.
                 </p>
                 <p className="mb-5 italic">
                   We may also disclose your personal information for the
