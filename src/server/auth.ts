@@ -45,6 +45,12 @@ export const authOptions: NextAuthOptions = {
         id: user.id,
       },
     }),
+  //   async redirect({ url, baseUrl }) {
+  //     const redirectUrl = url.startsWith('/') ? new URL(url, baseUrl).toString() : url;
+  //     console.log(`[next-auth] Redirecting to "${redirectUrl}" (resolved from url "${url}" and baseUrl "${baseUrl}")`);
+  //     return redirectUrl;
+  // },
+    
   },
   adapter: PrismaAdapter(prisma),
   providers: [
@@ -67,7 +73,7 @@ export const authOptions: NextAuthOptions = {
      */
   ],
   pages: 
-    {signIn: "/sign-in"}
+    {signIn: "/"}
 
 };
 
