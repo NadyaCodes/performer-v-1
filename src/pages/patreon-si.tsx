@@ -11,103 +11,131 @@ import { NextApiRequest, NextApiResponse } from "next";
 // import patreonAPI, { oauth as patreonOAuth } from 'patreon';
 import url from "url";
 import { patreon, oauth as patreonOAuth } from "patreon";
+import { getSession } from "next-auth/react";
+import * as cookie from "cookie";
 
-export async function fetchPatreonUserInfo(
-  patreonOAuthClient,
-  oauthGrantCode,
-  url
-) {
+const makeTokenCookies = (authToken, refreshToken, res) => {
+  const accessTokenCookie = cookie.serialize("patreonAccessToken", authToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    maxAge: 30 * 24 * 60 * 60,
+    path: "/",
+  });
+
+  const refreshTokenCookie = cookie.serialize(
+    "patreonRefreshToken",
+    refreshToken,
+    {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 30 * 24 * 60 * 60,
+      path: "/",
+    }
+  );
+
+  res.setHeader("Set-Cookie", [accessTokenCookie, refreshTokenCookie]);
+};
+
+export async function fetchPatreonUserInfo(accessToken) {
   try {
     //////////version that fetches user info
-    const tokensResponse = await patreonOAuthClient.getTokens(
-      oauthGrantCode,
-      url
-    );
-    console.log("tokensResponse: ", tokensResponse);
-    const patreonAPIClient = patreon(tokensResponse.access_token);
 
-    console.log("patreonAPIClient: ", patreonAPIClient);
+    // console.log("tokensResponse: ", tokensResponse);
+    // const patreonAPIClient = patreon(tokensResponse.access_token);
+
+    // console.log("patreonAPIClient: ", patreonAPIClient);
 
     ////this is where things go south
-    const userResponse = await patreonAPIClient("/current_user");
+    // const apiUrlMemberships =
+    //   "https://www.patreon.com/api/oauth2/v2/identity?include=memberships.currently_entitled_tiers";
+    const apiUrlMemberships =
+      "https://www.patreon.com/api/oauth2/v2/identity?include=memberships";
+    const headersAuthToken = {
+      Authorization: `Bearer ${accessToken}`,
+    };
 
-    console.log("userResponse: ", userResponse);
-
-    ///////version that fetches my campaign info:
-    const patreonAPIClientCreator = patreon(
-      process.env.PATREON_CREATOR_ACCESS_TOKEN
-    );
-    console.log("patreonAPIClient: ", patreonAPIClientCreator);
-    const creatorResponse = await patreonAPIClientCreator(
-      "/campaigns/11012516/pledges?include=patron.null"
-    );
-    console.log("userResponse : ", creatorResponse);
-    console.log(
-      "userResponse store graph pledge: ",
-      creatorResponse.store.graph.pledge
-    );
-
-    const allPledges = creatorResponse.store.graph.pledge;
-
-    const pledgeIds = Object.keys(allPledges);
-
-    const subscriberEmailArray = pledgeIds.map((element) => {
-      return allPledges[element].patron.email;
+    const response = await fetch(apiUrlMemberships, {
+      method: "GET",
+      headers: headersAuthToken,
     });
 
-    console.log("subscriberEmailArray: ", subscriberEmailArray);
-
-    //////this return is a hopeful future return statement copied from elsewhere
-    if (userResponse) {
-      return userResponse.store.findAll("user").map((user) => user.serialize());
+    if (!response.ok) {
+      console.log("Token rejected");
+      return null;
     }
+
+    const data = await response.json();
+    const membershipData = data.data.relationships.memberships.data;
+
+    return membershipData;
   } catch (error) {
-    console.error("error!", error);
+    console.error("Error fetching user info: ", error);
     throw error;
   }
 }
 
 interface PatreonProps {
   userInfo: any;
+  logoutFlag: any;
 }
 
-const PatreonSI: NextPage<PatreonProps> = ({ userInfo }) => {
-  // const router = useRouter();
-  // const { query } = router;
-  // const code = query.code;
-  // console.log("code in patreon-si", code);
-  // console.log("query in patreon-si");
-
-  // const [userInfo, setUserInfo] = useState(null);
-
-  // const handleOAuthRedirectRequest = async () => {
-  //   try {
-  //     const response = await fetch(`http://127.0.0.1:3000/api/patreon-auth`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/x-www-form-urlencoded",
-  //       },
-  //       body: JSON.stringify({ code }),
-  //     });
-
-  //     console.log("response: ", response);
-
-  //     if (response.ok) {
-  //       const data = await response.json();
-  //       setUserInfo(data.user);
-  //     } else {
-  //       console.error("Error fetching user profile:", response.status);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching user profile:", error);
-  //   }
-  // };
-
-  // handleOAuthRedirectRequest();
-
+const PatreonSI: NextPage<PatreonProps> = ({ userInfo, logoutFlag }) => {
+  const [patreonUser, setPatreonUser] = useState(userInfo);
   useEffect(() => {
     console.log("New User Info! ", userInfo);
   }, [userInfo]);
+
+  // const patreonLogOut = () => {
+  //   ///remove patreonAccessToken cookie
+  //   ///remove patreonRefreshToken cookie
+  //   document.cookie =
+  //     "patreonAccessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  //   document.cookie =
+  //     "patreonRefreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  // };
+  // const patreonLogOut = async () => {
+  //   if (logoutFlag) {
+  //     try {
+  //       // Call the server-side logout route
+  //       const response = await fetch("/api/patreon-logout"); // Replace with your actual route
+  //       if (response.ok) {
+  //         // Handle successful logout
+  //         // Redirect to the login page or any other appropriate action
+  //         // window.location.href = "/login";
+  //       } else {
+  //         // Handle logout error
+  //         console.error("Logout failed:", response.statusText);
+  //       }
+  //     } catch (error) {
+  //       // Handle any logout errors here
+  //       console.error("Logout failed:", error);
+  //     }
+  //   } else {
+  //     // Handle client-side logout, if needed
+  //   }
+  // };
+
+  const patreonLogOut = async () => {
+    try {
+      // Call the server-side logout route
+      const response = await fetch("/api/patreon-logout"); // Replace with your actual route
+
+      if (response.ok) {
+        // Handle successful logout
+        // Redirect to the login page or any other appropriate action
+        // window.location.href = '/login';
+        setPatreonUser(null);
+      } else {
+        // Handle logout error
+        console.error("Logout failed:", response.statusText);
+      }
+    } catch (error) {
+      // Handle any logout errors here
+      console.error("Logout failed:", error);
+    }
+  };
 
   return (
     <>
@@ -121,7 +149,15 @@ const PatreonSI: NextPage<PatreonProps> = ({ userInfo }) => {
           <Menu />
           <div className="flex flex-col items-center justify-center">
             <h1 className="p-10 text-3xl font-bold">Patreon Page</h1>
-            <div>User profile info is logged in the console</div>
+            <div>{patreonUser ? patreonUser : "User isn't a member"}</div>
+            {/* <a href={url} target="_blank" rel="noopener noreferrer"> */}
+            <button
+              className="rounded-full border-2 border-cyan-900 p-5 text-lg hover:scale-110"
+              onClick={() => patreonLogOut()}
+            >
+              Log Out of Patreon
+            </button>
+            {/* </a> */}
           </div>
         </div>
       </main>
@@ -131,39 +167,74 @@ const PatreonSI: NextPage<PatreonProps> = ({ userInfo }) => {
 
 export default PatreonSI;
 
-// const router = useRouter();
-// const { query } = router;
-// const code = query.code;
-
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  console.log("context: ", context);
-  const { query } = context;
-  console.log("query: ", query);
-  const code = query?.code || "nada";
-  console.log("code: ", code);
+  const { req, res, query } = context;
+  const session = await getSession({ req });
+  const code = query?.code || "";
 
-  const CLIENT_ID = process.env.PATREON_CLIENT_ID; // Replace with your client ID
-  const CLIENT_SECRET = process.env.PATREON_CLIENT_SECRET; // Replace with your client secret
-  // const REDIRECT_URL = 'http://127.0.0.1:3000/api/patreon-auth'; // Replace with your redirect URL
-  const REDIRECT_URL = "http://127.0.0.1:3000/patreon-si"; // Replace with your redirect URL
+  const CLIENT_ID = process.env.PATREON_CLIENT_ID;
+  const CLIENT_SECRET = process.env.PATREON_CLIENT_SECRET;
+  const REDIRECT_URL = "http://127.0.0.1:3000/patreon-si";
 
-  // const patreonAPI = patreon.patreon
-  // var patreonOAuth = patreon.oauth
-
-  console.log("client secret", CLIENT_SECRET);
-  console.log("client id", CLIENT_ID);
   const patreonOAuthClient = patreonOAuth(CLIENT_ID, CLIENT_SECRET);
 
-  try {
-    const userInfo = await fetchPatreonUserInfo(
-      patreonOAuthClient,
+  let authToken = cookie.parse(req.headers.cookie || "").patreonAccessToken;
+  let refreshToken = cookie.parse(req.headers.cookie || "").patreonRefreshToken;
+
+  if (!authToken) {
+    const tokensResponse = await patreonOAuthClient.getTokens(
       code,
       REDIRECT_URL
     );
+    refreshToken = tokensResponse.refresh_token;
+    authToken = tokensResponse.access_token;
+
+    makeTokenCookies(authToken, refreshToken, res);
+  }
+
+  try {
+    let fetchedUserInfo;
+    if (session) {
+      makeTokenCookies(authToken, refreshToken, res);
+      fetchedUserInfo = await fetchPatreonUserInfo(
+        authToken
+        // "uo7m8UVhHz1sUAsRA73s7oocHsXR-O8bOQUNSVgvGeo"
+      );
+      if (!fetchedUserInfo) {
+        const payload = new URLSearchParams();
+        payload.append("grant_type", "refresh_token");
+        payload.append("refresh_token", refreshToken);
+        payload.append("client_id", CLIENT_ID);
+        payload.append("client_secret", CLIENT_SECRET);
+
+        const refreshUrl = "https://www.patreon.com/api/oauth2/token";
+
+        const refreshResponse = await fetch(refreshUrl, {
+          method: "POST",
+          body: payload,
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        });
+        if (!refreshResponse.ok) {
+          throw new Error("Failed to refresh access token");
+        }
+
+        const tokensResponse = await refreshResponse.json();
+        authToken = tokensResponse.access_token;
+        refreshToken = tokensResponse.refresh_token;
+        makeTokenCookies(authToken, refreshToken, res);
+
+        fetchedUserInfo = await fetchPatreonUserInfo(authToken);
+      }
+    }
+
+    const logoutFlag = context.query.logout === "true";
 
     return {
       props: {
-        userInfo,
+        userInfo: (fetchedUserInfo && fetchedUserInfo[0]?.id) || "",
+        logoutFlag,
       },
     };
   } catch (error) {
@@ -171,8 +242,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     return {
       props: {
-        userInfo: null, // or handle the error as needed
+        userInfo: null,
       },
     };
   }
 };
+
+// const apiUrlCampaigns =
+//   "https://www.patreon.com/api/oauth2/v2/campaigns/11012516";
+
+// const apiUrlCampaigns =
+//   "https://www.patreon.com/api/oauth2/v2/campaigns/11012516/pledges?include=patron.null";
+// const apiUrlCampaigns =
+//   "https://www.patreon.com/api/oauth2/v2/campaigns/11012516/members";
+// const apiUrlCampaigns = "https://www.patreon.com/api/oauth2/v2/campaigns";
