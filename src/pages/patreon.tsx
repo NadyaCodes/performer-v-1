@@ -42,6 +42,14 @@ const Patreon: NextPage<PatreonProps> = ({ url }) => {
   //   );
   // };
 
+  const connectPatreonAccount = () => {};
+
+  const contactLink = (
+    <Link href={"/contact"} className="font-bold text-cyan-400 underline">
+      Contact Us
+    </Link>
+  );
+
   return (
     <>
       <Head>
@@ -50,15 +58,76 @@ const Patreon: NextPage<PatreonProps> = ({ url }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div className="min-h-screen bg-cyan-50 text-cyan-950 opacity-80">
+        <div className="min-h-screen bg-cyan-950 text-cyan-50">
           <Menu />
-          <div className="flex flex-col items-center justify-center">
-            <h1 className="p-10 text-3xl font-bold">Patreon Page</h1>
-            <a href={url} target="_blank" rel="noopener noreferrer">
-              <button className="rounded-full border-2 border-cyan-900 p-5 text-lg hover:scale-110">
-                Log in with Patreon
-              </button>
-            </a>
+          <div className="flex flex-col items-center justify-center text-center">
+            <h1 className="p-10 text-5xl font-bold">
+              Unlock All Site Features with Patreon!
+            </h1>
+            <h2 className="m-5 text-xl font-semibold">
+              Already a patreon subscriber to{" "}
+              <span className="font-bold">Act. Sing. Dance. Repeat</span>?
+            </h2>
+            {/* <a href={url} target="_blank" rel="noopener noreferrer"> */}
+            <button
+              className="rounded-full border-2 border-cyan-200 p-5 text-lg shadow-md shadow-indigo-400 transition-all hover:scale-110 hover:border-indigo-400"
+              onClick={() => connectPatreonAccount()}
+            >
+              Connect Patreon Account Now
+            </button>
+            {/* </a> */}
+            <div className="m-2 flex flex-col italic">
+              <div>*occasional re-connections may be required.</div>
+              <div>
+                Please {contactLink} regarding any technical difficulties!
+              </div>
+            </div>
+
+            <div className="flex w-4/6 max-w-2xl flex-col ">
+              <h2 className="mt-10 flex flex-col text-4xl font-semibold">
+                Member Perks
+              </h2>
+              <div className="flex w-full justify-end">
+                <a
+                  href="https://www.patreon.com/actsingdancerepeat/membership"
+                  target="_blank"
+                >
+                  <button className=" place-self-end rounded-full border-2 border-cyan-200 p-5 text-lg shadow-md shadow-indigo-400 transition-all hover:scale-110 hover:border-indigo-400">
+                    Subscribe Here!
+                  </button>
+                </a>
+              </div>
+
+              <div className="m-5 rounded border-2 p-4 font-bold shadow-lg shadow-indigo-400">
+                "Artist" - 4.00/Month
+                <ul className="list-inside list-disc pl-10 text-left font-normal">
+                  <li>Add notes to your saved programs</li>
+                  <li>Add custom programs</li>
+                </ul>
+              </div>
+              <div className="m-5 rounded border-2 p-4 font-bold shadow-lg shadow-indigo-400">
+                "Studio" - 10.00/Month
+                <ul className="list-inside list-disc pl-10 text-left font-normal">
+                  <li>Add notes to your saved programs</li>
+                  <li>Add custom programs</li>
+                  <li>
+                    1 Upgraded Part-Time Program listing ({contactLink} for
+                    requirements)
+                  </li>
+                </ul>
+              </div>
+              <div className="m-5 rounded border-2 p-4 font-bold shadow-lg shadow-indigo-400">
+                "Institution" - 30.00/Month
+                <ul className="list-inside list-disc pl-10 text-left font-normal">
+                  <li>Add notes to your saved programs</li>
+                  <li>Add custom programs</li>
+                  <li>
+                    Up to 6 Upgraded Part-Time or Full-Time Program listings for
+                    1 institution ({contactLink} for requirements)
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
           {/* <PatreonButton /> */}
         </div>
