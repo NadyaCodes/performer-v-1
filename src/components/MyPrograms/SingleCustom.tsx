@@ -17,6 +17,7 @@ import LoadingLines from "../Loading/LoadingLines";
 import { validateNote } from "./helpers";
 import DeleteCheck from "./DeleteCheck";
 import { useEffectOnce } from "../AddProgramResult/helpers";
+import NoteDisplay from "./NoteDisplay";
 
 interface SingleCustomProps {
   program: CustomProgram;
@@ -28,6 +29,10 @@ interface SingleCustomProps {
   >;
   loadingDelete: string | boolean;
   setLoadingDelete: React.Dispatch<React.SetStateAction<string | boolean>>;
+  notes: { [key: string]: Note[] } | [] | null;
+  setNotes: React.Dispatch<
+    React.SetStateAction<{ [key: string]: Note[] } | null | []>
+  >;
 }
 
 const SingleCustom = React.forwardRef<HTMLDivElement, SingleCustomProps>(
@@ -38,6 +43,8 @@ const SingleCustom = React.forwardRef<HTMLDivElement, SingleCustomProps>(
       setShowUpdateCustom,
       loadingDelete,
       setLoadingDelete,
+      notes,
+      setNotes,
     },
     ref
   ) => {
@@ -45,64 +52,63 @@ const SingleCustom = React.forwardRef<HTMLDivElement, SingleCustomProps>(
     const utils = api.useContext();
     const userId = sessionData?.user.id;
 
-    const [notes, setNotes] = useState<Note[] | [] | null>(null);
     const [noteInput, setNoteInput] = useState<boolean>(false);
     const [inputText, setInputText] = useState<string>("");
     const [loadingNotes, setLoadingNotes] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>("");
     const [deleteCheck, setDeleteCheck] = useState<boolean>(false);
 
-    const fetchNotes = async () => {
-      if (program.id) {
-        const notesForProgram =
-          await utils.notes.getAllForCustomProgramId.fetch({
-            customId: program.id,
-          });
-        return notesForProgram;
-      }
-    };
+    // const fetchNotes = async () => {
+    //   if (program.id) {
+    //     const notesForProgram =
+    //       await utils.notes.getAllForCustomProgramId.fetch({
+    //         customId: program.id,
+    //       });
+    //     return notesForProgram;
+    //   }
+    // };
 
-    useEffectOnce(() => {
-      fetchNotes()
-        .then((result) => result && setNotes(result))
-        .catch((error) => console.error("Error fetching notes: ", error));
-    });
+    // useEffectOnce(() => {
+    //   fetchNotes()
+    //     .then((result) => result && setNotes(result))
+    //     .catch((error) => console.error("Error fetching notes: ", error));
+    // });
 
-    const { mutate: createNote } = api.notes.add.useMutation({
-      async onSuccess(data) {
-        await utils.notes.getAll.invalidate();
+    // const { mutate: createNote } = api.notes.add.useMutation({
+    //   async onSuccess(data) {
+    //     await utils.notes.getAll.invalidate();
 
-        setInputText("");
-        fetchNotes()
-          .then((result) => result && setNotes(result))
-          .then(() => setLoadingNotes(false))
-          .catch((error) => console.error("Error fetching notes: ", error));
-        return data;
-      },
-      onError(error) {
-        console.log("createNotes error: ", error);
-      },
-    });
+    //     setInputText("");
+    //     fetchNotes()
+    //       .then((result) => result && setNotes(result))
+    //       .then(() => setLoadingNotes(false))
+    //       .catch((error) => console.error("Error fetching notes: ", error));
+    //     return data;
+    //   },
+    //   onError(error) {
+    //     console.log("createNotes error: ", error);
+    //   },
+    // });
 
-    const addNote = (userId: string, customId: string, text: string) => {
-      const sanitizedText = validateNote(text, setErrorMessage);
-      if (sanitizedText) {
-        setLoadingNotes(true);
-        setNoteInput(false);
-        return createNote({ userId, customId, text: sanitizedText });
-      }
-    };
+    // const addNote = (userId: string, customId: string, text: string) => {
+    //   const sanitizedText = validateNote(text, setErrorMessage);
+    //   if (sanitizedText) {
+    //     setLoadingNotes(true);
+    //     setNoteInput(false);
+    //     return createNote({ userId, customId, text: sanitizedText });
+    //   }
+    // };
 
-    const notesDisplay = notes?.map((note) => {
-      return (
-        <NoteComponent
-          note={note}
-          setNotes={setNotes}
-          fetchNotes={fetchNotes}
-          key={note.id}
-        />
-      );
-    });
+    // const notesDisplay = notes?.map((note) => {
+    //   return (
+    //     <NoteComponent
+    //       note={note}
+    //       setNotes={setNotes}
+    //       fetchNotes={fetchNotes}
+    //       key={note.id}
+    //     />
+    //   );
+    // });
 
     const typesArray = [];
     if (program.typeFt) {
@@ -234,7 +240,16 @@ const SingleCustom = React.forwardRef<HTMLDivElement, SingleCustomProps>(
               )}
             </div>
             <div className="mb-3 w-48 border-b-2 border-indigo-700 p-2"></div>
-            {notesDisplay && notesDisplay.length > 0 && (
+            <NoteDisplay
+              noteInput={noteInput}
+              program={program}
+              setNoteInput={setNoteInput}
+              setErrorMessage={setErrorMessage}
+              notes={notes}
+              setNotes={setNotes}
+              type="custom"
+            />
+            {/* {notesDisplay && notesDisplay.length > 0 && (
               <div className="m-2 flex w-11/12 content-center justify-center mobileMenu:w-7/12">
                 <ul className=" w-full">{notesDisplay}</ul>
               </div>
@@ -297,7 +312,7 @@ const SingleCustom = React.forwardRef<HTMLDivElement, SingleCustomProps>(
                   {plusIcon}
                 </button>
               </div>
-            )}
+            )} */}
             {loadingNotes && (
               <div className="mt-7 text-indigo-800">
                 <LoadingSpinner iconSize="medium" />
