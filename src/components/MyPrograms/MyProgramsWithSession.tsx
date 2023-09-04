@@ -13,8 +13,8 @@ import MyProgramsLoading from "./MyProgramsLoading";
 import type { ProgramWithType } from "./MyProgramsComponent";
 import type { KeyValueListType } from "./MyProgramsComponent";
 import type { PTProgram, FTProgram } from "@prisma/client";
-import Link from "next/link";
-import PatreonConnect from "../Patreon/PatreonConnect";
+import PatreonLinkOrLogout from "../PatreonButtons/PatreonLinkOrLogout";
+import PatreonPageLink from "../PatreonButtons/PatreonPageLink";
 
 export type FavsWithSLOType = {
   schoolLocation: SchoolLocation;
@@ -541,7 +541,7 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
           }}
         >
           <div className="mr-10 place-self-end">
-            <PatreonConnect />
+            <PatreonLinkOrLogout />
             {/* <Link href={"/patreon"}>
               <button className="rounded-full border-2 border-cyan-900 p-4 text-lg hover:scale-110">
                 Connect Patreon
@@ -561,7 +561,7 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
 
         <div className="flex w-full flex-col items-center mobileMenu:hidden">
           <div className="mb-3 mr-10 place-self-end">
-            <PatreonConnect />
+            <PatreonLinkOrLogout />
             {/* <Link href={"/patreon"}>
               <button className="rounded-full border-2 border-cyan-900 p-4 text-lg hover:scale-110">
                 Connect Patreon

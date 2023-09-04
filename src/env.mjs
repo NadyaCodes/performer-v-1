@@ -31,6 +31,7 @@ export const env = createEnv({
     PATREON_CREATOR_ACCESS_TOKEN: z.string(),
     AUTHO_CLIENT_SECRET: z.string(),
     AUTHO_CLIENT_ID: z.string(),
+    BASE_URL: z.string(),
   },
 
   /**
@@ -61,6 +62,7 @@ export const env = createEnv({
     PATREON_CREATOR_ACCESS_TOKEN: process.env.PATREON_CREATOR_ACCESS_TOKEN,
     AUTHO_CLIENT_SECRET: process.env.AUTHO_CLIENT_SECRET,
     AUTHO_CLIENT_ID: process.env.AUTHO_CLIENT_ID,
+    BASE_URL: process.env.BASE_URL,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.

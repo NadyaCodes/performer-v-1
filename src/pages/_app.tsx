@@ -1,5 +1,6 @@
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
+import { PatreonProvider } from "@component/contexts/PatreonContext";
 import { type AppType } from "next/app";
 import { api } from "@component/utils/api";
 import "@component/styles/globals.css";
@@ -14,7 +15,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
-      <Component {...pageProps} />
+      <PatreonProvider>
+        <Component {...pageProps} />
+      </PatreonProvider>
     </SessionProvider>
   );
 };

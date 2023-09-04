@@ -13,8 +13,10 @@ import url from "url";
 import { patreon, oauth as patreonOAuth } from "patreon";
 import { getSession } from "next-auth/react";
 import * as cookie from "cookie";
+import { usePatreon } from "@component/contexts/PatreonContext";
+import { ObjectList } from "@component/data/types";
 
-const makeTokenCookies = (authToken, refreshToken, res) => {
+export const makeTokenCookies = (authToken, refreshToken, res) => {
   const accessTokenCookie = cookie.serialize("patreonAccessToken", authToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
@@ -51,7 +53,9 @@ export async function fetchPatreonUserInfo(accessToken) {
     // const apiUrlMemberships =
     //   "https://www.patreon.com/api/oauth2/v2/identity?include=memberships.currently_entitled_tiers";
     const apiUrlMemberships =
-      "https://www.patreon.com/api/oauth2/v2/identity?include=memberships";
+      "https://www.patreon.com/api/oauth2/v2/identity?fields%5Buser%5D=first_name,full_name,email&include=memberships";
+
+    // const apiUrlMemberships = "https://www.patreon.com/api/oauth2/v2/identity";
     const headersAuthToken = {
       Authorization: `Bearer ${accessToken}`,
     };
@@ -67,7 +71,31 @@ export async function fetchPatreonUserInfo(accessToken) {
     }
 
     const data = await response.json();
-    const membershipData = data.data.relationships.memberships.data;
+    console.log("data: ", data);
+    const membershipData = data.data.relationships.memberships.data[0];
+    const extraData: ObjectList = {
+      firstName: data.data.attributes.first_name,
+      fullName: data.data.attributes.full_name,
+      memberPatreonId: data.data.id,
+      email: data.data.attributes.email,
+    };
+
+    // Define the fields you want to assign to membershipData
+    const fieldsToAssign = [
+      "firstName",
+      "fullName",
+      "memberPatreonId",
+      "email",
+    ];
+
+    // Use a loop to assign the defined fields to membershipData
+    fieldsToAssign.forEach((field) => {
+      if (extraData[field]) {
+        membershipData[field] = extraData[field];
+      }
+    });
+
+    console.log("membershipData: ", membershipData);
 
     return membershipData;
   } catch (error) {
@@ -76,66 +104,97 @@ export async function fetchPatreonUserInfo(accessToken) {
   }
 }
 
+export const handleTokenAndInfoRefresh = async (
+  // session,
+  authToken,
+  refreshToken,
+  res,
+  CLIENT_ID,
+  CLIENT_SECRET,
+  fetchPatreonUserInfo
+) => {
+  console.log("inside func authToken: ", authToken);
+  console.log("inside func refreshToken: ", refreshToken);
+
+  // Check if the user is authenticated
+  // if (session) {
+  // Refresh tokens if needed
+  makeTokenCookies(authToken, refreshToken, res);
+  let fetchedUserInfo = await fetchPatreonUserInfo(authToken);
+
+  if (!fetchedUserInfo) {
+    const payload = new URLSearchParams();
+    payload.append("grant_type", "refresh_token");
+    payload.append("refresh_token", refreshToken);
+    payload.append("client_id", CLIENT_ID);
+    payload.append("client_secret", CLIENT_SECRET);
+
+    const refreshUrl = "https://www.patreon.com/api/oauth2/token";
+    console.log(payload);
+
+    const refreshResponse = await fetch(refreshUrl, {
+      method: "POST",
+      body: payload,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
+    if (!refreshResponse.ok) {
+      throw new Error("Failed to refresh access token");
+    }
+
+    const tokensResponse = await refreshResponse.json();
+    authToken = tokensResponse.access_token;
+    refreshToken = tokensResponse.refresh_token;
+
+    // Set the updated cookies
+    makeTokenCookies(authToken, refreshToken, res);
+
+    fetchedUserInfo = await fetchPatreonUserInfo(authToken);
+  }
+
+  return fetchedUserInfo;
+  // }
+
+  // return null; // User is not authenticated
+};
+
 interface PatreonProps {
   userInfo: any;
   logoutFlag: any;
 }
 
 const PatreonSI: NextPage<PatreonProps> = ({ userInfo, logoutFlag }) => {
-  const [patreonUser, setPatreonUser] = useState(userInfo);
+  const { setPatreonInfo } = usePatreon();
+  const router = useRouter();
   useEffect(() => {
-    console.log("New User Info! ", userInfo);
-  }, [userInfo]);
+    setPatreonInfo({ ...userInfo });
+    router.push("/patreon");
+  }, []);
+  // const [patreonUser, setPatreonUser] = useState(userInfo);
+  // useEffect(() => {
+  //   console.log("New User Info! ", userInfo);
+  // }, [userInfo]);
 
-  // const patreonLogOut = () => {
-  //   ///remove patreonAccessToken cookie
-  //   ///remove patreonRefreshToken cookie
-  //   document.cookie =
-  //     "patreonAccessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-  //   document.cookie =
-  //     "patreonRefreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-  // };
   // const patreonLogOut = async () => {
-  //   if (logoutFlag) {
-  //     try {
-  //       // Call the server-side logout route
-  //       const response = await fetch("/api/patreon-logout"); // Replace with your actual route
-  //       if (response.ok) {
-  //         // Handle successful logout
-  //         // Redirect to the login page or any other appropriate action
-  //         // window.location.href = "/login";
-  //       } else {
-  //         // Handle logout error
-  //         console.error("Logout failed:", response.statusText);
-  //       }
-  //     } catch (error) {
-  //       // Handle any logout errors here
-  //       console.error("Logout failed:", error);
+  //   try {
+  //     // Call the server-side logout route
+  //     const response = await fetch("/api/patreon-logout"); // Replace with your actual route
+
+  //     if (response.ok) {
+  //       // Handle successful logout
+  //       // Redirect to the login page or any other appropriate action
+  //       // window.location.href = '/login';
+  //       setPatreonUser(null);
+  //     } else {
+  //       // Handle logout error
+  //       console.error("Logout failed:", response.statusText);
   //     }
-  //   } else {
-  //     // Handle client-side logout, if needed
+  //   } catch (error) {
+  //     // Handle any logout errors here
+  //     console.error("Logout failed:", error);
   //   }
   // };
-
-  const patreonLogOut = async () => {
-    try {
-      // Call the server-side logout route
-      const response = await fetch("/api/patreon-logout"); // Replace with your actual route
-
-      if (response.ok) {
-        // Handle successful logout
-        // Redirect to the login page or any other appropriate action
-        // window.location.href = '/login';
-        setPatreonUser(null);
-      } else {
-        // Handle logout error
-        console.error("Logout failed:", response.statusText);
-      }
-    } catch (error) {
-      // Handle any logout errors here
-      console.error("Logout failed:", error);
-    }
-  };
 
   return (
     <>
@@ -145,21 +204,21 @@ const PatreonSI: NextPage<PatreonProps> = ({ userInfo, logoutFlag }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div className="min-h-screen bg-cyan-50 text-cyan-950 opacity-80">
+        {/* <div className="min-h-screen bg-cyan-50 text-cyan-950 opacity-80">
           <Menu />
           <div className="flex flex-col items-center justify-center">
             <h1 className="p-10 text-3xl font-bold">Patreon Page</h1>
-            <div>{patreonUser ? patreonUser : "User isn't a member"}</div>
-            {/* <a href={url} target="_blank" rel="noopener noreferrer"> */}
-            <button
+            <div>{patreonUser ? patreonUser : "User isn't a member"}</div> */}
+        {/* <a href={url} target="_blank" rel="noopener noreferrer"> */}
+        {/* <button
               className="rounded-full border-2 border-cyan-900 p-5 text-lg hover:scale-110"
               onClick={() => patreonLogOut()}
             >
               Log Out of Patreon
-            </button>
-            {/* </a> */}
-          </div>
-        </div>
+            </button> */}
+        {/* </a> */}
+        {/* </div>
+        </div> */}
       </main>
     </>
   );
@@ -191,61 +250,72 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     makeTokenCookies(authToken, refreshToken, res);
   }
-
+  let fetchedUserInfo;
   try {
-    let fetchedUserInfo;
-    if (session) {
-      makeTokenCookies(authToken, refreshToken, res);
-      fetchedUserInfo = await fetchPatreonUserInfo(
-        authToken
-        // "uo7m8UVhHz1sUAsRA73s7oocHsXR-O8bOQUNSVgvGeo"
-      );
-      if (!fetchedUserInfo) {
-        const payload = new URLSearchParams();
-        payload.append("grant_type", "refresh_token");
-        payload.append("refresh_token", refreshToken);
-        payload.append("client_id", CLIENT_ID);
-        payload.append("client_secret", CLIENT_SECRET);
+    fetchedUserInfo = await handleTokenAndInfoRefresh(
+      authToken,
+      refreshToken,
+      res,
+      CLIENT_ID,
+      CLIENT_SECRET,
+      fetchPatreonUserInfo
+    );
+    // let fetchedUserInfo;
+    // if (session) {
+    //   makeTokenCookies(authToken, refreshToken, res);
+    //   fetchedUserInfo = await fetchPatreonUserInfo(
+    //     authToken
+    //     // "uo7m8UVhHz1sUAsRA73s7oocHsXR-O8bOQUNSVgvGeo"
+    //   );
+    //   if (!fetchedUserInfo) {
+    //     const payload = new URLSearchParams();
+    //     payload.append("grant_type", "refresh_token");
+    //     payload.append("refresh_token", refreshToken);
+    //     payload.append("client_id", CLIENT_ID);
+    //     payload.append("client_secret", CLIENT_SECRET);
 
-        const refreshUrl = "https://www.patreon.com/api/oauth2/token";
+    //     const refreshUrl = "https://www.patreon.com/api/oauth2/token";
 
-        const refreshResponse = await fetch(refreshUrl, {
-          method: "POST",
-          body: payload,
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-        });
-        if (!refreshResponse.ok) {
-          throw new Error("Failed to refresh access token");
-        }
+    //     const refreshResponse = await fetch(refreshUrl, {
+    //       method: "POST",
+    //       body: payload,
+    //       headers: {
+    //         "Content-Type": "application/x-www-form-urlencoded",
+    //       },
+    //     });
+    //     if (!refreshResponse.ok) {
+    //       throw new Error("Failed to refresh access token");
+    //     }
 
-        const tokensResponse = await refreshResponse.json();
-        authToken = tokensResponse.access_token;
-        refreshToken = tokensResponse.refresh_token;
-        makeTokenCookies(authToken, refreshToken, res);
+    //     const tokensResponse = await refreshResponse.json();
+    //     authToken = tokensResponse.access_token;
+    //     refreshToken = tokensResponse.refresh_token;
+    //     makeTokenCookies(authToken, refreshToken, res);
 
-        fetchedUserInfo = await fetchPatreonUserInfo(authToken);
-      }
-    }
-
-    const logoutFlag = context.query.logout === "true";
-
-    return {
-      props: {
-        userInfo: (fetchedUserInfo && fetchedUserInfo[0]?.id) || "",
-        logoutFlag,
-      },
-    };
+    //     fetchedUserInfo = await fetchPatreonUserInfo(authToken);
+    // }
   } catch (error) {
-    console.error("Error fetching user profile:", error);
-
-    return {
-      props: {
-        userInfo: null,
-      },
-    };
+    console.log("Error fetching and refreshing tokens: ", error);
+    fetchedUserInfo = null;
   }
+
+  const logoutFlag = context.query.logout === "true";
+
+  return {
+    props: {
+      userInfo: (fetchedUserInfo && fetchedUserInfo) || "",
+      logoutFlag,
+    },
+  };
+  // } catch (error) {
+  //   console.error("Error fetching user profile:", error);
+
+  //   return {
+  //     props: {
+  //       userInfo: null,
+  //     },
+  //   };
+  // }
 };
 
 // const apiUrlCampaigns =

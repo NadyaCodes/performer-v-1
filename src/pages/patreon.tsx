@@ -1,11 +1,18 @@
-import type { NextPage, GetStaticProps } from "next";
+import type { NextPage, GetServerSideProps } from "next";
 import Menu from "@component/components/Menu/Menu";
 import Head from "next/head";
 import url from "url";
 import Link from "next/link";
 // import patreon from "patreon";
 // var patreon = require("patreon");
-import * as patreon from "patreon";
+import PatreonComponent from "@component/components/Patreon/PatreonComponent";
+import { ObjectList } from "@component/data/types";
+import { handleTokenAndInfoRefresh } from "./patreon-si";
+import { patreon, oauth as patreonOAuth } from "patreon";
+import { getSession } from "next-auth/react";
+import * as cookie from "cookie";
+import { fetchPatreonUserInfo } from "./patreon-si";
+import { makeTokenCookies } from "./patreon-si";
 
 interface PatreonProps {
   url: string;
@@ -42,13 +49,30 @@ const Patreon: NextPage<PatreonProps> = ({ url }) => {
   //   );
   // };
 
-  const connectPatreonAccount = () => {};
-
-  const contactLink = (
-    <Link href={"/contact"} className="font-bold text-cyan-400 underline">
-      Contact Us
-    </Link>
-  );
+  // const connectPatreonAccount = () => {
+  //   fetch("/api/patreon-login").catch((error) =>
+  //     console.error("Error fetching patreon login api: ", error)
+  //   );
+  // };
+  // const connectPatreonAccount = () => {
+  //   // Make a request to the server-side route to initiate OAuth
+  //   fetch("/api/patreon-login")
+  //     .then(() => {
+  //       // Optionally, handle success or further actions here
+  //     })
+  //     .catch((error) =>
+  //       console.error("Error fetching Patreon login API: ", error)
+  //     );
+  // };
+  // const connectPatreonAccount = async () => {
+  //   try {
+  //     // console.log("connectPatreonAccount called"); // Add this line
+  //     await fetch("/api/patreon-connect").then();
+  //     // Optionally, handle success or further actions here
+  //   } catch (error) {
+  //     console.error("Error fetching Patreon login API: ", error);
+  //   }
+  // };
 
   return (
     <>
@@ -64,70 +88,8 @@ const Patreon: NextPage<PatreonProps> = ({ url }) => {
             <h1 className="p-10 text-5xl font-bold">
               Unlock All Site Features with Patreon!
             </h1>
-            <h2 className="m-5 text-xl font-semibold">
-              Already a patreon subscriber to{" "}
-              <span className="font-bold">Act. Sing. Dance. Repeat</span>?
-            </h2>
-            {/* <a href={url} target="_blank" rel="noopener noreferrer"> */}
-            <button
-              className="rounded-full border-2 border-cyan-200 p-5 text-lg shadow-md shadow-indigo-400 transition-all hover:scale-110 hover:border-indigo-400"
-              onClick={() => connectPatreonAccount()}
-            >
-              Connect Patreon Account Now
-            </button>
-            {/* </a> */}
-            <div className="m-2 flex flex-col italic">
-              <div>*occasional re-connections may be required.</div>
-              <div>
-                Please {contactLink} regarding any technical difficulties!
-              </div>
-            </div>
 
-            <div className="flex w-4/6 max-w-2xl flex-col ">
-              <h2 className="mt-10 flex flex-col text-4xl font-semibold">
-                Member Perks
-              </h2>
-              <div className="flex w-full justify-end">
-                <a
-                  href="https://www.patreon.com/actsingdancerepeat/membership"
-                  target="_blank"
-                >
-                  <button className=" place-self-end rounded-full border-2 border-cyan-200 p-5 text-lg shadow-md shadow-indigo-400 transition-all hover:scale-110 hover:border-indigo-400">
-                    Subscribe Here!
-                  </button>
-                </a>
-              </div>
-
-              <div className="m-5 rounded border-2 p-4 font-bold shadow-lg shadow-indigo-400">
-                "Artist" - 4.00/Month
-                <ul className="list-inside list-disc pl-10 text-left font-normal">
-                  <li>Add notes to your saved programs</li>
-                  <li>Add custom programs</li>
-                </ul>
-              </div>
-              <div className="m-5 rounded border-2 p-4 font-bold shadow-lg shadow-indigo-400">
-                "Studio" - 10.00/Month
-                <ul className="list-inside list-disc pl-10 text-left font-normal">
-                  <li>Add notes to your saved programs</li>
-                  <li>Add custom programs</li>
-                  <li>
-                    1 Upgraded Part-Time Program listing ({contactLink} for
-                    requirements)
-                  </li>
-                </ul>
-              </div>
-              <div className="m-5 rounded border-2 p-4 font-bold shadow-lg shadow-indigo-400">
-                "Institution" - 30.00/Month
-                <ul className="list-inside list-disc pl-10 text-left font-normal">
-                  <li>Add notes to your saved programs</li>
-                  <li>Add custom programs</li>
-                  <li>
-                    Up to 6 Upgraded Part-Time or Full-Time Program listings for
-                    1 institution ({contactLink} for requirements)
-                  </li>
-                </ul>
-              </div>
-            </div>
+            <PatreonComponent url={url} />
           </div>
           {/* <PatreonButton /> */}
         </div>
@@ -138,7 +100,8 @@ const Patreon: NextPage<PatreonProps> = ({ url }) => {
 
 export default Patreon;
 
-export const getStaticProps: GetStaticProps = () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { req, res, query } = context;
   // const patreonUser = "Joe";
   // const patreonAPI = patreon.patreon;
   // const patreonOAuth = patreon.oauth;
@@ -150,18 +113,43 @@ export const getStaticProps: GetStaticProps = () => {
   // const patreonOAuthClient = patreonOAuth(CLIENT_ID, CLIENT_SECRET);
 
   const OAUTH_REDIRECT_URL = encodeURIComponent(
-    "http://127.0.0.1:3000/patreon-si"
+    `${process.env.BASE_URL}/patreon-si`
   ); // Replace with your actual redirect URL
 
   // const oauthUrl = `https://www.patreon.com/oauth2/authorize?client_id=${CLIENT_ID}`;
   const oauthUrl = `https://www.patreon.com/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${OAUTH_REDIRECT_URL}&response_type=code`;
 
-  // const OAUTH_REDIRECT_URL = encodeURIComponent(oauthUrl); // Replace with your actual redirect URL
+  // // const OAUTH_REDIRECT_URL = encodeURIComponent(oauthUrl); // Replace with your actual redirect URL
+  // const patreonOAuthClient = patreonOAuth(CLIENT_ID, CLIENT_SECRET);
+
+  // // let authToken = cookie.parse(
+  // //   req.headers.patreonAccessToken || ""
+  // // ).patreonAccessToken;
+  // // let refreshToken = cookie.parse(
+  // //   req.headers.patreonRefreshToken || ""
+  // // ).patreonRefreshToken;
+  // let authToken = cookie.parse(req.headers.cookie || "").patreonAccessToken;
+  // let refreshToken = cookie.parse(req.headers.cookie || "").patreonRefreshToken;
+
+  // console.log("authToken: ", authToken);
+  // console.log("refreshToken: ", refreshToken);
+  // let fetchedUserInfo;
+
+  // if (authToken && refreshToken) {
+  //   fetchedUserInfo = await handleTokenAndInfoRefresh(
+  //     authToken,
+  //     refreshToken,
+  //     res,
+  //     CLIENT_ID,
+  //     CLIENT_SECRET,
+  //     fetchPatreonUserInfo
+  //   );
+  // }
 
   return {
     props: {
-      // patreonUser,
       url: oauthUrl,
+      // userInfo: !fetchedUserInfo ? null : fetchedUserInfo,
     },
   };
 };
