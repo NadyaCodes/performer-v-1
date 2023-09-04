@@ -119,6 +119,9 @@ export const handleTokenAndInfoRefresh = async (
   // Check if the user is authenticated
   // if (session) {
   // Refresh tokens if needed
+  if (!authToken || !refreshToken) {
+    return null;
+  }
   makeTokenCookies(authToken, refreshToken, res);
   let fetchedUserInfo = await fetchPatreonUserInfo(authToken);
 

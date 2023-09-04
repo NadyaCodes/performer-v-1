@@ -1,9 +1,21 @@
 import Menu from "@component/components/Menu/Menu";
 import MyProgramsComponent from "@component/components/MyPrograms/MyProgramsComponent";
-import React from "react";
+import React, { useEffect } from "react";
 import Head from "next/head";
+import { GetServerSideProps } from "next";
+import { handleTokenAndInfoRefresh } from "./patreon-si";
+import { fetchPatreonUserInfo } from "./patreon-si";
+import cookie from "cookie";
+import { ObjectList } from "@component/data/types";
+import { usePatreon } from "@component/contexts/PatreonContext";
 
-export default function MyPrograms() {
+export default function MyPrograms({ userInfo }: { userInfo: ObjectList }) {
+  const { setPatreonInfo } = usePatreon();
+
+  useEffect(() => {
+    setPatreonInfo(userInfo);
+  }, [userInfo]);
+
   return (
     <>
       <Head>
@@ -20,3 +32,57 @@ export default function MyPrograms() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { req, res, query } = context;
+  // const patreonUser = "Joe";
+  // const patreonAPI = patreon.patreon;
+  // const patreonOAuth = patreon.oauth;
+
+  const CLIENT_ID = process.env.PATREON_CLIENT_ID;
+  const CLIENT_SECRET = process.env.PATREON_CLIENT_SECRET;
+  // const PATREON_CREATOR_ACCESS_TOKEN = process.env.PATREON_CREATOR_ACCESS_TOKEN;
+
+  // const patreonOAuthClient = patreonOAuth(CLIENT_ID, CLIENT_SECRET);
+
+  const OAUTH_REDIRECT_URL = encodeURIComponent(
+    `${process.env.BASE_URL}/patreon-si`
+  ); // Replace with your actual redirect URL
+
+  // const oauthUrl = `https://www.patreon.com/oauth2/authorize?client_id=${CLIENT_ID}`;
+  const oauthUrl = `https://www.patreon.com/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${OAUTH_REDIRECT_URL}&response_type=code`;
+
+  // // const OAUTH_REDIRECT_URL = encodeURIComponent(oauthUrl); // Replace with your actual redirect URL
+  // const patreonOAuthClient = patreonOAuth(CLIENT_ID, CLIENT_SECRET);
+
+  // // let authToken = cookie.parse(
+  // //   req.headers.patreonAccessToken || ""
+  // // ).patreonAccessToken;
+  // // let refreshToken = cookie.parse(
+  // //   req.headers.patreonRefreshToken || ""
+  // // ).patreonRefreshToken;
+  let authToken = cookie.parse(req.headers.cookie || "").patreonAccessToken;
+  let refreshToken = cookie.parse(req.headers.cookie || "").patreonRefreshToken;
+
+  console.log("authToken: ", authToken);
+  console.log("refreshToken: ", refreshToken);
+  let fetchedUserInfo;
+
+  if (authToken && refreshToken) {
+    fetchedUserInfo = await handleTokenAndInfoRefresh(
+      authToken,
+      refreshToken,
+      res,
+      CLIENT_ID,
+      CLIENT_SECRET,
+      fetchPatreonUserInfo
+    );
+  }
+
+  return {
+    props: {
+      // url: oauthUrl,
+      userInfo: !fetchedUserInfo ? null : fetchedUserInfo,
+    },
+  };
+};

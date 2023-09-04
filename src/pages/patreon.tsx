@@ -13,12 +13,20 @@ import { getSession } from "next-auth/react";
 import * as cookie from "cookie";
 import { fetchPatreonUserInfo } from "./patreon-si";
 import { makeTokenCookies } from "./patreon-si";
+import { useEffect } from "react";
+import { usePatreon } from "@component/contexts/PatreonContext";
 
 interface PatreonProps {
   url: string;
+  userInfo: ObjectList;
 }
 
-const Patreon: NextPage<PatreonProps> = ({ url }) => {
+const Patreon: NextPage<PatreonProps> = ({ url, userInfo }) => {
+  const { setPatreonInfo } = usePatreon();
+
+  useEffect(() => {
+    setPatreonInfo(userInfo);
+  }, [userInfo]);
   // console.log(patreonUser);
 
   // const PatreonButton = () => {
@@ -128,28 +136,83 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   // // let refreshToken = cookie.parse(
   // //   req.headers.patreonRefreshToken || ""
   // // ).patreonRefreshToken;
-  // let authToken = cookie.parse(req.headers.cookie || "").patreonAccessToken;
-  // let refreshToken = cookie.parse(req.headers.cookie || "").patreonRefreshToken;
+  let authToken = cookie.parse(req.headers.cookie || "").patreonAccessToken;
+  let refreshToken = cookie.parse(req.headers.cookie || "").patreonRefreshToken;
 
-  // console.log("authToken: ", authToken);
-  // console.log("refreshToken: ", refreshToken);
-  // let fetchedUserInfo;
+  console.log("authToken: ", authToken);
+  console.log("refreshToken: ", refreshToken);
+  let fetchedUserInfo;
 
-  // if (authToken && refreshToken) {
-  //   fetchedUserInfo = await handleTokenAndInfoRefresh(
-  //     authToken,
-  //     refreshToken,
-  //     res,
-  //     CLIENT_ID,
-  //     CLIENT_SECRET,
-  //     fetchPatreonUserInfo
-  //   );
-  // }
+  if (authToken && refreshToken) {
+    fetchedUserInfo = await handleTokenAndInfoRefresh(
+      authToken,
+      refreshToken,
+      res,
+      CLIENT_ID,
+      CLIENT_SECRET,
+      fetchPatreonUserInfo
+    );
+  }
 
   return {
     props: {
       url: oauthUrl,
-      // userInfo: !fetchedUserInfo ? null : fetchedUserInfo,
+      userInfo: !fetchedUserInfo ? null : fetchedUserInfo,
     },
   };
 };
+
+// export const getServerSideProps: GetServerSideProps = async (context) => {
+//   console.log("getting server-side props");
+//   const { req, res, query } = context;
+//   // const patreonUser = "Joe";
+//   // const patreonAPI = patreon.patreon;
+//   // const patreonOAuth = patreon.oauth;
+
+//   const CLIENT_ID = process.env.PATREON_CLIENT_ID;
+//   const CLIENT_SECRET = process.env.PATREON_CLIENT_SECRET;
+//   // const PATREON_CREATOR_ACCESS_TOKEN = process.env.PATREON_CREATOR_ACCESS_TOKEN;
+
+//   // const patreonOAuthClient = patreonOAuth(CLIENT_ID, CLIENT_SECRET);
+
+//   const OAUTH_REDIRECT_URL = encodeURIComponent(
+//     `${process.env.BASE_URL}/patreon-si`
+//   ); // Replace with your actual redirect URL
+
+//   // const oauthUrl = `https://www.patreon.com/oauth2/authorize?client_id=${CLIENT_ID}`;
+//   const oauthUrl = `https://www.patreon.com/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${OAUTH_REDIRECT_URL}&response_type=code`;
+
+//   // const OAUTH_REDIRECT_URL = encodeURIComponent(oauthUrl); // Replace with your actual redirect URL
+//   const patreonOAuthClient = patreonOAuth(CLIENT_ID, CLIENT_SECRET);
+
+//   // let authToken = cookie.parse(
+//   //   req.headers.patreonAccessToken || ""
+//   // ).patreonAccessToken;
+//   // let refreshToken = cookie.parse(
+//   //   req.headers.patreonRefreshToken || ""
+//   // ).patreonRefreshToken;
+//   let authToken = cookie.parse(req.headers.cookie || "").patreonAccessToken;
+//   let refreshToken = cookie.parse(req.headers.cookie || "").patreonRefreshToken;
+
+//   console.log("authToken: ", authToken);
+//   console.log("refreshToken: ", refreshToken);
+//   let fetchedUserInfo;
+
+//   if (authToken && refreshToken) {
+//     fetchedUserInfo = await handleTokenAndInfoRefresh(
+//       authToken,
+//       refreshToken,
+//       res,
+//       CLIENT_ID,
+//       CLIENT_SECRET,
+//       fetchPatreonUserInfo
+//     );
+//   }
+
+//   return {
+//     props: {
+//       // url: oauthUrl,
+//       userInfo: fetchedUserInfo ? fetchedUserInfo : null,
+//     },
+//   };
+// };
