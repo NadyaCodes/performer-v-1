@@ -3,6 +3,8 @@ import H2Title from "./H2Title";
 import EmptyFavPrograms from "./EmptyFavPrograms";
 import ScrollingDivide from "./ScrollingDivide";
 import EmptyCustomPrograms from "./EmptyCustomPrograms";
+import { usePatreon } from "@component/contexts/PatreonContext";
+import CustomNoPatreon from "./CustomNoPatreon";
 
 export default function ProgramDisplay({
   programDisplay,
@@ -21,6 +23,8 @@ export default function ProgramDisplay({
     opacity: "0",
     animation: "fadeIn 1s linear 1.5s forwards",
   };
+
+  const { patreonInfo } = usePatreon();
 
   return (
     <>
@@ -58,8 +62,9 @@ export default function ProgramDisplay({
           color="indigo"
           ref={customHeaderRef}
         />
-        {addCustomButton}
-        {customProgramDisplay.length > 0 ? (
+
+        {patreonInfo && addCustomButton}
+        {/* {patreonInfo && {customProgramDisplay.length > 0 ? (
           <div
             className="w-11/12 mobileMenu:w-7/12"
             style={{ animation: "flyInFadeIn 1s linear" }}
@@ -70,6 +75,22 @@ export default function ProgramDisplay({
           <div className="w-11/12 text-center italic mobileMenu:w-7/12">
             <EmptyCustomPrograms />
           </div>
+        )}} */}
+        {patreonInfo ? (
+          customProgramDisplay.length > 0 ? (
+            <div
+              className="w-11/12 mobileMenu:w-7/12"
+              style={{ animation: "flyInFadeIn 1s linear" }}
+            >
+              {customProgramDisplay}
+            </div>
+          ) : (
+            <div className="w-11/12 text-center italic mobileMenu:w-7/12">
+              <EmptyCustomPrograms />
+            </div>
+          )
+        ) : (
+          <CustomNoPatreon />
         )}
       </div>
     </>

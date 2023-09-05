@@ -22,6 +22,8 @@ import LoadingLines from "../Loading/LoadingLines";
 import ShareOptions from "../ProgramFinder/ShareOptions";
 import { useEffectOnce } from "../AddProgramResult/helpers";
 import NoteDisplay from "./NoteDisplay";
+import { usePatreon } from "@component/contexts/PatreonContext";
+import NotesNoPatreon from "./NotesNoPatreon";
 
 interface SingleProgramProps {
   program: ProgramWithInfo;
@@ -43,6 +45,7 @@ const SingleProgram = React.forwardRef<HTMLDivElement, SingleProgramProps>(
     const { data: sessionData } = useSession();
     const utils = api.useContext();
     const userId = sessionData?.user.id;
+    const { patreonInfo } = usePatreon();
 
     // const [notes, setNotes] = useState<Note[] | [] | null>(null);
     const [noteInput, setNoteInput] = useState<boolean>(false);
@@ -122,15 +125,19 @@ const SingleProgram = React.forwardRef<HTMLDivElement, SingleProgramProps>(
             {displayDisciplineText(program.discipline)}
           </div>
           <div className="mb-3 w-48 border-b-2 border-cyan-600 p-2"></div>
-          <NoteDisplay
-            noteInput={noteInput}
-            program={program}
-            setNoteInput={setNoteInput}
-            setErrorMessage={setErrorMessage}
-            notes={notes}
-            setNotes={setNotes}
-            type="fav"
-          />
+          {patreonInfo ? (
+            <NoteDisplay
+              noteInput={noteInput}
+              program={program}
+              setNoteInput={setNoteInput}
+              setErrorMessage={setErrorMessage}
+              notes={notes}
+              setNotes={setNotes}
+              type="fav"
+            />
+          ) : (
+            <NotesNoPatreon />
+          )}
           {/* <div className="flex w-full flex-col items-center">
             {notesDisplay && notesDisplay.length > 0 && (
               <div className="m-2 flex w-11/12 content-center justify-center mobileMenu:w-7/12">

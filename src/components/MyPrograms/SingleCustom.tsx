@@ -18,6 +18,8 @@ import { validateNote } from "./helpers";
 import DeleteCheck from "./DeleteCheck";
 import { useEffectOnce } from "../AddProgramResult/helpers";
 import NoteDisplay from "./NoteDisplay";
+import { usePatreon } from "@component/contexts/PatreonContext";
+import NotesNoPatreon from "./NotesNoPatreon";
 
 interface SingleCustomProps {
   program: CustomProgram;
@@ -51,6 +53,7 @@ const SingleCustom = React.forwardRef<HTMLDivElement, SingleCustomProps>(
     const { data: sessionData } = useSession();
     const utils = api.useContext();
     const userId = sessionData?.user.id;
+    const { patreonInfo } = usePatreon();
 
     const [noteInput, setNoteInput] = useState<boolean>(false);
     const [inputText, setInputText] = useState<string>("");
@@ -240,15 +243,19 @@ const SingleCustom = React.forwardRef<HTMLDivElement, SingleCustomProps>(
               )}
             </div>
             <div className="mb-3 w-48 border-b-2 border-indigo-700 p-2"></div>
-            <NoteDisplay
-              noteInput={noteInput}
-              program={program}
-              setNoteInput={setNoteInput}
-              setErrorMessage={setErrorMessage}
-              notes={notes}
-              setNotes={setNotes}
-              type="custom"
-            />
+            {patreonInfo ? (
+              <NoteDisplay
+                noteInput={noteInput}
+                program={program}
+                setNoteInput={setNoteInput}
+                setErrorMessage={setErrorMessage}
+                notes={notes}
+                setNotes={setNotes}
+                type="custom"
+              />
+            ) : (
+              <NotesNoPatreon />
+            )}
             {/* {notesDisplay && notesDisplay.length > 0 && (
               <div className="m-2 flex w-11/12 content-center justify-center mobileMenu:w-7/12">
                 <ul className=" w-full">{notesDisplay}</ul>

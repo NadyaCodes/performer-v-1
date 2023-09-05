@@ -15,6 +15,7 @@ import type { KeyValueListType } from "./MyProgramsComponent";
 import type { PTProgram, FTProgram } from "@prisma/client";
 import PatreonLinkOrLogout from "../PatreonButtons/PatreonLinkOrLogout";
 import type { Note } from "@prisma/client";
+import { usePatreon } from "@component/contexts/PatreonContext";
 
 export type FavsWithSLOType = {
   schoolLocation: SchoolLocation;
@@ -45,6 +46,8 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
   >(null);
 
   const utils = api.useContext();
+
+  const { patreonInfo } = usePatreon();
 
   useEffect(() => {
     setLoadingDelete(false);
@@ -385,54 +388,56 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
       });
     });
 
-    const newCustomProgramRefs: Record<
-      string,
-      React.RefObject<HTMLDivElement>
-    > = {};
+    if (patreonInfo) {
+      const newCustomProgramRefs: Record<
+        string,
+        React.RefObject<HTMLDivElement>
+      > = {};
 
-    if (displayCustom && displayCustom.length > 0) {
-      displayCustom.forEach((program) => {
-        newCustomProgramRefs[program.id] = React.createRef<HTMLDivElement>();
-      });
-      setCustomProgramRefs(newCustomProgramRefs);
-    }
-
-    newKeyValueList.push({
-      text: "-- Custom Programs --",
-      type: "custom",
-      id: "customHeader",
-      componentRef: customHeaderRef,
-    });
-
-    if (displayCustom && displayCustom.length > 0) {
-      displayCustom.forEach((program) => {
-        let text = program.school || program.name;
-        if (!text) {
-          if (program.city) text = `Unknown Program: ${program.city}`;
-          else if (program.province)
-            text = `Unknown Program: ${program.province}`;
-          else if (program.country)
-            text = `Unknown Program: ${program.country}`;
-          else if (program.website)
-            text = `Unknown Program: ${program.website}`;
-          else if (program.typeFt) text = "Unknown Program: Full Time";
-          else if (program.typePt) text = "Unknown Program: Part Time";
-          else if (program.disciplineAct) text = "Unknown Program: Acting";
-          else if (program.disciplineSing) text = "Unknown Program: Singing";
-          else if (program.disciplineDance) text = "Unknown Program: Dance";
-          else if (program.disciplineMT)
-            text = "Unknown Program: Musical Theatre";
-          else text = "Unknown Program";
-        }
-        const ref = newCustomProgramRefs[program.id];
-
-        newKeyValueList.push({
-          text,
-          type: "custom",
-          id: program.id,
-          componentRef: ref,
+      if (displayCustom && displayCustom.length > 0) {
+        displayCustom.forEach((program) => {
+          newCustomProgramRefs[program.id] = React.createRef<HTMLDivElement>();
         });
+        setCustomProgramRefs(newCustomProgramRefs);
+      }
+
+      newKeyValueList.push({
+        text: "-- Custom Programs --",
+        type: "custom",
+        id: "customHeader",
+        componentRef: customHeaderRef,
       });
+
+      if (displayCustom && displayCustom.length > 0) {
+        displayCustom.forEach((program) => {
+          let text = program.school || program.name;
+          if (!text) {
+            if (program.city) text = `Unknown Program: ${program.city}`;
+            else if (program.province)
+              text = `Unknown Program: ${program.province}`;
+            else if (program.country)
+              text = `Unknown Program: ${program.country}`;
+            else if (program.website)
+              text = `Unknown Program: ${program.website}`;
+            else if (program.typeFt) text = "Unknown Program: Full Time";
+            else if (program.typePt) text = "Unknown Program: Part Time";
+            else if (program.disciplineAct) text = "Unknown Program: Acting";
+            else if (program.disciplineSing) text = "Unknown Program: Singing";
+            else if (program.disciplineDance) text = "Unknown Program: Dance";
+            else if (program.disciplineMT)
+              text = "Unknown Program: Musical Theatre";
+            else text = "Unknown Program";
+          }
+          const ref = newCustomProgramRefs[program.id];
+
+          newKeyValueList.push({
+            text,
+            type: "custom",
+            id: program.id,
+            componentRef: ref,
+          });
+        });
+      }
     }
 
     setKeyValueList(newKeyValueList);
@@ -548,7 +553,7 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
                 : "",
           }}
         >
-          <div className="mr-10 place-self-end">
+          <div className="mr-52 place-self-end">
             <PatreonLinkOrLogout />
           </div>
           {!showUpdateCustom && !loading && (
