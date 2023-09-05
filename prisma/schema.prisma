@@ -53,16 +53,17 @@ model Session {
 }
 
 model User {
-    id            String          @id @default(cuid())
-    name          String?
-    email         String?         @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
-    favPrograms   FavProgram[]
-    Note          Note[]
-    CustomProgram CustomProgram[]
+    id              String          @id @default(cuid())
+    name            String?
+    email           String?         @unique
+    emailVerified   DateTime?
+    image           String?
+    patreonMemberId String?
+    accounts        Account[]
+    sessions        Session[]
+    favPrograms     FavProgram[]
+    Note            Note[]
+    CustomProgram   CustomProgram[]
 }
 
 model VerificationToken {

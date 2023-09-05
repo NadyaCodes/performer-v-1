@@ -6,8 +6,10 @@ import React, {
   useState,
   useEffect,
   type ReactNode,
+  useCallback,
 } from "react";
 import { patreonBypassIds } from "@component/data/constants";
+import { api } from "@component/utils/api";
 
 const PatreonContext = createContext<PatreonContextType | null>(null);
 
@@ -36,6 +38,19 @@ export function PatreonProvider({ children }: { children: ReactNode }) {
       }
     }
   }, [patreonInfo, userId]);
+
+  const { mutate: updateUserPatreonId } = api.user.updatePatreonId.useMutation({
+    async onSuccess() {},
+    onError(error) {
+      console.log("createExample error: ", error);
+    },
+  });
+
+  useEffect(() => {
+    if (userId && patreonInfo?.id) {
+      updateUserPatreonId({ id: userId, patreonId: patreonInfo?.id });
+    }
+  }, [userId, patreonInfo, updateUserPatreonId]);
 
   return (
     <PatreonContext.Provider
