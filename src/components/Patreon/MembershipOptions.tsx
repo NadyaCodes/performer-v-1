@@ -21,14 +21,14 @@ export default function MembershipOptions() {
       </div>
 
       <div className="m-5 rounded border-2 p-4 font-bold shadow-lg shadow-indigo-400">
-        "Artist" - 4.00/Month
+        &quot;Artist&quot; - 4.00/Month
         <ul className="mt-2 list-inside list-disc pl-2 text-left font-normal mobileMenu:pl-10">
           <li>Add notes to your saved programs</li>
           <li>Add custom programs</li>
         </ul>
       </div>
       <div className="m-5 rounded border-2 p-4 font-bold shadow-lg shadow-indigo-400">
-        "Studio" - 10.00/Month
+        &quot;Studio&quot; - 10.00/Month
         <ul className="mt-2 list-inside list-disc pl-2 text-left font-normal mobileMenu:pl-10">
           <li>Add notes to your saved programs</li>
           <li>Add custom programs</li>
@@ -39,7 +39,7 @@ export default function MembershipOptions() {
         </ul>
       </div>
       <div className="m-5 rounded border-2 p-4 font-bold shadow-lg shadow-indigo-400">
-        "Institution" - 30.00/Month
+        &quot;Institution&quot; - 30.00/Month
         <ul className="mt-2 list-inside list-disc pl-2 text-left font-normal mobileMenu:pl-10">
           <li>Add notes to your saved programs</li>
           <li>Add custom programs</li>

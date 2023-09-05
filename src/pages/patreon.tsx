@@ -52,13 +52,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const CLIENT_SECRET = process.env.PATREON_CLIENT_SECRET || "";
 
   const OAUTH_REDIRECT_URL = encodeURIComponent(
-    `${process.env.BASE_URL}/patreon-si`
+    `${process.env.BASE_URL || ""}/patreon-si`
   );
 
   const oauthUrl = `https://www.patreon.com/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${OAUTH_REDIRECT_URL}&response_type=code`;
 
-  let authToken = cookie.parse(req.headers.cookie || "").patreonAccessToken;
-  let refreshToken = cookie.parse(req.headers.cookie || "").patreonRefreshToken;
+  const authToken = cookie.parse(req.headers.cookie || "").patreonAccessToken;
+  const refreshToken = cookie.parse(
+    req.headers.cookie || ""
+  ).patreonRefreshToken;
 
   let fetchedUserInfo;
 

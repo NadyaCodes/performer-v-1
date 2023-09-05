@@ -38,8 +38,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const CLIENT_ID = process.env.PATREON_CLIENT_ID || "";
   const CLIENT_SECRET = process.env.PATREON_CLIENT_SECRET || "";
 
-  let authToken = cookie.parse(req.headers.cookie || "").patreonAccessToken;
-  let refreshToken = cookie.parse(req.headers.cookie || "").patreonRefreshToken;
+  const authToken = cookie.parse(req.headers.cookie || "").patreonAccessToken;
+  const refreshToken = cookie.parse(
+    req.headers.cookie || ""
+  ).patreonRefreshToken;
 
   let fetchedUserInfo;
 

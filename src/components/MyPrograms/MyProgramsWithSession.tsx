@@ -441,7 +441,7 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
     }
 
     setKeyValueList(newKeyValueList);
-  }, [displayData, displayCustom]);
+  }, [displayData, displayCustom, patreonInfo]);
 
   const [notes, setNotes] = useState<{ [key: string]: Note[] } | null | []>(
     null

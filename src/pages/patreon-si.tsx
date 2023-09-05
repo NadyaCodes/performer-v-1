@@ -7,6 +7,22 @@ import cookie from "cookie";
 import { usePatreon } from "@component/contexts/PatreonContext";
 import type { ObjectList } from "@component/data/types";
 import type { ServerResponse, IncomingMessage } from "http";
+import { useEffectOnce } from "@component/components/AddProgramResult/helpers";
+
+export type PatreonRelationships = {
+  memberships: {
+    data: ObjectList[];
+  };
+};
+
+export type PatreonAPIResponse = {
+  data: {
+    attributes: ObjectList;
+    id: string;
+    type: string;
+    relationships: PatreonRelationships;
+  };
+};
 
 export const makeTokenCookies = (
   authToken: string,
@@ -53,13 +69,15 @@ export async function fetchPatreonUserInfo(accessToken: string) {
       return null;
     }
 
-    const data = await response.json();
-    const membershipData = data.data.relationships.memberships.data[0];
+    const data: PatreonAPIResponse = await response.json();
+
+    const membershipData =
+      data?.data?.relationships?.memberships?.data[0] || {};
     const extraData: ObjectList = {
-      firstName: data.data.attributes.first_name,
-      fullName: data.data.attributes.full_name,
-      memberPatreonId: data.data.id,
-      email: data.data.attributes.email,
+      firstName: data.data.attributes!.first_name || "",
+      fullName: data.data.attributes.full_name || "",
+      memberPatreonId: data.data.id || "",
+      email: data.data.attributes.email || "",
     };
 
     const fieldsToAssign = [
@@ -68,11 +86,13 @@ export async function fetchPatreonUserInfo(accessToken: string) {
       "memberPatreonId",
       "email",
     ];
+
     fieldsToAssign.forEach((field) => {
       if (extraData[field]) {
-        membershipData[field] = extraData[field];
+        membershipData[field] = extraData[field] as string;
       }
     });
+
     return membershipData;
   } catch (error) {
     console.error("Error fetching user info: ", error);
@@ -133,10 +153,11 @@ type PatreonSIProps = {
 const PatreonSI: NextPage<PatreonSIProps> = ({ userInfo }) => {
   const { setPatreonInfo } = usePatreon();
   const router = useRouter();
-  useEffect(() => {
+
+  useEffectOnce(() => {
     setPatreonInfo({ ...userInfo });
     router.push("/patreon");
-  }, []);
+  });
 
   return (
     <>
@@ -160,7 +181,7 @@ export const getServerSideProps: GetServerSideProps<PatreonSIProps> = async (
 
   const CLIENT_ID = process.env.PATREON_CLIENT_ID || "";
   const CLIENT_SECRET = process.env.PATREON_CLIENT_SECRET || "";
-  const REDIRECT_URL = `${process.env.BASE_URL}/patreon-si`;
+  const REDIRECT_URL = `${process.env.BASE_URL || ""}/patreon-si`;
 
   const patreonOAuthClient = patreonOAuth(CLIENT_ID, CLIENT_SECRET);
 

@@ -16,10 +16,17 @@ export default function PatreonLogout() {
       console.error("Logout failed:", error);
     }
   };
+
+  const handleLogOut = () => {
+    patreonLogOut().catch((error) =>
+      console.error("Error logging out: ", error)
+    );
+  };
+
   return (
     <button
       className="rounded-full border-2 border-indigo-800 bg-indigo-50 p-4 text-lg text-indigo-600 transition-all hover:scale-110 hover:bg-indigo-600 hover:text-indigo-50"
-      onClick={() => patreonLogOut()}
+      onClick={() => handleLogOut()}
     >
       Disconnect Patreon
     </button>

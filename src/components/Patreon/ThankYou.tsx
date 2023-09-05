@@ -22,7 +22,7 @@ export default function ThankYou() {
       particleCount: 30,
       startVelocity: 40,
       spread: 90,
-    });
+    })?.catch((error) => console.error("Confetti error: ", error));
   }, []);
 
   return (
