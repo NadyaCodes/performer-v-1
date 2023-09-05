@@ -13,6 +13,9 @@ import MyProgramsLoading from "./MyProgramsLoading";
 import type { ProgramWithType } from "./MyProgramsComponent";
 import type { KeyValueListType } from "./MyProgramsComponent";
 import type { PTProgram, FTProgram } from "@prisma/client";
+import PatreonLinkOrLogout from "../PatreonButtons/PatreonLinkOrLogout";
+import type { Note } from "@prisma/client";
+import { usePatreon } from "@component/contexts/PatreonContext";
 
 export type FavsWithSLOType = {
   schoolLocation: SchoolLocation;
@@ -43,6 +46,8 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
   >(null);
 
   const utils = api.useContext();
+
+  const { patreonInfo } = usePatreon();
 
   useEffect(() => {
     setLoadingDelete(false);
@@ -383,58 +388,64 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
       });
     });
 
-    const newCustomProgramRefs: Record<
-      string,
-      React.RefObject<HTMLDivElement>
-    > = {};
+    if (patreonInfo && patreonInfo.id) {
+      const newCustomProgramRefs: Record<
+        string,
+        React.RefObject<HTMLDivElement>
+      > = {};
 
-    if (displayCustom && displayCustom.length > 0) {
-      displayCustom.forEach((program) => {
-        newCustomProgramRefs[program.id] = React.createRef<HTMLDivElement>();
-      });
-      setCustomProgramRefs(newCustomProgramRefs);
-    }
-
-    newKeyValueList.push({
-      text: "-- Custom Programs --",
-      type: "custom",
-      id: "customHeader",
-      componentRef: customHeaderRef,
-    });
-
-    if (displayCustom && displayCustom.length > 0) {
-      displayCustom.forEach((program) => {
-        let text = program.school || program.name;
-        if (!text) {
-          if (program.city) text = `Unknown Program: ${program.city}`;
-          else if (program.province)
-            text = `Unknown Program: ${program.province}`;
-          else if (program.country)
-            text = `Unknown Program: ${program.country}`;
-          else if (program.website)
-            text = `Unknown Program: ${program.website}`;
-          else if (program.typeFt) text = "Unknown Program: Full Time";
-          else if (program.typePt) text = "Unknown Program: Part Time";
-          else if (program.disciplineAct) text = "Unknown Program: Acting";
-          else if (program.disciplineSing) text = "Unknown Program: Singing";
-          else if (program.disciplineDance) text = "Unknown Program: Dance";
-          else if (program.disciplineMT)
-            text = "Unknown Program: Musical Theatre";
-          else text = "Unknown Program";
-        }
-        const ref = newCustomProgramRefs[program.id];
-
-        newKeyValueList.push({
-          text,
-          type: "custom",
-          id: program.id,
-          componentRef: ref,
+      if (displayCustom && displayCustom.length > 0) {
+        displayCustom.forEach((program) => {
+          newCustomProgramRefs[program.id] = React.createRef<HTMLDivElement>();
         });
+        setCustomProgramRefs(newCustomProgramRefs);
+      }
+
+      newKeyValueList.push({
+        text: "-- Custom Programs --",
+        type: "custom",
+        id: "customHeader",
+        componentRef: customHeaderRef,
       });
+
+      if (displayCustom && displayCustom.length > 0) {
+        displayCustom.forEach((program) => {
+          let text = program.school || program.name;
+          if (!text) {
+            if (program.city) text = `Unknown Program: ${program.city}`;
+            else if (program.province)
+              text = `Unknown Program: ${program.province}`;
+            else if (program.country)
+              text = `Unknown Program: ${program.country}`;
+            else if (program.website)
+              text = `Unknown Program: ${program.website}`;
+            else if (program.typeFt) text = "Unknown Program: Full Time";
+            else if (program.typePt) text = "Unknown Program: Part Time";
+            else if (program.disciplineAct) text = "Unknown Program: Acting";
+            else if (program.disciplineSing) text = "Unknown Program: Singing";
+            else if (program.disciplineDance) text = "Unknown Program: Dance";
+            else if (program.disciplineMT)
+              text = "Unknown Program: Musical Theatre";
+            else text = "Unknown Program";
+          }
+          const ref = newCustomProgramRefs[program.id];
+
+          newKeyValueList.push({
+            text,
+            type: "custom",
+            id: program.id,
+            componentRef: ref,
+          });
+        });
+      }
     }
 
     setKeyValueList(newKeyValueList);
-  }, [displayData, displayCustom]);
+  }, [displayData, displayCustom, patreonInfo]);
+
+  const [notes, setNotes] = useState<{ [key: string]: Note[] } | null | []>(
+    null
+  );
 
   const programDisplay = displayData?.map((element: ProgramWithInfo) => {
     return (
@@ -446,6 +457,8 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
         findUserFavs={findUserFavs}
         setUserFavs={setUserFavs}
         ref={favProgramRefs[element.id]}
+        notes={notes}
+        setNotes={setNotes}
       />
     );
   });
@@ -460,6 +473,8 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
         loadingDelete={loadingDelete}
         setLoadingDelete={setLoadingDelete}
         ref={customProgramRefs[element.id]}
+        notes={notes}
+        setNotes={setNotes}
       />
     );
   });
@@ -539,6 +554,16 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
           }}
         >
           {!showUpdateCustom && !loading && (
+            <div
+              className="mr-52 place-self-end opacity-0"
+              style={{ animation: "pullDownTop 0.5s linear 1s forwards" }}
+            >
+              <div style={{ animation: "wiggle .3s linear 2s  3 forwards" }}>
+                <PatreonLinkOrLogout />
+              </div>
+            </div>
+          )}
+          {!showUpdateCustom && !loading && (
             <ProgramDisplay
               programDisplay={programDisplay}
               addCustomButton={addCustomButton}
@@ -550,6 +575,14 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
         </div>
 
         <div className="flex w-full flex-col items-center mobileMenu:hidden">
+          {!showUpdateCustom && !loading && (
+            <div
+              className="m-4 place-self-end opacity-0"
+              style={{ animation: "pullDownTop 0.5s linear 1s forwards" }}
+            >
+              <PatreonLinkOrLogout />
+            </div>
+          )}
           {!showUpdateCustom && !loading && (
             <ProgramDisplay
               programDisplay={programDisplay}

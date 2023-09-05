@@ -1,22 +1,17 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import type { CustomProgram, Note } from "@prisma/client";
-import { useSession } from "next-auth/react";
-import { api } from "@component/utils/api";
-import NoteComponent from "./NoteComponent";
 import {
   cautionCircle,
-  chevronUp,
   pencilBox,
-  plusIcon,
   basicStar,
   xMark,
 } from "@component/data/svgs";
-import LoadingSpinner from "../Loading/LoadingSpinner";
 import LoadingLines from "../Loading/LoadingLines";
-import { validateNote } from "./helpers";
 import DeleteCheck from "./DeleteCheck";
-import { useEffectOnce } from "../AddProgramResult/helpers";
+import NoteDisplay from "./NoteDisplay";
+import { usePatreon } from "@component/contexts/PatreonContext";
+import NotesNoPatreon from "./NotesNoPatreon";
 
 interface SingleCustomProps {
   program: CustomProgram;
@@ -28,6 +23,10 @@ interface SingleCustomProps {
   >;
   loadingDelete: string | boolean;
   setLoadingDelete: React.Dispatch<React.SetStateAction<string | boolean>>;
+  notes: { [key: string]: Note[] } | [] | null;
+  setNotes: React.Dispatch<
+    React.SetStateAction<{ [key: string]: Note[] } | null | []>
+  >;
 }
 
 const SingleCustom = React.forwardRef<HTMLDivElement, SingleCustomProps>(
@@ -38,71 +37,16 @@ const SingleCustom = React.forwardRef<HTMLDivElement, SingleCustomProps>(
       setShowUpdateCustom,
       loadingDelete,
       setLoadingDelete,
+      notes,
+      setNotes,
     },
     ref
   ) => {
-    const { data: sessionData } = useSession();
-    const utils = api.useContext();
-    const userId = sessionData?.user.id;
+    const { patreonInfo } = usePatreon();
 
-    const [notes, setNotes] = useState<Note[] | [] | null>(null);
     const [noteInput, setNoteInput] = useState<boolean>(false);
-    const [inputText, setInputText] = useState<string>("");
-    const [loadingNotes, setLoadingNotes] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>("");
     const [deleteCheck, setDeleteCheck] = useState<boolean>(false);
-
-    const fetchNotes = async () => {
-      if (program.id) {
-        const notesForProgram =
-          await utils.notes.getAllForCustomProgramId.fetch({
-            customId: program.id,
-          });
-        return notesForProgram;
-      }
-    };
-
-    useEffectOnce(() => {
-      fetchNotes()
-        .then((result) => result && setNotes(result))
-        .catch((error) => console.error("Error fetching notes: ", error));
-    });
-
-    const { mutate: createNote } = api.notes.add.useMutation({
-      async onSuccess(data) {
-        await utils.notes.getAll.invalidate();
-
-        setInputText("");
-        fetchNotes()
-          .then((result) => result && setNotes(result))
-          .then(() => setLoadingNotes(false))
-          .catch((error) => console.error("Error fetching notes: ", error));
-        return data;
-      },
-      onError(error) {
-        console.log("createNotes error: ", error);
-      },
-    });
-
-    const addNote = (userId: string, customId: string, text: string) => {
-      const sanitizedText = validateNote(text, setErrorMessage);
-      if (sanitizedText) {
-        setLoadingNotes(true);
-        setNoteInput(false);
-        return createNote({ userId, customId, text: sanitizedText });
-      }
-    };
-
-    const notesDisplay = notes?.map((note) => {
-      return (
-        <NoteComponent
-          note={note}
-          setNotes={setNotes}
-          fetchNotes={fetchNotes}
-          key={note.id}
-        />
-      );
-    });
 
     const typesArray = [];
     if (program.typeFt) {
@@ -234,74 +178,18 @@ const SingleCustom = React.forwardRef<HTMLDivElement, SingleCustomProps>(
               )}
             </div>
             <div className="mb-3 w-48 border-b-2 border-indigo-700 p-2"></div>
-            {notesDisplay && notesDisplay.length > 0 && (
-              <div className="m-2 flex w-11/12 content-center justify-center mobileMenu:w-7/12">
-                <ul className=" w-full">{notesDisplay}</ul>
-              </div>
-            )}
-            {notesDisplay && notesDisplay.length === 0 && (
-              <div className="mb-2 w-full text-center italic">No Notes</div>
-            )}
-            {!notesDisplay && (
-              <div className="flex flex-col items-center">
-                <span>
-                  <LoadingSpinner iconSize="medium" />
-                </span>
-                <span>Loading Notes</span>
-              </div>
-            )}
-            {noteInput && (
-              <button
-                className="m-2 flex w-40 justify-between rounded bg-transparent px-4 py-2 font-semibold text-indigo-700 hover:bg-cyan-700 hover:text-cyan-50 hover:shadow-md hover:shadow-cyan-800"
-                onClick={() => {
-                  setNoteInput(false);
-                  setInputText("");
-                }}
-              >
-                <span>{chevronUp}</span>
-                <span>Cancel</span>
-                <span>{chevronUp}</span>
-              </button>
-            )}
-            {!noteInput && !loadingNotes && (
-              <button
-                className="m-2 flex w-40 place-items-center justify-between rounded bg-transparent px-4 py-2 font-semibold text-indigo-700 transition-all hover:bg-indigo-800 hover:text-indigo-50 hover:shadow-md hover:shadow-indigo-900"
-                onClick={() => setNoteInput(true)}
-              >
-                <span>Add Note</span>
-                <span>{plusIcon}</span>
-              </button>
-            )}
-            {noteInput && (
-              <div
-                style={{
-                  animation: "pullDown 0.2s ease-out",
-                  transformOrigin: "50% 0%",
-                }}
-                className="flex w-full place-items-center place-self-center mobileMenu:m-3 mobileMenu:w-7/12"
-              >
-                <input
-                  type="text"
-                  value={inputText}
-                  onChange={(e) => setInputText(e.target.value)}
-                  className="block w-full rounded-lg border border-indigo-200 bg-indigo-100 p-2.5 text-sm text-gray-900 focus:border-indigo-600 focus:outline-indigo-600 focus:ring-indigo-600"
-                />
-                <button
-                  className=" p-.5 ml-2 h-fit rounded text-indigo-700  outline hover:scale-110 mobileMenu:ml-5"
-                  onClick={() =>
-                    userId &&
-                    program.id &&
-                    addNote(userId, program.id, inputText)
-                  }
-                >
-                  {plusIcon}
-                </button>
-              </div>
-            )}
-            {loadingNotes && (
-              <div className="mt-7 text-indigo-800">
-                <LoadingSpinner iconSize="medium" />
-              </div>
+            {patreonInfo && patreonInfo.id ? (
+              <NoteDisplay
+                noteInput={noteInput}
+                program={program}
+                setNoteInput={setNoteInput}
+                setErrorMessage={setErrorMessage}
+                notes={notes}
+                setNotes={setNotes}
+                type="custom"
+              />
+            ) : (
+              <NotesNoPatreon />
             )}
           </div>
         </div>

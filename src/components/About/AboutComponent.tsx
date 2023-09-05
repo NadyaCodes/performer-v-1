@@ -210,7 +210,7 @@ export default function AboutComponent() {
               </li>
               <li>
                 To be considered full-time, a program must be at least 3 months
-                long, will full-length work-days
+                long, with full-length work-days
               </li>
               <li>
                 Teachers of private lessons/coachings are more than welcome in

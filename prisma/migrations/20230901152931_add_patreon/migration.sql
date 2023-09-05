@@ -1,0 +1,3 @@
+-- AlterTable
+-- ALTER TABLE "User" ADD COLUMN     "patreonEmail" TEXT NOT NULL DEFAULT email,
+-- ADD COLUMN     "patreonOverride" BOOLEAN NOT NULL DEFAULT false;

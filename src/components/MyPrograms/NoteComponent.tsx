@@ -9,10 +9,12 @@ export default function NoteComponent({
   note,
   setNotes,
   fetchNotes,
+  notesKey,
 }: {
   note: Note;
-  setNotes: Dispatch<SetStateAction<Note[] | [] | null>>;
+  setNotes: Dispatch<SetStateAction<{ [key: string]: Note[] } | [] | null>>;
   fetchNotes: () => Promise<Note[] | undefined>;
+  notesKey: string;
 }) {
   const [loading, setLoading] = useState<boolean>(false);
   const [hover, setHover] = useState<boolean>(false);
@@ -21,7 +23,14 @@ export default function NoteComponent({
     async onSuccess(data) {
       await utils.notes.getAll.invalidate();
       fetchNotes()
-        .then((result: Note[] | undefined) => result && setNotes(result))
+        .then(
+          (result: Note[] | undefined) =>
+            result &&
+            setNotes((prevNotes) => ({
+              ...prevNotes,
+              [notesKey]: result,
+            }))
+        )
         .then(() => setLoading(false))
         .catch((error) => console.error("Error fetching notes: ", error));
       return data;

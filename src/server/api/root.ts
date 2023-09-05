@@ -8,6 +8,7 @@ import { ftProgramRouter } from "./routers/ftPrograms";
 import { favsRouter } from "./routers/favs";
 import { notesRouter } from "./routers/notes";
 import { customProgramRouter } from "./routers/customProgram";
+import { userRouter } from "./routers/user";
 
 /**
  * This is the primary router for your server.
@@ -24,6 +25,7 @@ export const appRouter = createTRPCRouter({
   favs: favsRouter,
   notes: notesRouter,
   customProgram: customProgramRouter,
+  user: userRouter
 });
 
 // export type definition of API
