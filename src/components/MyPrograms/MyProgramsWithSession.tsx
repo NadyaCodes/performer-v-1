@@ -576,9 +576,6 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
 
         <div className="flex w-full flex-col items-center mobileMenu:hidden">
           {!showUpdateCustom && !loading && (
-            // <div className="mb-3 mr-10 place-self-end">
-            //   <PatreonLinkOrLogout />
-            // </div>
             <div
               className="m-4 place-self-end opacity-0"
               style={{ animation: "pullDownTop 0.5s linear 1s forwards" }}

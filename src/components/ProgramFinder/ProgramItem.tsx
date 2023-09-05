@@ -28,8 +28,8 @@ export default function ProgramItem({
   ) => Promise<FavProgram[] | undefined | null>;
   favProgramIdsArray: string[] | null;
   loadingFavs: boolean | null;
-  setStarPopUp: Dispatch<SetStateAction<string>>;
-  starPopUp: string;
+  setStarPopUp?: Dispatch<SetStateAction<string>>;
+  starPopUp?: string;
 }) {
   const { data: sessionData } = useSession();
   const utils = api.useContext();
@@ -218,7 +218,7 @@ export default function ProgramItem({
   };
 
   const handleStarPopUp = () => {
-    setStarPopUp(element.id);
+    setStarPopUp && setStarPopUp(element.id);
   };
 
   return (
@@ -256,7 +256,7 @@ export default function ProgramItem({
         </div>
       )}
 
-      {!sessionData?.user && !loadingFavs && (
+      {!sessionData?.user && !loadingFavs && handleStarPopUp && (
         <div
           className="absolute mx-2 my-4 place-self-end hover:scale-150 hover:cursor-pointer md:mx-5"
           id={"favStar_" + element.id}

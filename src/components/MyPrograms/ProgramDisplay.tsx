@@ -64,18 +64,6 @@ export default function ProgramDisplay({
         />
 
         {patreonInfo && addCustomButton}
-        {/* {patreonInfo && {customProgramDisplay.length > 0 ? (
-          <div
-            className="w-11/12 mobileMenu:w-7/12"
-            style={{ animation: "flyInFadeIn 1s linear" }}
-          >
-            {customProgramDisplay}
-          </div>
-        ) : (
-          <div className="w-11/12 text-center italic mobileMenu:w-7/12">
-            <EmptyCustomPrograms />
-          </div>
-        )}} */}
         {patreonInfo && patreonInfo.id ? (
           customProgramDisplay.length > 0 ? (
             <div

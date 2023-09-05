@@ -7,6 +7,7 @@ export default function ThankYou() {
   const { patreonInfo } = usePatreon();
   const patreonName =
     patreonInfo?.firstName || patreonInfo?.fullName || patreonInfo?.email || "";
+
   useEffect(() => {
     confetti({
       colors: [

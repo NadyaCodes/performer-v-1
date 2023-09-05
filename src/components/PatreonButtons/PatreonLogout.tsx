@@ -5,20 +5,14 @@ export default function PatreonLogout() {
   const { setPatreonInfo } = usePatreon();
   const patreonLogOut = async () => {
     try {
-      // Call the server-side logout route
-      const response = await fetch("/api/patreon-logout"); // Replace with your actual route
+      const response = await fetch("/api/patreon-logout");
 
       if (response.ok) {
-        // Handle successful logout
-        // Redirect to the login page or any other appropriate action
-        // window.location.href = '/login';
         setPatreonInfo(null);
       } else {
-        // Handle logout error
         console.error("Logout failed:", response.statusText);
       }
     } catch (error) {
-      // Handle any logout errors here
       console.error("Logout failed:", error);
     }
   };

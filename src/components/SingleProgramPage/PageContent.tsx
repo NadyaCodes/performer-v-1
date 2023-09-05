@@ -39,12 +39,6 @@ export default function PageContent({ programId }: { programId: string }) {
   };
 
   const [schoolLocId, setSchoolLocId] = useState<string | null>(null);
-  // const useFetchSchoolLoc = () => {
-
-  //   return fetchSchoolLoc();
-  // };
-
-  // const fetchSchoolLocHook = useFetchSchoolLoc();
 
   useEffectOnce(() => {
     fetchFTProgram()
@@ -67,61 +61,6 @@ export default function PageContent({ programId }: { programId: string }) {
       })
       .catch((error) => console.error("Error fetching FT Program: ", error));
   });
-
-  // useEffect(() => {
-  //   if (programObject) {
-  //     fetchSchoolLoc()
-  //       .then((data) => {
-  //         if (data) {
-  //           const allInfo = {
-  //             id: programObject.id,
-  //             schoolLocationId: programObject.schoolLocationId,
-  //             website: programObject.website || data.website,
-  //             discipline: programObject.discipline,
-  //             name: programObject.name,
-  //             type: programObject.type,
-  //             cityObj: { ...data.location },
-  //             schoolObj: { ...data.school },
-  //           };
-  //           setAllProgramInfo(allInfo);
-  //         }
-  //       })
-  //       .catch((error) => console.error("Error fetching SchoolLoc: ", error));
-  //   }
-  // }, [programObject, fetchSchoolLoc]);
-
-  // useEffect(() => {
-  //   if (programObject && schoolLocId) {
-  //     const fetchSchoolLocation = async () => {
-  //       try {
-  //         const data = await utils.schoolLocation.getOneByIdPlusInfo.fetch({
-  //           id: schoolLocId,
-  //         });
-  //         if (data) {
-  //           const allInfo = {
-  //             id: programObject.id,
-  //             schoolLocationId: programObject.schoolLocationId,
-  //             website: programObject.website || data.website,
-  //             discipline: programObject.discipline,
-  //             name: programObject.name,
-  //             type: programObject.type,
-  //             cityObj: { ...data.location },
-  //             schoolObj: { ...data.school },
-  //           };
-  //           setAllProgramInfo(allInfo);
-  //         }
-  //       } catch (error) {
-  //         console.error("Error fetching SchoolLoc: ", error);
-  //       }
-  //     };
-
-  //     fetchSchoolLocation();
-  //   }
-  // }, [
-  //   programObject,
-  //   schoolLocId,
-  //   utils.schoolLocation.getOneByIdPlusInfo.fetch,
-  // ]);
 
   const fetchSchoolLoc = useCallback(async () => {
     if (schoolLocId) {
@@ -237,7 +176,6 @@ export default function PageContent({ programId }: { programId: string }) {
               key={allProgramInfo.id}
               element={allProgramInfo}
               fetchUserFavsObject={fetchFavsObj}
-              // favesObject={userFavsObject}
               setFavesObject={setUserFavsObject}
               favProgramIdsArray={favProgramIdsArray}
               loadingFavs={loadingFavs}
