@@ -9,7 +9,7 @@ export default function ConnectAccounts({ url }: { url: string }) {
         <span className="font-bold">Act. Sing. Dance. Repeat</span>?
       </h2>
       <a href={url} target="_blank" rel="noopener noreferrer">
-        <button className="rounded-full border-2 border-cyan-200 p-5 text-lg shadow-md shadow-indigo-400 transition-all hover:scale-110 hover:border-indigo-400">
+        <button className="m-2 rounded-full border-2 border-cyan-200 p-5 text-lg shadow-md shadow-indigo-400 transition-all hover:scale-110 hover:border-indigo-400">
           Connect Patreon Account Now
         </button>
       </a>

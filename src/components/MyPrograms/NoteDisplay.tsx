@@ -146,6 +146,9 @@ const NoteDisplay: React.FC<NoteDisplayProps> = ({
     }
   };
 
+  const noteButtonColor = type === "fav" ? "text-cyan-600" : "text-indigo-800";
+  const noteHoverColor = type === "fav" ? "bg-cyan-800" : "bg-indigo-800";
+
   return (
     <div className="flex w-full flex-col items-center">
       {notesDisplay && notesDisplay.length > 0 && (
@@ -180,7 +183,7 @@ const NoteDisplay: React.FC<NoteDisplayProps> = ({
       )}
       {!noteInput && !loadingNotes && (
         <button
-          className="m-2 flex w-40 place-items-center justify-between rounded bg-transparent px-4 py-2 font-semibold text-cyan-600 transition-all hover:bg-cyan-800 hover:text-cyan-50 hover:shadow-md hover:shadow-cyan-900"
+          className={`m-2 flex w-40 place-items-center justify-between rounded bg-transparent px-4 py-2 font-semibold ${noteButtonColor} transition-all hover:${noteHoverColor} hover:text-cyan-50 hover:shadow-md hover:shadow-cyan-900`}
           onClick={() => setNoteInput(true)}
         >
           <span>Add Note</span>

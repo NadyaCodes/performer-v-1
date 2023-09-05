@@ -11,7 +11,7 @@ export default function PatreonComponent({ url }: { url: string }) {
 
   return (
     <div className="flex w-full flex-col place-items-center">
-      {patreonInfo && patreonInfo.id ? (
+      {patreonInfo && patreonInfo.id && patreonInfo.id !== "patreonBypass" ? (
         <ThankYou />
       ) : (
         <ConnectAccounts url={url} />

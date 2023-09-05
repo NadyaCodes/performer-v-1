@@ -553,14 +553,16 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
                 : "",
           }}
         >
-          <div
-            className="mr-52 place-self-end opacity-0"
-            style={{ animation: "pullDownTop 0.5s linear 4s forwards" }}
-          >
-            <div style={{ animation: "wiggle .3s linear 4.5s  3 forwards" }}>
-              <PatreonLinkOrLogout />
+          {!showUpdateCustom && !loading && (
+            <div
+              className="mr-52 place-self-end opacity-0"
+              style={{ animation: "pullDownTop 0.5s linear 1s forwards" }}
+            >
+              <div style={{ animation: "wiggle .3s linear 2s  3 forwards" }}>
+                <PatreonLinkOrLogout />
+              </div>
             </div>
-          </div>
+          )}
           {!showUpdateCustom && !loading && (
             <ProgramDisplay
               programDisplay={programDisplay}
@@ -573,9 +575,17 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
         </div>
 
         <div className="flex w-full flex-col items-center mobileMenu:hidden">
-          <div className="mb-3 mr-10 place-self-end">
-            <PatreonLinkOrLogout />
-          </div>
+          {!showUpdateCustom && !loading && (
+            // <div className="mb-3 mr-10 place-self-end">
+            //   <PatreonLinkOrLogout />
+            // </div>
+            <div
+              className="m-4 place-self-end opacity-0"
+              style={{ animation: "pullDownTop 0.5s linear 1s forwards" }}
+            >
+              <PatreonLinkOrLogout />
+            </div>
+          )}
           {!showUpdateCustom && !loading && (
             <ProgramDisplay
               programDisplay={programDisplay}

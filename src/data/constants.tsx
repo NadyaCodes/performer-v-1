@@ -61,3 +61,5 @@ export const disciplinesFull: ObjectList = {
   dance: "Dance",
   mt: "Musical Theatre",
 };
+
+export const patreonBypassIds = ["clkfwsc8n0000ya53bsy5eiq0"];

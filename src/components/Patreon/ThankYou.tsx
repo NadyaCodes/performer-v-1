@@ -29,16 +29,16 @@ export default function ThankYou() {
       <h2 className="mt-7 flex flex-col p-4 text-4xl font-semibold">
         Thank You For Subscribing!
       </h2>
-      <div className="pb-10">
+      <div className="m-2 pb-10">
         Your support will go towards continuing to build and grow this resource.
       </div>
-      <div className="flex w-full items-center justify-around">
+      <div className="flex w-full flex-col items-center justify-around mobileMenu:flex-row">
         {patreonName ? (
           <div>Currently logged in as: {patreonName}</div>
         ) : (
           <div>Patreon Account Connected</div>
         )}
-        <div className="place-self-end">
+        <div className="m-3 mobileMenu:m-0 mobileMenu:place-self-end">
           <PatreonLogout />
         </div>
       </div>
