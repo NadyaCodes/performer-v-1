@@ -243,7 +243,7 @@ const SingleCustom = React.forwardRef<HTMLDivElement, SingleCustomProps>(
               )}
             </div>
             <div className="mb-3 w-48 border-b-2 border-indigo-700 p-2"></div>
-            {patreonInfo ? (
+            {patreonInfo && patreonInfo.id ? (
               <NoteDisplay
                 noteInput={noteInput}
                 program={program}

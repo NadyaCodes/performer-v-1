@@ -388,7 +388,7 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
       });
     });
 
-    if (patreonInfo) {
+    if (patreonInfo && patreonInfo.id) {
       const newCustomProgramRefs: Record<
         string,
         React.RefObject<HTMLDivElement>
@@ -553,8 +553,13 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
                 : "",
           }}
         >
-          <div className="mr-52 place-self-end">
-            <PatreonLinkOrLogout />
+          <div
+            className="mr-52 place-self-end opacity-0"
+            style={{ animation: "pullDownTop 0.5s linear 4s forwards" }}
+          >
+            <div style={{ animation: "wiggle .3s linear 4.5s  3 forwards" }}>
+              <PatreonLinkOrLogout />
+            </div>
           </div>
           {!showUpdateCustom && !loading && (
             <ProgramDisplay

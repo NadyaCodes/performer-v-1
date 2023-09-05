@@ -125,7 +125,7 @@ const SingleProgram = React.forwardRef<HTMLDivElement, SingleProgramProps>(
             {displayDisciplineText(program.discipline)}
           </div>
           <div className="mb-3 w-48 border-b-2 border-cyan-600 p-2"></div>
-          {patreonInfo ? (
+          {patreonInfo && patreonInfo.id ? (
             <NoteDisplay
               noteInput={noteInput}
               program={program}

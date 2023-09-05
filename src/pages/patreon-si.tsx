@@ -167,15 +167,30 @@ export const getServerSideProps: GetServerSideProps<PatreonSIProps> = async (
   let authToken = cookie.parse(req.headers.cookie || "").patreonAccessToken;
   let refreshToken = cookie.parse(req.headers.cookie || "").patreonRefreshToken;
 
+  // if (!authToken) {
+  //   const tokensResponse = await patreonOAuthClient.getTokens(
+  //     code,
+  //     REDIRECT_URL
+  //   );
+  //   refreshToken = tokensResponse.refresh_token;
+  //   authToken = tokensResponse.access_token;
+  //   if (authToken && refreshToken) {
+  //     makeTokenCookies(authToken, refreshToken, res);
+  //   }
+  // }
   if (!authToken) {
-    const tokensResponse = await patreonOAuthClient.getTokens(
-      code,
-      REDIRECT_URL
-    );
-    refreshToken = tokensResponse.refresh_token;
-    authToken = tokensResponse.access_token;
-    if (authToken && refreshToken) {
-      makeTokenCookies(authToken, refreshToken, res);
+    try {
+      const tokensResponse = await patreonOAuthClient.getTokens(
+        code,
+        REDIRECT_URL
+      );
+      refreshToken = tokensResponse.refresh_token;
+      authToken = tokensResponse.access_token;
+      if (authToken && refreshToken) {
+        makeTokenCookies(authToken, refreshToken, res);
+      }
+    } catch (error) {
+      console.error("Error fetching tokens: ", error);
     }
   }
   let fetchedUserInfo;

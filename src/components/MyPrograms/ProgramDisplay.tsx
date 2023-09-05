@@ -76,7 +76,7 @@ export default function ProgramDisplay({
             <EmptyCustomPrograms />
           </div>
         )}} */}
-        {patreonInfo ? (
+        {patreonInfo && patreonInfo.id ? (
           customProgramDisplay.length > 0 ? (
             <div
               className="w-11/12 mobileMenu:w-7/12"

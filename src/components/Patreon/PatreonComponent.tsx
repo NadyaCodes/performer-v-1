@@ -11,7 +11,11 @@ export default function PatreonComponent({ url }: { url: string }) {
 
   return (
     <div className="flex w-full flex-col place-items-center">
-      {patreonInfo ? <ThankYou /> : <ConnectAccounts url={url} />}
+      {patreonInfo && patreonInfo.id ? (
+        <ThankYou />
+      ) : (
+        <ConnectAccounts url={url} />
+      )}
       <FlyingIndigoDiv />
       <MembershipOptions />
     </div>

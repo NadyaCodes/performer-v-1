@@ -8,7 +8,7 @@ export default function PatreonLinkOrLogout() {
 
   return (
     <div>
-      {patreonInfo ? (
+      {patreonInfo && patreonInfo.id ? (
         <PatreonPageLink text="Patreon Dashboard" />
       ) : (
         <PatreonPageLink text="Connect Patreon" />
