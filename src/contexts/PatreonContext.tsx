@@ -39,7 +39,7 @@ export function PatreonProvider({ children }: { children: ReactNode }) {
   }, [patreonInfo, userId]);
 
   const { mutate: updateUserPatreonId } = api.user.updatePatreonId.useMutation({
-    async onSuccess() {
+    onSuccess() {
       console.log("Updated patreon id");
     },
     onError(error) {

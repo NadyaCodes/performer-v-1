@@ -23,6 +23,12 @@ export type PatreonAPIResponse = {
   };
 };
 
+export type TokenAPIResponse = {
+  access_token: string;
+  refresh_token: string;
+  [key: string]: string;
+};
+
 export const makeTokenCookies = (
   authToken: string,
   refreshToken: string,
@@ -73,19 +79,14 @@ export async function fetchPatreonUserInfo(accessToken: string) {
 
     const membershipData =
       data?.data?.relationships?.memberships?.data[0] || {};
-    const extraData: ObjectList = {
-      firstName: data.data.attributes!.first_name || "",
+    const extraData = {
+      firstName: data.data.attributes.first_name || "",
       fullName: data.data.attributes.full_name || "",
       memberPatreonId: data.data.id || "",
       email: data.data.attributes.email || "",
     };
 
-    const fieldsToAssign = [
-      "firstName",
-      "fullName",
-      "memberPatreonId",
-      "email",
-    ];
+    const fieldsToAssign = Object.keys(extraData) as (keyof typeof extraData)[];
 
     fieldsToAssign.forEach((field) => {
       if (extraData[field]) {
@@ -134,7 +135,7 @@ export const handleTokenAndInfoRefresh = async (
       throw new Error("Failed to refresh access token");
     }
 
-    const tokensResponse = await refreshResponse.json();
+    const tokensResponse: TokenAPIResponse = await refreshResponse.json();
     authToken = tokensResponse.access_token;
     refreshToken = tokensResponse.refresh_token;
 
@@ -156,7 +157,11 @@ const PatreonSI: NextPage<PatreonSIProps> = ({ userInfo }) => {
 
   useEffectOnce(() => {
     setPatreonInfo({ ...userInfo });
-    router.push("/patreon");
+    router
+      .push("/patreon")
+      .catch((error) =>
+        console.error("Error redirecting to /patreon: ", error)
+      );
   });
 
   return (
@@ -203,7 +208,7 @@ export const getServerSideProps: GetServerSideProps<PatreonSIProps> = async (
       console.error("Error fetching tokens: ", error);
     }
   }
-  let fetchedUserInfo;
+  let fetchedUserInfo: ObjectList | null;
   try {
     if (authToken && refreshToken) {
       fetchedUserInfo = await handleTokenAndInfoRefresh(
