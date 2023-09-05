@@ -18,7 +18,7 @@ const Patreon: NextPage<PatreonProps> = ({ url, userInfo }) => {
 
   useEffect(() => {
     setPatreonInfo(userInfo);
-  }, [userInfo]);
+  }, [userInfo, setPatreonInfo]);
 
   return (
     <>

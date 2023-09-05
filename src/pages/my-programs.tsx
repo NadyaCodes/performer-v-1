@@ -13,7 +13,7 @@ export default function MyPrograms({ userInfo }: { userInfo: ObjectList }) {
 
   useEffect(() => {
     setPatreonInfo(userInfo);
-  }, [userInfo]);
+  }, [userInfo, setPatreonInfo]);
 
   return (
     <>
