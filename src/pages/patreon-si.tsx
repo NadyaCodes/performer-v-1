@@ -1,7 +1,6 @@
 import type { NextPage, GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { useEffect } from "react";
 import { oauth as patreonOAuth } from "patreon";
 import cookie from "cookie";
 import { usePatreon } from "@component/contexts/PatreonContext";
@@ -69,7 +68,8 @@ export async function fetchPatreonUserInfo(accessToken: string) {
       return null;
     }
 
-    const data: PatreonAPIResponse = await response.json();
+    const data: PatreonAPIResponse =
+      (await response.json()) as PatreonAPIResponse;
 
     const membershipData =
       data?.data?.relationships?.memberships?.data[0] || {};

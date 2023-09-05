@@ -6,7 +6,6 @@ import React, {
   useState,
   useEffect,
   type ReactNode,
-  useCallback,
 } from "react";
 import { patreonBypassIds } from "@component/data/constants";
 import { api } from "@component/utils/api";
@@ -40,7 +39,9 @@ export function PatreonProvider({ children }: { children: ReactNode }) {
   }, [patreonInfo, userId]);
 
   const { mutate: updateUserPatreonId } = api.user.updatePatreonId.useMutation({
-    async onSuccess() {},
+    async onSuccess() {
+      console.log("Updated patreon id");
+    },
     onError(error) {
       console.log("createExample error: ", error);
     },
