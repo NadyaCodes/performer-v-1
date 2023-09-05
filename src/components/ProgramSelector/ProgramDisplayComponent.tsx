@@ -40,6 +40,7 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
   const [favProgramIdsArray, setFavProgramIdsArray] = useState<string[] | null>(
     null
   );
+  const [starPopUp, setStarPopUp] = useState<string>("");
 
   const { data: sessionData } = useSession();
   const userId = sessionData?.user.id || null;
@@ -187,50 +188,6 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
       .catch((error) => console.error("Error fetching data: ", error));
   });
 
-  // useEffect(() => {
-  //   if (sessionData) {
-  //     fetchFavsObj(sessionData?.user.id)
-  //       .then((result) => result && setUserFavsObject(result))
-  //       .catch((error) => console.error("Error fetching favs: ", error));
-  //   } else {
-  //     setLoadingFavs(false);
-  //   }
-  // }, [sessionData]);
-
-  // const fetchFavsObjMemo = useMemo(
-  //   () => async (userId: string) => {
-  //     return await utils.favs.getAllForUser.fetch({ userId });
-  //   },
-  //   []
-  // );
-
-  // useEffect(() => {
-  //   if (sessionData) {
-  //     fetchFavsObjMemo(sessionData.user.id)
-  //       .then((result) => result && setUserFavsObject(result))
-  //       .catch((error) => console.error("Error fetching favs: ", error));
-  //   } else {
-  //     setLoadingFavs(false);
-  //   }
-  // }, [sessionData, fetchFavsObjMemo]);
-
-  // useEffect(() => {
-  //   const fetchFavsObj = async (userId: string) => {
-  //     return await utils.favs.getAllForUser.fetch({ userId });
-  //   };
-
-  //   if (sessionData) {
-  //     fetchFavsObj(sessionData.user.id)
-  //       .then((result) => {
-  //         if (result) {
-  //           setUserFavsObject(result);
-  //         }
-  //       })
-  //       .catch((error) => console.error("Error fetching favs: ", error));
-  //   } else {
-  //     setLoadingFavs(false);
-  //   }
-  // }, [sessionData]);
   const useFetchFavsObjCB = () => {
     const fetchFavsObjCB = useCallback(async (userId: string) => {
       return await utils.favs.getAllForUser.fetch({ userId });
@@ -254,40 +211,6 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
     }
   }, [userId, fetchFavsObjHook]);
 
-  // const fetchFavsObjMemo = useMemo(
-  //   () => async (userId: string) => {
-  //     return await utils.favs.getAllForUser.fetch({ userId });
-  //   },
-  //   [utils.favs.getAllForUser.fetch]
-  // );
-
-  // useEffect(() => {
-  //   if (sessionData) {
-  //     fetchFavsObjMemo(sessionData.user.id)
-  //       .then((result) => result && setUserFavsObject(result))
-  //       .catch((error) => console.error("Error fetching favs: ", error));
-  //   } else {
-  //     setLoadingFavs(false);
-  //   }
-  // }, [sessionData, fetchFavsObjMemo]);
-
-  // const fetchFavsObjCB = useCallback(
-  //   async (userId: string) => {
-  //     return await utils.favs.getAllForUser.fetch({ userId });
-  //   }
-  //   [utils.favs.getAllForUser.fetch]
-  // );
-
-  // useEffect(() => {
-  //   if (sessionData) {
-  //     fetchFavsObjCB(sessionData?.user.id)
-  //       .then((result) => result && setUserFavsObject(result))
-  //       .catch((error) => console.error("Error fetching favs: ", error));
-  //   } else {
-  //     setLoadingFavs(false);
-  //   }
-  // }, [sessionData, fetchFavsObjCB]);
-
   const fetchFavsObj = async (userId: string) => {
     return await utils.favs.getAllForUser.fetch({ userId });
   };
@@ -303,16 +226,23 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
     }
   }, [userFavsObject]);
 
+  const memoizedSetStarPopUp = useCallback<
+    React.Dispatch<React.SetStateAction<string>>
+  >((newValue: string | ((prevState: string) => string)) => {
+    setStarPopUp(newValue);
+  }, []);
+
   const displayArray = itemArray?.map((program) => {
     return (
       <ProgramItem
         key={program.id}
         element={program}
         fetchUserFavsObject={fetchFavsObj}
-        // favesObject={userFavsObject}
         setFavesObject={setUserFavsObject}
         favProgramIdsArray={favProgramIdsArray}
         loadingFavs={loadingFavs}
+        setStarPopUp={memoizedSetStarPopUp}
+        starPopUp={starPopUp}
       />
     );
   });

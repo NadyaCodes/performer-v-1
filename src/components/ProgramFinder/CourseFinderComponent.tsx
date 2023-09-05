@@ -49,6 +49,7 @@ const CourseFinderComponent: NextPage = () => {
   const [activeSearchTerm, setActiveSearchTerm] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [loadingPageData, setLoadingPageData] = useState(true);
+  const [starPopUp, setStarPopUp] = useState<string>("");
 
   const userId = sessionData?.user.id || null;
 
@@ -219,6 +220,12 @@ const CourseFinderComponent: NextPage = () => {
     []
   );
 
+  const memoizedSetStarPopUp = useCallback<
+    React.Dispatch<React.SetStateAction<string>>
+  >((newValue: string | ((prevState: string) => string)) => {
+    setStarPopUp(newValue);
+  }, []);
+
   useEffect(() => {
     const tempProgramDisplay: JSX.Element[] = filteredPrograms.map(
       (element) => {
@@ -227,10 +234,11 @@ const CourseFinderComponent: NextPage = () => {
             key={element.id}
             element={element}
             fetchUserFavsObject={fetchFavsObjHook}
-            // favesObject={userFavsObject}
             setFavesObject={setUserFavsObject}
             favProgramIdsArray={favProgramIdsArray}
             loadingFavs={loadingFavs}
+            setStarPopUp={memoizedSetStarPopUp}
+            starPopUp={starPopUp}
           />
         );
       }
@@ -244,6 +252,8 @@ const CourseFinderComponent: NextPage = () => {
     loadingFavs,
     memoizedSetProgramDisplay,
     fetchFavsObjHook,
+    starPopUp,
+    memoizedSetStarPopUp,
   ]);
 
   return (
@@ -317,5 +327,3 @@ const CourseFinderComponent: NextPage = () => {
 };
 
 export default CourseFinderComponent;
-
-// md:w-10/12 lg:w-11/12 xl:w-10/12 2xl:w-9/12

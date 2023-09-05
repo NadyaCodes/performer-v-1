@@ -10,23 +10,26 @@ import ShareOptions from "./ShareOptions";
 
 import { convertUserFavs } from "./helpers";
 import ShareIcon from "./ShareIcon";
+import SignInPrompt from "./SignInPrompt";
 
 export default function ProgramItem({
   element,
   fetchUserFavsObject,
-  // favesObject,
   setFavesObject,
   favProgramIdsArray,
   loadingFavs,
+  setStarPopUp,
+  starPopUp,
 }: {
   element: ProgramWithInfo;
-  // favesObject: FavProgram[] | null;
   setFavesObject: Dispatch<SetStateAction<FavProgram[] | null>> | null;
   fetchUserFavsObject: (
     userId: string
   ) => Promise<FavProgram[] | undefined | null>;
   favProgramIdsArray: string[] | null;
   loadingFavs: boolean | null;
+  setStarPopUp: Dispatch<SetStateAction<string>>;
+  starPopUp: string;
 }) {
   const { data: sessionData } = useSession();
   const utils = api.useContext();
@@ -176,67 +179,11 @@ export default function ProgramItem({
     },
   });
 
-  // const handleToggleFav = () => {
-  //   if (userId) {
-  //     setAnimateStar(true);
-  //     findFav(type, userId, element.id).then((favProgram) => {
-  //       if (favProgram) {
-  //         deleteFav({ id: favProgram.id });
-  //         try {
-  //           const result = await fetchUserFavsObject(userId);
-  //           if (result && setFavesObject) {
-  //             setFavesObject(result);
-  //             const convertedArray = convertUserFavs(result);
-  //             const filteredArray = convertedArray.filter(
-  //               (element) => element !== undefined
-  //             ) as string[];
-  //             if (filteredArray.includes(element.id)) {
-  //               setFav(true);
-  //             } else {
-  //               setFav(false);
-  //             }
-  //           }
-  //         } catch (error) {
-  //           console.error("Error fetching userFavsObject: ", error);
-  //         }
-  //       } else {
-  //         if (type === "pt") {
-  //           addFavPt({ userId, ptProgramId: element.id });
-  //         } else if (type === "ft") {
-  //           addFavFt({ userId, ftProgramId: element.id });
-  //         }
-  //         try {
-  //           const result = await fetchUserFavsObject(userId);
-  //           if (result && setFavesObject) {
-  //             setFavesObject(result);
-  //             const convertedArray = convertUserFavs(result);
-  //             const filteredArray = convertedArray.filter(
-  //               (element) => element !== undefined
-  //             ) as string[];
-  //             if (filteredArray.includes(element.id)) {
-  //               setFav(true);
-  //             } else {
-  //               setFav(false);
-  //             }
-  //           }
-  //         } catch (error) {
-  //           console.error("Error fetching UserFavsObject: ", error);
-  //         }
-  //       }
-
-  //     })
-
-  //   }
-  // };
-
   const handleToggleFav = () => {
     if (userId) {
       setAnimateStar(true);
       findFav(type, userId, element.id)
         .then((favProgram) => {
-          console.log("element.id, ", element.id);
-          console.log(userId);
-          console.log(type);
           if (favProgram) {
             return deleteFav({ id: favProgram.id });
           } else {
@@ -268,6 +215,10 @@ export default function ProgramItem({
           console.error("Error toggling favorite: ", error);
         });
     }
+  };
+
+  const handleStarPopUp = () => {
+    setStarPopUp(element.id);
   };
 
   return (
@@ -304,9 +255,37 @@ export default function ProgramItem({
           </div>
         </div>
       )}
+
+      {!sessionData?.user && !loadingFavs && (
+        <div
+          className="absolute mx-2 my-4 place-self-end hover:scale-150 hover:cursor-pointer md:mx-5"
+          id={"favStar_" + element.id}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.2"
+            stroke="#7986cb"
+            className="h-6 w-6"
+            onClick={handleStarPopUp}
+          >
+            <path
+              stroke-linecap="round"
+              strokeLinejoin="round"
+              d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+            />
+          </svg>
+        </div>
+      )}
       {loadingFavs && (
         <div className="mx-5 my-2 place-self-end">
           <LoadingSpinner iconSize="small" />
+        </div>
+      )}
+      {starPopUp === element.id && (
+        <div>
+          <SignInPrompt setStarPopUp={setStarPopUp} />
         </div>
       )}
 
