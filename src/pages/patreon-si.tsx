@@ -90,7 +90,7 @@ export async function fetchPatreonUserInfo(accessToken: string) {
 
     fieldsToAssign.forEach((field) => {
       if (extraData[field]) {
-        membershipData[field] = extraData[field] as string;
+        membershipData[field] = extraData[field];
       }
     });
 
@@ -135,7 +135,8 @@ export const handleTokenAndInfoRefresh = async (
       throw new Error("Failed to refresh access token");
     }
 
-    const tokensResponse: TokenAPIResponse = await refreshResponse.json();
+    const tokensResponse: TokenAPIResponse =
+      (await refreshResponse.json()) as TokenAPIResponse;
     authToken = tokensResponse.access_token;
     refreshToken = tokensResponse.refresh_token;
 
