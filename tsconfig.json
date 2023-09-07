@@ -19,7 +19,8 @@
     "baseUrl": ".",
     "paths": {
       "@component/*": ["./src/*"]
-    }
+    },
+    "allowImportingTsExtensions": true
   },
   "include": [
     ".eslintrc.cjs",
@@ -27,7 +28,6 @@
     "**/*.ts",
     "**/*.tsx",
     "**/*.cjs",
-    "**/*.mjs"
-  ],
+    "**/*.mjs"],
   "exclude": ["node_modules"]
 }
