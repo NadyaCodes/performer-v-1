@@ -123,6 +123,7 @@ export const handleTokenAndInfoRefresh = async (
     payload.append("client_secret", CLIENT_SECRET);
 
     const refreshUrl = "https://www.patreon.com/api/oauth2/token";
+    console.log("payload: ", payload);
 
     const refreshResponse = await fetch(refreshUrl, {
       method: "POST",
@@ -132,7 +133,8 @@ export const handleTokenAndInfoRefresh = async (
       },
     });
     if (!refreshResponse.ok) {
-      throw new Error("Failed to refresh access token");
+      console.error("Error fetching refresh token:", refreshResponse);
+      return null;
     }
 
     const tokensResponse: TokenAPIResponse =

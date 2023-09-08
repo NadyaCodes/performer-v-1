@@ -18,6 +18,7 @@ export const menuItems: menuObject[] = [
     toolTipItem: "selectorTip",
   },
   { name: "My Programs", link: "/my-programs", toolTipItem: "programsTip" },
+  { name: "Blog", link: "/blog" },
   { name: "Contact", link: "/contact" },
 ];
 
