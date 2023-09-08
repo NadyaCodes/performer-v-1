@@ -1,12 +1,22 @@
 import React, { useState, useEffect } from "react";
 import type { Post } from "@prisma/client";
+import { ObjectList } from "@component/data/types";
+import Link from "next/link";
+import { arrowLeft, arrowRight, backChevron } from "@component/data/svgs";
 
 export type BlogProps = {
   post: Post;
   date: Date | null;
+  nextPost: ObjectList | null;
+  prevPost: ObjectList | null;
 };
 
-export default function BlogPageComponent({ post, date }: BlogProps) {
+export default function BlogPageComponent({
+  post,
+  date,
+  nextPost,
+  prevPost,
+}: BlogProps) {
   const [imageTop, setImageTop] = useState<number>(35);
   const [imageRight, setImageRight] = useState<number>(-20);
   const postArray = post.body.split("\n");
@@ -86,6 +96,10 @@ export default function BlogPageComponent({ post, date }: BlogProps) {
         className="text-bold flex w-full flex-col content-center items-center p-3 text-center text-lg mobileMenu:mt-10"
         style={{ animation: "fadeIn .7s linear" }}
       ></div>
+      <Link href="/blog" className="ml-2 flex place-self-start mobileMenu:ml-5">
+        <span>{backChevron}</span>
+        <span>Back to Blog</span>
+      </Link>
       <div className="m-2 w-11/12 text-center text-3xl font-bold mobileMenu:w-9/12">
         {post.title}
       </div>
@@ -104,6 +118,26 @@ export default function BlogPageComponent({ post, date }: BlogProps) {
           />
         </div>
         {paragraphDisplay}
+      </div>
+      <div className="my-10 w-11/12 rounded border-t-4 border-cyan-700 mobileMenu:w-10/12"></div>
+      <div className="mb-5 flex mobileMenu:w-10/12">
+        {nextPost && nextPost.slug && (
+          <Link href={nextPost.slug} className="flex max-w-sm items-center">
+            <button className="flex items-center text-left text-sm italic">
+              <span className="pr-5">{arrowLeft}</span>
+              <span className="">{nextPost.title}</span>
+            </button>
+          </Link>
+        )}
+        <div className="flex-grow"></div>
+        {prevPost && prevPost.slug && (
+          <Link href={prevPost.slug} className="flex max-w-sm items-center">
+            <button className="flex items-center text-right text-sm italic">
+              <span>{prevPost.title}</span>
+              <span className="pl-5">{arrowRight}</span>
+            </button>
+          </Link>
+        )}
       </div>
     </div>
   );

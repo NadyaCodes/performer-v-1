@@ -6,12 +6,19 @@ import { Post } from "@prisma/client";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 import { useState, useEffect } from "react";
+import { ObjectList } from "@component/data/types";
 
 export type BlogPageProps = {
   postData: Post;
+  postBeforeObj: ObjectList;
+  postAfterObj: ObjectList;
 };
 
-const BlogPage: NextPage<BlogPageProps> = ({ postData }) => {
+const BlogPage: NextPage<BlogPageProps> = ({
+  postData,
+  postBeforeObj,
+  postAfterObj,
+}) => {
   const [createdAtDate, setCreatedAtDate] = useState<Date | null>(null);
 
   useEffect(() => {
@@ -32,7 +39,12 @@ const BlogPage: NextPage<BlogPageProps> = ({ postData }) => {
         <div className="min-h-screen bg-cyan-50 bg-opacity-80">
           <Menu />
           {postData && (
-            <BlogPageComponent post={postData} date={createdAtDate} />
+            <BlogPageComponent
+              post={postData}
+              date={createdAtDate}
+              nextPost={postAfterObj ? postAfterObj : null}
+              prevPost={postBeforeObj ? postBeforeObj : null}
+            />
           )}
         </div>
       </main>
@@ -63,12 +75,39 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const postData = await prisma.post.findFirst({ where: { slug: postUrl } });
   const createdAt = postData?.createdAt.toISOString() || "";
 
+  const postDate = postData?.createdAt;
+
+  const postBefore = await prisma.post.findFirst({
+    where: {
+      createdAt: { lt: postDate },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+
+  const postAfter = await prisma.post.findFirst({
+    where: {
+      createdAt: { gt: postDate },
+    },
+    orderBy: { createdAt: "asc" },
+  });
+
+  const postBeforeObj = {
+    title: postBefore?.title || "",
+    slug: postBefore?.slug || "",
+  };
+  const postAfterObj = {
+    title: postAfter?.title || "",
+    slug: postAfter?.slug || "",
+  };
+
   return {
     props: {
       postData: {
         ...postData,
         createdAt,
       },
+      postBeforeObj,
+      postAfterObj,
     },
   };
 };
