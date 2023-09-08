@@ -160,11 +160,20 @@ const PatreonSI: NextPage<PatreonSIProps> = ({ userInfo }) => {
 
   useEffectOnce(() => {
     setPatreonInfo({ ...userInfo });
-    router
-      .push("/patreon")
-      .catch((error) =>
-        console.error("Error redirecting to /patreon: ", error)
-      );
+    console.log("userInfo: ", userInfo);
+    if (userInfo && userInfo.id) {
+      router
+        .push("/patreon")
+        .catch((error) =>
+          console.error("Error redirecting to /patreon: ", error)
+        );
+    } else {
+      router
+        .push("/patreon-no-account")
+        .catch((error) =>
+          console.error("Error redirecting to /patreon-no-account: ", error)
+        );
+    }
   });
 
   return (
