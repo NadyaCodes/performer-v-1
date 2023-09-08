@@ -1,11 +1,11 @@
-import { useEffectOnce } from "@component/components/AddProgramResult/helpers";
 import { api } from "@component/utils/api";
-import { NextPage } from "next";
+import type { NextPage } from "next";
 import { useState } from "react";
 import { getSession } from "next-auth/react";
-import { GetServerSideProps } from "next";
+import type { GetServerSideProps } from "next";
 import Link from "next/link";
 import { traumaPrideSchoolBlogObject } from "@component/data/InitialBlogs";
+import { useEffectOnce } from "@component/components/AddProgramResult/helpers";
 
 export type BlogObj = {
   author: string;
@@ -21,13 +21,13 @@ export type BlogObj = {
 //#IT#: italic, indented
 //####: divider
 
-const newBlogNumbered = {
-  author: "Nadya Corscadden",
-  slug: "numbered-blog-10",
-  title: `Numbered Blog 10`,
-  body: "This is blog number 10. \n Hopefully it's in the right order!",
-  image: `<a data-flickr-embed="true" href="https://www.flickr.com/photos/199087648@N03/53171766840/in/dateposted-public/" title="Acting Mask"><img src="https://live.staticflickr.com/65535/53171766840_057427d0fe_c.jpg" width="600" height="800" alt="Acting Mask"/></a>`,
-};
+// const newBlogNumbered = {
+//   author: "Nadya Corscadden",
+//   slug: "numbered-blog-10",
+//   title: `Numbered Blog 10`,
+//   body: "This is blog number 10. \n Hopefully it's in the right order!",
+//   image: `<a data-flickr-embed="true" href="https://www.flickr.com/photos/199087648@N03/53171766840/in/dateposted-public/" title="Acting Mask"><img src="https://live.staticflickr.com/65535/53171766840_057427d0fe_c.jpg" width="600" height="800" alt="Acting Mask"/></a>`,
+// };
 
 type BlogUploadProps = {
   admin: boolean;
@@ -37,7 +37,7 @@ const BlogUpload: NextPage<BlogUploadProps> = ({ admin }) => {
   const [newPost, setNewPost] = useState<null | BlogObj>(null);
 
   const { mutate: createPost } = api.post.add.useMutation({
-    async onSuccess(data) {
+    onSuccess(data) {
       console.log("Created Post: ", data.title);
       setNewPost(data);
     },
@@ -50,9 +50,9 @@ const BlogUpload: NextPage<BlogUploadProps> = ({ admin }) => {
     return createPost(blogObj);
   };
 
-  // useEffectOnce(() => {
-  //   addPost(traumaPrideSchoolBlogObject);
-  // });
+  useEffectOnce(() => {
+    addPost(traumaPrideSchoolBlogObject);
+  });
 
   return (
     <div className="flex h-screen flex-col items-center justify-center">

@@ -4,7 +4,7 @@ import Menu from "@component/components/Menu/Menu";
 import BlogComponent from "@component/components/Blog/BlogComponent";
 import { api } from "@component/utils/api";
 import { useState } from "react";
-import { Post } from "@prisma/client";
+import type { Post } from "@prisma/client";
 import { useEffectOnce } from "@component/components/AddProgramResult/helpers";
 import LoadingLines from "@component/components/Loading/LoadingLines";
 import { doubleChevronDown } from "@component/data/svgs";

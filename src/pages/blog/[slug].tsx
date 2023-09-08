@@ -2,16 +2,22 @@ import type { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import Menu from "@component/components/Menu/Menu";
 import BlogPageComponent from "@component/components/Blog/BlogPageComponent";
-import { Post } from "@prisma/client";
+import type { Post } from "@prisma/client";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 import { useState, useEffect } from "react";
-import { ObjectList } from "@component/data/types";
+import type { ObjectList } from "@component/data/types";
 
 export type BlogPageProps = {
   postData: Post;
   postBeforeObj: ObjectList;
   postAfterObj: ObjectList;
+};
+
+export type PostSlugPaths = {
+  params: {
+    slug: string;
+  };
 };
 
 const BlogPage: NextPage<BlogPageProps> = ({
@@ -52,7 +58,7 @@ const BlogPage: NextPage<BlogPageProps> = ({
   );
 };
 
-const createPaths = async (): Promise<Array<any>> => {
+const createPaths = async (): Promise<Array<PostSlugPaths>> => {
   const allPosts = await prisma.post.findMany();
 
   const postSlugArray = allPosts.map((post) => {

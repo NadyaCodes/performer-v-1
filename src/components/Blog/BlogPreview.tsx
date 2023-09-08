@@ -1,11 +1,11 @@
-import { Post } from "@prisma/client";
+import type { Post } from "@prisma/client";
 import React from "react";
 import Link from "next/link";
 
 export default function BlogPreview({ postArray }: { postArray: Post[] }) {
   const previewDisplay = postArray.map((element) => {
     return (
-      <Link href={`/blog/${element.slug}`}>
+      <Link href={`/blog/${element.slug}`} key={element.id}>
         <div className=" m-5 flex h-86 w-86 flex-col items-center justify-around rounded-lg border border-indigo-200 p-3 shadow-lg shadow-cyan-800 transition-all hover:scale-105">
           <div className="m-3 h-52 w-72 overflow-hidden rounded-lg border-cyan-600 bg-slate-800 shadow-md shadow-cyan-900">
             <div

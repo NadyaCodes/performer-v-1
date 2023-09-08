@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import type { Post } from "@prisma/client";
-import { ObjectList } from "@component/data/types";
+import type { ObjectList } from "@component/data/types";
 import Link from "next/link";
 import { arrowLeft, arrowRight, backChevron } from "@component/data/svgs";
 
