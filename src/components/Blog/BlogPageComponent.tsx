@@ -26,30 +26,6 @@ export default function BlogPageComponent({ post, date }: BlogProps) {
     };
   }, []);
 
-  // const paragraphDisplay = postArray.map((text, index) =>
-  //   text.includes("####") ? (
-  //     <div
-  //       key={index}
-  //       className="my-10 rounded border-t-4 border-cyan-700"
-  //     ></div>
-  //   ) : text.startsWith("#H2#") ? (
-  //     <h2 key={index} className="my-8 pl-3 text-xl font-bold">
-  //       {text.slice(4)}
-  //     </h2>
-  //   ) : text.startsWith("#H3#") ? (
-  //     <h3 key={index} className="text-md my-8 text-center font-bold">
-  //       {text.slice(4)}
-  //     </h3>
-  //   ) : text.startsWith("#UL#") ? (
-  //     const listArray = text.split("#LI#")
-  //     <ul>{text}</ul>
-  //   ) : (
-  //     <div key={index} className="my-3">
-  //       {text}
-  //     </div>
-  //   )
-  // );
-
   const paragraphDisplay = postArray.map((text, index) => {
     if (text.includes("####")) {
       return (
@@ -60,7 +36,7 @@ export default function BlogPageComponent({ post, date }: BlogProps) {
       );
     } else if (text.startsWith("#H2#")) {
       return (
-        <h2 key={index} className="my-8 pl-3 text-xl font-bold">
+        <h2 key={index} className="my-8 text-xl font-bold">
           {text.slice(4)}
         </h2>
       );
@@ -80,6 +56,12 @@ export default function BlogPageComponent({ post, date }: BlogProps) {
               listItemIndex !== 0 ? <li key={listItemIndex}>{item}</li> : null
             )}
           </ul>
+        </div>
+      );
+    } else if (text.startsWith("#IT#")) {
+      return (
+        <div key={index} className="my-7 px-5 italic">
+          {text.slice(4)}
         </div>
       );
     } else {

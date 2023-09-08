@@ -1,17 +1,8 @@
 import React from "react";
 import BlogPreview from "./BlogPreview";
 import type { Post } from "@prisma/client";
-import { useState } from "react";
 
-export default function BlogComponent({
-  initialPostArray,
-}: {
-  initialPostArray: Post[];
-}) {
-  const [postsToDisplay, setPostsToDisplay] =
-    useState<Post[]>(initialPostArray);
-  //when "back" button is clicked, update posts to display to go back 6 posts
-
+export default function BlogComponent({ postArray }: { postArray: Post[] }) {
   return (
     <div className="flex flex-col items-center">
       <div
@@ -28,7 +19,7 @@ export default function BlogComponent({
         <h2 className="mx-5 flex items-center justify-center text-center text-2xl font-extrabold capitalize tracking-tight text-cyan-900 md:text-4xl">
           Act. Sing. Dance. Blog.
         </h2>
-        <BlogPreview postArray={postsToDisplay} />
+        <BlogPreview postArray={postArray} />
       </div>
     </div>
   );
