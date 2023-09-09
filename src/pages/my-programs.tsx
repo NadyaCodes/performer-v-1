@@ -7,6 +7,7 @@ import { handleTokenAndInfoRefresh, fetchPatreonUserInfo } from "./patreon-si";
 import cookie from "cookie";
 import type { ObjectList } from "@component/data/types";
 import { usePatreon } from "@component/contexts/PatreonContext";
+import { useSession } from "next-auth/react";
 
 export default function MyPrograms({ userInfo }: { userInfo: ObjectList }) {
   const { setPatreonInfo } = usePatreon();
