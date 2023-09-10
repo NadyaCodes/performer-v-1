@@ -4,8 +4,10 @@ import Menu from "@component/components/Menu/Menu";
 import HomeComponent from "@component/components/Homepage/HomeComponent";
 import Spotlights from "@component/components/Homepage/Spotlights";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 const Home: NextPage = () => {
+  const { data: sessionData } = useSession();
   return (
     <>
       <Head>
@@ -20,6 +22,11 @@ const Home: NextPage = () => {
           <div className="spotlights-container relative">
             <Spotlights />
           </div>
+          {sessionData?.user && (
+            <div className="mt-5 hidden w-screen justify-end pr-2 text-sm italic mobileMenu:mt-12 mobileMenu:flex mobileMenu:pr-4">
+              <span>Logged in as: {sessionData.user.name}</span>
+            </div>
+          )}
           <div className="mt-7 w-2/3 place-self-center  2xl:mt-20">
             <h1
               className="mb-8 mt-10 text-center text-4xl font-extrabold md:text-5xl xl:text-6xl"

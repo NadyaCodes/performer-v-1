@@ -16,6 +16,7 @@ import type { PTProgram, FTProgram } from "@prisma/client";
 import PatreonLinkOrLogout from "../PatreonButtons/PatreonLinkOrLogout";
 import type { Note } from "@prisma/client";
 import { usePatreon } from "@component/contexts/PatreonContext";
+import { useSession } from "next-auth/react";
 
 export type FavsWithSLOType = {
   schoolLocation: SchoolLocation;
@@ -45,6 +46,8 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
     CustomProgram[] | undefined | null
   >(null);
   const [animatePrograms, setAnimatePrograms] = useState(true);
+
+  const { data: sessionData } = useSession();
 
   const utils = api.useContext();
 
@@ -536,7 +539,12 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
             }}
           ></div>
         )}
-        <div className="h-60 mobileMenu:h-20"></div>
+        {sessionData?.user && !loading && !showUpdateCustom && (
+          <div className="mt-5 hidden w-screen justify-end pr-2 text-sm italic mobileMenu:mt-12 mobileMenu:flex mobileMenu:pr-4">
+            <span>Logged in as: {sessionData.user.name}</span>
+          </div>
+        )}
+        <div className="h-60 mobileMenu:h-5"></div>
 
         {showUpdateCustom && (
           <div className="flex w-11/12 pb-4 md:w-9/12 mobileMenu:w-2/3">

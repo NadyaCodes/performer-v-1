@@ -39,7 +39,7 @@ export default function MobileMenuOpen({
         {item.toolTipItem && (
           <div className="place-self-end">
             <button
-              className="absolute translate-x-7 translate-y-2 rounded-full border-2 border-cyan-600 px-2 text-cyan-700"
+              className="absolute translate-x-4 translate-y-2 rounded-full border-2 border-cyan-600 px-2 text-cyan-700 sm:translate-x-7"
               onClick={() =>
                 item.toolTipItem === toolTipItem
                   ? setTooltipItem("")
@@ -75,7 +75,7 @@ export default function MobileMenuOpen({
         {item.toolTipItem && (
           <div className="place-self-end">
             <button
-              className="absolute translate-x-7 translate-y-2 rounded-full border-2 border-cyan-600 px-2 text-cyan-700"
+              className="absolute translate-x-4 translate-y-2 rounded-full border-2 border-cyan-600 px-2 text-cyan-700 sm:translate-x-7"
               onClick={() =>
                 item.toolTipItem === toolTipItem
                   ? setTooltipItem("")
@@ -148,16 +148,10 @@ export default function MobileMenuOpen({
   });
   return (
     <div
-      className=" absolute left-0 top-0 z-50 flex h-screen w-screen flex-col items-center justify-between overflow-x-hidden overflow-y-hidden bg-cyan-50 py-20 text-cyan-900 transition-all"
+      className="absolute left-0 top-0 z-50 flex h-screen w-screen flex-col items-center justify-between overflow-x-hidden overflow-y-hidden bg-cyan-50 py-10 text-cyan-900 transition-all lg:py-20"
       style={{ animation: "translateUpToDown 0.8s ease-in-out" }}
     >
       {menuDisplay}
-      {sessionData?.user && (
-        <div className="flex flex-col items-center justify-center">
-          <span>Signed in as:</span>
-          <span>{sessionData.user.name}</span>
-        </div>
-      )}
       <button
         className="flex w-2/3 justify-center bg-indigo-100 p-2 font-bold shadow-md shadow-indigo-900 hover:scale-105 hover:bg-indigo-600 hover:bg-opacity-60 hover:text-indigo-50"
         onClick={sessionData ? handleSignOut : handleSignIn}

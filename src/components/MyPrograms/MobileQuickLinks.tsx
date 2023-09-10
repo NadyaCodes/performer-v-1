@@ -12,7 +12,7 @@ const MobileQuickLinks = ({
   const [currentProgram, setCurrentProgram] = useState<string | null>(null);
   const [hover, setHover] = useState<string | null>(null);
   const [showLinks, setShowLinks] = useState(false);
-  const [stickyTop, setStickyTop] = useState(78);
+  const [stickyTop, setStickyTop] = useState(105);
 
   const scrollToId = (id: string) => {
     const elementObj = keyValueList.find((element) => element.id === id);

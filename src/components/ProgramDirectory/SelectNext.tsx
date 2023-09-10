@@ -5,6 +5,7 @@ import Menu from "../Menu/Menu";
 import LoadingLines from "../Loading/LoadingLines";
 import { backChevron } from "@component/data/svgs";
 import Face from "./Face";
+import { useSession } from "next-auth/react";
 
 interface SelectNextProps {
   selectNextOptions: {
@@ -26,6 +27,8 @@ const SelectNext: React.FC<SelectNextProps> = ({ selectNextOptions }) => {
   const nextValueText =
     nextValue === "province" ? "Province/Territory" : nextValue;
 
+  const { data: sessionData } = useSession();
+
   return (
     <div className="min-h-screen bg-cyan-50 bg-opacity-80 text-cyan-900">
       <Menu />
@@ -37,6 +40,11 @@ const SelectNext: React.FC<SelectNextProps> = ({ selectNextOptions }) => {
         }}
       ></div>
       <div className="hidden h-10 bg-cyan-950 mobileMenu:block "></div>
+      {sessionData?.user && (
+        <div className="mt-5 hidden w-screen justify-end pr-2 text-sm italic mobileMenu:flex mobileMenu:pr-4">
+          <span>Logged in as: {sessionData.user.name}</span>
+        </div>
+      )}
       <Link href={backLink} className="p-2">
         <button className="-mt-16 flex px-10 font-semibold text-cyan-800 hover:scale-110 md:mt-0">
           <span>{backChevron}</span>
