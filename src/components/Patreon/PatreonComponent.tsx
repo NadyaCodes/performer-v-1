@@ -1,9 +1,9 @@
 import React from "react";
 import ConnectAccounts from "./ConnectAccounts";
-import MembershipOptions from "./MembershipOptions";
 import { usePatreon } from "@component/contexts/PatreonContext";
 import ThankYou from "./ThankYou";
 import FlyingIndigoDiv from "../MyPrograms/FlyingIndigoDiv";
+import WhatIsPatreon from "./WhatIsPatreon";
 
 export default function PatreonComponent({ url }: { url: string }) {
   const { patreonInfo } = usePatreon();
@@ -16,7 +16,7 @@ export default function PatreonComponent({ url }: { url: string }) {
         <ConnectAccounts url={url} />
       )}
       <FlyingIndigoDiv />
-      <MembershipOptions />
+      <WhatIsPatreon />
     </div>
   );
 }

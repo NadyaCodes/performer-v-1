@@ -1,9 +1,12 @@
 import React from "react";
-import ContactLink from "./ContactLink";
+import PatreonSubscribeButton from "./PatreonSubscribeButton";
 
 export default function ConnectAccounts({ url }: { url: string }) {
   return (
-    <div className="mb-10">
+    <div
+      className="mb-10 opacity-0"
+      style={{ animation: "fadeIn 1s linear 1s forwards" }}
+    >
       <h2 className="m-5 text-xl font-semibold">
         Already a patreon subscriber to{" "}
         <span className="font-bold">Act. Sing. Dance. Repeat</span>?
@@ -15,10 +18,8 @@ export default function ConnectAccounts({ url }: { url: string }) {
       </a>
       <div className="m-2 flex flex-col italic">
         <div>*occasional re-connections may be required.</div>
-        <div>
-          Please <ContactLink /> regarding any technical difficulties!
-        </div>
       </div>
+      <PatreonSubscribeButton />
     </div>
   );
 }

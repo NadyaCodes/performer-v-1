@@ -107,6 +107,8 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
               type: "pt",
               cityObj: element.location,
               schoolObj: element.school,
+              articlePitch: program.articlePitch || "",
+              elevatorPitch: program.elevatorPitch || "",
             });
           }
         });
@@ -124,6 +126,8 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
               name: program.name,
               cityObj: element.location,
               schoolObj: element.school,
+              articlePitch: program.articlePitch || "",
+              elevatorPitch: program.elevatorPitch || "",
             });
           }
         });

@@ -41,6 +41,8 @@ export type ProgramDataProp = {
   type: string;
   style: string;
   program?: string;
+  articlePitch?: string | null;
+  elevatorPitch?: string | null;
 };
 
 export type PageDataProps = {

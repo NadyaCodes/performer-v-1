@@ -22,8 +22,9 @@ export default function MobileMenu() {
       "my-programs",
       "single-program",
       "blog",
+      "featured-program",
     ];
-    const darkCyanPages = ["program-finder"];
+    const darkCyanPages = ["program-finder", "patreon"];
     const slatePages = ["contact"];
 
     lightPages.forEach((urlSnippet) => {
@@ -39,7 +40,9 @@ export default function MobileMenu() {
       currentURL.includes("select-next") ||
       currentURL.includes("my-programs") ||
       currentURL.includes("single-program") ||
-      currentURL.includes("blog")
+      currentURL.includes("blog") ||
+      currentURL.includes("patreon") ||
+      currentURL.includes("featured-program")
     ) {
       setBanner(true);
     }

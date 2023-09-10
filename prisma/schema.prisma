@@ -100,22 +100,28 @@ model SchoolLocation {
 }
 
 model PTProgram {
-    id               String         @id @default(cuid())
-    schoolLocationId String
-    SchoolLocation   SchoolLocation @relation(fields: [schoolLocationId], references: [id], onDelete: Cascade)
-    website          String
-    discipline       String
-    favPrograms      FavProgram[]
+    id                   String         @id @default(cuid())
+    schoolLocationId     String
+    SchoolLocation       SchoolLocation @relation(fields: [schoolLocationId], references: [id], onDelete: Cascade)
+    website              String
+    discipline           String
+    favPrograms          FavProgram[]
+    patreonMembershipNum String?
+    elevatorPitch        String?
+    articlePitch         String?
 }
 
 model FTProgram {
-    id               String         @id @default(cuid())
-    schoolLocationId String
-    SchoolLocation   SchoolLocation @relation(fields: [schoolLocationId], references: [id], onDelete: Cascade)
-    website          String
-    discipline       String
-    name             String
-    favPrograms      FavProgram[]
+    id                   String         @id @default(cuid())
+    schoolLocationId     String
+    SchoolLocation       SchoolLocation @relation(fields: [schoolLocationId], references: [id], onDelete: Cascade)
+    website              String
+    discipline           String
+    name                 String
+    favPrograms          FavProgram[]
+    patreonMembershipNum String?
+    elevatorPitch        String?
+    articlePitch         String?
 }
 
 model FavProgram {

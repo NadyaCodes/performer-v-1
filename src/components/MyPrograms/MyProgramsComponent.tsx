@@ -11,6 +11,8 @@ export type ProgramWithType = {
   name?: string;
   type: string;
   favProgramId?: string;
+  articlePitch?: string | null;
+  elevatorPitch?: string | null;
 };
 
 export type KeyValueListType = {

@@ -14,6 +14,8 @@ export const FinderTipComponent = (
         <Image
           src="/Program-Finder.png"
           alt="Program Finder - Act. Sing. Dance. Repeat."
+          width={500}
+          height={200}
         />
       </div>
     </div>
@@ -32,6 +34,8 @@ export const MobileFinderTipComponent = (
         <Image
           src="/Program-Finder.png"
           alt="Program Finder - Act. Sing. Dance. Repeat."
+          width={500}
+          height={200}
         />
       </div>
     </div>
@@ -53,6 +57,8 @@ export const DirectoryTipComponent = (
         <Image
           src="/Program-Directory.png"
           alt="Program Directory - Act. Sing. Dance. Repeat."
+          width={500}
+          height={200}
         />
       </div>
     </div>
@@ -71,6 +77,8 @@ export const MobileDirectoryTipComponent = (
         <Image
           src="/Program-Directory.png"
           alt="Program Directory - Act. Sing. Dance. Repeat."
+          width={500}
+          height={200}
         />
       </div>
     </div>
