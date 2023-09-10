@@ -36,7 +36,7 @@ export default function ProgramMembership() {
           <li className="m-2">More information on primary listing</li>
           <li className="m-2">Up to 80 words</li>
           <li className="m-2">
-            "More Info" Link to expanded blog article (optional)
+            &quot;More Info&quot; Link to expanded blog article (optional)
           </li>
         </ul>
       </div>
@@ -51,7 +51,9 @@ export default function ProgramMembership() {
         </div>
         <ul className="list-outside list-disc pl-10 text-left">
           <li className="m-2">Blog-Post-Style Article</li>
-          <li className="m-2">Linked off "More Info" in public listing</li>
+          <li className="m-2">
+            Linked off &quot;More Info&quot; in public listing
+          </li>
           <li className="m-2">Customizable formatting for headers, etc.</li>
           <li className="m-2">Up to 2000 words</li>
         </ul>
