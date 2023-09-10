@@ -44,6 +44,7 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
   const [displayCustom, setDisplayCustom] = useState<
     CustomProgram[] | undefined | null
   >(null);
+  const [animatePrograms, setAnimatePrograms] = useState(true);
 
   const utils = api.useContext();
 
@@ -323,6 +324,7 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
   useEffect(() => {
     if (displayData !== null && displayCustom !== null) {
       setLoading(false);
+      setAnimatePrograms(false);
     }
   }, [displayCustom, displayData]);
 
@@ -459,6 +461,7 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
         ref={favProgramRefs[element.id]}
         notes={notes}
         setNotes={setNotes}
+        animate={animatePrograms}
       />
     );
   });
@@ -475,6 +478,7 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
         ref={customProgramRefs[element.id]}
         notes={notes}
         setNotes={setNotes}
+        animate={animatePrograms}
       />
     );
   });
@@ -496,6 +500,9 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
     </button>
   );
 
+  useEffect(() => {
+    console.log(animatePrograms);
+  }, [animatePrograms]);
   return (
     <div className="">
       {loading && <MyProgramsLoading />}
@@ -570,6 +577,7 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
               customProgramDisplay={customProgramDisplay || []}
               favHeaderRef={favHeaderRef}
               customHeaderRef={customHeaderRef}
+              flyIn={animatePrograms}
             />
           )}
         </div>
@@ -590,6 +598,7 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
               customProgramDisplay={customProgramDisplay || []}
               favHeaderRef={favHeaderRef}
               customHeaderRef={customHeaderRef}
+              flyIn={animatePrograms}
             />
           )}
         </div>

@@ -27,11 +27,20 @@ interface SingleProgramProps {
   setNotes: React.Dispatch<
     React.SetStateAction<{ [key: string]: Note[] } | null | []>
   >;
+  animate: boolean;
 }
 
 const SingleProgram = React.forwardRef<HTMLDivElement, SingleProgramProps>(
   (
-    { program, loadingDelete, setLoadingDelete, setUserFavs, notes, setNotes },
+    {
+      program,
+      loadingDelete,
+      setLoadingDelete,
+      setUserFavs,
+      notes,
+      setNotes,
+      animate,
+    },
     ref
   ) => {
     const { patreonInfo } = usePatreon();
@@ -43,13 +52,17 @@ const SingleProgram = React.forwardRef<HTMLDivElement, SingleProgramProps>(
     return (
       <div
         className="relative my-12 flex w-full flex-col rounded-lg bg-cyan-100 bg-opacity-20 text-center shadow-md shadow-cyan-800"
-        style={{ animation: "pullDownTop 1s linear" }}
+        style={{ animation: animate ? "pullDownTop 1s linear" : "" }}
         id={program.id}
         ref={ref}
       >
         <div
           className="flex w-full justify-between rounded-t-lg bg-cyan-800 bg-opacity-100 text-cyan-50 opacity-0 shadow-sm shadow-cyan-900"
-          style={{ animation: "fadeIn 0.5s linear forwards" }}
+          style={{
+            animation: animate
+              ? "fadeIn 0.5s linear forwards"
+              : "fadeIn 0s linear forwards",
+          }}
         >
           <div className="mx-5 my-2">{basicStar}</div>
           <div className="mx-5 my-2">{basicStar}</div>
@@ -85,7 +98,7 @@ const SingleProgram = React.forwardRef<HTMLDivElement, SingleProgramProps>(
             {program.cityObj?.city}, {program.cityObj?.province}
           </div>
 
-          <div className="m-1 break-all italic text-cyan-600 underline">
+          <div className="m-2 break-all italic text-cyan-600 underline">
             <Link href={program.website} target="blank">
               {program.website}
             </Link>

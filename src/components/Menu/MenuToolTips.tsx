@@ -3,7 +3,7 @@ export const FinderTipComponent = (
     <div
       id="tooltip-bottom"
       role="tooltip"
-      className="tooltip absolute z-10 inline-block max-w-xs rounded-lg rounded-t-none bg-gradient-to-b from-[#edfeff] to-[#6db6b9] px-3 py-7 text-center text-base font-medium text-cyan-950 shadow-sm dark:bg-gray-700"
+      className="tooltip absolute z-10 inline-block max-w-xs rounded-lg rounded-t-none bg-gradient-to-b from-[#edfeff] to-[#6db6b9] px-3 py-7 text-center text-base font-medium text-cyan-950 shadow-sm"
       style={{
         animation: "pullDownTop 0.3s forwards",
       }}
@@ -36,7 +36,7 @@ export const DirectoryTipComponent = (
     <div
       id="tooltip-bottom"
       role="tooltip"
-      className="absolute z-10 inline-block max-w-xs rounded-lg rounded-t-none bg-gradient-to-b from-[#edfeff] to-[#6db6b9] px-3 py-7 text-center text-base font-medium text-cyan-950 shadow-sm dark:bg-gray-700"
+      className="absolute z-10 inline-block max-w-xs rounded-lg rounded-t-none bg-gradient-to-b from-[#edfeff] to-[#6db6b9] px-3 py-7 text-center text-base font-medium text-cyan-950 shadow-sm"
       style={{
         animation: "pullDownTop 0.3s ease-in-out forwards",
       }}
@@ -69,7 +69,7 @@ export const ProgramsTipComponent = (
     <div
       id="tooltip-bottom"
       role="tooltip"
-      className="absolute z-10 inline-block max-w-xs rounded-lg rounded-t-none bg-gradient-to-b from-[#edfeff] to-[#6db6b9] px-3 py-7 text-center text-base font-medium text-cyan-950 shadow-sm dark:bg-gray-700"
+      className="absolute z-10 inline-block max-w-xs rounded-lg rounded-t-none bg-gradient-to-b from-[#edfeff] to-[#6db6b9] px-3 py-7 text-center text-base font-medium text-cyan-950 shadow-sm"
       style={{
         animation: "pullDownTop 0.3s ease-in-out forwards",
       }}

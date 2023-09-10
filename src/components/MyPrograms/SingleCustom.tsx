@@ -27,6 +27,7 @@ interface SingleCustomProps {
   setNotes: React.Dispatch<
     React.SetStateAction<{ [key: string]: Note[] } | null | []>
   >;
+  animate: boolean;
 }
 
 const SingleCustom = React.forwardRef<HTMLDivElement, SingleCustomProps>(
@@ -39,6 +40,7 @@ const SingleCustom = React.forwardRef<HTMLDivElement, SingleCustomProps>(
       setLoadingDelete,
       notes,
       setNotes,
+      animate,
     },
     ref
   ) => {
@@ -92,13 +94,17 @@ const SingleCustom = React.forwardRef<HTMLDivElement, SingleCustomProps>(
     return (
       <div
         className="relative my-12 flex w-full flex-col rounded-lg bg-indigo-100 bg-opacity-20 text-center shadow-md shadow-indigo-900"
-        style={{ animation: "pullDownTop 1s linear" }}
+        style={{ animation: animate ? "pullDownTop 1s linear" : "" }}
         id={program.id}
         ref={ref}
       >
         <div
           className="flex w-full justify-between rounded-t-lg bg-indigo-900 bg-opacity-100 text-indigo-50 shadow-sm shadow-indigo-900"
-          style={{ animation: "fadeIn 0.5s linear forwards" }}
+          style={{
+            animation: animate
+              ? "fadeIn 0.5s linear forwards"
+              : "fadeIn 0s linear forwards",
+          }}
         >
           <div className="mx-5 my-2">{basicStar}</div>
           <div className="mx-5 my-2">{basicStar}</div>

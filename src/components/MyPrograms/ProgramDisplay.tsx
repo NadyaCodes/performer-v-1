@@ -12,12 +12,14 @@ export default function ProgramDisplay({
   customProgramDisplay,
   favHeaderRef,
   customHeaderRef,
+  flyIn,
 }: {
   programDisplay: React.JSX.Element[] | undefined;
   addCustomButton: React.JSX.Element;
   customProgramDisplay: React.JSX.Element[];
   favHeaderRef: React.RefObject<HTMLDivElement>;
   customHeaderRef: React.RefObject<HTMLDivElement>;
+  flyIn: boolean;
 }) {
   const delayStyle = {
     opacity: "0",
@@ -31,7 +33,7 @@ export default function ProgramDisplay({
       <div className="flex w-full flex-col items-center justify-center transition-all">
         <div
           className="flex w-full justify-center"
-          style={{ animation: "fadeInTranslate 1s linear" }}
+          style={{ animation: flyIn ? "fadeInTranslate 1s linear" : "" }}
         >
           <H2Title
             text="Saved Programs"
@@ -44,7 +46,7 @@ export default function ProgramDisplay({
         {programDisplay && programDisplay.length > 0 ? (
           <div
             className="w-11/12 mobileMenu:w-7/12"
-            style={{ animation: "flyInFadeIn 1s linear" }}
+            style={{ animation: flyIn ? "flyInFadeIn 1s linear" : "" }}
           >
             {programDisplay}
           </div>
@@ -68,7 +70,7 @@ export default function ProgramDisplay({
           customProgramDisplay.length > 0 ? (
             <div
               className="w-11/12 mobileMenu:w-7/12"
-              style={{ animation: "flyInFadeIn 1s linear" }}
+              style={{ animation: flyIn ? "flyInFadeIn 1s linear" : "" }}
             >
               {customProgramDisplay}
             </div>
