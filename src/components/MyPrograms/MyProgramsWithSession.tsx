@@ -324,7 +324,9 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
   useEffect(() => {
     if (displayData !== null && displayCustom !== null) {
       setLoading(false);
-      setAnimatePrograms(false);
+      setTimeout(() => {
+        setAnimatePrograms(false);
+      }, 3000);
     }
   }, [displayCustom, displayData]);
 
@@ -500,9 +502,6 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
     </button>
   );
 
-  useEffect(() => {
-    console.log(animatePrograms);
-  }, [animatePrograms]);
   return (
     <div className="">
       {loading && <MyProgramsLoading />}
@@ -561,12 +560,24 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
           }}
         >
           {!showUpdateCustom && !loading && (
-            <div
-              className="mr-52 place-self-end opacity-0"
-              style={{ animation: "pullDownTop 0.5s linear 1s forwards" }}
-            >
-              <div style={{ animation: "wiggle .3s linear 2s  3 forwards" }}>
-                <PatreonLinkOrLogout />
+            <div className="flex w-7/12 justify-end">
+              <div
+                className="opacity-0"
+                style={{
+                  animation: animatePrograms
+                    ? "pullDownTop 0.5s linear 1s forwards"
+                    : "pullDownTop 0s linear forwards",
+                }}
+              >
+                <div
+                  style={{
+                    animation: animatePrograms
+                      ? "wiggle .3s linear 2s  3 forwards"
+                      : "",
+                  }}
+                >
+                  <PatreonLinkOrLogout />
+                </div>
               </div>
             </div>
           )}
@@ -585,8 +596,12 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
         <div className="flex w-full flex-col items-center mobileMenu:hidden">
           {!showUpdateCustom && !loading && (
             <div
-              className="m-4 place-self-end opacity-0"
-              style={{ animation: "pullDownTop 0.5s linear 1s forwards" }}
+              className="m-2 place-self-end opacity-0"
+              style={{
+                animation: animatePrograms
+                  ? "pullDownTop 0.5s linear 1s forwards"
+                  : "pullDownTop 0s linear forwards",
+              }}
             >
               <PatreonLinkOrLogout />
             </div>
