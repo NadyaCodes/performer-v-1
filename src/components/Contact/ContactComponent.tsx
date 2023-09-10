@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import LogoTicker from "../About/LogoTicker";
 import { envelope, outlineStar, sparkles } from "@component/data/svgs";
 import LinkDrop from "./LinkDrop";
+import { useSession } from "next-auth/react";
 
 export type ContactInput = {
   name: string;
@@ -17,12 +18,19 @@ export default function ContactComponent() {
   const [showProgramForm, setShowProgramForm] = useState<boolean>(false);
   const [showSubscribe, setShowSubscribe] = useState<boolean>(false);
 
+  const { data: sessionData } = useSession();
+
   const [spotlight, setSpotlight] = useState<string>("");
 
   return (
     <div className="overflow-x-hidden bg-slate-900 pb-20">
       <div className="hidden mobileMenu:block">
         <LogoTicker />
+        {sessionData?.user && (
+          <div className="mt-5 hidden w-screen justify-end pr-2 text-sm italic text-cyan-100 mobileMenu:flex mobileMenu:pr-4">
+            <span>Logged in as: {sessionData.user.name}</span>
+          </div>
+        )}
       </div>
       <h1
         className="mt-10 text-center text-4xl font-bold text-cyan-100 md:text-5xl xl:mb-10 xl:mt-20 xl:text-6xl"

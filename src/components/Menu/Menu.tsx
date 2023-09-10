@@ -11,14 +11,15 @@ export type menuObject = {
 export const menuItems: menuObject[] = [
   { name: "Home", link: "/" },
   { name: "About", link: "/about" },
-  { name: "Course Finder", link: "/course-finder", toolTipItem: "finderTip" },
+  { name: "Program Finder", link: "/program-finder", toolTipItem: "finderTip" },
   {
-    name: "Course Selector",
-    link: "/course-selector",
-    toolTipItem: "selectorTip",
+    name: "Program Directory",
+    link: "/program-directory",
+    toolTipItem: "directoryTip",
   },
   { name: "My Programs", link: "/my-programs", toolTipItem: "programsTip" },
   { name: "Blog", link: "/blog" },
+  { name: "Patreon", link: "/patreon" },
   { name: "Contact", link: "/contact" },
 ];
 

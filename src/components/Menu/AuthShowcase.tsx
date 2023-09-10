@@ -16,17 +16,9 @@ const AuthShowcase: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-end">
-      <p className="text-center italic">
-        {sessionData && (
-          <span className="mx-2 flex flex-col">
-            <span>Logged in as</span>
-            <span>{sessionData.user?.name}</span>
-          </span>
-        )}
-      </p>
+    <div className="flex flex-col items-center justify-end 2xl:flex-row">
       <button
-        className=" m-3 rounded-full p-3 font-semibold outline outline-transparent transition hover:bg-cyan-800 hover:text-cyan-50 hover:shadow-md"
+        className="rounded-full p-3 font-semibold outline outline-transparent transition hover:bg-cyan-800 hover:text-cyan-50 hover:shadow-md"
         onClick={sessionData ? handleSignOut : handleSignIn}
       >
         {sessionData ? "Sign out" : "Sign in"}

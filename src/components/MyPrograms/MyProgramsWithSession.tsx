@@ -16,6 +16,7 @@ import type { PTProgram, FTProgram } from "@prisma/client";
 import PatreonLinkOrLogout from "../PatreonButtons/PatreonLinkOrLogout";
 import type { Note } from "@prisma/client";
 import { usePatreon } from "@component/contexts/PatreonContext";
+import { useSession } from "next-auth/react";
 
 export type FavsWithSLOType = {
   schoolLocation: SchoolLocation;
@@ -44,6 +45,9 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
   const [displayCustom, setDisplayCustom] = useState<
     CustomProgram[] | undefined | null
   >(null);
+  const [animatePrograms, setAnimatePrograms] = useState(true);
+
+  const { data: sessionData } = useSession();
 
   const utils = api.useContext();
 
@@ -323,6 +327,9 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
   useEffect(() => {
     if (displayData !== null && displayCustom !== null) {
       setLoading(false);
+      setTimeout(() => {
+        setAnimatePrograms(false);
+      }, 3000);
     }
   }, [displayCustom, displayData]);
 
@@ -459,6 +466,7 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
         ref={favProgramRefs[element.id]}
         notes={notes}
         setNotes={setNotes}
+        animate={animatePrograms}
       />
     );
   });
@@ -475,6 +483,7 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
         ref={customProgramRefs[element.id]}
         notes={notes}
         setNotes={setNotes}
+        animate={animatePrograms}
       />
     );
   });
@@ -530,7 +539,12 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
             }}
           ></div>
         )}
-        <div className="h-60 mobileMenu:h-20"></div>
+        {sessionData?.user && !loading && !showUpdateCustom && (
+          <div className="mt-5 hidden w-screen justify-end pr-2 text-sm italic mobileMenu:mt-12 mobileMenu:flex mobileMenu:pr-4">
+            <span>Logged in as: {sessionData.user.name}</span>
+          </div>
+        )}
+        <div className="h-60 mobileMenu:h-5"></div>
 
         {showUpdateCustom && (
           <div className="flex w-11/12 pb-4 md:w-9/12 mobileMenu:w-2/3">
@@ -554,12 +568,24 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
           }}
         >
           {!showUpdateCustom && !loading && (
-            <div
-              className="mr-52 place-self-end opacity-0"
-              style={{ animation: "pullDownTop 0.5s linear 1s forwards" }}
-            >
-              <div style={{ animation: "wiggle .3s linear 2s  3 forwards" }}>
-                <PatreonLinkOrLogout />
+            <div className="flex w-7/12 justify-end">
+              <div
+                className="opacity-0"
+                style={{
+                  animation: animatePrograms
+                    ? "pullDownTop 0.5s linear 1s forwards"
+                    : "pullDownTop 0s linear forwards",
+                }}
+              >
+                <div
+                  style={{
+                    animation: animatePrograms
+                      ? "wiggle .3s linear 2s  3 forwards"
+                      : "",
+                  }}
+                >
+                  <PatreonLinkOrLogout />
+                </div>
               </div>
             </div>
           )}
@@ -570,6 +596,7 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
               customProgramDisplay={customProgramDisplay || []}
               favHeaderRef={favHeaderRef}
               customHeaderRef={customHeaderRef}
+              flyIn={animatePrograms}
             />
           )}
         </div>
@@ -577,8 +604,12 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
         <div className="flex w-full flex-col items-center mobileMenu:hidden">
           {!showUpdateCustom && !loading && (
             <div
-              className="m-4 place-self-end opacity-0"
-              style={{ animation: "pullDownTop 0.5s linear 1s forwards" }}
+              className="m-2 place-self-end opacity-0"
+              style={{
+                animation: animatePrograms
+                  ? "pullDownTop 0.5s linear 1s forwards"
+                  : "pullDownTop 0s linear forwards",
+              }}
             >
               <PatreonLinkOrLogout />
             </div>
@@ -590,6 +621,7 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
               customProgramDisplay={customProgramDisplay || []}
               favHeaderRef={favHeaderRef}
               customHeaderRef={customHeaderRef}
+              flyIn={animatePrograms}
             />
           )}
         </div>

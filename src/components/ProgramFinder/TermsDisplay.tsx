@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { FilterContext } from "./CourseFinderComponent";
+import { FilterContext } from "./ProgramFinderComponent";
 import { stylesFull, disciplinesFull } from "@component/data/constants";
 import type { FilterContextValue } from "./types";
 import { faceFrown, xMark } from "@component/data/svgs";

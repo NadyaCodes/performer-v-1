@@ -1,6 +1,6 @@
 import React, { type SetStateAction, useContext, type Dispatch } from "react";
 import { updateFilter } from "./helpers";
-import { FilterContext } from "./CourseFinderComponent";
+import { FilterContext } from "./ProgramFinderComponent";
 import type { FilterContextValue } from "./types";
 
 export default function Menu({

@@ -23,7 +23,6 @@ export type KeyValueListType = {
 export default function MyProgramsComponent() {
   const { data: sessionData } = useSession();
   const userId = sessionData?.user.id || null;
-  console.log("sessionData in MyProgramsComponenet:", sessionData);
 
   return (
     <div>

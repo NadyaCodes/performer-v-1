@@ -3,6 +3,7 @@ import LogoTicker from "./LogoTicker";
 import { arrowDown } from "@component/data/svgs";
 import Link from "next/link";
 import ScrollArrow from "../ProgramFinder/ScrollArrow";
+import { useSession } from "next-auth/react";
 
 export default function AboutComponent() {
   const [appearBox, setAppearBox] = useState({
@@ -12,6 +13,7 @@ export default function AboutComponent() {
     box4: false,
     box5: false,
   });
+  const { data: sessionData } = useSession();
 
   const makeBoxesAppear = () => {
     const boxArray = ["box1", "box2", "box3", "box4", "box5"];
@@ -43,8 +45,15 @@ export default function AboutComponent() {
           className="flex flex-col items-center justify-between overflow-x-hidden"
           style={{ height: "74vh", maxWidth: "100vw" }}
         >
-          <div className="hidden mobileMenu:block">
-            <LogoTicker />
+          <div className="w-screen">
+            <div className="hidden mobileMenu:block">
+              <LogoTicker />
+            </div>
+            {sessionData?.user && (
+              <div className="mt-5 hidden w-screen justify-end pr-2 text-sm italic mobileMenu:flex mobileMenu:pr-4">
+                <span>Logged in as: {sessionData.user.name}</span>
+              </div>
+            )}
           </div>
           <h1 className="hidden flex-col text-center text-3xl font-extrabold mobileMenu:flex xl:text-5xl 3xl:text-6xl">
             <span>Looking for Professonal Post-Secondary Training</span>
@@ -84,7 +93,7 @@ export default function AboutComponent() {
           id="box1"
         >
           <div className="w-full bg-cyan-100 p-5 text-center text-2xl font-bold">
-            Course Finder
+            Program Finder
           </div>
           <div className="flex w-full flex-col p-4 md:p-10">
             <span>Search for programs by selecting the filters you want.</span>
@@ -106,12 +115,12 @@ export default function AboutComponent() {
           id="box2"
         >
           <div className="w-full bg-cyan-100 p-5 text-center text-2xl font-bold">
-            Course Selector
+            Program Directory
           </div>
           <div className="flex w-full flex-col p-4 md:p-10">
             <span>
-              Search for a specific list of programs by selecting the following
-              mandatory fields:
+              Directory of post-secondary-level performance training programs in
+              Canada
             </span>
             <ul className="list-outside list-disc px-8 py-2 italic">
               <li>Full Time vs. Part Time</li>

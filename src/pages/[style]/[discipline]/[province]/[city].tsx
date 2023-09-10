@@ -12,7 +12,7 @@ import type {
   PTProgram,
   FTProgram,
 } from "@prisma/client";
-import ProgramDisplayComponent from "@component/components/ProgramSelector/ProgramDisplayComponent";
+import ProgramDisplayComponent from "@component/components/ProgramDirectory/ProgramDisplayComponent";
 import Menu from "@component/components/Menu/Menu";
 
 export interface ProgramInfo extends SchoolLocation {

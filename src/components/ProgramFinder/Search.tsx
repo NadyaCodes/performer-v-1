@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { FilterContext } from "./CourseFinderComponent";
+import { FilterContext } from "./ProgramFinderComponent";
 
 import { search, xMark } from "@component/data/svgs";
 import { searchForValue } from "./helpers";
@@ -23,16 +23,19 @@ export default function Search({ menu }: { menu: string | false }) {
     >
       {!filterContext?.activeSearchTerm ? (
         <div className="flex flex-col md:flex-row">
-          <input
-            className="focus:shadow-outline w-72 max-w-6xl appearance-none rounded border bg-cyan-50 px-3 py-2 leading-tight text-gray-700 shadow-md focus:outline-none md:w-96"
-            id="username"
-            type="text"
-            placeholder="Search"
-            value={(filterContext && filterContext.searchTerm) || ""}
-            onChange={(e) =>
-              filterContext && filterContext.setSearchTerm(e.target.value)
-            }
-          />
+          <div className="mb-1 flex flex-col">
+            <input
+              className="focus:shadow-outline w-72 max-w-6xl appearance-none rounded border bg-cyan-50 px-3 py-2 leading-tight text-gray-700 shadow-md focus:outline-none md:w-96"
+              id="username"
+              type="text"
+              placeholder="Search"
+              value={(filterContext && filterContext.searchTerm) || ""}
+              onChange={(e) =>
+                filterContext && filterContext.setSearchTerm(e.target.value)
+              }
+            />
+            <div className="font-sm italic text-pink-400">*Exact match*</div>
+          </div>
           <button
             className="mx-5 my-2 flex h-10 items-center justify-center rounded p-3 text-center outline outline-cyan-700 hover:scale-105 hover:text-indigo-200 hover:outline-indigo-200 lg:my-0 lg:px-3"
             style={{ boxShadow: "none" }}
@@ -60,6 +63,7 @@ export default function Search({ menu }: { menu: string | false }) {
           <span className="p-1">{xMark}</span>
         </button>
       )}
+      {/* <div className="font-sm italic text-ink-500">*Exact match*</div> */}
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import type { NextPage, GetStaticProps } from "next";
-import SelectNext from "@component/components/ProgramSelector/SelectNext";
+import SelectNext from "@component/components/ProgramDirectory/SelectNext";
 import type { PathsArray, SelectNextProps } from "@component/data/types";
 import {
   styles,

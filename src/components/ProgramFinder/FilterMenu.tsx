@@ -1,17 +1,19 @@
 import React, { useState, useContext } from "react";
 import LocationMenu from "./LocationMenu";
 import Search from "./Search";
-import { FilterContext } from "./CourseFinderComponent";
+import { FilterContext } from "./ProgramFinderComponent";
 import { displayLocation } from "./helpers";
 import Menu from "./Menu";
 import { chevronUp, doubleChevronDown } from "@component/data/svgs";
 import { disciplinesFull } from "@component/data/constants";
 import type { LocationObject } from "./types";
+import { useSession } from "next-auth/react";
 
 export default function FilterMenu() {
   const filterContext = useContext(FilterContext);
   const selectedOptions = filterContext?.selectedOptions;
   const [menu, setMenu] = useState<string | false>(false);
+  const { data: sessionData } = useSession();
 
   const buttonFilter = ["type", "discipline", "location"].map((element) => {
     let currentSelection: string | LocationObject | undefined = "";
@@ -111,11 +113,18 @@ export default function FilterMenu() {
 
   return (
     <div
-      className="-mt-16 bg-cyan-950 text-cyan-50 lg:mt-0"
+      className={`${
+        sessionData?.user ? "-mt-28" : "-mt-16"
+      } bg-cyan-950 pt-10 text-cyan-50 lg:mt-0`}
       style={{
         boxShadow: "inset 0px -8px 16px rgba(0, 255, 255, 0.5)",
       }}
     >
+      {sessionData?.user && (
+        <div className="-mt-5 hidden w-screen justify-end pr-2 text-sm italic mobileMenu:flex mobileMenu:pr-4">
+          <span>Logged in as: {sessionData.user.name}</span>
+        </div>
+      )}
       <div
         className="flex flex-col px-6 pt-24 text-center text-4xl font-extrabold md:px-20 lg:pt-16 lg:text-5xl"
         style={{ animation: "fadeInTranslate 1s linear forwards" }}
