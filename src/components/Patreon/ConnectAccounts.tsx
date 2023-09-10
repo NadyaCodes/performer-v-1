@@ -15,9 +15,6 @@ export default function ConnectAccounts({ url }: { url: string }) {
       </a>
       <div className="m-2 flex flex-col italic">
         <div>*occasional re-connections may be required.</div>
-        <div>
-          Please <ContactLink /> regarding any technical difficulties!
-        </div>
       </div>
     </div>
   );
