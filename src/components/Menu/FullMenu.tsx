@@ -26,7 +26,11 @@ export default function FullMenu() {
 
     const nameArray = item.name.split(" ");
     const displayName = nameArray.map((word) => {
-      return <span className="mx-1">{word}</span>;
+      return (
+        <span className="mx-1" key={word}>
+          {word}
+        </span>
+      );
     });
     return (
       <div key={item.name} className="px-4">

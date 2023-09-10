@@ -1,7 +1,6 @@
 import React from "react";
 import BlogPreview from "./BlogPreview";
 import type { Post } from "@prisma/client";
-import LogoTicker from "../About/LogoTicker";
 import { useSession } from "next-auth/react";
 
 export default function BlogComponent({ postArray }: { postArray: Post[] }) {

@@ -7,7 +7,6 @@ import type { ObjectList } from "@component/data/types";
 import { handleTokenAndInfoRefresh, fetchPatreonUserInfo } from "./patreon-si";
 import cookie from "cookie";
 import { usePatreon } from "@component/contexts/PatreonContext";
-import { useSession } from "next-auth/react";
 
 interface PatreonProps {
   url: string;

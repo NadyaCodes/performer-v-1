@@ -1,3 +1,4 @@
+import Image from "next/image";
 export const FinderTipComponent = (
   <div className="flex justify-center">
     <div
@@ -10,7 +11,10 @@ export const FinderTipComponent = (
     >
       Find your ideal program by filtering our listings however you want
       <div className="mt-2 overflow-hidden rounded">
-        <img src="/Program-Finder.png" />
+        <Image
+          src="/Program-Finder.png"
+          alt="Program Finder - Act. Sing. Dance. Repeat."
+        />
       </div>
     </div>
   </div>
@@ -25,7 +29,10 @@ export const MobileFinderTipComponent = (
     >
       Find your ideal program by filtering our listings however you want
       <div className="mb-2 mt-6 overflow-hidden rounded border-2 border-indigo-200">
-        <img src="/Program-Finder.png" />
+        <Image
+          src="/Program-Finder.png"
+          alt="Program Finder - Act. Sing. Dance. Repeat."
+        />
       </div>
     </div>
   </div>
@@ -43,7 +50,10 @@ export const DirectoryTipComponent = (
     >
       Directory of performace programs in Canada
       <div className="mt-2 overflow-hidden rounded">
-        <img src="/Program-Directory.png" />
+        <Image
+          src="/Program-Directory.png"
+          alt="Program Directory - Act. Sing. Dance. Repeat."
+        />
       </div>
     </div>
   </div>
@@ -58,7 +68,10 @@ export const MobileDirectoryTipComponent = (
     >
       Directory of performace programs in Canada
       <div className="mb-2 mt-6 overflow-hidden rounded border-2 border-indigo-200">
-        <img src="/Program-Directory.png" />
+        <Image
+          src="/Program-Directory.png"
+          alt="Program Directory - Act. Sing. Dance. Repeat."
+        />
       </div>
     </div>
   </div>

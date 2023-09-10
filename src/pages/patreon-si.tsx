@@ -7,7 +7,6 @@ import { usePatreon } from "@component/contexts/PatreonContext";
 import type { ObjectList } from "@component/data/types";
 import type { ServerResponse, IncomingMessage } from "http";
 import { useEffectOnce } from "@component/components/AddProgramResult/helpers";
-import { useSession } from "next-auth/react";
 
 export type PatreonRelationships = {
   memberships: {
