@@ -22,6 +22,8 @@ export type ProgramWithInfo = {
   cityObj?: Location;
   schoolObj?: School;
   favId?: string;
+  articlePitch?: string | null;
+  elevatorPitch?: string | null;
 };
 
 export type FilterContextState = {

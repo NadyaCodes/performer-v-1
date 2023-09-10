@@ -277,7 +277,7 @@ const ProgramFinderComponent: NextPage = () => {
         </div>
 
         {loadingPageData && (
-          <div className="m-10 transition-all">
+          <div className="m-1 h-screen bg-cyan-50 pt-20 transition-all">
             <LoadingLines />
           </div>
         )}

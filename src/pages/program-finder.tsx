@@ -12,7 +12,7 @@ const ProgramFinder: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div className="bg-cyan-50 bg-opacity-80">
+        <div className="min-h-screen bg-cyan-50 bg-opacity-80">
           <Menu />
           <ProgramFinderComponent />
         </div>

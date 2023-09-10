@@ -221,8 +221,19 @@ export default function ProgramItem({
     setStarPopUp && setStarPopUp(element.id);
   };
 
+  const elevatorPitchArray = element.elevatorPitch?.split("###");
+  const elevatorPitchDisplay = elevatorPitchArray?.map((element) => {
+    return <div className="my-2">{element}</div>;
+  });
+
   return (
-    <div className="my-16 flex flex-col rounded-md border border-cyan-600 shadow-md shadow-slate-500 transition-all hover:border-cyan-400  hover:shadow-lg hover:shadow-cyan-800 lg:m-10 3xl:p-5">
+    <div
+      className={`my-16 flex flex-col rounded-md ${
+        element.articlePitch || element.elevatorPitch
+          ? "border-4 border-yellow-500"
+          : "border border-cyan-600"
+      }  shadow-md shadow-slate-500 transition-all hover:border-cyan-400  hover:shadow-lg hover:shadow-cyan-800 lg:m-10 3xl:p-5`}
+    >
       <div className="hidden h-0 translate-x-20 place-self-end lg:block">
         {share && <ShareOptions program={element} setShare={setShare} />}
       </div>
@@ -309,6 +320,17 @@ export default function ProgramItem({
           {element.type === "ft" ? "Full Time " : "Part Time "}{" "}
           {displayDisciplineText(element.discipline)}{" "}
         </div>
+        {element.elevatorPitch && (
+          <div className="my-2 text-sm italic">{elevatorPitchDisplay}</div>
+        )}
+        {element.articlePitch && (
+          <Link
+            className="text-lg italic text-cyan-600 hover:scale-110"
+            href={`/featured-program/${element.id}`}
+          >
+            ...More Info...
+          </Link>
+        )}
       </div>
       <ShareIcon share={share} setShare={setShare} />
       <div className="h-0 translate-y-2 place-self-end lg:hidden">
