@@ -257,7 +257,7 @@ const ProgramFinderComponent: NextPage = () => {
   ]);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-scree">
       <FilterContext.Provider
         value={{
           selectedOptions,

@@ -113,7 +113,9 @@ export default function FilterMenu() {
 
   return (
     <div
-      className="-mt-28 bg-cyan-950 pt-10 text-cyan-50 lg:mt-0"
+      className={`${
+        sessionData?.user ? "-mt-28" : "-mt-16"
+      } bg-cyan-950 pt-10 text-cyan-50 lg:mt-0`}
       style={{
         boxShadow: "inset 0px -8px 16px rgba(0, 255, 255, 0.5)",
       }}

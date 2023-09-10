@@ -76,7 +76,7 @@ export default function MobileMenu() {
           }`}
         ></div>
         {banner && (
-          <div className="block w-screen">
+          <div className="z-30 block w-screen">
             <LogoTicker />
           </div>
         )}

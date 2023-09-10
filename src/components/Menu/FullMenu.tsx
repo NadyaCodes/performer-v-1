@@ -24,6 +24,10 @@ export default function FullMenu() {
         ? programsLinkClass
         : "group flex rounded-t-md border-b-2 border-transparent bg-transparent transition-all hover:border-cyan-700";
 
+    const nameArray = item.name.split(" ");
+    const displayName = nameArray.map((word) => {
+      return <span className="mx-1">{word}</span>;
+    });
     return (
       <div key={item.name} className="px-4">
         <Link
@@ -32,7 +36,9 @@ export default function FullMenu() {
           onMouseEnter={() => item.toolTipItem && setToolTip(item.toolTipItem)}
           onMouseLeave={() => setToolTip("")}
         >
-          <button className="">{item.name}</button>{" "}
+          <button className="flex flex-col items-center xl:flex-row">
+            {displayName}
+          </button>{" "}
         </Link>
         {toolTip === "finderTip" &&
           item.name === "Program Finder" &&
@@ -56,9 +62,9 @@ export default function FullMenu() {
     >
       <div className="flex w-full items-center">
         <Logo color="black" />
-        <div className="flex w-full flex-col 2xl:text-xl">
+        <div className="flex w-full flex-col 2xl:text-lg 3xl:text-2xl">
           <div className="flex w-full items-center justify-between">
-            <div className="ml-5 flex w-9/12 items-center justify-around">
+            <div className="ml-2 flex items-center justify-around xl:ml-5">
               {menuDisplay}
             </div>
             <div className="">
