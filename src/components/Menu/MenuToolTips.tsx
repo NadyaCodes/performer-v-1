@@ -8,7 +8,25 @@ export const FinderTipComponent = (
         animation: "pullDownTop 0.3s forwards",
       }}
     >
-      Find schools by selecting filters and searching for the things you want!
+      Find your ideal program by filtering our listings however you want
+      <div className="mt-2 overflow-hidden rounded">
+        <img src="/Program-Finder.png" />
+      </div>
+    </div>
+  </div>
+);
+
+export const MobileFinderTipComponent = (
+  <div className="flex justify-center">
+    <div
+      id="tooltip-bottom"
+      role="tooltip"
+      className="tooltip inline-block rounded-lg rounded-t-none px-3 pb-3 text-center text-base font-medium shadow-sm"
+    >
+      Find your ideal program by filtering our listings however you want
+      <div className="mb-2 mt-6 overflow-hidden rounded border-2 border-indigo-200">
+        <img src="/Program-Finder.png" />
+      </div>
     </div>
   </div>
 );
@@ -24,6 +42,24 @@ export const DirectoryTipComponent = (
       }}
     >
       Directory of performace programs in Canada
+      <div className="mt-2 overflow-hidden rounded">
+        <img src="/Program-Directory.png" />
+      </div>
+    </div>
+  </div>
+);
+
+export const MobileDirectoryTipComponent = (
+  <div className="flex justify-center">
+    <div
+      id="tooltip-bottom"
+      role="tooltip"
+      className="tooltip inline-block rounded-lg rounded-t-none px-3 pb-3 text-center text-base font-medium shadow-sm"
+    >
+      Directory of performace programs in Canada
+      <div className="mb-2 mt-6 overflow-hidden rounded border-2 border-indigo-200">
+        <img src="/Program-Directory.png" />
+      </div>
     </div>
   </div>
 );
@@ -38,7 +74,22 @@ export const ProgramsTipComponent = (
         animation: "pullDownTop 0.3s ease-in-out forwards",
       }}
     >
-      Your personal list of saved programs (Account Required)
+      Your personal list of saved programs (Sign In Required)
+    </div>
+  </div>
+);
+
+export const MobileProgramsTipComponent = (
+  <div className="flex h-24 justify-center">
+    <div
+      id="tooltip-bottom"
+      role="tooltip"
+      className="tooltip  inline-block w-full rounded-lg px-5 pb-3 text-center text-base font-medium shadow-sm"
+    >
+      <div className="flex flex-col">
+        <span>Your personal list of saved programs</span>
+        <span>(Sign In Required)</span>
+      </div>
     </div>
   </div>
 );
