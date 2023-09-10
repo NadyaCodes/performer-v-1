@@ -13,7 +13,7 @@ export const FinderTipComponent = (
   </div>
 );
 
-export const SelectorTipComponent = (
+export const DirectoryTipComponent = (
   <div className="flex justify-center">
     <div
       id="tooltip-bottom"
@@ -23,7 +23,7 @@ export const SelectorTipComponent = (
         animation: "pullDownTop 0.3s ease-in-out forwards",
       }}
     >
-      Find schools by following a rabbit hole of links.
+      Directory of performace programs in Canada
     </div>
   </div>
 );

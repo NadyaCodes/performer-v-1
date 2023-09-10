@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import LocationMenu from "./LocationMenu";
 import Search from "./Search";
-import { FilterContext } from "./CourseFinderComponent";
+import { FilterContext } from "./ProgramFinderComponent";
 import { displayLocation } from "./helpers";
 import Menu from "./Menu";
 import { chevronUp, doubleChevronDown } from "@component/data/svgs";

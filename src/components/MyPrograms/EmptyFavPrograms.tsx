@@ -18,20 +18,23 @@ export default function EmptyFavPrograms() {
       <div className="p-4 text-center">
         <div className="p-3">
           Explore the{" "}
-          <Link href="/course-finder" className="font-bold hover:text-cyan-700">
-            Course Finder
+          <Link
+            href="/program-finder"
+            className="font-bold hover:text-cyan-700"
+          >
+            Program Finder
           </Link>{" "}
           or{" "}
           <Link
             className="font-bold hover:text-cyan-700"
-            href="/course-selector"
+            href="/program-directory"
           >
-            Course Selector
+            Program Directory
           </Link>{" "}
           to add programs to your list
         </div>
 
-        <Link href="/course-finder">
+        <Link href="/program-finder">
           <button className="m-4 rounded-lg border-2 border-cyan-800 p-3 font-bold hover:scale-110 hover:bg-cyan-800 hover:text-cyan-50 hover:shadow-lg hover:shadow-cyan-700">
             Find Programs
           </button>

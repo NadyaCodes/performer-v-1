@@ -84,7 +84,7 @@ export default function AboutComponent() {
           id="box1"
         >
           <div className="w-full bg-cyan-100 p-5 text-center text-2xl font-bold">
-            Course Finder
+            Program Finder
           </div>
           <div className="flex w-full flex-col p-4 md:p-10">
             <span>Search for programs by selecting the filters you want.</span>
@@ -106,12 +106,12 @@ export default function AboutComponent() {
           id="box2"
         >
           <div className="w-full bg-cyan-100 p-5 text-center text-2xl font-bold">
-            Course Selector
+            Program Directory
           </div>
           <div className="flex w-full flex-col p-4 md:p-10">
             <span>
-              Search for a specific list of programs by selecting the following
-              mandatory fields:
+              Directory of post-secondary-level performance training programs in
+              Canada
             </span>
             <ul className="list-outside list-disc px-8 py-2 italic">
               <li>Full Time vs. Part Time</li>

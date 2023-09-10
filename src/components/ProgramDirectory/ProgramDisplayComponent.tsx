@@ -15,7 +15,7 @@ import type { FavProgram } from "@prisma/client";
 import { convertUserFavs } from "../ProgramFinder/helpers";
 import TitleHeader from "./TitleHeader";
 import SubHeader from "./SubHeader";
-import SelectorScrollArrow from "./SelectorScrollArrow";
+import DirectoryScrollArrow from "./DirectoryScrollArrow";
 import { useEffectOnce } from "../AddProgramResult/helpers";
 
 interface ProgramDisplayProps {
@@ -260,7 +260,7 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
   return (
     <div>
       <div className="sticky top-10 z-10 h-0 place-self-start">
-        <SelectorScrollArrow />
+        <DirectoryScrollArrow />
       </div>
 
       <div className="flex w-full flex-col items-center overflow-x-hidden">

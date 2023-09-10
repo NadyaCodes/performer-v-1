@@ -13,13 +13,13 @@ export default function MobileMenu() {
     const currentURL = window.location.href;
     let isDarkURL = true;
     const lightPages = [
-      "course-selector",
+      "program-directory",
       "about",
       "select-next",
       "my-programs",
       "single-program",
     ];
-    const darkCyanPages = ["course-finder"];
+    const darkCyanPages = ["program-finder"];
     const slatePages = ["contact"];
 
     lightPages.forEach((urlSnippet) => {
@@ -30,8 +30,8 @@ export default function MobileMenu() {
     if (
       currentURL.includes("about") ||
       currentURL.includes("contact") ||
-      currentURL.includes("course-finder") ||
-      currentURL.includes("course-selector") ||
+      currentURL.includes("program-finder") ||
+      currentURL.includes("program-directory") ||
       currentURL.includes("select-next") ||
       currentURL.includes("my-programs") ||
       currentURL.includes("single-program")

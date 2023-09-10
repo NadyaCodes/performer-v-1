@@ -20,7 +20,7 @@ import MiniScrollArrow from "./MiniScrollArrow";
 
 export const FilterContext = createContext<FilterContextState | null>(null);
 
-const CourseFinderComponent: NextPage = () => {
+const ProgramFinderComponent: NextPage = () => {
   const { data: ftProgramData } = api.ftProgram.getAll.useQuery();
   const { data: ptProgramData } = api.ptProgram.getAll.useQuery();
   const { data: schoolLocationData } = api.schoolLocation.getAll.useQuery();
@@ -197,7 +197,7 @@ const CourseFinderComponent: NextPage = () => {
 
       setTimeout(() => {
         setLoadingPageData(false);
-      }, 1500);
+      }, 2000);
     }
   }, [
     selectedOptions,
@@ -326,4 +326,4 @@ const CourseFinderComponent: NextPage = () => {
   );
 };
 
-export default CourseFinderComponent;
+export default ProgramFinderComponent;

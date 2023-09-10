@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import SelectorScrollArrow from "../ProgramSelector/SelectorScrollArrow";
+import DirectoryScrollArrow from "../ProgramDirectory/DirectoryScrollArrow";
 import type { KeyValueListType } from "./MyProgramsComponent";
 
 const MobileQuickLinks = ({
@@ -103,7 +103,7 @@ const MobileQuickLinks = ({
         </div>
       </div>
       <div className="-translate-y-2 scale-75">
-        <SelectorScrollArrow />
+        <DirectoryScrollArrow />
       </div>
     </div>
   );

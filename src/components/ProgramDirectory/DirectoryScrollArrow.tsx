@@ -1,7 +1,7 @@
 import { arrowUp } from "@component/data/svgs";
 import React, { useState, useEffect } from "react";
 
-export default function SelectorScrollArrow() {
+export default function DirectoryScrollArrow() {
   const [showArrow, setShowArrow] = useState(false);
 
   useEffect(() => {

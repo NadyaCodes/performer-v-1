@@ -6,7 +6,7 @@ import Logo from "./Logo";
 import { menuItems } from "./Menu";
 import {
   FinderTipComponent,
-  SelectorTipComponent,
+  DirectoryTipComponent,
   ProgramsTipComponent,
 } from "./MenuToolTips";
 
@@ -35,11 +35,11 @@ export default function FullMenu() {
           <button className="">{item.name}</button>{" "}
         </Link>
         {toolTip === "finderTip" &&
-          item.name === "Course Finder" &&
+          item.name === "Program Finder" &&
           FinderTipComponent}
-        {toolTip === "selectorTip" &&
-          item.name === "Course Selector" &&
-          SelectorTipComponent}
+        {toolTip === "directoryTip" &&
+          item.name === "Program Directory" &&
+          DirectoryTipComponent}
         {toolTip === "programsTip" &&
           item.name === "My Programs" &&
           ProgramsTipComponent}

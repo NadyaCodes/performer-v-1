@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { FilterContext } from "./CourseFinderComponent";
+import { FilterContext } from "./ProgramFinderComponent";
 
 import { search, xMark } from "@component/data/svgs";
 import { searchForValue } from "./helpers";

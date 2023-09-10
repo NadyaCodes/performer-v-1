@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Picker from "@component/components/ProgramSelector/Picker";
+import Picker from "@component/components/ProgramDirectory/Picker";
 import Link from "next/link";
 import Menu from "../Menu/Menu";
 import LoadingLines from "../Loading/LoadingLines";

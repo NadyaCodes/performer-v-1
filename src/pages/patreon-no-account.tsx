@@ -29,22 +29,22 @@ const PatreonNoAccount: NextPage = () => {
                     Check that you are logged into the correct Patreon account
                   </li>
                   <li>
-                    Check that you are subscribing to the Act. Sing. Dance.
-                    Repeat. on Patreon
+                    Check that you are subscribing to Act. Sing. Dance. Repeat.
+                    on Patreon
                   </li>
                 </ul>
               </div>
               <div className="mt-5 flex justify-around">
                 <Link
                   href="/patreon"
-                  className="w-52  rounded-md border-2 border-cyan-100 py-3 text-cyan-50 shadow-md shadow-indigo-300 transition-all hover:scale-105 hover:shadow-lg hover:shadow-indigo-300"
+                  className="rounded-md border-2 border-cyan-100 p-2 py-3 text-cyan-50 shadow-md shadow-indigo-300 transition-all hover:scale-105 hover:shadow-lg hover:shadow-indigo-300 mobileMenu:w-60"
                 >
                   Try Connecting Again
                 </Link>
                 <a
                   href="https://www.patreon.com/actsingdancerepeat"
                   target="_blank"
-                  className="w-52 rounded-md border-2 border-cyan-100 py-3 text-cyan-50 shadow-md shadow-indigo-300 transition-all hover:scale-105 hover:shadow-lg hover:shadow-indigo-300 mobileMenu:w-60"
+                  className="rounded-md border-2 border-cyan-100 p-2 py-3 text-cyan-50 shadow-md shadow-indigo-300 transition-all hover:scale-105 hover:shadow-lg hover:shadow-indigo-300 mobileMenu:w-60"
                 >
                   Go to Patreon
                 </a>

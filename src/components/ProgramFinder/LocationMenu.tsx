@@ -5,7 +5,7 @@ import React, {
   type Dispatch,
   type SetStateAction,
 } from "react";
-import { FilterContext } from "./CourseFinderComponent";
+import { FilterContext } from "./ProgramFinderComponent";
 import Menu from "./Menu";
 
 export default function LocationMenu({

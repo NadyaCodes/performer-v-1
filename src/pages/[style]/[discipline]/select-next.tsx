@@ -7,7 +7,7 @@ import {
 } from "@component/data/constants";
 import type { PathsArray, SelectNextProps } from "@component/data/types";
 import { styles } from "@component/data/constants";
-import SelectNext from "@component/components/ProgramSelector/SelectNext";
+import SelectNext from "@component/components/ProgramDirectory/SelectNext";
 import Head from "next/head";
 
 import { PrismaClient } from "@prisma/client";
