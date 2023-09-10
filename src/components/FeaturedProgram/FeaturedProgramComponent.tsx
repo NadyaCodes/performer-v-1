@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { api } from "@component/utils/api";
-import { useEffectOnce } from "../AddProgramResult/helpers";
 
 export default function FeaturedProgramComponent({
   programId,

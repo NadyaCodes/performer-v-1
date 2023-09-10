@@ -223,7 +223,11 @@ export default function ProgramItem({
 
   const elevatorPitchArray = element.elevatorPitch?.split("###");
   const elevatorPitchDisplay = elevatorPitchArray?.map((element) => {
-    return <div className="my-2">{element}</div>;
+    return (
+      <div className="my-2" key={element}>
+        {element}
+      </div>
+    );
   });
 
   return (

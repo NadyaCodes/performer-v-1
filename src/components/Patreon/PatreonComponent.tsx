@@ -1,6 +1,5 @@
 import React from "react";
 import ConnectAccounts from "./ConnectAccounts";
-import MembershipOptions from "./MembershipOptions";
 import { usePatreon } from "@component/contexts/PatreonContext";
 import ThankYou from "./ThankYou";
 import FlyingIndigoDiv from "../MyPrograms/FlyingIndigoDiv";
