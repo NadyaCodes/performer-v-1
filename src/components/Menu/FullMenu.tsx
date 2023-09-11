@@ -33,7 +33,7 @@ export default function FullMenu() {
       );
     });
     return (
-      <div key={item.name} className="px-4">
+      <div key={item.name} className="px-2">
         <Link
           href={item.link}
           className={linkClass}
@@ -67,8 +67,8 @@ export default function FullMenu() {
       <div className="flex w-full items-center">
         <Logo color="black" />
         <div className="flex w-full flex-col 2xl:text-lg 3xl:text-2xl">
-          <div className="flex w-full items-center justify-between">
-            <div className="ml-2 flex items-center justify-around xl:ml-5">
+          <div className="flex w-full items-center justify-between ">
+            <div className="ml-2 flex w-10/12 items-center justify-around xl:ml-5">
               {menuDisplay}
             </div>
             <div className="">
