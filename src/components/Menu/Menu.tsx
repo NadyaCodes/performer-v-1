@@ -19,7 +19,8 @@ export const menuItems: menuObject[] = [
   },
   { name: "My Programs", link: "/my-programs", toolTipItem: "programsTip" },
   { name: "Blog", link: "/blog" },
-  { name: "Patreon", link: "/patreon" },
+  { name: "Patreon", link: "/patreon", toolTipItem: "patreonTip" },
+  { name: "Merch", link: "/merch" },
   { name: "Contact", link: "/contact" },
 ];
 

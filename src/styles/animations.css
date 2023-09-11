@@ -281,6 +281,31 @@
     }
     
   }
+
+  @keyframes fadeInFallInFromTop {
+    0%{
+      transform: translateY(-50rem) ;
+      opacity: 0
+    }
+    40%{
+      transform: translateY(2rem);
+      opacity: 100;
+    }
+    55%{
+      transform: translateY(-2rem) translateX(1rem);
+    }
+    70%{
+      transform: translateY(1rem) translateX(3rem);
+    }
+    85%{
+      transform: translateY(-1rem) translateX(1rem);
+    }
+    100% {
+      transform: translateY(0rem);
+      opacity: 100;
+    }
+    
+  }
   
   
   @keyframes fadeBackground {

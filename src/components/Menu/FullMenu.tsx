@@ -1,29 +1,19 @@
 import React, { useState } from "react";
 import AuthShowcase from "./AuthShowcase";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
 import Logo from "./Logo";
 import { menuItems } from "./Menu";
 import {
   FinderTipComponent,
   DirectoryTipComponent,
   ProgramsTipComponent,
+  PatreonTipComponent,
 } from "./MenuToolTips";
 
 export default function FullMenu() {
-  const { data: sessionData } = useSession();
   const [toolTip, setToolTip] = useState<string>("");
 
   const menuDisplay = menuItems.map((item) => {
-    const programsLinkClass = sessionData
-      ? "flex rounded-t-md border-b-2 border-transparent bg-transparent transition-all hover:border-cyan-700 "
-      : "flex rounded-t-md border-b-2 border-transparent text-cyan-500 transition-all ";
-
-    const linkClass =
-      item.name === "My Programs"
-        ? programsLinkClass
-        : "group flex rounded-t-md border-b-2 border-transparent bg-transparent transition-all hover:border-cyan-700";
-
     const nameArray = item.name.split(" ");
     const displayName = nameArray.map((word) => {
       return (
@@ -33,10 +23,10 @@ export default function FullMenu() {
       );
     });
     return (
-      <div key={item.name} className="px-4">
+      <div key={item.name} className="px-2">
         <Link
           href={item.link}
-          className={linkClass}
+          className="group flex rounded-t-md border-b-2 border-transparent bg-transparent transition-all hover:border-cyan-700"
           onMouseEnter={() => item.toolTipItem && setToolTip(item.toolTipItem)}
           onMouseLeave={() => setToolTip("")}
         >
@@ -53,6 +43,9 @@ export default function FullMenu() {
         {toolTip === "programsTip" &&
           item.name === "My Programs" &&
           ProgramsTipComponent}
+        {toolTip === "patreonTip" &&
+          item.name === "Patreon" &&
+          PatreonTipComponent}
       </div>
     );
   });
@@ -67,8 +60,8 @@ export default function FullMenu() {
       <div className="flex w-full items-center">
         <Logo color="black" />
         <div className="flex w-full flex-col 2xl:text-lg 3xl:text-2xl">
-          <div className="flex w-full items-center justify-between">
-            <div className="ml-2 flex items-center justify-around xl:ml-5">
+          <div className="flex w-full items-center justify-between ">
+            <div className="ml-2 flex w-10/12 items-center justify-around xl:ml-5">
               {menuDisplay}
             </div>
             <div className="">

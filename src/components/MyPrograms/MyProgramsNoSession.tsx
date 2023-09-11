@@ -13,21 +13,21 @@ export default function MyProgramsNoSession() {
         }}
       ></div>
       <div
-        className="text-bold mt-10 flex w-full flex-col content-center items-center p-3 text-center text-lg mobileMenu:mt-20"
+        className="text-bold mt-10 flex w-full flex-col content-center items-center p-3 text-center text-lg text-cyan-900 mobileMenu:mt-20"
         style={{ animation: "fadeIn .7s linear" }}
       >
         <H2Title text="Saved Programs" icon="star" id="favsHeader" />
         <div
-          className="m-2 opacity-0"
+          className="m-2 font-bold opacity-0"
           style={{ animation: "pullDownTop .5s linear .2s forwards" }}
         >
-          Store your favorite programs here!
+          FUTURE HOME OF YOUR FAVORITE PROGRAMS
         </div>
         <div
           className="m-2 opacity-0"
           style={{ animation: "pullDownTop .5s linear .8s forwards" }}
         >
-          This page requires an account.
+          This page requires a free account.
         </div>
         <div
           className="m-2 opacity-0"
@@ -37,7 +37,10 @@ export default function MyProgramsNoSession() {
         </div>
       </div>
       <div className="scale-150">
-        <div style={{ animation: "wiggle .4s linear 2s 2" }}>
+        <div
+          className="text-cyan-900"
+          style={{ animation: "wiggle .4s linear 2s 2" }}
+        >
           <AuthShowcase />
         </div>
       </div>

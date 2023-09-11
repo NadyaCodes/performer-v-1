@@ -23,6 +23,7 @@ export default function MobileMenu() {
       "single-program",
       "blog",
       "featured-program",
+      "merch",
     ];
     const darkCyanPages = ["program-finder", "patreon"];
     const slatePages = ["contact"];
@@ -42,7 +43,8 @@ export default function MobileMenu() {
       currentURL.includes("single-program") ||
       currentURL.includes("blog") ||
       currentURL.includes("patreon") ||
-      currentURL.includes("featured-program")
+      currentURL.includes("featured-program") ||
+      currentURL.includes("merch")
     ) {
       setBanner(true);
     }
