@@ -6,6 +6,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import {
   MobileDirectoryTipComponent,
   MobileFinderTipComponent,
+  MobilePatreonTipComponent,
   MobileProgramsTipComponent,
 } from "./MenuToolTips";
 
@@ -28,49 +29,7 @@ export default function MobileMenuOpen({
   };
 
   const menuDisplay = menuItems.map((item) => {
-    let disabled = false;
-    if (!sessionData?.user) {
-      if (item.name === "My Programs") {
-        disabled = true;
-      }
-    }
-    return disabled ? (
-      <div className="flex w-2/3 flex-col" key={item.name}>
-        {item.toolTipItem && (
-          <div className="place-self-end">
-            <button
-              className="absolute translate-x-4 translate-y-2 rounded-full border-2 border-cyan-600 px-2 text-cyan-700 sm:translate-x-7"
-              onClick={() =>
-                item.toolTipItem === toolTipItem
-                  ? setTooltipItem("")
-                  : setTooltipItem(item.toolTipItem)
-              }
-            >
-              ?
-            </button>
-          </div>
-        )}
-        {toolTipItem === item.toolTipItem && toolTipItem === "programsTip" && (
-          <div
-            className="absolute z-10 flex w-2/3 flex-col rounded-md rounded-t-none bg-cyan-900 text-cyan-50"
-            style={{
-              animation: "pullDownTop 0.3s forwards",
-            }}
-          >
-            <div
-              onClick={() => setTooltipItem("")}
-              className="place-self-end p-3"
-            >
-              {xMark}
-            </div>
-            {MobileProgramsTipComponent}
-          </div>
-        )}
-        <div className="flex justify-center bg-cyan-900 bg-opacity-70  p-2 font-bold text-cyan-100 shadow-md shadow-cyan-700 hover:scale-105 hover:bg-cyan-800 hover:text-cyan-50">
-          {item.name}
-        </div>
-      </div>
-    ) : (
+    return (
       <div className="flex w-2/3 flex-col" key={item.name}>
         {item.toolTipItem && (
           <div className="place-self-end">
@@ -133,6 +92,23 @@ export default function MobileMenuOpen({
               {xMark}
             </div>
             {MobileProgramsTipComponent}
+          </div>
+        )}
+
+        {toolTipItem === item.toolTipItem && toolTipItem === "patreonTip" && (
+          <div
+            className="absolute z-10 flex w-2/3 flex-col rounded-md rounded-t-none bg-cyan-900 text-cyan-50"
+            style={{
+              animation: "pullDownTop 0.3s forwards",
+            }}
+          >
+            <div
+              onClick={() => setTooltipItem("")}
+              className="place-self-end p-3"
+            >
+              {xMark}
+            </div>
+            {MobilePatreonTipComponent}
           </div>
         )}
 

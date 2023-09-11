@@ -1,29 +1,19 @@
 import React, { useState } from "react";
 import AuthShowcase from "./AuthShowcase";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
 import Logo from "./Logo";
 import { menuItems } from "./Menu";
 import {
   FinderTipComponent,
   DirectoryTipComponent,
   ProgramsTipComponent,
+  PatreonTipComponent,
 } from "./MenuToolTips";
 
 export default function FullMenu() {
-  const { data: sessionData } = useSession();
   const [toolTip, setToolTip] = useState<string>("");
 
   const menuDisplay = menuItems.map((item) => {
-    const programsLinkClass = sessionData
-      ? "flex rounded-t-md border-b-2 border-transparent bg-transparent transition-all hover:border-cyan-700 "
-      : "flex rounded-t-md border-b-2 border-transparent text-cyan-500 transition-all ";
-
-    const linkClass =
-      item.name === "My Programs"
-        ? programsLinkClass
-        : "group flex rounded-t-md border-b-2 border-transparent bg-transparent transition-all hover:border-cyan-700";
-
     const nameArray = item.name.split(" ");
     const displayName = nameArray.map((word) => {
       return (
@@ -36,7 +26,7 @@ export default function FullMenu() {
       <div key={item.name} className="px-2">
         <Link
           href={item.link}
-          className={linkClass}
+          className="group flex rounded-t-md border-b-2 border-transparent bg-transparent transition-all hover:border-cyan-700"
           onMouseEnter={() => item.toolTipItem && setToolTip(item.toolTipItem)}
           onMouseLeave={() => setToolTip("")}
         >
@@ -53,6 +43,9 @@ export default function FullMenu() {
         {toolTip === "programsTip" &&
           item.name === "My Programs" &&
           ProgramsTipComponent}
+        {toolTip === "patreonTip" &&
+          item.name === "Patreon" &&
+          PatreonTipComponent}
       </div>
     );
   });
