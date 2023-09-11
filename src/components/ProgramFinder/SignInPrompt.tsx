@@ -11,17 +11,12 @@ export default function SignInPrompt({
     setStarPopUp && setStarPopUp("");
   };
 
-  const handleSignIn = () => {
-    return new Promise<void>((resolve) => {
-      signIn("google")
-        .then(() => {
-          resolve();
-        })
-        .catch((error) => {
-          console.error("Error signing in: ", error);
-          resolve();
-        });
-    });
+  const handleSignIn = async () => {
+    try {
+      await signIn("google");
+    } catch (error) {
+      console.error("Error signing in: ", error);
+    }
   };
 
   return (
