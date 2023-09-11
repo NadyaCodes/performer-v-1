@@ -1,5 +1,6 @@
 import React from "react";
 import { xMark } from "@component/data/svgs";
+import { signIn } from "next-auth/react";
 
 export default function SignInPrompt({
   setStarPopUp,
@@ -9,6 +10,11 @@ export default function SignInPrompt({
   const handleCloseStarPopUp = () => {
     setStarPopUp && setStarPopUp("");
   };
+
+  const handleSignIn = async () => {
+    await signIn("google");
+  };
+
   return (
     <div className="relative h-0 rounded-sm">
       <div
@@ -16,7 +22,13 @@ export default function SignInPrompt({
         style={{ animation: "pullDownTop 0.2s linear" }}
       >
         <div className="pl-3">
-          Sign in with Google to save program to your faves list
+          <button
+            className="mr-2 font-semibold italic text-indigo-100 hover:cursor-pointer hover:text-indigo-300"
+            onClick={handleSignIn}
+          >
+            Sign in with Google
+          </button>
+          to save program to your faves list
         </div>
         <button
           onClick={handleCloseStarPopUp}
