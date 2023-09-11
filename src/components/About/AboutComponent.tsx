@@ -12,11 +12,13 @@ export default function AboutComponent() {
     box3: false,
     box4: false,
     box5: false,
+    box6: false,
+    box7: false,
   });
   const { data: sessionData } = useSession();
 
   const makeBoxesAppear = () => {
-    const boxArray = ["box1", "box2", "box3", "box4", "box5"];
+    const boxArray = ["box1", "box2", "box3", "box4", "box5", "box6", "box7"];
     const offsetBottom = 100;
 
     boxArray.forEach((box) => {
@@ -86,105 +88,158 @@ export default function AboutComponent() {
         </div>
 
         <div
-          className="mb-10 mt-3 flex w-11/12 flex-col items-center rounded-lg border-2 border-cyan-200 opacity-0 shadow-xl shadow-cyan-700 md:w-10/12 xl:w-8/12 xl:text-lg 2xl:w-6/12"
+          className="mb-10 mt-3 flex w-11/12 flex-col items-center overflow-hidden rounded-lg border-2 border-cyan-200 opacity-0 shadow-xl shadow-cyan-700 md:w-10/12 xl:w-8/12 xl:text-lg 2xl:w-6/12"
           style={{
             animation: appearBox.box1 ? "fadeInGrow 1.5s ease-in forwards" : "",
           }}
           id="box1"
         >
-          <div className="w-full bg-cyan-100 p-5 text-center text-2xl font-bold">
-            Program Finder
-          </div>
-          <div className="flex w-full flex-col p-4 md:p-10">
-            <span>Search for programs by selecting the filters you want.</span>
-            <span>Filter results by:</span>
-            <ul className="list-outside list-disc px-8 py-2 italic">
-              <li>Full Time vs. Part Time</li>
-              <li>Acting, Singing, Dance, Musical Theatre</li>
-              <li>Location</li>
-              <li>Keywords</li>
-            </ul>
-          </div>
+          <Link href="/program-finder" className="w-full">
+            <div className="w-full bg-cyan-100 p-5 text-center text-2xl font-bold">
+              Program Finder
+            </div>
+            <div className="flex w-full flex-col p-4 md:p-10">
+              <span>
+                Search for programs by selecting the filters you want.
+              </span>
+              <span className="mb-2">Filter results by:</span>
+              <ul className="list-outside list-disc px-8 py-2 italic">
+                <li>Full Time vs. Part Time</li>
+                <li>Acting, Singing, Dance, Musical Theatre</li>
+                <li>Location</li>
+                <li>Keywords</li>
+              </ul>
+              <span>Helps you find your ideal program!</span>
+            </div>
+          </Link>
         </div>
 
         <div
-          className="mb-10 flex w-11/12 flex-col items-center rounded-lg border-2 border-cyan-200 opacity-0 shadow-xl shadow-cyan-700 md:w-10/12 xl:w-8/12 xl:text-lg 2xl:w-6/12"
+          className="mb-10 flex w-11/12 flex-col items-center overflow-hidden rounded-lg border-2 border-cyan-200 opacity-0 shadow-xl shadow-cyan-700 md:w-10/12 xl:w-8/12 xl:text-lg 2xl:w-6/12"
           style={{
             animation: appearBox.box2 ? "fadeInGrow 1.5s ease-in forwards" : "",
           }}
           id="box2"
         >
-          <div className="w-full bg-cyan-100 p-5 text-center text-2xl font-bold">
-            Program Directory
-          </div>
-          <div className="flex w-full flex-col p-4 md:p-10">
-            <span>
-              Directory of post-secondary-level performance training programs in
-              Canada
-            </span>
-            <ul className="list-outside list-disc px-8 py-2 italic">
-              <li>Full Time vs. Part Time</li>
-              <li>Acting, Singing, Dance, Musical Theatre</li>
-              <li>Location</li>
-            </ul>
-          </div>
+          <Link href="/program-directory" className="w-full">
+            <div className="w-full bg-cyan-100 p-5 text-center text-2xl font-bold">
+              Program Directory
+            </div>
+            <div className="flex w-full flex-col p-4 md:p-10">
+              <span className="mb-2">
+                Directory of post-secondary-level performance training programs
+                in Canada
+              </span>
+              <span>Alternative to the Program Finder</span>
+            </div>
+          </Link>
         </div>
 
         <div
-          className="mb-10 flex w-11/12 flex-col items-center rounded-lg border-2 border-cyan-200 opacity-0 shadow-xl shadow-cyan-700 md:w-10/12 xl:w-8/12 xl:text-lg 2xl:w-6/12"
+          className="mb-10 flex w-11/12 flex-col items-center overflow-hidden rounded-lg border-2 border-cyan-200 opacity-0 shadow-xl shadow-cyan-700 md:w-10/12 xl:w-8/12 xl:text-lg 2xl:w-6/12"
           style={{
             animation: appearBox.box3 ? "fadeInGrow 1.5s ease-in forwards" : "",
           }}
           id="box3"
         >
-          <div className="w-full bg-cyan-100 p-5 text-center text-2xl font-bold">
-            My Programs
-          </div>
-          <div className="flex w-full flex-col p-4 md:p-10">
-            <span className="mb-2">
-              Create an account, and you&apos;ll be able to select and save your
-              favourite programs.
-            </span>
-            <span>
-              Add programs to your faves by clicking the purple star icon on the
-              listing.
-            </span>
-            <ul className="list-outside  list-disc px-8 py-2 italic">
-              <li>Full Time vs. Part Time</li>
-              <li>Acting, Singing, Dance, Musical Theatre</li>
-              <li>Location</li>
-            </ul>
-          </div>
+          <Link href="/my-programs" className="w-full">
+            <div className="w-full bg-cyan-100 p-5 text-center text-2xl font-bold">
+              My Programs
+            </div>
+            <div className="flex w-full flex-col p-4 md:p-10">
+              <span className="mb-2">
+                Create a free account (via Google sign-in), and you can select
+                and save your favourite programs from the Finder and Directory.
+              </span>
+              <span>
+                Add programs to your faves by clicking the purple star icon on
+                the listing.
+              </span>
+            </div>
+          </Link>
         </div>
 
         <div
-          className="mb-10 flex w-11/12 flex-col items-center rounded-lg border-2 border-cyan-200 opacity-0 shadow-xl shadow-cyan-700 md:w-10/12 xl:w-8/12 xl:text-lg 2xl:w-6/12"
+          className="mb-10 flex w-11/12 flex-col items-center overflow-hidden rounded-lg border-2 border-cyan-200 opacity-0 shadow-xl shadow-cyan-700 md:w-10/12 xl:w-8/12 xl:text-lg 2xl:w-6/12"
           style={{
             animation: appearBox.box4 ? "fadeInGrow 1.5s ease-in forwards" : "",
           }}
           id="box4"
         >
-          <div className="w-full bg-cyan-100 p-5 text-center text-2xl font-bold">
-            Notes and Custom Programs (via My Programs)
-          </div>
-          <div className="flex w-full flex-col p-4 md:p-10">
-            <span className="mb-2">
-              Patreon subscribers unlock the ability to save custom programs and
-              add notes to each program in your faves list.
-            </span>
-            <span>
-              Keep your international programs and notes such as application
-              deadlines, audition requirements, etc. all in one simple location!
-            </span>
-          </div>
+          <Link href="/my-programs" className="w-full">
+            <div className="w-full bg-cyan-100 p-5 text-center text-2xl font-bold">
+              Notes and Custom Programs (via My Programs)
+            </div>
+            <div className="flex w-full flex-col p-4 md:p-10">
+              <span className="mb-2">
+                Patreon subscribers unlock the ability to save custom programs
+                and add private notes to each program in your faves list.
+              </span>
+              <span>
+                Keep notes such as application deadlines, audition requirements,
+                and even your international school details all in one simple
+                location!
+              </span>
+            </div>
+          </Link>
         </div>
 
         <div
-          className="mb-10 flex w-11/12 flex-col items-center rounded-lg border-2 border-red-200 opacity-0 shadow-lg shadow-red-300 md:w-10/12 xl:w-8/12 xl:text-lg 2xl:w-6/12"
+          className="mb-10 flex w-11/12 flex-col items-center overflow-hidden rounded-lg border-2 border-cyan-200 opacity-0 shadow-xl shadow-cyan-700 md:w-10/12 xl:w-8/12 xl:text-lg 2xl:w-6/12"
           style={{
             animation: appearBox.box5 ? "fadeInGrow 1.5s ease-in forwards" : "",
           }}
           id="box5"
+        >
+          <Link href="/patreon" className="w-full">
+            <div className="w-full bg-cyan-100 p-5 text-center text-2xl font-bold">
+              Patreon
+            </div>
+            <div className="flex w-full flex-col p-4 md:p-10">
+              <span className="mb-2">
+                This site uses Patreon, a monthly subscription service, to help
+                fund the continued maintenance and the hopeful expansion of this
+                platform
+              </span>
+              <ul className="list-outside list-disc px-8 py-2 italic">
+                <li>
+                  Artists/Students can use it to unlock special features on the
+                  site
+                </li>
+                <li>Schools/Programs can use it to upgrade their listings</li>
+              </ul>
+              <span className="mb-2">
+                After covering basic running costs, any additional income will
+                go towards adding more content and opportunities for subscribers
+              </span>
+            </div>
+          </Link>
+        </div>
+
+        <div
+          className="mb-10 flex w-11/12 flex-col items-center overflow-hidden rounded-lg border-2 border-cyan-200 opacity-0 shadow-xl shadow-cyan-700 md:w-10/12 xl:w-8/12 xl:text-lg 2xl:w-6/12"
+          style={{
+            animation: appearBox.box6 ? "fadeInGrow 1.5s ease-in forwards" : "",
+          }}
+          id="box6"
+        >
+          <Link href="/merch" className="w-full">
+            <div className="w-full bg-cyan-100 p-5 text-center text-2xl font-bold">
+              Merch
+            </div>
+            <div className="flex w-full flex-col p-4 md:p-10">
+              <span className="mb-2">Yes, there is merch.</span>
+              <span className="mb-2">Because why not???</span>
+            </div>
+          </Link>
+        </div>
+
+        <div
+          className="mb-10 flex w-11/12 flex-col items-center overflow-hidden rounded-lg border-2 border-red-200 opacity-0 shadow-lg shadow-red-300 md:w-10/12 xl:w-8/12 xl:text-lg 2xl:w-6/12"
+          style={{
+            animation: appearBox.box7 ? "fadeInGrow 1.5s ease-in forwards" : "",
+          }}
+          id="box7"
         >
           <div className="w-full  bg-red-100 p-3 text-center text-2xl font-bold">
             DISCLAIMER

@@ -21,7 +21,7 @@ const AuthShowcase: React.FC = () => {
         className="rounded-full p-3 font-semibold outline outline-transparent transition hover:bg-cyan-800 hover:text-cyan-50 hover:shadow-md"
         onClick={sessionData ? handleSignOut : handleSignIn}
       >
-        {sessionData ? "Sign out" : "Sign in"}
+        {sessionData ? "Sign out" : "Sign in (Google)"}
       </button>
     </div>
   );
