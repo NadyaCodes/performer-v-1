@@ -2,6 +2,7 @@ import React from "react";
 import BlogPreview from "./BlogPreview";
 import type { Post } from "@prisma/client";
 import { useSession } from "next-auth/react";
+import ContactLink from "../Patreon/ContactLink";
 
 export default function BlogComponent({ postArray }: { postArray: Post[] }) {
   const { data: sessionData } = useSession();
@@ -26,6 +27,12 @@ export default function BlogComponent({ postArray }: { postArray: Post[] }) {
         <h2 className="mx-5 my-5 flex items-center justify-center text-center text-4xl font-extrabold capitalize tracking-tight text-cyan-900 md:text-6xl">
           Act. Sing. Dance. Blog.
         </h2>
+        <h3 className="flex flex-col italic text-cyan-900 mobileMenu:flex-row">
+          <span>Have something to say?</span>
+          <span className="ml-2">
+            <ContactLink /> to contribute!
+          </span>
+        </h3>
         <BlogPreview postArray={postArray} />
       </div>
     </div>
