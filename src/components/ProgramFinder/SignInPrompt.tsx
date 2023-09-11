@@ -12,9 +12,11 @@ export default function SignInPrompt({
   };
 
   const handleSignIn = async () => {
-    signIn("google").catch((error) =>
-      console.error("Error signing in: ", error)
-    );
+    try {
+      await Promise.resolve(signIn("google"));
+    } catch (error) {
+      console.error("Error signing in: ", error);
+    }
   };
 
   return (
