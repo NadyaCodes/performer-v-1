@@ -120,11 +120,6 @@ export default function FilterMenu() {
         boxShadow: "inset 0px -8px 16px rgba(0, 255, 255, 0.5)",
       }}
     >
-      {sessionData?.user && (
-        <div className="-mt-5 hidden w-screen justify-end pr-2 text-sm italic mobileMenu:flex mobileMenu:pr-4">
-          <span>Logged in as: {sessionData.user.name}</span>
-        </div>
-      )}
       <div
         className="flex flex-col overflow-x-hidden px-6 pt-24 text-center text-4xl font-extrabold md:px-20 lg:pt-16 lg:text-5xl"
         style={{ animation: "fadeInTranslate 1s linear forwards" }}

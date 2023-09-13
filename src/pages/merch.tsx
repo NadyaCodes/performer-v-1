@@ -2,13 +2,10 @@ import type { NextPage } from "next";
 import Menu from "@component/components/Menu/Menu";
 import Head from "next/head";
 import Image from "next/image";
-import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import confetti from "canvas-confetti";
 
 const Merch: NextPage = () => {
-  const { data: sessionData } = useSession();
-
   useEffect(() => {
     confetti({
       colors: [
@@ -44,11 +41,6 @@ const Merch: NextPage = () => {
             }}
           ></div>
           <div className="h-10"></div>
-          {sessionData?.user && (
-            <div className="absolute mt-2 hidden w-screen justify-end pr-4 text-sm italic mobileMenu:flex ">
-              <span>Logged in as: {sessionData.user.name}</span>
-            </div>
-          )}
           <div
             className="text-bold flex w-full flex-col content-center items-center p-3 text-center text-lg text-cyan-900 mobileMenu:mt-20"
             style={{ animation: "fadeIn 1s linear" }}

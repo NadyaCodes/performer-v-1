@@ -4,10 +4,8 @@ import { styles } from "@component/data/constants";
 import Menu from "@component/components/Menu/Menu";
 import Face from "@component/components/ProgramDirectory/Face";
 import Head from "next/head";
-import { useSession } from "next-auth/react";
 
 export default function ProgramDirectory() {
-  const { data: sessionData } = useSession();
   return (
     <>
       <Head>
@@ -26,11 +24,6 @@ export default function ProgramDirectory() {
             }}
           ></div>
           <div className="mb-10 hidden h-10 bg-cyan-950 mobileMenu:block"></div>
-          {sessionData?.user && (
-            <div className="mt-5 hidden w-screen justify-end pr-2 text-sm italic mobileMenu:flex mobileMenu:pr-4">
-              <span>Logged in as: {sessionData.user.name}</span>
-            </div>
-          )}
           <div className="flex w-full flex-col items-center overflow-x-hidden">
             <h1
               className="mx-10 mt-3 w-9/12 text-center text-5xl font-extrabold tracking-tight md:mt-10 md:text-6xl"

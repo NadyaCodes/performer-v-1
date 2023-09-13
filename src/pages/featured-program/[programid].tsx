@@ -48,11 +48,6 @@ const SingleProgramPage: NextPage<SingleProgramPageProps> = ({ programid }) => {
             }}
           ></div>
           <div className="h-10"></div>
-          {sessionData?.user && (
-            <div className="mt-2 hidden w-screen justify-end pr-2 text-sm italic mobileMenu:flex mobileMenu:pr-4">
-              <span>Logged in as: {sessionData.user.name}</span>
-            </div>
-          )}
 
           <button
             onClick={handleGoBack}
