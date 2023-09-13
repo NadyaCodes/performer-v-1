@@ -1,7 +1,6 @@
 import ContactComponent from "@component/components/Contact/ContactComponent";
 import Menu from "@component/components/Menu/Menu";
 import React from "react";
-import SenderScript from "@component/components/Contact/SenderScript";
 import Head from "next/head";
 
 export default function Contact() {
@@ -15,7 +14,6 @@ export default function Contact() {
       <main>
         <div className="min-h-screen bg-slate-900">
           <Menu />
-          <SenderScript />
           <ContactComponent />
         </div>
       </main>

@@ -126,7 +126,7 @@ export default function FilterMenu() {
         </div>
       )}
       <div
-        className="flex flex-col px-6 pt-24 text-center text-4xl font-extrabold md:px-20 lg:pt-16 lg:text-5xl"
+        className="flex flex-col overflow-x-hidden px-6 pt-24 text-center text-4xl font-extrabold md:px-20 lg:pt-16 lg:text-5xl"
         style={{ animation: "fadeInTranslate 1s linear forwards" }}
       >
         What Kind of Program Are You Looking For?

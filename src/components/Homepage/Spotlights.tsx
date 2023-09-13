@@ -12,7 +12,7 @@ export default function Spotlights() {
               height: 0,
               borderLeft: "130px solid transparent",
               borderRight: "130px solid transparent",
-              borderBottom: "900px solid #cffafe40",
+              borderBottom: "1200px solid #cffafe40",
               animation: "spotlightRight 2s linear forwards",
               overflow: "hidden",
             }}
@@ -29,7 +29,7 @@ export default function Spotlights() {
                 height: 0,
                 borderLeft: "130px solid transparent",
                 borderRight: "130px solid transparent",
-                borderBottom: "900px solid #cffafe40",
+                borderBottom: "1200px solid #cffafe40",
                 animation: "spotlightLeft 2s linear forwards",
                 overflow: "hidden",
               }}

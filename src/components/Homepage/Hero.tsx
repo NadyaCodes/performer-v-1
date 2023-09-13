@@ -30,8 +30,8 @@ export default function Hero() {
   }, []);
 
   return (
-    <div className="flex flex-col">
-      <div className="mx-10 mt-3 flex h-40 flex-col place-items-center justify-center bg-slate-950 shadow-2xl shadow-cyan-400 md:max-lg:mx-16 md:max-lg:h-60 lg:mx-32 lg:mt-10 lg:h-60">
+    <div className="flex flex-col bg-slate-900">
+      <div className="mx-10 mt-3 flex h-40 flex-col place-items-center justify-center bg-slate-950 shadow-2xl shadow-cyan-400 md:h-60 md:max-lg:mx-16 lg:mx-32 lg:mt-10 lg:h-60 2xl:h-96">
         <div className="">
           {featuredText === "act" && (
             <div
@@ -85,8 +85,7 @@ export default function Hero() {
       <div className="relative mx-20 flex justify-around lg:hidden">
         <SmallLights animateLight={animateLight} />
       </div>
-      <div className="z-20 h-96 w-full bg-slate-900 opacity-100"></div>
-      <div className="z-20 h-96 w-full bg-slate-900 opacity-100"></div>
+      <div className="z-20 h-10 w-full bg-slate-900 opacity-100 mobileMenu:h-20"></div>
     </div>
   );
 }

@@ -3,6 +3,7 @@ import LogoTicker from "../About/LogoTicker";
 import { envelope, outlineStar, sparkles } from "@component/data/svgs";
 import LinkDrop from "./LinkDrop";
 import { useSession } from "next-auth/react";
+import SubscribeSignUp from "../Footer/SubscribeSignUp";
 
 export type ContactInput = {
   name: string;
@@ -86,11 +87,7 @@ export default function ContactComponent() {
               }`}
               style={{ animation: "pullDownTop 0.5s linear forwards" }}
             >
-              <div
-                style={{ textAlign: "left" }}
-                className="sender-form-field"
-                data-sender-form-id="llfvjlgce3ng4ds98jh"
-              ></div>
+              <SubscribeSignUp />
             </div>
           </div>
           <div
