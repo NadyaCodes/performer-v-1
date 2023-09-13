@@ -536,7 +536,7 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
             }}
           ></div>
         )}
-        <div className="h-60 mobileMenu:h-5"></div>
+        <div className="h-60 mobileMenu:h-12"></div>
 
         {showUpdateCustom && (
           <div className="flex w-11/12 pb-4 md:w-9/12 mobileMenu:w-2/3">

@@ -2,9 +2,9 @@ import React from "react";
 
 export default function Spotlights() {
   return (
-    <div className="hidden -translate-y-8 justify-center lg:flex">
-      <div className="xl:translate-x-32 2xl:translate-x-40">
-        <div className="translate-x-40 sm:translate-x-52 md:translate-x-72 lg:translate-x-96">
+    <div className="flex -translate-y-8 justify-center">
+      <div className="xl:translate-x-10 2xl:translate-x-40">
+        <div className="translate-x-24 xs:translate-x-40 sm:translate-x-52 md:translate-x-72 xl:translate-x-96">
           <div
             className="absolute"
             style={{
@@ -17,11 +17,31 @@ export default function Spotlights() {
               overflow: "hidden",
             }}
           ></div>
+
+          <div
+            style={{
+              translate: "86px 10px",
+            }}
+          >
+            <div
+              style={{ animation: "spotlightRightLight 2s linear forwards" }}
+            >
+              <div className="h-20 w-10 rounded-full">
+                <div
+                  className="h-full w-full rounded-full"
+                  style={{
+                    background:
+                      "linear-gradient(to top, black 70%, transparent 50%)",
+                  }}
+                ></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div className="2xl:-translate-x-10">
-        <div className="-translate-x-9 sm:-translate-x-20 md:-translate-x-40 lg:-translate-x-64 xl:-translate-x-96">
-          <div className="-translate-x-96">
+      <div className="3xl:-translate-x-10">
+        <div className="-translate-x-0 xs:-translate-x-6 sm:-translate-x-20 md:-translate-x-32 xl:-translate-x-64 2xl:-translate-x-96">
+          <div className="-translate-x-80 xs:-translate-x-86 sm:-translate-x-96">
             <div
               className="absolute"
               style={{
@@ -34,6 +54,26 @@ export default function Spotlights() {
                 overflow: "hidden",
               }}
             ></div>
+            <div
+              className=""
+              style={{
+                translate: "133px 10px",
+              }}
+            >
+              <div
+                style={{ animation: "spotlightLeftLight 2s linear forwards" }}
+              >
+                <div className="h-20 w-10 rounded-full">
+                  <div
+                    className="h-full w-full rounded-full"
+                    style={{
+                      background:
+                        "linear-gradient(to top, black 70%, transparent 50%)",
+                    }}
+                  ></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

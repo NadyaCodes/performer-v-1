@@ -2,7 +2,6 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Menu from "@component/components/Menu/Menu";
 import HomeComponent from "@component/components/Homepage/HomeComponent";
-import Spotlights from "@component/components/Homepage/Spotlights";
 import Link from "next/link";
 import FooterComponent from "@component/components/Footer/FooterComponent";
 
@@ -17,11 +16,10 @@ const Home: NextPage = () => {
       <main className="flex min-h-screen flex-col items-center justify-between overflow-hidden bg-slate-900 text-cyan-50">
         <div className="flex flex-grow flex-col">
           <Menu />
-          <Spotlights />
-          <div className="flex flex-grow flex-col justify-center">
-            <div className="mt-7 w-2/3 place-self-center">
+          <div className="flex flex-grow flex-col justify-center 3xl:justify-around">
+            <div className="w-2/3 place-self-center mobileMenu:mt-7">
               <h1
-                className="mb-8 mt-5 text-center text-4xl font-extrabold md:max-mobileMenu:mt-0  mobileMenu:text-5xl mobileMenu:text-6xl"
+                className="mb-8 mt-5 text-center text-4xl font-extrabold md:max-mobileMenu:mt-0  mobileMenu:text-6xl 3xl:m-20 3xl:text-8xl"
                 style={{ animation: "pullDownTop 1s forwards 1s", opacity: 0 }}
               >
                 Resources for Canadian Performers
@@ -31,7 +29,7 @@ const Home: NextPage = () => {
                 style={{ animation: "fadeIn 1s forwards 2s", opacity: 0 }}
               >
                 <Link href={"/about"}>
-                  <button className="m-3 rounded p-3 text-lg outline hover:scale-110 md:m-0">
+                  <button className="rounded p-3 text-lg outline hover:scale-110 3xl:p-6 3xl:text-2xl">
                     Get Started Here
                   </button>
                 </Link>
@@ -41,7 +39,7 @@ const Home: NextPage = () => {
           </div>
         </div>
         <div className="z-20">
-          <FooterComponent />
+          <FooterComponent bgColor="bg-slate-900" />
         </div>
       </main>
     </>

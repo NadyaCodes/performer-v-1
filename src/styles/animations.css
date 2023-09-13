@@ -117,6 +117,19 @@
       transform-origin: top;
     }
   }
+
+  @keyframes spotlightRightLight {
+    0% {
+      transform: scale(0%) rotate(120deg) translate(-10rem, 6rem)
+    }
+    80% {
+      transform: scale(50%) rotate(180deg) translate(-3rem, 3rem)
+    }
+    100% {
+      transform: scale(100%) rotate(200deg)
+    }
+    
+  }
   
   @keyframes spotlightLeft {
     0% {
@@ -127,6 +140,19 @@
       transform: rotate(-25deg);
       transform-origin: top;
     }
+  }
+
+  @keyframes spotlightLeftLight {
+    0% {
+      transform: scale(0%) rotate(-120deg) translate(10rem, 6rem)
+    }
+    80% {
+      transform: scale(50%) rotate(-180deg) translate(3rem, 3rem)
+    }
+    100% {
+      transform: scale(100%) rotate(-200deg)
+    }
+    
   }
   
   @keyframes fadeIn {
