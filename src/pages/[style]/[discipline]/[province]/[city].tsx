@@ -14,6 +14,7 @@ import type {
 } from "@prisma/client";
 import ProgramDisplayComponent from "@component/components/ProgramDirectory/ProgramDisplayComponent";
 import Menu from "@component/components/Menu/Menu";
+import FooterComponent from "@component/components/Footer/FooterComponent";
 
 export interface ProgramInfo extends SchoolLocation {
   school: School;
@@ -58,11 +59,17 @@ const DisplayPage: NextPage<SelectNextProps> = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div className="min-h-screen bg-cyan-50 bg-opacity-80">
-          <Menu />
-          <ProgramDisplayComponent
-            dataObject={{ style, discipline, city, province }}
-          />
+        <div className="flex min-h-screen flex-col justify-between bg-cyan-50 bg-opacity-80">
+          <div className="">
+            <Menu />
+
+            <ProgramDisplayComponent
+              dataObject={{ style, discipline, city, province }}
+            />
+          </div>
+          <div className="mt-20">
+            <FooterComponent bgColor="bg-cyan-900" />
+          </div>
         </div>
       </main>
     </>

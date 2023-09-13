@@ -4,6 +4,7 @@ import { styles } from "@component/data/constants";
 import Menu from "@component/components/Menu/Menu";
 import Face from "@component/components/ProgramDirectory/Face";
 import Head from "next/head";
+import FooterComponent from "@component/components/Footer/FooterComponent";
 
 export default function ProgramDirectory() {
   return (
@@ -14,16 +15,18 @@ export default function ProgramDirectory() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div className="min-h-screen bg-cyan-50 bg-opacity-80 text-cyan-900">
-          <Menu />
-          <div
-            className="absolute left-0 right-0 hidden h-10 mobileMenu:block"
-            style={{
-              boxShadow:
-                "inset 0px -1px 2px rgba(0,255,255,0.5), inset 0px -2px 4px rgba(0,255,255,0.5), inset 0px -4px 8px rgba(0,255,255,0.5)",
-            }}
-          ></div>
-          <div className="mb-10 hidden h-10 bg-cyan-950 mobileMenu:block"></div>
+        <div className="flex min-h-screen flex-col justify-between bg-cyan-50 bg-opacity-80 text-cyan-900">
+          <div>
+            <Menu />
+            <div
+              className="absolute left-0 right-0 hidden h-10 mobileMenu:block"
+              style={{
+                boxShadow:
+                  "inset 0px -1px 2px rgba(0,255,255,0.5), inset 0px -2px 4px rgba(0,255,255,0.5), inset 0px -4px 8px rgba(0,255,255,0.5)",
+              }}
+            ></div>
+            <div className="mb-10 hidden h-10 bg-cyan-950 mobileMenu:block"></div>
+          </div>
           <div className="flex w-full flex-col items-center overflow-x-hidden">
             <h1
               className="mx-10 mt-3 w-9/12 text-center text-5xl font-extrabold tracking-tight md:mt-10 md:text-6xl"
@@ -46,6 +49,9 @@ export default function ProgramDirectory() {
             <div className="-mt-16 hidden md:block">
               <Face eyesClass="eyesUp" />
             </div>
+          </div>
+          <div className="mt-10">
+            <FooterComponent bgColor="bg-cyan-900" />
           </div>
         </div>
       </main>

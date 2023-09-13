@@ -2,6 +2,7 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Menu from "@component/components/Menu/Menu";
 import AboutComponent from "@component/components/About/AboutComponent";
+import FooterComponent from "@component/components/Footer/FooterComponent";
 
 const About: NextPage = () => {
   return (
@@ -14,6 +15,7 @@ const About: NextPage = () => {
       <main className="flex min-h-screen flex-col items-center bg-cyan-50 text-cyan-950">
         <Menu />
         <AboutComponent />
+        <FooterComponent bgColor="bg-cyan-900" />
       </main>
     </>
   );

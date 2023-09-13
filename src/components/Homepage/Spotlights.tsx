@@ -2,8 +2,8 @@ import React from "react";
 
 export default function Spotlights() {
   return (
-    <div className="flex -translate-y-8 justify-center">
-      <div className="xl:translate-x-10 2xl:translate-x-40">
+    <div className="flex -translate-y-8 justify-center 4xl:translate-x-12">
+      <div className="xl:translate-x-10 2xl:translate-x-40 3xl:translate-x-72 4xl:translate-x-96">
         <div className="translate-x-24 xs:translate-x-40 sm:translate-x-52 md:translate-x-72 xl:translate-x-96">
           <div
             className="absolute"
@@ -39,7 +39,7 @@ export default function Spotlights() {
           </div>
         </div>
       </div>
-      <div className="3xl:-translate-x-10">
+      <div className="3xl:-translate-x-32 4xl:-translate-x-80">
         <div className="-translate-x-0 xs:-translate-x-6 sm:-translate-x-20 md:-translate-x-32 xl:-translate-x-64 2xl:-translate-x-96">
           <div className="-translate-x-80 xs:-translate-x-86 sm:-translate-x-96">
             <div
