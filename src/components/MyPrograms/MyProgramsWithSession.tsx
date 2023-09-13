@@ -518,7 +518,7 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
         />
       )}
 
-      <div className="static flex min-h-screen -translate-y-3 flex-col items-center overflow-x-hidden">
+      <div className="static flex -translate-y-3 flex-col items-center overflow-x-hidden">
         {!loading && (
           <div
             className="absolute left-0 right-0 hidden h-10 bg-cyan-950 mobileMenu:block"

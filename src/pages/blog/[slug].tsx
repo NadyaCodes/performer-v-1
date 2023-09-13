@@ -7,6 +7,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 import { useState, useEffect } from "react";
 import type { ObjectList } from "@component/data/types";
+import FooterComponent from "@component/components/Footer/FooterComponent";
 
 export type BlogPageProps = {
   postData: Post;
@@ -42,16 +43,21 @@ const BlogPage: NextPage<BlogPageProps> = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div className="min-h-screen bg-cyan-50 bg-opacity-80">
-          <Menu />
-          {postData && (
-            <BlogPageComponent
-              post={postData}
-              date={createdAtDate}
-              nextPost={postAfterObj ? postAfterObj : null}
-              prevPost={postBeforeObj ? postBeforeObj : null}
-            />
-          )}
+        <div className="flex min-h-screen flex-col justify-between bg-cyan-50 bg-opacity-80">
+          <div>
+            <Menu />
+            {postData && (
+              <BlogPageComponent
+                post={postData}
+                date={createdAtDate}
+                nextPost={postAfterObj ? postAfterObj : null}
+                prevPost={postBeforeObj ? postBeforeObj : null}
+              />
+            )}
+          </div>
+          <div className="mt-20">
+            <FooterComponent bgColor="bg-cyan-900" />
+          </div>
         </div>
       </main>
     </>

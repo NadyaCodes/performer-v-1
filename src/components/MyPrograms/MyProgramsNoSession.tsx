@@ -18,7 +18,7 @@ export default function MyProgramsNoSession() {
       >
         <H2Title text="Saved Programs" icon="star" id="favsHeader" />
         <div
-          className="m-2 font-bold opacity-0"
+          className="m-2 text-xl font-bold opacity-0"
           style={{ animation: "pullDownTop .5s linear .2s forwards" }}
         >
           FUTURE HOME OF YOUR FAVORITE PROGRAMS
