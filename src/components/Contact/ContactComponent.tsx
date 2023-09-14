@@ -147,10 +147,9 @@ export default function ContactComponent() {
                 ></div>
               </div>
             </div>
-            <div className="h-40 overflow-y-hidden bg-gradient-to-b from-slate-950 to-slate-900"></div>
+            <div className="h-16 overflow-y-hidden bg-gradient-to-b from-slate-950 to-slate-900"></div>
           </>
         )}
-        <div className="w-fill relative z-10 h-96 bg-slate-900"></div>
       </div>
     </div>
   );

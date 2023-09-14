@@ -2,6 +2,7 @@ import type { GetStaticProps, GetStaticPaths, NextPage } from "next";
 import type { PTProgram, FTProgram } from "@prisma/client";
 import Menu from "@component/components/Menu/Menu";
 import Head from "next/head";
+import FooterComponent from "@component/components/Footer/FooterComponent";
 
 export interface SingleProgramPageProps {
   programid: string;
@@ -29,9 +30,14 @@ const SingleProgramPage: NextPage<SingleProgramPageProps> = ({ programid }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div className="min-h-screen bg-cyan-50 bg-opacity-80">
-          <Menu />
-          <SingleProgramPageComponent programid={programid} />
+        <div className="flex min-h-screen flex-col justify-between bg-cyan-50 bg-opacity-80">
+          <div>
+            <Menu />
+            <SingleProgramPageComponent programid={programid} />
+          </div>
+          <div className="mt-10">
+            <FooterComponent bgColor="bg-cyan-900" />
+          </div>
         </div>
       </main>
     </>

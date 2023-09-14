@@ -33,11 +33,11 @@ export default function Hero() {
   return (
     <div className="-mt-16 flex flex-col overflow-hidden bg-slate-900 2xl:-mt-20">
       <Spotlights />
-      <div className="mx-10 mt-3 flex h-40 flex-col place-items-center justify-center bg-slate-950 shadow-2xl shadow-cyan-400 md:h-60 md:max-lg:mx-16 lg:mx-32 lg:mt-10 lg:h-60 2xl:h-96 3xl:mt-40 3xl:h-128">
+      <div className="mx-10 mt-3 flex h-40 flex-col place-items-center justify-center bg-slate-950 shadow-2xl shadow-cyan-400 md:h-60 md:max-lg:mx-16 lg:mx-32 lg:mt-10 lg:h-60 2xl:h-96 4xl:mt-40 4xl:h-128">
         <div className="">
           {featuredText === "act" && (
             <div
-              className="hero-phrase m-5 text-3xl font-extrabold md:text-5xl xl:text-7xl"
+              className="hero-phrase m-5 text-3xl font-extrabold md:text-4xl mobileMenu:text-5xl xl:text-7xl"
               style={{
                 animation: "flyInOut 2.9s ease-in",
                 willChange: "transform",
@@ -48,7 +48,7 @@ export default function Hero() {
           )}
           {featuredText === "sing" && (
             <div
-              className="hero-phrase m-5 text-3xl font-extrabold  md:text-5xl xl:text-7xl"
+              className="hero-phrase m-5 text-3xl font-extrabold  md:text-4xl mobileMenu:text-5xl xl:text-7xl"
               style={{
                 animation: "flyInOut 2.9s ease-in",
                 willChange: "transform",
@@ -59,7 +59,7 @@ export default function Hero() {
           )}
           {featuredText === "dance" && (
             <div
-              className="hero-phrase m-5 text-3xl font-extrabold md:text-5xl xl:text-7xl"
+              className="hero-phrase m-5 text-3xl font-extrabold md:text-4xl mobileMenu:text-5xl xl:text-7xl"
               style={{
                 animation: "flyInOut 2.9s ease-in",
                 willChange: "transform",
@@ -70,7 +70,7 @@ export default function Hero() {
           )}
           {featuredText === "mt" && (
             <div
-              className="hero-phrase m-5 w-40 p-2 text-center text-3xl font-extrabold sm:w-auto md:text-5xl xl:text-7xl"
+              className="hero-phrase m-5 w-40 p-2 text-center text-3xl font-extrabold sm:w-auto md:text-4xl mobileMenu:text-5xl xl:text-7xl"
               style={{
                 animation: "flyInOut 2.9s ease-in",
                 willChange: "transform",

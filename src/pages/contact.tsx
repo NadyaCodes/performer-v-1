@@ -2,6 +2,7 @@ import ContactComponent from "@component/components/Contact/ContactComponent";
 import Menu from "@component/components/Menu/Menu";
 import React from "react";
 import Head from "next/head";
+import FooterComponent from "@component/components/Footer/FooterComponent";
 
 export default function Contact() {
   return (
@@ -12,9 +13,15 @@ export default function Contact() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div className="min-h-screen bg-slate-900">
-          <Menu />
-          <ContactComponent />
+        <div className="flex min-h-screen flex-col justify-between bg-slate-900">
+          <div>
+            <Menu />
+            <ContactComponent />
+          </div>
+
+          <div className="mt-10">
+            <FooterComponent bgColor="bg-slate-900" />
+          </div>
         </div>
       </main>
     </>
