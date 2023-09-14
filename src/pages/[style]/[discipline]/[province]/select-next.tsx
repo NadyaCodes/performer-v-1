@@ -10,6 +10,7 @@ import {
   provincesFull,
 } from "@component/data/constants";
 import Head from "next/head";
+import FooterComponent from "@component/components/Footer/FooterComponent";
 
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
@@ -61,7 +62,12 @@ const ProvincePage: NextPage<SelectNextProps> = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <SelectNext selectNextOptions={selectNextOptions} />
+        <div className="flex min-h-screen flex-col justify-between bg-cyan-50 bg-opacity-80">
+          <SelectNext selectNextOptions={selectNextOptions} />
+          <div className="mt-20">
+            <FooterComponent bgColor="bg-cyan-900" />
+          </div>
+        </div>
       </main>
     </>
   );

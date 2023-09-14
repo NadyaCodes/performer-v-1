@@ -7,6 +7,7 @@ import type { ObjectList } from "@component/data/types";
 import { handleTokenAndInfoRefresh, fetchPatreonUserInfo } from "./patreon-si";
 import cookie from "cookie";
 import { usePatreon } from "@component/contexts/PatreonContext";
+import FooterComponent from "@component/components/Footer/FooterComponent";
 
 interface PatreonProps {
   url: string;
@@ -28,24 +29,29 @@ const Patreon: NextPage<PatreonProps> = ({ url, userInfo }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div className="min-h-screen bg-cyan-950 text-cyan-50">
-          <Menu />
-          <div className="flex flex-col items-center justify-center text-center">
-            <h1
-              className="w-11/12 p-10 text-5xl font-semibold"
-              style={{ animation: "fadeInGrow 1s linear forwards" }}
-            >
-              <span className="font-bold italic text-indigo-200">
-                Unlock Site Features
-              </span>{" "}
-              and{" "}
-              <span className="font-bold italic text-indigo-200">
-                Upgrade Program Listings
-              </span>{" "}
-              with Patreon
-            </h1>
+        <div className="flex min-h-screen flex-col justify-between bg-cyan-950 text-cyan-50">
+          <div>
+            <Menu />
+            <div className="flex flex-col items-center justify-center text-center 2xl:mt-10">
+              <h1
+                className="w-11/12 p-10 text-5xl font-semibold"
+                style={{ animation: "fadeInGrow 1s linear forwards" }}
+              >
+                <span className="font-bold italic text-indigo-200">
+                  Unlock Site Features
+                </span>{" "}
+                and{" "}
+                <span className="font-bold italic text-indigo-200">
+                  Upgrade Program Listings
+                </span>{" "}
+                with Patreon
+              </h1>
 
-            <PatreonComponent url={url} />
+              <PatreonComponent url={url} />
+            </div>
+          </div>
+          <div className="">
+            <FooterComponent bgColor="bg-cyan-900" />
           </div>
         </div>
       </main>

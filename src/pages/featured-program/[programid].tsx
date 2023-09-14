@@ -4,6 +4,7 @@ import Menu from "@component/components/Menu/Menu";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { backChevron } from "@component/data/svgs";
+import FooterComponent from "@component/components/Footer/FooterComponent";
 
 export interface SingleProgramPageProps {
   programid: string;
@@ -17,14 +18,12 @@ export type SingleProgramPaths = {
 
 import { PrismaClient } from "@prisma/client";
 import FeaturedProgramComponent from "@component/components/FeaturedProgram/FeaturedProgramComponent";
-import { useSession } from "next-auth/react";
 
 const prisma = new PrismaClient();
 
 const SingleProgramPage: NextPage<SingleProgramPageProps> = ({ programid }) => {
   const pageTitle = `Featured Program - Act. Sing. Dance. Repeat. ~ ${programid}`;
   const router = useRouter();
-  const { data: sessionData } = useSession();
 
   const handleGoBack = () => {
     router.back();
@@ -38,29 +37,29 @@ const SingleProgramPage: NextPage<SingleProgramPageProps> = ({ programid }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div className="min-h-screen bg-cyan-50 bg-opacity-80">
-          <Menu />
-          <div
-            className="absolute left-0 right-0 hidden h-10 bg-cyan-950 mobileMenu:block"
-            style={{
-              boxShadow:
-                "inset 0px -1px 2px rgba(0,255,255,0.5), inset 0px -2px 4px rgba(0,255,255,0.5), inset 0px -4px 8px rgba(0,255,255,0.5)",
-            }}
-          ></div>
-          <div className="h-10"></div>
-          {sessionData?.user && (
-            <div className="mt-2 hidden w-screen justify-end pr-2 text-sm italic mobileMenu:flex mobileMenu:pr-4">
-              <span>Logged in as: {sessionData.user.name}</span>
-            </div>
-          )}
+        <div className="flex min-h-screen flex-col justify-between bg-cyan-50 bg-opacity-80">
+          <div>
+            <Menu />
+            <div
+              className="absolute left-0 right-0 hidden h-10 bg-cyan-950 mobileMenu:block"
+              style={{
+                boxShadow:
+                  "inset 0px -1px 2px rgba(0,255,255,0.5), inset 0px -2px 4px rgba(0,255,255,0.5), inset 0px -4px 8px rgba(0,255,255,0.5)",
+              }}
+            ></div>
+            <div className="h-10"></div>
 
-          <button
-            onClick={handleGoBack}
-            className="m-2 flex rounded border-2 border-cyan-800 p-3 hover:scale-105 hover:shadow-md hover:shadow-cyan-600 mobileMenu:ml-10"
-          >
-            {backChevron} Go Back
-          </button>
-          <FeaturedProgramComponent programId={programid} />
+            <button
+              onClick={handleGoBack}
+              className="m-2 flex rounded border-2 border-cyan-800 p-3 hover:scale-105 hover:shadow-md hover:shadow-cyan-600 mobileMenu:ml-10"
+            >
+              {backChevron} Go Back
+            </button>
+            <FeaturedProgramComponent programId={programid} />
+          </div>
+          <div className="mt-10">
+            <FooterComponent bgColor="bg-cyan-900" />
+          </div>
         </div>
       </main>
     </>

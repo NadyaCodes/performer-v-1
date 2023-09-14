@@ -9,9 +9,11 @@ import {
   ProgramsTipComponent,
   PatreonTipComponent,
 } from "./MenuToolTips";
+import { useSession } from "next-auth/react";
 
 export default function FullMenu() {
   const [toolTip, setToolTip] = useState<string>("");
+  const { data: sessionData } = useSession();
 
   const menuDisplay = menuItems.map((item) => {
     const nameArray = item.name.split(" ");
@@ -64,8 +66,22 @@ export default function FullMenu() {
             <div className="ml-2 flex w-10/12 items-center justify-around xl:ml-5">
               {menuDisplay}
             </div>
-            <div className="">
+            <div className="my-3 flex flex-col">
               <AuthShowcase />
+              {sessionData?.user ? (
+                <div className="mr-4 hidden justify-end text-sm italic mobileMenu:flex">
+                  <div className="absolute -translate-y-2">
+                    <span>Logged in as:</span>
+                    <span className="ml-1">{sessionData.user.name}</span>
+                  </div>
+                </div>
+              ) : (
+                <div className="mr-4 hidden justify-end text-sm italic mobileMenu:flex">
+                  <div className="absolute -translate-y-2">
+                    <span>User Not Logged In</span>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

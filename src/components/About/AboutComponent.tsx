@@ -3,7 +3,6 @@ import LogoTicker from "./LogoTicker";
 import { arrowDown } from "@component/data/svgs";
 import Link from "next/link";
 import ScrollArrow from "../ProgramFinder/ScrollArrow";
-import { useSession } from "next-auth/react";
 
 export default function AboutComponent() {
   const [appearBox, setAppearBox] = useState({
@@ -15,7 +14,6 @@ export default function AboutComponent() {
     box6: false,
     box7: false,
   });
-  const { data: sessionData } = useSession();
 
   const makeBoxesAppear = () => {
     const boxArray = ["box1", "box2", "box3", "box4", "box5", "box6", "box7"];
@@ -51,11 +49,6 @@ export default function AboutComponent() {
             <div className="hidden mobileMenu:block">
               <LogoTicker />
             </div>
-            {sessionData?.user && (
-              <div className="mt-5 hidden w-screen justify-end pr-2 text-sm italic mobileMenu:flex mobileMenu:pr-4">
-                <span>Logged in as: {sessionData.user.name}</span>
-              </div>
-            )}
           </div>
           <h1 className="hidden flex-col text-center text-3xl font-extrabold mobileMenu:flex xl:text-5xl 3xl:text-6xl">
             <span>Looking for Professonal Post-Secondary Training</span>

@@ -95,7 +95,7 @@ export const ProgramsTipComponent = (
         animation: "pullDownTop 0.3s ease-in-out forwards",
       }}
     >
-      <span className="mb-2">Your saved list of programs</span>
+      <span className="mb-2 font-semibold">Your saved list of programs</span>
       <span>Explore the Program Finder </span>
       <span>or Program Directory</span>
       <span>to star your faves</span>
@@ -111,7 +111,7 @@ export const MobileProgramsTipComponent = (
       className="tooltip inline-block w-full rounded-lg px-5 pb-3 text-center text-base font-medium shadow-sm"
     >
       <div className="flex flex-col">
-        <span className="mb-2">Your saved list of programs</span>
+        <span className="mb-2 font-semibold">Your saved list of programs</span>
         <span>Explore the Program Finder </span>
         <span>or Program Directory</span>
         <span>to star your faves</span>

@@ -269,11 +269,6 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
 
       <div className="-mt-12 flex w-full flex-col items-center overflow-x-hidden mobileMenu:mt-0">
         <TitleHeader titleString={titleString} />
-        {sessionData?.user && (
-          <div className="mt-2 hidden w-screen justify-end pr-2 text-sm italic mobileMenu:flex mobileMenu:pr-4">
-            <span>Logged in as: {sessionData.user.name}</span>
-          </div>
-        )}
         <div className="mt-86 pt-20 xxs:mt-72 xs:mt-52 sm:mt-40 mobileMenu:hidden"></div>
 
         {itemArray && itemArray.length > 0 && (

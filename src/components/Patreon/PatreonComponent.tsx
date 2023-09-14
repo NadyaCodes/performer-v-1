@@ -9,7 +9,7 @@ export default function PatreonComponent({ url }: { url: string }) {
   const { patreonInfo } = usePatreon();
 
   return (
-    <div className="flex w-full flex-col place-items-center">
+    <div className="flex w-full flex-col place-items-center overflow-x-hidden">
       {patreonInfo && patreonInfo.id && patreonInfo.id !== "patreonBypass" ? (
         <ThankYou />
       ) : (

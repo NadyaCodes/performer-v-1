@@ -257,7 +257,7 @@ const ProgramFinderComponent: NextPage = () => {
   ]);
 
   return (
-    <div className="min-h-scree">
+    <div className="min-h-screen min-w-full">
       <FilterContext.Provider
         value={{
           selectedOptions,
@@ -272,7 +272,7 @@ const ProgramFinderComponent: NextPage = () => {
           setSearchTerm,
         }}
       >
-        <div className="relative z-30">
+        <div className="relative z-30 min-w-full">
           <FilterMenu />
         </div>
 

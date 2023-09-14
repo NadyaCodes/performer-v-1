@@ -3,6 +3,7 @@ import LogoTicker from "../About/LogoTicker";
 import { envelope, outlineStar, sparkles } from "@component/data/svgs";
 import LinkDrop from "./LinkDrop";
 import { useSession } from "next-auth/react";
+import SubscribeSignUp from "../Footer/SubscribeSignUp";
 
 export type ContactInput = {
   name: string;
@@ -26,11 +27,6 @@ export default function ContactComponent() {
     <div className="overflow-x-hidden bg-slate-900 pb-20">
       <div className="hidden mobileMenu:block">
         <LogoTicker />
-        {sessionData?.user && (
-          <div className="mt-5 hidden w-screen justify-end pr-2 text-sm italic text-cyan-100 mobileMenu:flex mobileMenu:pr-4">
-            <span>Logged in as: {sessionData.user.name}</span>
-          </div>
-        )}
       </div>
       <h1
         className="mt-10 text-center text-4xl font-bold text-cyan-100 md:text-5xl xl:mb-10 xl:mt-20 xl:text-6xl"
@@ -86,11 +82,7 @@ export default function ContactComponent() {
               }`}
               style={{ animation: "pullDownTop 0.5s linear forwards" }}
             >
-              <div
-                style={{ textAlign: "left" }}
-                className="sender-form-field"
-                data-sender-form-id="llfvjlgce3ng4ds98jh"
-              ></div>
+              <SubscribeSignUp />
             </div>
           </div>
           <div
@@ -155,10 +147,9 @@ export default function ContactComponent() {
                 ></div>
               </div>
             </div>
-            <div className="h-40 overflow-y-hidden bg-gradient-to-b from-slate-950 to-slate-900"></div>
+            <div className="h-16 overflow-y-hidden bg-gradient-to-b from-slate-950 to-slate-900"></div>
           </>
         )}
-        <div className="w-fill relative z-10 h-96 bg-slate-900"></div>
       </div>
     </div>
   );

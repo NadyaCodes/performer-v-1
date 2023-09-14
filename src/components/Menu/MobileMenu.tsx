@@ -85,13 +85,21 @@ export default function MobileMenu() {
             <LogoTicker />
           </div>
         )}
-        {sessionData?.user && (
+        {sessionData?.user ? (
           <div
             className={`static z-40 mb-2 mt-5 flex w-screen justify-end pr-3 text-sm italic mobileMenu:pr-4 ${
               dark ? "text-cyan-100" : "text-cyan-900"
             }`}
           >
             <span>Logged in as: {sessionData.user.name}</span>
+          </div>
+        ) : (
+          <div
+            className={`static z-40 mb-2 mt-5 flex w-screen justify-end pr-3 text-sm italic mobileMenu:pr-4 ${
+              dark ? "text-cyan-100" : "text-cyan-900"
+            }`}
+          >
+            <span>User Not Logged In</span>
           </div>
         )}
         <div>

@@ -7,6 +7,7 @@ import { handleTokenAndInfoRefresh, fetchPatreonUserInfo } from "./patreon-si";
 import cookie from "cookie";
 import type { ObjectList } from "@component/data/types";
 import { usePatreon } from "@component/contexts/PatreonContext";
+import FooterComponent from "@component/components/Footer/FooterComponent";
 
 export default function MyPrograms({ userInfo }: { userInfo: ObjectList }) {
   const { setPatreonInfo } = usePatreon();
@@ -23,9 +24,14 @@ export default function MyPrograms({ userInfo }: { userInfo: ObjectList }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div className="min-h-screen bg-cyan-50 bg-opacity-80">
-          <Menu />
-          <MyProgramsComponent />
+        <div className="flex min-h-screen flex-col justify-between bg-cyan-50 bg-opacity-80">
+          <div>
+            <Menu />
+            <MyProgramsComponent />
+          </div>
+          <div className="mt-20">
+            <FooterComponent bgColor="bg-cyan-900" />
+          </div>
         </div>
       </main>
     </>
