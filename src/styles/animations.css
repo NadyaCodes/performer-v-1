@@ -109,7 +109,7 @@
   
   @keyframes spotlightRight {
     0% {
-      transform: rotate(20deg) skew(100deg);
+      transform: rotate(-120deg) skew(70deg);
       transform-origin: top
     }
     100% {
@@ -118,22 +118,13 @@
     }
   }
 
-  @keyframes spotlightRightNew {
-    0% {
-      /* transform: rotate(20deg) skew(100deg); */
-      transform-origin: top
-    }
-    100% {
-      /* transform: rotate(25deg); */
-      transform: rotate(25deg);
-      transform-origin: top;
-    }
-  }
 
   @keyframes spotlightRightLight {
     0% {
-      transform: scale(0%) rotate(120deg) translate(-10rem, 6rem)
+      transform: scale(0%) rotate(120deg) translate(-10rem, 6rem);
+      opacity: 0;
     }
+    50% {opacity: 100;}
     80% {
       transform: scale(50%) rotate(180deg) translate(-3rem, 3rem)
     }
@@ -145,22 +136,10 @@
   
   @keyframes spotlightLeft {
     0% {
-      transform: rotate(-20deg) skew(-100deg);
+      transform: rotate(120deg) skew(-70deg);
       transform-origin: top
     }
     100% {
-      transform: rotate(-25deg);
-      transform-origin: top;
-    }
-  }
-
-  @keyframes spotlightLeftNew {
-    0% {
-      /* transform: rotate(20deg) skew(100deg); */
-      transform-origin: top
-    }
-    100% {
-      /* transform: rotate(25deg); */
       transform: rotate(-25deg);
       transform-origin: top;
     }
@@ -168,8 +147,10 @@
 
   @keyframes spotlightLeftLight {
     0% {
-      transform: scale(0%) rotate(-120deg) translate(10rem, 6rem)
+      transform: scale(0%) rotate(-120deg) translate(10rem, 6rem);
+      opacity: 0;
     }
+    50% {opacity: 100;}
     80% {
       transform: scale(50%) rotate(-180deg) translate(3rem, 3rem)
     }
