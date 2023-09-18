@@ -43,7 +43,7 @@ export default function FilterMenu() {
 
     return (
       <div
-        className="mx-4 my-2 md:mx-2 md:mb-0 lg:my-0 2xl:mx-16 2xl:mt-10"
+        className="my-2md:mx-2 mx-4 md:mb-0 lg:my-0 2xl:mx-16 2xl:mt-10"
         key={element}
       >
         <div className="flex flex-col items-center">
@@ -113,15 +113,13 @@ export default function FilterMenu() {
 
   return (
     <div
-      className={`${
-        sessionData?.user ? "-mt-28" : "-mt-16"
-      } bg-cyan-950 pt-10 text-cyan-50 lg:mt-0`}
+      className="-mt-28 overflow-x-hidden bg-cyan-950 pt-10 text-cyan-50 lg:mt-0"
       style={{
         boxShadow: "inset 0px -8px 16px rgba(0, 255, 255, 0.5)",
       }}
     >
       <div
-        className="flex flex-col overflow-x-hidden px-6 pt-24 text-center text-4xl font-extrabold md:px-20 lg:pt-16 lg:text-5xl"
+        className="flex flex-col overflow-x-hidden px-6 pb-1 pt-24 text-center text-4xl font-extrabold md:px-20 lg:pt-16 lg:text-5xl"
         style={{ animation: "fadeInTranslate 1s linear forwards" }}
       >
         What Kind of Program Are You Looking For?

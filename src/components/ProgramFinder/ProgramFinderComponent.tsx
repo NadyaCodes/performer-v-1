@@ -257,7 +257,7 @@ const ProgramFinderComponent: NextPage = () => {
   ]);
 
   return (
-    <div className="min-h-screen min-w-full">
+    <div className="min-h-screen min-w-full bg-cyan-50 bg-opacity-80">
       <FilterContext.Provider
         value={{
           selectedOptions,
@@ -304,6 +304,7 @@ const ProgramFinderComponent: NextPage = () => {
               </div>
             </>
           )}
+
           <div className="sticky top-6 h-0 lg:hidden">
             <div className="relative">
               <MiniScrollArrow />
