@@ -3,6 +3,7 @@ import { SessionProvider } from "next-auth/react";
 import { PatreonProvider } from "@component/contexts/PatreonContext";
 import { type AppType } from "next/app";
 import { api } from "@component/utils/api";
+import CookieConsent from "react-cookie-consent";
 import "@component/styles/globals.css";
 import "@component/styles/loading.css";
 import "@component/styles/face.css";
@@ -17,6 +18,20 @@ const MyApp: AppType<{ session: Session | null }> = ({
     <SessionProvider session={session}>
       <PatreonProvider>
         <Component {...pageProps} />
+        <CookieConsent
+          location="bottom"
+          buttonText="Sure - that's fine!"
+          cookieName="cookie_accept"
+          style={{ background: "#4338ca" }}
+          buttonStyle={{
+            background: "#fde047",
+            fontSize: "13px",
+            borderRadius: "5px",
+          }}
+          expires={150}
+        >
+          This website uses cookies to enhance the user experience.
+        </CookieConsent>
       </PatreonProvider>
     </SessionProvider>
   );
