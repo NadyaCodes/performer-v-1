@@ -73,51 +73,53 @@ export default function FooterComponent({ bgColor }: { bgColor: string }) {
 
   return (
     <div
-      className={`flex w-screen flex-col justify-around border-t-4 border-cyan-900 bg-cyan-900 text-cyan-50 md:flex-row ${bgColor}`}
+      className={`flex w-screen flex-col justify-around border-t-4 border-cyan-900 bg-cyan-900 text-cyan-50 ${bgColor}`}
     >
-      {showSubscribe && (
-        <div className="fixed inset-0 z-40 flex flex-col items-center justify-center bg-black bg-opacity-50">
-          <div className="w-fill flex max-h-screen flex-col items-center overflow-y-scroll rounded-lg bg-cyan-900">
-            <button
-              className="z-50 flex self-end rounded-bl-lg border border-cyan-500 bg-cyan-50 p-2 text-cyan-900 hover:scale-105 hover:text-cyan-200"
-              onClick={() => setShowSubscribe(false)}
-            >
-              Close {xMark}
-            </button>
+      <div className="flex flex-col justify-around md:flex-row ">
+        {showSubscribe && (
+          <div className="fixed inset-0 z-40 flex flex-col items-center justify-center bg-black bg-opacity-50">
+            <div className="w-fill flex max-h-screen flex-col items-center overflow-y-scroll rounded-lg bg-cyan-900">
+              <button
+                className="z-50 flex self-end rounded-bl-lg border border-cyan-500 bg-cyan-50 p-2 text-cyan-900 hover:scale-105 hover:text-cyan-200"
+                onClick={() => setShowSubscribe(false)}
+              >
+                Close {xMark}
+              </button>
 
-            <div className="-my-7">
-              <SubscribeSignUp />
+              <div className="-my-7">
+                <SubscribeSignUp />
+              </div>
             </div>
           </div>
-        </div>
-      )}
-      <div className="my-3 flex w-full flex-wrap content-center justify-between px-3 md:w-11/12 2xl:w-10/12">
-        {linkDisplay}
-
-        <div className="my-2 flex flex-grow ">
-          <div className="flex h-fit flex-grow items-center justify-around">
-            <button
-              onClick={() => setShowSubscribe(!showSubscribe)}
-              className="h-16 rounded-full bg-indigo-600 px-5 py-2 shadow-md shadow-cyan-600 transition-all hover:scale-105 2xl:text-lg"
-            >
-              Subscribe to Emails
-            </button>
-            <div className="opacity-70">
-              <a
-                href="https://www.instagram.com/act.sing.dance.repeat/"
-                target="_blank"
+        )}
+        <div className="my-3 flex w-full flex-wrap content-center justify-between px-3 md:w-11/12 2xl:w-10/12">
+          {linkDisplay}
+          <div className="my-2 flex flex-grow ">
+            <div className="flex h-fit flex-grow items-center justify-around">
+              <button
+                onClick={() => setShowSubscribe(!showSubscribe)}
+                className="h-16 rounded-full bg-indigo-600 px-5 py-2 shadow-md shadow-cyan-600 transition-all hover:scale-105 2xl:text-lg"
               >
-                <Image
-                  src="/Instagram_Glyph_White.png"
-                  alt="Follow Us on Instatram Here!"
-                  width={40}
-                  height={40}
-                />
-              </a>
+                Subscribe to Emails
+              </button>
+              <div className="opacity-70">
+                <a
+                  href="https://www.instagram.com/act.sing.dance.repeat/"
+                  target="_blank"
+                >
+                  <Image
+                    src="/Instagram_Glyph_White.png"
+                    alt="Follow Us on Instatram Here!"
+                    width={40}
+                    height={40}
+                  />
+                </a>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <div className="m-auto">&copy; 2023, Act. Sing. Dance. Repeat.</div>
     </div>
   );
 }
