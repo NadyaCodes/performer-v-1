@@ -99,6 +99,8 @@ export default function PageContent({ programId }: { programId: string }) {
               type: programObject.type,
               cityObj: { ...data.location },
               schoolObj: { ...data.school },
+              elevatorPitch: programObject.elevatorPitch,
+              articlePitch: programObject.articlePitch,
             };
             setUpdatedProgramInfo(updatedInfo);
           }
