@@ -119,7 +119,7 @@ export default function FooterComponent({ bgColor }: { bgColor: string }) {
           </div>
         </div>
       </div>
-      <div className="m-auto">&copy; 2023, Act. Sing. Dance. Repeat.</div>
+      <div className="m-auto pb-3">&copy; 2023, Act. Sing. Dance. Repeat.</div>
     </div>
   );
 }

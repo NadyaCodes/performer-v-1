@@ -3,11 +3,12 @@ import Head from "next/head";
 import Menu from "@component/components/Menu/Menu";
 import type { Post } from "@prisma/client";
 import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
 import { useState, useEffect } from "react";
 import type { ObjectList } from "@component/data/types";
 import FooterComponent from "@component/components/Footer/FooterComponent";
 import dynamic from "next/dynamic";
+
+const prisma = new PrismaClient();
 
 export type BlogPageProps = {
   postData: Post;
@@ -122,7 +123,24 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     slug: postAfter?.slug || "",
   };
 
-  const bio = "HI\naskdjfhlk";
+  let bio;
+
+  try {
+    const bioData = await prisma.author.findFirst({
+      where: { name: postData?.author },
+      select: {
+        bio: true,
+      },
+    });
+
+    if (!bioData) {
+      throw new Error("Author not found");
+    }
+
+    bio = bioData.bio || "";
+  } catch (error) {
+    console.error("Error fetching author bio:", error);
+  }
 
   return {
     props: {

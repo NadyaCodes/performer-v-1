@@ -22,7 +22,7 @@ export default function BlogPageComponent({
   const [imageTop, setImageTop] = useState<number>(35);
   const [imageRight, setImageRight] = useState<number>(-20);
   const postArray = post.body.split("\n");
-  const bioArray = bio?.split("\n");
+  const bioArray = (typeof bio === "string" && bio.split("\n")) || [];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -131,15 +131,20 @@ export default function BlogPageComponent({
         {paragraphDisplay}
       </div>
       <div className="my-10 w-11/12 rounded border-t-4 border-cyan-700 mobileMenu:w-10/12"></div>
-      <div className="mt-5 overflow-y-hidden text-cyan-950 mobileMenu:w-10/12">
-        <h2 className="my-8 text-center text-xl font-bold">
-          About the Author ~ {post.author}
-        </h2>
-        <div className="mt-5 overflow-y-hidden italic text-cyan-950 mobileMenu:w-10/12">
-          {bioDisplay}
-        </div>
-      </div>
-      <div className="my-10 w-11/12 rounded border-t-4 border-cyan-700 mobileMenu:w-10/12"></div>
+      {post.author && (
+        <>
+          <div className="text-cyan-950 mobileMenu:w-10/12">
+            <h2 className="text-center text-xl font-bold">
+              About the Author ~ {post.author}
+            </h2>
+            <div className="m-auto mt-5 flex flex-col italic text-cyan-950 mobileMenu:w-10/12">
+              {bioDisplay}
+            </div>
+          </div>
+          <div className="my-10 w-11/12 rounded border-t-4 border-cyan-700 mobileMenu:w-10/12"></div>
+        </>
+      )}
+
       <div className="mb-5 flex mobileMenu:w-10/12">
         {nextPost && nextPost.slug && (
           <Link href={nextPost.slug} className="flex max-w-sm items-center">
