@@ -1,10 +1,10 @@
-import type { GetStaticProps, NextPage } from "next";
-
+import type { NextPage, GetStaticPropsContext } from "next";
 import { styles, disciplines, provincesFullReverse } from "src/data/constants";
 import type { SelectNextProps, PathsArray } from "@component/data/types";
 import Head from "next/head";
 import { stylesFull, disciplinesFull, provincesFull } from "src/data/constants";
-
+import type { ProgramWithInfo } from "@component/components/ProgramFinder/types";
+import dynamic from "next/dynamic";
 import type {
   SchoolLocation,
   School,
@@ -12,7 +12,6 @@ import type {
   PTProgram,
   FTProgram,
 } from "@prisma/client";
-import ProgramDisplayComponent from "@component/components/ProgramDirectory/ProgramDisplayComponent";
 import Menu from "@component/components/Menu/Menu";
 import FooterComponent from "@component/components/Footer/FooterComponent";
 
@@ -28,29 +27,22 @@ export type ProgramInfoArray = ProgramInfo[];
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
+const ProgramDisplayComponent = dynamic(
+  () =>
+    import("@component/components/ProgramDirectory/ProgramDisplayComponent"),
+  {
+    ssr: true,
+  }
+);
+
 const DisplayPage: NextPage<SelectNextProps> = ({
   style,
   discipline,
   city,
   province,
+  titleString,
+  itemArray,
 }) => {
-  let titleString = "";
-  const provinceText = province || "ontario";
-  const cityText = city || "toronto";
-  const styleFull = stylesFull[style] || "Full Time";
-  const disciplineFull = disciplinesFull[discipline || ""] || "acting";
-  const provinceFull = provincesFull[province || ""] || "ontario";
-
-  if (discipline && province && city) {
-    titleString = `${styleFull} ${disciplineFull} Programs in ${cityText}, ${provinceFull}`;
-  } else if (discipline) {
-    titleString = `${styleFull} ${disciplineFull} Programs in Canada`;
-  } else if (province) {
-    titleString = `${styleFull} Programs in ${provinceText}`;
-  } else {
-    titleString = `${styleFull} Programs in Canada`;
-  }
-
   return (
     <>
       <Head>
@@ -68,6 +60,7 @@ const DisplayPage: NextPage<SelectNextProps> = ({
 
             <ProgramDisplayComponent
               dataObject={{ style, discipline, city, province }}
+              itemArray={itemArray || null}
             />
           </div>
           <div className="mt-20">
@@ -168,11 +161,141 @@ export async function getStaticPaths() {
   };
 }
 
-export const getStaticProps: GetStaticProps = ({ params }) => {
+const filterArray = (
+  infoArray: ProgramInfoArray,
+  discipline: string,
+  style: string
+) => {
+  const filterStyle = infoArray.filter((element) => {
+    if (style === "pt") {
+      if (element.PTProgram.length > 0) {
+        return element;
+      }
+    }
+    if (style === "ft") {
+      if (element.FTProgram.length > 0) {
+        return element;
+      }
+    }
+  });
+
+  const programArray: ProgramWithInfo[] = [];
+
+  filterStyle.forEach((element) => {
+    if (style === "pt") {
+      element?.PTProgram.forEach((program) => {
+        if (program.discipline === discipline) {
+          programArray.push({
+            id: program.id,
+            schoolLocationId: program.schoolLocationId,
+            website: program.website,
+            discipline: program.discipline,
+            type: "pt",
+            cityObj: element.location,
+            schoolObj: element.school,
+            articlePitch: program.articlePitch || "",
+            elevatorPitch: program.elevatorPitch || "",
+          });
+        }
+      });
+    }
+
+    if (style === "ft") {
+      element?.FTProgram.forEach((program) => {
+        if (program.discipline === discipline) {
+          programArray.push({
+            id: program.id,
+            schoolLocationId: program.schoolLocationId,
+            website: program.website,
+            discipline: program.discipline,
+            type: "ft",
+            name: program.name,
+            cityObj: element.location,
+            schoolObj: element.school,
+            articlePitch: program.articlePitch || "",
+            elevatorPitch: program.elevatorPitch || "",
+          });
+        }
+      });
+    }
+  });
+
+  programArray.sort((a, b) => {
+    const nameA = a.schoolObj?.name || "";
+    const nameB = b.schoolObj?.name || "";
+
+    return nameA.localeCompare(nameB);
+  });
+
+  return programArray;
+};
+
+export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
   const { style, discipline, city, province } = {
     ...(params || { style: "n/a" }),
     style: params?.style || "n/a",
   } as SelectNextProps;
+
+  let titleString = "";
+  const provinceText = province || "ontario";
+  const cityText = city || "toronto";
+  const styleFull = stylesFull[style] || "Full Time";
+  const disciplineFull = disciplinesFull[discipline || ""] || "acting";
+  const provinceFull = provincesFull[province || ""] || "ontario";
+
+  if (discipline && province && city) {
+    titleString = `${styleFull} ${disciplineFull} Programs in ${cityText}, ${provinceFull}`;
+  } else if (discipline) {
+    titleString = `${styleFull} ${disciplineFull} Programs in Canada`;
+  } else if (province) {
+    titleString = `${styleFull} Programs in ${provinceText}`;
+  } else {
+    titleString = `${styleFull} Programs in Canada`;
+  }
+
+  const prisma = new PrismaClient();
+
+  try {
+    if (city && province) {
+      const provinceFull = provincesFull[province] || "none";
+      const location = await prisma.location.findFirst({
+        where: { city, province: provinceFull },
+      });
+
+      if (!location) {
+        console.log("Location ID not found");
+        return { props: { style, discipline, city, province, itemArray: [] } };
+      }
+
+      const programInfoArray = await prisma.schoolLocation.findMany({
+        where: { locationId: location.id },
+        include: {
+          location: true,
+          school: true,
+          PTProgram: true,
+          FTProgram: true,
+        },
+      });
+
+      if (discipline) {
+        const filteredArray = filterArray(programInfoArray, discipline, style);
+        return {
+          props: {
+            style,
+            discipline,
+            city,
+            province,
+            itemArray: filteredArray,
+            titleString,
+          },
+        };
+      }
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  } finally {
+    await prisma.$disconnect();
+  }
 
   return {
     props: {
@@ -180,6 +303,8 @@ export const getStaticProps: GetStaticProps = ({ params }) => {
       discipline,
       city,
       province,
+      titleString,
+      itemArray: [],
     },
   };
 };
