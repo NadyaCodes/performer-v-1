@@ -1,13 +1,13 @@
 import type { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import Menu from "@component/components/Menu/Menu";
-import BlogPageComponent from "@component/components/Blog/BlogPageComponent";
 import type { Post } from "@prisma/client";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 import { useState, useEffect } from "react";
 import type { ObjectList } from "@component/data/types";
 import FooterComponent from "@component/components/Footer/FooterComponent";
+import dynamic from "next/dynamic";
 
 export type BlogPageProps = {
   postData: Post;
@@ -20,6 +20,13 @@ export type PostSlugPaths = {
     slug: string;
   };
 };
+
+const BlogPageComponent = dynamic(
+  () => import("@component/components/Blog/BlogPageComponent"),
+  {
+    ssr: true,
+  }
+);
 
 const BlogPage: NextPage<BlogPageProps> = ({
   postData,
