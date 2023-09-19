@@ -1,18 +1,20 @@
 import type { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import Menu from "@component/components/Menu/Menu";
-import BlogPageComponent from "@component/components/Blog/BlogPageComponent";
 import type { Post } from "@prisma/client";
 import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
 import { useState, useEffect } from "react";
 import type { ObjectList } from "@component/data/types";
 import FooterComponent from "@component/components/Footer/FooterComponent";
+import dynamic from "next/dynamic";
+
+const prisma = new PrismaClient();
 
 export type BlogPageProps = {
   postData: Post;
   postBeforeObj: ObjectList;
   postAfterObj: ObjectList;
+  bio: string;
 };
 
 export type PostSlugPaths = {
@@ -21,10 +23,18 @@ export type PostSlugPaths = {
   };
 };
 
+const BlogPageComponent = dynamic(
+  () => import("@component/components/Blog/BlogPageComponent"),
+  {
+    ssr: true,
+  }
+);
+
 const BlogPage: NextPage<BlogPageProps> = ({
   postData,
   postBeforeObj,
   postAfterObj,
+  bio,
 }) => {
   const [createdAtDate, setCreatedAtDate] = useState<Date | null>(null);
 
@@ -52,6 +62,7 @@ const BlogPage: NextPage<BlogPageProps> = ({
                 date={createdAtDate}
                 nextPost={postAfterObj ? postAfterObj : null}
                 prevPost={postBeforeObj ? postBeforeObj : null}
+                bio={bio || null}
               />
             )}
           </div>
@@ -112,6 +123,25 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     slug: postAfter?.slug || "",
   };
 
+  let bio;
+
+  try {
+    const bioData = await prisma.author.findFirst({
+      where: { name: postData?.author },
+      select: {
+        bio: true,
+      },
+    });
+
+    if (!bioData) {
+      throw new Error("Author not found");
+    }
+
+    bio = bioData.bio || "";
+  } catch (error) {
+    console.error("Error fetching author bio:", error);
+  }
+
   return {
     props: {
       postData: {
@@ -120,6 +150,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       },
       postBeforeObj,
       postAfterObj,
+      bio,
     },
   };
 };

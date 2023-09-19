@@ -1,3 +1,5 @@
+import type { ProgramWithInfo } from "@component/components/ProgramFinder/types";
+
 export type AllSchoolsLocations = {
   [key: string]: {
     id: string;
@@ -32,6 +34,8 @@ export type SelectNextProps = {
   citiesList?: string[];
   pageData?: ProgramDataProp[];
   allProgramsInType?: ProgramDataProp[];
+  itemArray?: ProgramWithInfo[];
+  titleString?: string;
 };
 
 export type ProgramDataProp = {

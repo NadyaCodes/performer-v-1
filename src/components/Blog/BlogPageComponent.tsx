@@ -9,6 +9,7 @@ export type BlogProps = {
   date: Date | null;
   nextPost: ObjectList | null;
   prevPost: ObjectList | null;
+  bio: string | null;
 };
 
 export default function BlogPageComponent({
@@ -16,10 +17,12 @@ export default function BlogPageComponent({
   date,
   nextPost,
   prevPost,
+  bio,
 }: BlogProps) {
   const [imageTop, setImageTop] = useState<number>(35);
   const [imageRight, setImageRight] = useState<number>(-20);
   const postArray = post.body.split("\n");
+  const bioArray = (typeof bio === "string" && bio.split("\n")) || [];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -83,6 +86,14 @@ export default function BlogPageComponent({
     }
   });
 
+  const bioDisplay = bioArray?.map((text, index) => {
+    return (
+      <div key={index} className="my-3">
+        {text}
+      </div>
+    );
+  });
+
   return (
     <div className="m-2 flex flex-col items-center pb-10 text-cyan-900 mobileMenu:m-0">
       <div
@@ -107,7 +118,7 @@ export default function BlogPageComponent({
       <div>{date ? date.toDateString() : ""}</div>
 
       <div className="mt-5 overflow-y-hidden text-cyan-950 mobileMenu:w-10/12">
-        <div className=" relative flex justify-center">
+        <div className="relative flex justify-center">
           <div
             dangerouslySetInnerHTML={{ __html: post.image }}
             className="absolute opacity-0 mobileMenu:opacity-20"
@@ -120,6 +131,20 @@ export default function BlogPageComponent({
         {paragraphDisplay}
       </div>
       <div className="my-10 w-11/12 rounded border-t-4 border-cyan-700 mobileMenu:w-10/12"></div>
+      {post.author && (
+        <>
+          <div className="text-cyan-950 mobileMenu:w-10/12">
+            <h2 className="text-center text-xl font-bold">
+              About the Author ~ {post.author}
+            </h2>
+            <div className="m-auto mt-5 flex flex-col italic text-cyan-950 mobileMenu:w-10/12">
+              {bioDisplay}
+            </div>
+          </div>
+          <div className="my-10 w-11/12 rounded border-t-4 border-cyan-700 mobileMenu:w-10/12"></div>
+        </>
+      )}
+
       <div className="mb-5 flex mobileMenu:w-10/12">
         {nextPost && nextPost.slug && (
           <Link href={nextPost.slug} className="flex max-w-sm items-center">

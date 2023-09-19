@@ -1,4 +1,9 @@
-import React, { type SetStateAction, useState, type Dispatch } from "react";
+import React, {
+  type SetStateAction,
+  useState,
+  type Dispatch,
+  useEffect,
+} from "react";
 import type { ProgramWithInfo } from "./types";
 import { useSession } from "next-auth/react";
 import { api } from "@component/utils/api";
@@ -46,6 +51,12 @@ export default function ProgramItem({
   const [fav, setFav] = useState<boolean>(
     (favProgramIdsArray && favProgramIdsArray.includes(element.id)) || false
   );
+
+  useEffect(() => {
+    if (favProgramIdsArray) {
+      setFav(favProgramIdsArray.includes(element.id));
+    }
+  }, [favProgramIdsArray, element.id]);
 
   const findFav = async (
     type: string,

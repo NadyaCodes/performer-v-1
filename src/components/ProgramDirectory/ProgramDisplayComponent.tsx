@@ -1,22 +1,16 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { api } from "@component/utils/api";
 import { useSession } from "next-auth/react";
-import type { ProgramInfoArray } from "@component/pages/[style]/[discipline]/[province]/[city]";
-
+import dynamic from "next/dynamic";
 import { provincesFull } from "src/data/constants";
 import type { ProgramWithInfo } from "@component/components/ProgramFinder/types";
-import ProgramItem from "@component/components/ProgramFinder/ProgramItem";
-
 import { stylesFull, disciplinesFull } from "src/data/constants";
 import LoadingLines from "../Loading/LoadingLines";
 import Link from "next/link";
 import { backChevron } from "@component/data/svgs";
 import type { FavProgram } from "@prisma/client";
 import { convertUserFavs } from "../ProgramFinder/helpers";
-import TitleHeader from "./TitleHeader";
-import SubHeader from "./SubHeader";
 import DirectoryScrollArrow from "./DirectoryScrollArrow";
-import { useEffectOnce } from "../AddProgramResult/helpers";
 
 interface ProgramDisplayProps {
   dataObject: {
@@ -25,14 +19,29 @@ interface ProgramDisplayProps {
     city?: string;
     province?: string;
   };
+  itemArray: ProgramWithInfo[] | null;
 }
+
+const TitleHeader = dynamic(() => import("./TitleHeader"), {
+  ssr: true,
+});
+
+const SubHeader = dynamic(() => import("./SubHeader"), {
+  ssr: true,
+});
+
+const ProgramItem = dynamic(
+  () => import("@component/components/ProgramFinder/ProgramItem"),
+  {
+    ssr: true,
+  }
+);
 
 const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
   dataObject,
+  itemArray,
 }) => {
   const { style, discipline, city, province } = dataObject;
-
-  const [itemArray, setItemArray] = useState<ProgramWithInfo[] | null>(null);
   const [loadingFavs, setLoadingFavs] = useState(true);
   const [userFavsObject, setUserFavsObject] = useState<FavProgram[] | null>(
     null
@@ -55,142 +64,6 @@ const ProgramDisplayComponent: React.FC<ProgramDisplayProps> = ({
 
   const titleString = `${styleText} ${disciplineText} Programs
   in ${locationString}`;
-
-  const fetchLocationId = async (city: string, province: string) => {
-    const provinceFull = provincesFull[province] || "none";
-    const location = await utils.location.getOne.fetch({
-      city,
-      province: provinceFull,
-    });
-    return location?.id;
-  };
-
-  const fetchProgramInfoArray = async (
-    locationId: string
-  ): Promise<ProgramInfoArray> => {
-    const programInfo =
-      await utils.schoolLocation.getAllForLocationPlusInfo.fetch({
-        locationId,
-      });
-    return programInfo;
-  };
-
-  const filterArray = (
-    infoArray: ProgramInfoArray,
-    discipline: string,
-    style: string
-  ) => {
-    const filterStyle = infoArray.filter((element) => {
-      if (style === "pt") {
-        if (element.PTProgram.length > 0) {
-          return element;
-        }
-      }
-      if (style === "ft") {
-        if (element.FTProgram.length > 0) {
-          return element;
-        }
-      }
-    });
-
-    const programArray: ProgramWithInfo[] = [];
-
-    filterStyle.forEach((element) => {
-      if (style === "pt") {
-        element?.PTProgram.forEach((program) => {
-          if (program.discipline === discipline) {
-            programArray.push({
-              id: program.id,
-              schoolLocationId: program.schoolLocationId,
-              website: program.website,
-              discipline: program.discipline,
-              type: "pt",
-              cityObj: element.location,
-              schoolObj: element.school,
-              articlePitch: program.articlePitch || "",
-              elevatorPitch: program.elevatorPitch || "",
-            });
-          }
-        });
-      }
-
-      if (style === "ft") {
-        element?.FTProgram.forEach((program) => {
-          if (program.discipline === discipline) {
-            programArray.push({
-              id: program.id,
-              schoolLocationId: program.schoolLocationId,
-              website: program.website,
-              discipline: program.discipline,
-              type: "ft",
-              name: program.name,
-              cityObj: element.location,
-              schoolObj: element.school,
-              articlePitch: program.articlePitch || "",
-              elevatorPitch: program.elevatorPitch || "",
-            });
-          }
-        });
-      }
-    });
-
-    programArray.sort((a, b) => {
-      const nameA = a.schoolObj?.name || "";
-      const nameB = b.schoolObj?.name || "";
-
-      return nameA.localeCompare(nameB);
-    });
-
-    return programArray;
-  };
-
-  const fetchData = async ({
-    style,
-    discipline,
-    city,
-    province,
-  }: {
-    style: string;
-    discipline: string | undefined;
-    city: string | undefined;
-    province: string | undefined;
-  }) => {
-    try {
-      if (city && province) {
-        const locationId = await fetchLocationId(city, province);
-        if (!locationId) {
-          console.log("Location ID not found");
-          return;
-        }
-
-        const programInfoArray: ProgramInfoArray = await fetchProgramInfoArray(
-          locationId
-        );
-
-        if (discipline) {
-          const filteredArray = filterArray(
-            programInfoArray,
-            discipline,
-            style
-          );
-
-          return filteredArray;
-        }
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
-  useEffectOnce(() => {
-    fetchData({ style, discipline, city, province })
-      .then((result) => {
-        if (result) {
-          setItemArray(result);
-        }
-      })
-      .catch((error) => console.error("Error fetching data: ", error));
-  });
 
   const useFetchFavsObjCB = () => {
     const fetchFavsObjCB = useCallback(async (userId: string) => {
