@@ -175,3 +175,9 @@ model Post {
     createdAt DateTime @default(now())
     image     String
 }
+
+model Author {
+    id   String @id @default(cuid())
+    name String
+    bio  String
+}

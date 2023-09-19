@@ -13,6 +13,7 @@ export type BlogPageProps = {
   postData: Post;
   postBeforeObj: ObjectList;
   postAfterObj: ObjectList;
+  bio: string;
 };
 
 export type PostSlugPaths = {
@@ -32,6 +33,7 @@ const BlogPage: NextPage<BlogPageProps> = ({
   postData,
   postBeforeObj,
   postAfterObj,
+  bio,
 }) => {
   const [createdAtDate, setCreatedAtDate] = useState<Date | null>(null);
 
@@ -59,6 +61,7 @@ const BlogPage: NextPage<BlogPageProps> = ({
                 date={createdAtDate}
                 nextPost={postAfterObj ? postAfterObj : null}
                 prevPost={postBeforeObj ? postBeforeObj : null}
+                bio={bio || null}
               />
             )}
           </div>
@@ -119,6 +122,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     slug: postAfter?.slug || "",
   };
 
+  const bio = "HI\naskdjfhlk";
+
   return {
     props: {
       postData: {
@@ -127,6 +132,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       },
       postBeforeObj,
       postAfterObj,
+      bio,
     },
   };
 };
