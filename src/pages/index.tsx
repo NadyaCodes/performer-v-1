@@ -10,7 +10,16 @@ const Home: NextPage = () => {
     <>
       <Head>
         <title>Home - Act. Sing. Dance. Repeat.</title>
-        <meta name="description" content="Home - Act. Sing. Dance. Repeat." />
+        <meta
+          name="description"
+          content="Resources for Canadian Actors, Singers, Dancers and Musical Theatre Performers"
+        />
+        <meta name="og:title" content="Home - Act. Sing. Dance. Repeat." />
+        <meta property="og:image" content="https://flic.kr/p/2p3RK3i" />
+        <meta
+          name="keywords"
+          content="actors, singers, dancers, musical theatre, resources, performers, canadian"
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-between overflow-hidden bg-slate-900 text-cyan-50">

@@ -6,6 +6,7 @@ import FooterComponent from "@component/components/Footer/FooterComponent";
 
 export interface SingleProgramPageProps {
   programid: string;
+  programName: string;
 }
 
 export type SingleProgramPaths = {
@@ -19,15 +20,27 @@ import SingleProgramPageComponent from "@component/components/SingleProgramPage/
 
 const prisma = new PrismaClient();
 
-const SingleProgramPage: NextPage<SingleProgramPageProps> = ({ programid }) => {
-  const pageTitle = `Act. Sing. Dance. Repeat. ~ ${programid}`;
+const SingleProgramPage: NextPage<SingleProgramPageProps> = ({
+  programid,
+  programName,
+}) => {
+  const pageTitle = `Act. Sing. Dance. Repeat. ~ ${programName}`;
 
   return (
     <>
       <Head>
         <title>{pageTitle}</title>
-        <meta name="description" content="Act. Sing. Dance. Repeat." />
+        <meta
+          name="description"
+          content="Featured Program - Act. Sing. Dance. Repeat."
+        />
         <link rel="icon" href="/favicon.ico" />
+        <meta name="og:title" content="Act. Sing. Dance. Blog." />
+        <meta property="og:image" content="https://flic.kr/p/2p3RK3i" />
+        <meta
+          name="keywords"
+          content="actors, singers, dancers, musical theatre, resources, performers, canadian"
+        />
       </Head>
       <main>
         <div className="flex min-h-screen flex-col justify-between bg-cyan-50 bg-opacity-80">
@@ -68,12 +81,45 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps = (context) => {
+export const getStaticProps: GetStaticProps = async (context) => {
   const { params } = context;
   const programid = params?.programid;
+  let programName = "";
+
+  if (typeof programid === "string") {
+    try {
+      const programObject =
+        (await prisma.fTProgram.findFirst({
+          where: { id: programid },
+        })) ||
+        (await prisma.pTProgram.findFirst({
+          where: { id: programid },
+        }));
+
+      if (programObject) {
+        const schoolLocationObject = await prisma.schoolLocation.findFirst({
+          where: { id: programObject.schoolLocationId },
+        });
+
+        if (schoolLocationObject) {
+          const schoolObj = await prisma.school.findFirst({
+            where: { id: schoolLocationObject.schoolId },
+          });
+
+          if (schoolObj) {
+            programName = schoolObj.name.toUpperCase() || "";
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching school name: ", error);
+    }
+  }
+
   return {
     props: {
       programid,
+      programName,
     },
   };
 };

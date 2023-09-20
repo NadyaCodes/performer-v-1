@@ -12,9 +12,15 @@ const PatreonNoAccount: NextPage = () => {
         <title>Patreon ~ Act. Sing. Dance. Repeat.</title>
         <meta
           name="description"
-          content="Patreon - Act. Sing. Dance. Repeat."
+          content="Unlock all site features with Patreon!"
         />
         <link rel="icon" href="/favicon.ico" />
+        <meta name="og:title" content="Patreon ~ Act. Sing. Dance. Repeat." />
+        <meta property="og:image" content="https://flic.kr/p/2p3RK3i" />
+        <meta
+          name="keywords"
+          content="actors, singers, dancers, musical theatre, resources, performers, canadian, patreon"
+        />
       </Head>
       <main>
         <div className="flex min-h-screen flex-col justify-between bg-cyan-950 text-cyan-50">

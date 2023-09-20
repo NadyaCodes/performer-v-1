@@ -48,9 +48,19 @@ const BlogPage: NextPage<BlogPageProps> = ({
   return (
     <>
       <Head>
-        <title>{postData?.title}</title>
-        <meta name="description" content="Blog - Act. Sing. Dance. Repeat." />
+        <title>{postData.title}</title>
+        <meta
+          name="description"
+          content={`${postData.title} ~ Blog Post by Act. Sing. Dance. Repeat.`}
+        />
         <link rel="icon" href="/favicon.ico" />
+        <meta name="og:title" content={postData?.title} />
+        <meta property="og:image" content="https://flic.kr/p/2p3RK3i" />
+        <meta
+          name="keywords"
+          content="actors, singers, dancers, musical theatre, resources, performers, canadian, blog"
+        />
+        <meta name="author" content={`${postData.author}`} />
       </Head>
       <main>
         <div className="flex min-h-screen flex-col justify-between bg-cyan-50 bg-opacity-80">

@@ -28,8 +28,17 @@ const Merch: NextPage = () => {
     <>
       <Head>
         <title>Merch ~ Act. Sing. Dance. Repeat.</title>
-        <meta name="description" content="Merch - Act. Sing. Dance. Repeat." />
+        <meta
+          name="description"
+          content="Fun and funky merch for actors, singers and dancers"
+        />
         <link rel="icon" href="/favicon.ico" />
+        <meta name="og:title" content="Merch ~ Act. Sing. Dance. Repeat." />
+        <meta property="og:image" content="https://flic.kr/p/2p3RK3i" />
+        <meta
+          name="keywords"
+          content="actors, singers, dancers, musical theatre, resources, performers, canadian, merch, gifts"
+        />
       </Head>
       <main>
         <div className="flex min-h-screen flex-col justify-between overflow-hidden bg-cyan-50 bg-opacity-80">

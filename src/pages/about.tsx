@@ -9,8 +9,17 @@ const About: NextPage = () => {
     <>
       <Head>
         <title>About ~ Act. Sing. Dance. Repeat.</title>
-        <meta name="description" content="About Act. Sing. Dance. Repeat." />
+        <meta
+          name="description"
+          content="About Act. Sing. Dance. Repeat. - A resource for Canadian actors, singers, dancers and musical theatre performers"
+        />
         <link rel="icon" href="/favicon.ico" />
+        <meta name="og:title" content="About ~ Act. Sing. Dance. Repeat." />
+        <meta property="og:image" content="https://flic.kr/p/2p3RK3i" />
+        <meta
+          name="keywords"
+          content="actors, singers, dancers, musical theatre, resources, performers, canadian"
+        />
       </Head>
       <main className="flex min-h-screen flex-col items-center bg-cyan-50 text-cyan-950">
         <Menu />
