@@ -54,9 +54,18 @@ const Blog: NextPage = () => {
   return (
     <>
       <Head>
-        <title>About ~ Act. Sing. Dance. Repeat.</title>
-        <meta name="description" content="About Act. Sing. Dance. Repeat." />
+        <title>Act. Sing. Dance. Blog.</title>
+        <meta
+          name="description"
+          content="A blog for actors, singers, dancers and musical theatre performers"
+        />
         <link rel="icon" href="/favicon.ico" />
+        <meta name="og:title" content="Act. Sing. Dance. Blog." />
+        <meta property="og:image" content="https://flic.kr/p/2p3RK3i" />
+        <meta
+          name="keywords"
+          content="actors, singers, dancers, musical theatre, resources, performers, canadian, blog"
+        />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-between bg-cyan-50 text-cyan-950">
         <div>

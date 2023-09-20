@@ -63,6 +63,12 @@ const ProvincePage: NextPage<SelectNextProps> = ({
           content="Program Directory - Act. Sing. Dance. Repeat."
         />
         <link rel="icon" href="/favicon.ico" />
+        <meta name="og:title" content={titleString} />
+        <meta property="og:image" content="https://flic.kr/p/2p3RK3i" />
+        <meta
+          name="keywords"
+          content="actors, singers, dancers, musical theatre, resources, performers, canadian"
+        />
       </Head>
       <main>
         <div className="flex min-h-screen flex-col justify-between bg-cyan-50 bg-opacity-80">
@@ -117,24 +123,6 @@ const createPaths = async (): Promise<Array<PathsArray>> => {
           const location = allLocations.find(
             (loc) => loc.id === schoolLocation.locationId
           );
-          // if (location) {
-          //   const province = provincesFullReverse[location.province] || "N/A";
-
-          //   if (!provinceArray.includes(province)) {
-          //     provinceArray.push(province);
-          //   }
-
-          //   if (!cityMap[province]) {
-          //     cityMap[province] = [];
-          //   }
-          //   if (
-          //     cityMap[province] &&
-          //     location.city &&
-          //     !cityMap[province]!.includes(location.city)
-          //   ) {
-          //     cityMap[province]!.push(location.city);
-          //   }
-          // }
           if (location) {
             const province = provincesFullReverse[location.province] || "N/A";
 

@@ -5,9 +5,11 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { backChevron } from "@component/data/svgs";
 import FooterComponent from "@component/components/Footer/FooterComponent";
+import dynamic from "next/dynamic";
 
 export interface SingleProgramPageProps {
-  programid: string;
+  programName: string;
+  blogData: string[];
 }
 
 export type SingleProgramPaths = {
@@ -17,12 +19,21 @@ export type SingleProgramPaths = {
 };
 
 import { PrismaClient } from "@prisma/client";
-import FeaturedProgramComponent from "@component/components/FeaturedProgram/FeaturedProgramComponent";
-
 const prisma = new PrismaClient();
 
-const SingleProgramPage: NextPage<SingleProgramPageProps> = ({ programid }) => {
-  const pageTitle = `Featured Program - Act. Sing. Dance. Repeat. ~ ${programid}`;
+const FeaturedProgramComponent = dynamic(
+  () =>
+    import("@component/components/FeaturedProgram/FeaturedProgramComponent"),
+  {
+    ssr: true,
+  }
+);
+
+const SingleProgramPage: NextPage<SingleProgramPageProps> = ({
+  programName,
+  blogData,
+}) => {
+  const pageTitle = `Act. Sing. Dance. Repeat. ~ ${programName}`;
   const router = useRouter();
 
   const handleGoBack = () => {
@@ -33,8 +44,17 @@ const SingleProgramPage: NextPage<SingleProgramPageProps> = ({ programid }) => {
     <>
       <Head>
         <title>{pageTitle}</title>
-        <meta name="description" content="Act. Sing. Dance. Repeat." />
+        <meta
+          name="description"
+          content={`Act. Sing. Dance. Repeat. Featured Program Listing for ${programName}`}
+        />
         <link rel="icon" href="/favicon.ico" />
+        <meta name="og:title" content={pageTitle} />
+        <meta property="og:image" content="https://flic.kr/p/2p3RK3i" />
+        <meta
+          name="keywords"
+          content="actors, singers, dancers, musical theatre, resources, performers, canadian"
+        />
       </Head>
       <main>
         <div className="flex min-h-screen flex-col justify-between bg-cyan-50 bg-opacity-80">
@@ -55,7 +75,7 @@ const SingleProgramPage: NextPage<SingleProgramPageProps> = ({ programid }) => {
             >
               {backChevron} Go Back
             </button>
-            <FeaturedProgramComponent programId={programid} />
+            <FeaturedProgramComponent blogData={blogData} />
           </div>
           <div className="mt-10">
             <FooterComponent bgColor="bg-cyan-900" />
@@ -106,14 +126,47 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps = (context) => {
+export const getStaticProps: GetStaticProps = async (context) => {
   const { params } = context;
-
   const programid = params?.programid;
+  let programName = "";
+  let blogData: string[] = [];
+
+  if (typeof programid === "string") {
+    try {
+      const programObject =
+        (await prisma.fTProgram.findFirst({
+          where: { id: programid },
+        })) ||
+        (await prisma.pTProgram.findFirst({
+          where: { id: programid },
+        }));
+
+      if (programObject) {
+        blogData = programObject.articlePitch?.split("\\n") || [];
+        const schoolLocationObject = await prisma.schoolLocation.findFirst({
+          where: { id: programObject.schoolLocationId },
+        });
+
+        if (schoolLocationObject) {
+          const schoolObj = await prisma.school.findFirst({
+            where: { id: schoolLocationObject.schoolId },
+          });
+
+          if (schoolObj) {
+            programName = schoolObj.name.toUpperCase() || "";
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching school name: ", error);
+    }
+  }
 
   return {
     props: {
-      programid,
+      programName,
+      blogData,
     },
   };
 };

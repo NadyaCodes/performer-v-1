@@ -1,33 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { api } from "@component/utils/api";
+import React from "react";
 
 export default function FeaturedProgramComponent({
-  programId,
+  blogData,
 }: {
-  programId: string;
+  blogData: string[];
 }) {
-  const [blogData, setBlogData] = useState<string[]>([]);
-  const { data: ptProgramData } = api.ptProgram.getOneById.useQuery({
-    id: programId,
-  });
-  const { data: ftProgramData } = api.ftProgram.getOneById.useQuery({
-    id: programId,
-  });
-
-  useEffect(() => {
-    if (ptProgramData) {
-      ptProgramData.articlePitch &&
-        setBlogData(ptProgramData.articlePitch.split("\\n"));
-    } else if (ftProgramData) {
-      ftProgramData.articlePitch &&
-        setBlogData(ftProgramData.articlePitch.split("\\n"));
-    }
-  }, [ptProgramData, ftProgramData]);
-  useEffect(() => {
-    console.log(blogData);
-  }, [blogData]);
-
-  const paragraphDisplay = blogData.map((text, index) => {
+  const paragraphDisplay = blogData?.map((text, index) => {
     if (text.includes("####")) {
       return (
         <div
