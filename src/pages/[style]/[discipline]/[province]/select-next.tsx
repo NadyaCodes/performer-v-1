@@ -64,7 +64,10 @@ const ProvincePage: NextPage<SelectNextProps> = ({
         />
         <link rel="icon" href="/favicon.ico" />
         <meta name="og:title" content={titleString} />
-        <meta property="og:image" content="https://flic.kr/p/2p3RK3i" />
+        <meta
+          property="og:image"
+          content="https://www.actsingdancerepeat.com/ActSingDanceRepeatLogo2.png"
+        />
         <meta
           name="keywords"
           content="actors, singers, dancers, musical theatre, resources, performers, canadian"

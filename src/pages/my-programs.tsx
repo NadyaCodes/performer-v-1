@@ -29,7 +29,10 @@ export default function MyPrograms({ userInfo }: { userInfo: ObjectList }) {
           name="og:title"
           content="My Programs ~ Act. Sing. Dance. Repeat."
         />
-        <meta property="og:image" content="https://flic.kr/p/2p3RK3i" />
+        <meta
+          property="og:image"
+          content="https://www.actsingdancerepeat.com/ActSingDanceRepeatLogo2.png"
+        />
         <meta
           name="keywords"
           content="actors, singers, dancers, musical theatre, resources, performers, canadian"
