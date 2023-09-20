@@ -15,7 +15,10 @@ const Home: NextPage = () => {
           content="Resources for Canadian Actors, Singers, Dancers and Musical Theatre Performers"
         />
         <meta name="og:title" content="Home - Act. Sing. Dance. Repeat." />
-        <meta property="og:image" content="https://flic.kr/p/2p3RK3i" />
+        <meta
+          property="og:image"
+          content="https://www.actsingdancerepeat.com/ActSingDanceRepeatLogo2.png"
+        />
         <meta
           name="keywords"
           content="actors, singers, dancers, musical theatre, resources, performers, canadian"
