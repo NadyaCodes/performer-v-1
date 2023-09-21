@@ -1,6 +1,5 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import Menu from "@component/components/Menu/Menu";
 import BlogComponent from "@component/components/Blog/BlogComponent";
 import { api } from "@component/utils/api";
 import { useState } from "react";
@@ -8,7 +7,18 @@ import type { Post } from "@prisma/client";
 import { useEffectOnce } from "@component/components/AddProgramResult/helpers";
 import LoadingLines from "@component/components/Loading/LoadingLines";
 import { doubleChevronDown } from "@component/data/svgs";
-import FooterComponent from "@component/components/Footer/FooterComponent";
+import dynamic from "next/dynamic";
+
+const Menu = dynamic(() => import("@component/components/Menu/Menu"), {
+  ssr: true,
+});
+
+const FooterComponent = dynamic(
+  () => import("@component/components/Footer/FooterComponent"),
+  {
+    ssr: true,
+  }
+);
 
 const Blog: NextPage = () => {
   const [postsToDisplay, setPostsToDisplay] = useState<Post[]>([]);

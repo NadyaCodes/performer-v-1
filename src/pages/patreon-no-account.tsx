@@ -1,9 +1,19 @@
 import type { NextPage } from "next";
 import Link from "next/link";
-import Menu from "@component/components/Menu/Menu";
 import Head from "next/head";
 import ContactLink from "@component/components/Patreon/ContactLink";
-import FooterComponent from "@component/components/Footer/FooterComponent";
+import dynamic from "next/dynamic";
+
+const Menu = dynamic(() => import("@component/components/Menu/Menu"), {
+  ssr: true,
+});
+
+const FooterComponent = dynamic(
+  () => import("@component/components/Footer/FooterComponent"),
+  {
+    ssr: true,
+  }
+);
 
 const PatreonNoAccount: NextPage = () => {
   return (

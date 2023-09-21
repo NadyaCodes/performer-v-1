@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import Picker from "@component/components/ProgramDirectory/Picker";
 import Link from "next/link";
-import Menu from "../Menu/Menu";
 import LoadingLines from "../Loading/LoadingLines";
 import { backChevron } from "@component/data/svgs";
 import Face from "./Face";
+import dynamic from "next/dynamic";
+
+const Menu = dynamic(() => import("@component/components/Menu/Menu"), {
+  ssr: true,
+});
 
 interface SelectNextProps {
   selectNextOptions: {

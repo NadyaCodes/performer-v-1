@@ -1,8 +1,18 @@
 import ContactComponent from "@component/components/Contact/ContactComponent";
-import Menu from "@component/components/Menu/Menu";
 import React from "react";
 import Head from "next/head";
-import FooterComponent from "@component/components/Footer/FooterComponent";
+import dynamic from "next/dynamic";
+
+const Menu = dynamic(() => import("@component/components/Menu/Menu"), {
+  ssr: true,
+});
+
+const FooterComponent = dynamic(
+  () => import("@component/components/Footer/FooterComponent"),
+  {
+    ssr: true,
+  }
+);
 
 export default function Contact() {
   return (

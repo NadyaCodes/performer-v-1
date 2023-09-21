@@ -10,7 +10,14 @@ import {
   provincesFull,
 } from "@component/data/constants";
 import Head from "next/head";
-import FooterComponent from "@component/components/Footer/FooterComponent";
+import dynamic from "next/dynamic";
+
+const FooterComponent = dynamic(
+  () => import("@component/components/Footer/FooterComponent"),
+  {
+    ssr: true,
+  }
+);
 
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();

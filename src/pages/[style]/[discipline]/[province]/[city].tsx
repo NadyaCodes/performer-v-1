@@ -12,8 +12,17 @@ import type {
   PTProgram,
   FTProgram,
 } from "@prisma/client";
-import Menu from "@component/components/Menu/Menu";
-import FooterComponent from "@component/components/Footer/FooterComponent";
+
+const Menu = dynamic(() => import("@component/components/Menu/Menu"), {
+  ssr: true,
+});
+
+const FooterComponent = dynamic(
+  () => import("@component/components/Footer/FooterComponent"),
+  {
+    ssr: true,
+  }
+);
 
 export interface ProgramInfo extends SchoolLocation {
   school: School;
