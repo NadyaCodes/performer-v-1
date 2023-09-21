@@ -4,7 +4,7 @@ import { useState } from "react";
 import { getSession } from "next-auth/react";
 import type { GetServerSideProps } from "next";
 import Link from "next/link";
-import { traumaPrideSchoolBlogObject } from "@component/data/InitialBlogs";
+import { mostImportantTheatreSchoolBlogObject } from "@component/data/InitialBlogs";
 import { useEffectOnce } from "@component/components/AddProgramResult/helpers";
 
 export type BlogObj = {
@@ -51,7 +51,7 @@ const BlogUpload: NextPage<BlogUploadProps> = ({ admin }) => {
   };
 
   useEffectOnce(() => {
-    addPost(traumaPrideSchoolBlogObject);
+    addPost(mostImportantTheatreSchoolBlogObject);
   });
 
   return (

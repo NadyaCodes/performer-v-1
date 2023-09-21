@@ -20,6 +20,9 @@ export const postRouter = createTRPCRouter({
       },
       skip,
       take: pageSize,
+      where: {
+        published: true,
+      },
     });
   }),
 
