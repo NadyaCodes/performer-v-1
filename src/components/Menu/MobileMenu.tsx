@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import LogoTicker from "../About/LogoTicker";
 import MenuBubble from "./MenuBubble";
-import MobileMenuOpen from "./MobileMenuOpen";
 import { useSession } from "next-auth/react";
+import dynamic from "next/dynamic";
+
+const MobileMenuOpen = dynamic(() => import("./MobileMenuOpen"), {
+  ssr: true,
+});
 
 export default function MobileMenu() {
   const [viewMenu, setViewMenu] = useState(false);

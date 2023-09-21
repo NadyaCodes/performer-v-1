@@ -9,7 +9,14 @@ import type { PathsArray, SelectNextProps } from "@component/data/types";
 import { styles } from "@component/data/constants";
 import SelectNext from "@component/components/ProgramDirectory/SelectNext";
 import Head from "next/head";
-import FooterComponent from "@component/components/Footer/FooterComponent";
+import dynamic from "next/dynamic";
+
+const FooterComponent = dynamic(
+  () => import("@component/components/Footer/FooterComponent"),
+  {
+    ssr: true,
+  }
+);
 
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();

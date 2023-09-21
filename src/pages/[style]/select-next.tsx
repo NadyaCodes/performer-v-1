@@ -5,7 +5,14 @@ import { styles } from "@component/data/constants";
 import SelectNext from "@component/components/ProgramDirectory/SelectNext";
 import { stylesFull } from "@component/data/constants";
 import Head from "next/head";
-import FooterComponent from "@component/components/Footer/FooterComponent";
+import dynamic from "next/dynamic";
+
+const FooterComponent = dynamic(
+  () => import("@component/components/Footer/FooterComponent"),
+  {
+    ssr: true,
+  }
+);
 
 const StylePage: NextPage<SelectNextProps> = ({ style }) => {
   const styleText = style || "ft";

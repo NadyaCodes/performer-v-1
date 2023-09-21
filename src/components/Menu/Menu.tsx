@@ -1,6 +1,13 @@
 import React from "react";
-import FullMenu from "./FullMenu";
-import MobileMenu from "./MobileMenu";
+import dynamic from "next/dynamic";
+
+const FullMenu = dynamic(() => import("./FullMenu"), {
+  ssr: true,
+});
+
+const MobileMenu = dynamic(() => import("./MobileMenu"), {
+  ssr: true,
+});
 
 export type menuObject = {
   name: string;

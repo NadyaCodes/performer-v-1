@@ -1,12 +1,22 @@
 import type { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
-import Menu from "@component/components/Menu/Menu";
 import type { Post } from "@prisma/client";
 import { PrismaClient } from "@prisma/client";
 import { useState, useEffect } from "react";
 import type { ObjectList } from "@component/data/types";
-import FooterComponent from "@component/components/Footer/FooterComponent";
 import dynamic from "next/dynamic";
+import Link from "next/link";
+
+const Menu = dynamic(() => import("@component/components/Menu/Menu"), {
+  ssr: true,
+});
+
+const FooterComponent = dynamic(
+  () => import("@component/components/Footer/FooterComponent"),
+  {
+    ssr: true,
+  }
+);
 
 const prisma = new PrismaClient();
 
@@ -69,7 +79,7 @@ const BlogPage: NextPage<BlogPageProps> = ({
         <div className="flex min-h-screen flex-col justify-between bg-cyan-50 bg-opacity-80">
           <div>
             <Menu />
-            {postData && (
+            {postData && postData.published && (
               <BlogPageComponent
                 post={postData}
                 date={createdAtDate}
@@ -77,6 +87,30 @@ const BlogPage: NextPage<BlogPageProps> = ({
                 prevPost={postBeforeObj ? postBeforeObj : null}
                 bio={bio || null}
               />
+            )}
+            {postData && !postData.published && (
+              <div className="m-2 flex flex-col items-center pb-10 text-cyan-900 mobileMenu:m-0">
+                <div
+                  className="absolute left-0 right-0 hidden h-10 bg-cyan-900 mobileMenu:block"
+                  style={{
+                    boxShadow:
+                      "inset 0px -1px 2px rgba(0,255,255,0.5), inset 0px -2px 4px rgba(0,255,255,0.5), inset 0px -4px 8px rgba(0,255,255,0.5)",
+                  }}
+                ></div>
+                <div
+                  className="text-bold flex w-full flex-col content-center items-center p-3 text-center text-lg mobileMenu:mt-10"
+                  style={{ animation: "fadeIn .7s linear" }}
+                ></div>
+                <div className="text-2xl font-semibold">
+                  Article Coming Soon!
+                </div>
+                <Link
+                  href="/blog"
+                  className="m-5 rounded-lg border-2 border-cyan-600 p-5 hover:bg-cyan-700 hover:text-cyan-50"
+                >
+                  Back to Blog
+                </Link>
+              </div>
             )}
           </div>
           <div className="mt-20">
