@@ -85,18 +85,20 @@ export default function Menu({
       className="absolute z-40 max-h-96 w-64 items-center overflow-y-scroll bg-cyan-100 text-cyan-950 shadow-lg transition-all  md:w-52 lg:w-64 xl:w-96"
       style={{ animation: "pullDownTop .3s linear" }}
     >
-      {buttonList}
-      <button
-        className="w-full bg-indigo-300 p-2 capitalize hover:bg-indigo-900 hover:text-indigo-50"
-        onClick={() => {
-          {
-            updateFilter(menuType, "", selectedOptions, setSelectedOptions);
-            setMenu && setMenu(false);
-          }
-        }}
-      >
-        RESET {menuType.toUpperCase()}
-      </button>
+      <div style={{ transform: "translate3d(0,0,0)" }}>
+        {buttonList}
+        <button
+          className="w-full bg-indigo-300 p-2 capitalize hover:bg-indigo-900 hover:text-indigo-50"
+          onClick={() => {
+            {
+              updateFilter(menuType, "", selectedOptions, setSelectedOptions);
+              setMenu && setMenu(false);
+            }
+          }}
+        >
+          RESET {menuType.toUpperCase()}
+        </button>
+      </div>
     </div>
   );
 }
