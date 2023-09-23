@@ -26,7 +26,7 @@ const Blog: NextPage = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const utils = api.useContext();
 
-  const lastId = "clm9b3wz10007ulit9dn7u8mv";
+  const lastId = "clm9n6z0d0003ul6to377pzsr";
   const pageSize = 6;
   const isLastExpansion =
     postsToDisplay && postsToDisplay[postsToDisplay.length - 1]?.id === lastId;
@@ -88,7 +88,7 @@ const Blog: NextPage = () => {
           {!isLastExpansion && !loading && (
             <button
               onClick={() => showNext()}
-              className="m-5 flex w-52 justify-around rounded-md border-2 border-cyan-700 p-3 text-cyan-800 transition-all hover:scale-105 hover:shadow-md hover:shadow-cyan-800"
+              className="m-5 m-auto flex w-52 justify-around rounded-md border-2 border-cyan-700 p-3 text-cyan-800 transition-all hover:scale-105 hover:shadow-md hover:shadow-cyan-800"
             >
               <span>{doubleChevronDown}</span>
               <span>More</span>

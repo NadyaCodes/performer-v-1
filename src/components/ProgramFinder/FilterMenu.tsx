@@ -7,13 +7,11 @@ import Menu from "./Menu";
 import { chevronUp, doubleChevronDown } from "@component/data/svgs";
 import { disciplinesFull } from "@component/data/constants";
 import type { LocationObject } from "./types";
-import { useSession } from "next-auth/react";
 
 export default function FilterMenu() {
   const filterContext = useContext(FilterContext);
   const selectedOptions = filterContext?.selectedOptions;
   const [menu, setMenu] = useState<string | false>(false);
-  const { data: sessionData } = useSession();
 
   const buttonFilter = ["type", "discipline", "location"].map((element) => {
     let currentSelection: string | LocationObject | undefined = "";
@@ -92,7 +90,7 @@ export default function FilterMenu() {
           </button>
           <div className="h-1 w-72 rounded bg-indigo-400 opacity-50 md:hidden md:w-56"></div>
         </div>
-        <div className="m-auto w-64  md:w-52 lg:w-64 xl:w-96">
+        <div className="m-auto w-64 md:w-52 lg:w-64 xl:w-96">
           {menu === "type" && element === "type" && (
             <Menu menuType="type" valueArray={["ft", "pt"]} setMenu={setMenu} />
           )}
