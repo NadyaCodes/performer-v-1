@@ -69,9 +69,9 @@ const Merch: NextPage = () => {
               className="text-bold flex w-full flex-col content-center items-center p-3 text-center text-lg text-cyan-900 mobileMenu:mt-20"
               style={{ animation: "fadeIn 1s linear" }}
             >
-              <h2 className="mx-5 flex items-center justify-center text-center text-4xl font-extrabold capitalize tracking-tight md:text-6xl  mobileMenu:my-5">
+              <h1 className="mx-5 flex items-center justify-center text-center text-4xl font-extrabold capitalize tracking-tight md:text-6xl  mobileMenu:my-5">
                 Act. Sing. Dance. Merch.
-              </h2>
+              </h1>
               <a
                 href="https://actsingdancerepeat.threadless.com/"
                 className="mx-3 my-10 rounded-full border-4 border-cyan-800 p-6 font-semibold shadow-md shadow-indigo-300 transition-all hover:scale-105 hover:border-indigo-700 hover:shadow-lg hover:shadow-indigo-900"

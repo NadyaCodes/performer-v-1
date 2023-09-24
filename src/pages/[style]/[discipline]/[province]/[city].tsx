@@ -58,7 +58,7 @@ const DisplayPage: NextPage<SelectNextProps> = ({
         <title>{titleString}</title>
         <meta
           name="description"
-          content="Program Directory - Act. Sing. Dance. Repeat."
+          content={`Program Directory ~ Act. Sing. Dance. Repeat. ~ ${titleString}`}
         />
         <link rel="icon" href="/favicon.ico" />
         <meta name="og:title" content={titleString} />
