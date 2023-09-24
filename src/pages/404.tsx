@@ -74,7 +74,8 @@ const PageNotFound: NextPage = () => {
                 </div>
               </div>
               <div className="m-5">
-                We're sorry, but we can't find the page you're looking for
+                We&apos;re sorry, but we can&apos;t find the page you&apos;re
+                looking for
               </div>
               <div className=" flex flex-row items-center justify-center">
                 <button
