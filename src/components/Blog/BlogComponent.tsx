@@ -17,9 +17,9 @@ export default function BlogComponent({ postArray }: { postArray: Post[] }) {
         className="text-bold mt-10 flex w-full flex-col content-center items-center p-3 text-center text-lg mobileMenu:mt-20"
         style={{ animation: "fadeIn .7s linear" }}
       >
-        <h2 className="mx-5 my-5 flex items-center justify-center text-center text-4xl font-extrabold capitalize tracking-tight text-cyan-900 md:text-6xl">
+        <h1 className="mx-5 my-5 flex items-center justify-center text-center text-4xl font-extrabold capitalize tracking-tight text-cyan-900 md:text-6xl">
           Act. Sing. Dance. Blog.
-        </h2>
+        </h1>
         <h3 className="flex flex-col italic text-cyan-900 mobileMenu:flex-row">
           <span>Have something to say?</span>
           <span className="ml-2">

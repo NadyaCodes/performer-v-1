@@ -42,7 +42,7 @@ const SingleProgramPage: NextPage<SingleProgramPageProps> = ({
         <title>{pageTitle}</title>
         <meta
           name="description"
-          content="Featured Program - Act. Sing. Dance. Repeat."
+          content={`Featured Program - Act. Sing. Dance. Repeat. - ${programName}`}
         />
         <link rel="icon" href="/favicon.ico" />
         <meta name="og:title" content="Act. Sing. Dance. Blog." />

@@ -88,7 +88,7 @@ const Blog: NextPage = () => {
           {!isLastExpansion && !loading && (
             <button
               onClick={() => showNext()}
-              className="m-5 m-auto flex w-52 justify-around rounded-md border-2 border-cyan-700 p-3 text-cyan-800 transition-all hover:scale-105 hover:shadow-md hover:shadow-cyan-800"
+              className="m-auto mx-5 flex w-52 justify-around rounded-md border-2 border-cyan-700 p-3 text-cyan-800 transition-all hover:scale-105 hover:shadow-md hover:shadow-cyan-800"
             >
               <span>{doubleChevronDown}</span>
               <span>More</span>

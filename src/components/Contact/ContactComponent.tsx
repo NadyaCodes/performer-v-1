@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import LogoTicker from "../About/LogoTicker";
 import { envelope, outlineStar, sparkles } from "@component/data/svgs";
 import LinkDrop from "./LinkDrop";
-import { useSession } from "next-auth/react";
 import SubscribeSignUp from "../Footer/SubscribeSignUp";
 
 export type ContactInput = {
@@ -18,8 +17,6 @@ export default function ContactComponent() {
   const [showEmail, setShowEmail] = useState<boolean>(false);
   const [showProgramForm, setShowProgramForm] = useState<boolean>(false);
   const [showSubscribe, setShowSubscribe] = useState<boolean>(false);
-
-  const { data: sessionData } = useSession();
 
   const [spotlight, setSpotlight] = useState<string>("");
 

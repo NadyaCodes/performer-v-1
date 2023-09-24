@@ -67,7 +67,7 @@ const ProvincePage: NextPage<SelectNextProps> = ({
         <title>{titleString}</title>
         <meta
           name="description"
-          content="Program Directory - Act. Sing. Dance. Repeat."
+          content={`Program Directory ~ Act. Sing. Dance. Repeat. ~ ${styleFull} ${disciplineFull} Programs in ${provinceFull}`}
         />
         <link rel="icon" href="/favicon.ico" />
         <meta name="og:title" content={titleString} />
