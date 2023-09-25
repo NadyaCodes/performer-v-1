@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: http://www.actsingdancerepeat.com/sitemap.xml
