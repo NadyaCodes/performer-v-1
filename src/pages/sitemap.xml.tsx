@@ -7,7 +7,6 @@ import {
   provincesFullReverse,
 } from "@component/data/constants";
 import type { Location } from "@prisma/client";
-import { ObjectList } from "@component/data/types";
 
 const prisma = new PrismaClient();
 
@@ -209,16 +208,14 @@ async function generateSitemap(): Promise<string> {
       disciplineList: string[]
     ) => {
       return stylesList.map((style) => {
-        return (
-          disciplineList
-            .map((discipline) => {
-              return `  <url>
+        return disciplineList
+          .map((discipline) => {
+            return `  <url>
         <loc>https://www.actsingdancerepeat.com/${style}/${discipline}/select-next</loc>
         <lastmod>2023-10-01</lastmod>
       </url>`;
-            })
-            .join("") || ""
-        );
+          })
+          .join("");
       });
     };
 
@@ -232,17 +229,15 @@ async function generateSitemap(): Promise<string> {
             style,
             discipline
           );
-          return (
-            availableProvinces
-              .map((province) => {
-                const provinceShort = provincesFullReverse[province] || "on";
-                return `<url>
+          return availableProvinces
+            .map((province) => {
+              const provinceShort = provincesFullReverse[province] || "on";
+              return `<url>
               <loc>https://www.actsingdancerepeat.com/${style}/${discipline}/${provinceShort}/select-next</loc>
               <lastmod>2023-10-01</lastmod>
             </url>`;
-              })
-              .join("") || ""
-          );
+            })
+            .join("");
         });
       });
     };
@@ -257,24 +252,22 @@ async function generateSitemap(): Promise<string> {
             style,
             discipline
           );
-          return (
-            availableCities
-              .map((city) => {
-                if (allLocations) {
-                  const locationObject = allLocations.find(
-                    (location) => location.city === city
-                  );
-                  const provinceString = locationObject?.province || "ontario";
-                  const province = provincesFullReverse[provinceString] || "on";
-                  return `<url>
+          return availableCities
+            .map((city) => {
+              if (allLocations) {
+                const locationObject = allLocations.find(
+                  (location) => location.city === city
+                );
+                const provinceString = locationObject?.province || "ontario";
+                const province = provincesFullReverse[provinceString] || "on";
+                return `<url>
                   <loc>https://www.actsingdancerepeat.com/${style}/${discipline}/${province}/${city}</loc>
                   <lastmod>2023-10-01</lastmod>
                 </url>`;
-                }
-              })
+              }
+            })
 
-              .join("") || ""
-          );
+            .join("");
         });
       });
     };
@@ -286,9 +279,9 @@ ${generateStaticUrlSection(staticURLs)}
   ${generateFeatProgramUrlsSection(allFeatPrograms)}
   ${generateSingleProgramUrlsSection(allPrograms)}
   ${generateStylesSection(styles)}
-  ${generateDisciplinesSection(styles, disciplines)}
-  ${generateProvincesSection(styles, disciplines)}
-  ${generateCitiesSection(styles, disciplines)}
+  ${generateDisciplinesSection(styles, disciplines).join("")}
+  ${generateProvincesSection(styles, disciplines).join("")}
+  ${generateCitiesSection(styles, disciplines).join("")}
 </urlset>`;
 
     return xml;
