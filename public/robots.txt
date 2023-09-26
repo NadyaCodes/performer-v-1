@@ -1,5 +1,4 @@
 User-agent: *
-Allow: /
 Disallow: /404
 Disallow: /add-author
 Disallow: /add-program
@@ -9,6 +8,8 @@ Disallow: /patreon-no-account
 Disallow: /patreon-si
 Disallow: /privacy
 Disallow: /terms
+Disallow: /api/
+
 
 
 Sitemap: http://www.actsingdancerepeat.com/sitemap.xml
