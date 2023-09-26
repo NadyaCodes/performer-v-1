@@ -1,4 +1,4 @@
-import { GetServerSideProps } from "next";
+import type { GetServerSideProps } from "next";
 import { PrismaClient } from "@prisma/client";
 import type { FTProgram, PTProgram } from "@prisma/client";
 import {
@@ -7,6 +7,7 @@ import {
   provincesFullReverse,
 } from "@component/data/constants";
 import type { Location } from "@prisma/client";
+import { ObjectList } from "@component/data/types";
 
 const prisma = new PrismaClient();
 
@@ -26,7 +27,9 @@ export default function Sitemap() {
   return null;
 }
 
-export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
+export const getServerSideProps: GetServerSideProps<
+  Record<string, never>
+> = async (ctx) => {
   ctx.res.setHeader("Content-Type", "text/xml");
   ctx.res.setHeader("Cache-control", "stale-while-revalidate, s-maxage=3600");
   const xml = await generateSitemap();
@@ -206,14 +209,16 @@ async function generateSitemap(): Promise<string> {
       disciplineList: string[]
     ) => {
       return stylesList.map((style) => {
-        return disciplineList
-          .map((discipline) => {
-            return `  <url>
+        return (
+          disciplineList
+            .map((discipline) => {
+              return `  <url>
         <loc>https://www.actsingdancerepeat.com/${style}/${discipline}/select-next</loc>
         <lastmod>2023-10-01</lastmod>
       </url>`;
-          })
-          .join("");
+            })
+            .join("") || ""
+        );
       });
     };
 
@@ -227,15 +232,17 @@ async function generateSitemap(): Promise<string> {
             style,
             discipline
           );
-          return availableProvinces
-            .map((province) => {
-              const provinceShort = provincesFullReverse[province];
-              return `<url>
+          return (
+            availableProvinces
+              .map((province) => {
+                const provinceShort = provincesFullReverse[province] || "on";
+                return `<url>
               <loc>https://www.actsingdancerepeat.com/${style}/${discipline}/${provinceShort}/select-next</loc>
               <lastmod>2023-10-01</lastmod>
             </url>`;
-            })
-            .join("");
+              })
+              .join("") || ""
+          );
         });
       });
     };
@@ -250,22 +257,24 @@ async function generateSitemap(): Promise<string> {
             style,
             discipline
           );
-          return availableCities
-            .map((city) => {
-              if (allLocations) {
-                const locationObject = allLocations.find(
-                  (location) => location.city === city
-                );
-                const provinceString = locationObject?.province || "ontario";
-                const province = provincesFullReverse[provinceString];
-                return `<url>
+          return (
+            availableCities
+              .map((city) => {
+                if (allLocations) {
+                  const locationObject = allLocations.find(
+                    (location) => location.city === city
+                  );
+                  const provinceString = locationObject?.province || "ontario";
+                  const province = provincesFullReverse[provinceString] || "on";
+                  return `<url>
                   <loc>https://www.actsingdancerepeat.com/${style}/${discipline}/${province}/${city}</loc>
                   <lastmod>2023-10-01</lastmod>
                 </url>`;
-              }
-            })
+                }
+              })
 
-            .join("");
+              .join("") || ""
+          );
         });
       });
     };
