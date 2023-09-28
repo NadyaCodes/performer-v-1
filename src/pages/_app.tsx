@@ -9,6 +9,7 @@ import "@component/styles/loading.css";
 import "@component/styles/face.css";
 import "@component/styles/animations.css";
 import "tailwindcss/tailwind.css";
+import { Analytics } from "@vercel/analytics/react";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -32,6 +33,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
         >
           This website uses cookies to enhance the user experience.
         </CookieConsent>
+        <Analytics />
       </PatreonProvider>
     </SessionProvider>
   );
