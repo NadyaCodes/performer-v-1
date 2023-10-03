@@ -47,7 +47,7 @@ const Home: NextPage = () => {
                 Resources for Canadian Performers
               </h1>
               <h2
-                className="relative z-50 flex items-center justify-center"
+                className="relative z-40 flex items-center justify-center"
                 style={{ animation: "fadeIn 1s forwards 2s", opacity: 0 }}
               >
                 <Link
