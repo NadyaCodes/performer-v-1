@@ -47,13 +47,14 @@ const Home: NextPage = () => {
                 Resources for Canadian Performers
               </h1>
               <h2
-                className="flex items-center justify-center"
+                className="relative z-50 flex items-center justify-center"
                 style={{ animation: "fadeIn 1s forwards 2s", opacity: 0 }}
               >
-                <Link href={"/about"}>
-                  <button className="rounded p-3 text-lg outline hover:scale-110 3xl:p-6 3xl:text-2xl">
-                    Get Started Here
-                  </button>
+                <Link
+                  href={"/about"}
+                  className="rounded p-3 text-lg outline hover:scale-110 3xl:p-6 3xl:text-2xl"
+                >
+                  Get Started Here
                 </Link>
               </h2>
             </div>
