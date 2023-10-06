@@ -28,11 +28,11 @@ export default function SinglePageHeader({
       className="m-0 flex w-11/12 flex-col justify-center text-center text-3xl font-bold text-cyan-900 opacity-0 mobileMenu:m-6 mobileMenu:w-9/12 mobileMenu:flex-row mobileMenu:text-4xl xl:text-5xl 3xl:p-5"
       style={{ animation: "flyInFadeIn 1s linear 1s forwards" }}
     >
-      <div className="-mb-10 w-11/12 place-self-center xs:-mb-6 mobileMenu:mb-10">
+      <h2 className="-mb-10 w-11/12 place-self-center xs:-mb-6 mobileMenu:mb-10">
         {isSignedIn
           ? contentObject.signedIn.textHeader
           : contentObject.signedOut.textHeader}
-      </div>
+      </h2>
       <div
         className={
           isSignedIn

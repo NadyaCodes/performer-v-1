@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import type { PageContent } from "./SingleProgramPageComponent";
 import ProgramItem from "../ProgramFinder/ProgramItem";
 import { api } from "@component/utils/api";
 import type { ProgramWithType } from "../MyPrograms/MyProgramsComponent";
@@ -9,17 +8,16 @@ import type { ProgramWithInfo } from "../ProgramFinder/types";
 import type { FavProgram } from "@prisma/client";
 import { convertUserFavs } from "../ProgramFinder/helpers";
 import SinglePageHeader from "./SinglePageHeader";
-import { useEffectOnce } from "../AddProgramResult/helpers";
-import LoadingLines from "../Loading/LoadingLines";
+import ShockFace from "./ShockFace";
 
-export default function PageContent({ programId }: { programId: string }) {
+export default function PageContent({
+  programObject,
+}: {
+  programObject: ProgramWithType | null;
+}) {
   const { data: sessionData } = useSession();
   const utils = api.useContext();
   const userId = sessionData?.user.id || null;
-
-  const [programObject, setProgramObject] = useState<ProgramWithType | null>(
-    null
-  );
   const [allProgramInfo, setAllProgramInfo] = useState<ProgramWithInfo | null>(
     null
   );
@@ -30,52 +28,17 @@ export default function PageContent({ programId }: { programId: string }) {
   const [favProgramIdsArray, setFavProgramIdsArray] = useState<string[] | null>(
     null
   );
-  const [loading, setLoading] = useState(true);
 
-  const fetchFTProgram = async () => {
-    return await utils.ftProgram.getOneByIdPlusInfo.fetch({ id: programId });
-  };
-
-  const fetchPTProgram = async () => {
-    return await utils.ptProgram.getOneByIdPlusInfo.fetch({ id: programId });
-  };
-
-  const [schoolLocId, setSchoolLocId] = useState<string | null>(null);
-
-  useEffectOnce(() => {
-    fetchFTProgram()
-      .then((ftData) => {
-        if (ftData) {
-          setProgramObject({ ...ftData, type: "ft" });
-          setSchoolLocId(ftData.schoolLocationId);
-        } else {
-          fetchPTProgram()
-            .then((ptData) => {
-              if (ptData) {
-                setProgramObject({ ...ptData, type: "pt" });
-                setSchoolLocId(ptData.schoolLocationId);
-              }
-            })
-            .catch((error) =>
-              console.error("Error fetching PT Program: ", error)
-            );
-        }
-      })
-      .catch((error) => console.error("Error fetching FT Program: ", error));
-  });
+  const schoolLocId = programObject?.schoolLocationId || "na";
 
   const fetchSchoolLoc = useCallback(async () => {
-    if (schoolLocId) {
+    if (schoolLocId !== "na") {
       return await utils.schoolLocation.getOneByIdPlusInfo.fetch({
         id: schoolLocId,
       });
     }
     return null;
-  }, [
-    // utils.schoolLocation.getOneByIdPlusInfo.fetch,
-    utils.schoolLocation.getOneByIdPlusInfo,
-    schoolLocId,
-  ]);
+  }, [utils.schoolLocation.getOneByIdPlusInfo, schoolLocId]);
 
   const fetchSchoolLocRef = useRef(fetchSchoolLoc);
 
@@ -87,7 +50,7 @@ export default function PageContent({ programId }: { programId: string }) {
     useState<ProgramWithInfo | null>(null);
 
   useEffect(() => {
-    if (programObject && schoolLocId) {
+    if (programObject && schoolLocId !== "na") {
       const fetchData = async () => {
         try {
           const data = await fetchSchoolLocRef.current();
@@ -164,19 +127,9 @@ export default function PageContent({ programId }: { programId: string }) {
     }
   }, [userFavsObject]);
 
-  useEffect(() => {
-    if (allProgramInfo) {
-      setLoading(false);
-    }
-  }, [allProgramInfo]);
-
   return (
     <div className="flex flex-col items-center justify-center">
-      {loading ? (
-        <div className="mt-10">
-          <LoadingLines />
-        </div>
-      ) : (
+      {programObject && schoolLocId !== "na" ? (
         <>
           <SinglePageHeader isSignedIn={!!userId} />
           <div
@@ -214,6 +167,20 @@ export default function PageContent({ programId }: { programId: string }) {
             </Link>
           </div>
         </>
+      ) : (
+        <div className="m-0 flex w-11/12 flex-col justify-center text-center text-3xl font-bold text-cyan-900 mobileMenu:m-6 mobileMenu:w-9/12 mobileMenu:text-4xl xl:text-5xl 3xl:p-5">
+          <div>Uh oh!</div>
+          <ShockFace />
+          <div className="text-2xl">
+            We can't find the program you're looking for...
+          </div>
+          <Link
+            href={"/program-finder"}
+            className="m-5 mt-10 w-fit place-self-center rounded-md border-2 border-indigo-800 p-4 text-xl text-indigo-900 hover:scale-110"
+          >
+            LOOK FOR IT HERE
+          </Link>
+        </div>
       )}
     </div>
   );

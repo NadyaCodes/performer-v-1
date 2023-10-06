@@ -3,6 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
+import ShockFace from "@component/components/SingleProgramPage/ShockFace";
 
 const Menu = dynamic(() => import("@component/components/Menu/Menu"), {
   ssr: true,
@@ -59,20 +60,7 @@ const PageNotFound: NextPage = () => {
               <h2 className="mx-5 flex items-center justify-center text-center text-4xl font-extrabold capitalize tracking-tight md:text-6xl  mobileMenu:my-5">
                 Act. Sing. Dance. Uh Oh!
               </h2>
-              <div className="flex scale-50 content-center justify-center mobileMenu:scale-75">
-                <div className="shockFace bg-indigo-300">
-                  <div className="eyes scale-110">
-                    <div
-                      className="eye bg-cyan-50"
-                      style={{ transform: "rotate(-120deg)" }}
-                    ></div>
-                    <div
-                      className="eye bg-cyan-50"
-                      style={{ transform: "rotate(-60deg)" }}
-                    ></div>
-                  </div>
-                </div>
-              </div>
+              <ShockFace />
               <div className="m-5">
                 We&apos;re sorry, but we can&apos;t find the page you&apos;re
                 looking for

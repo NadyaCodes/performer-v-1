@@ -1,8 +1,8 @@
 import type { GetStaticProps, GetStaticPaths, NextPage } from "next";
-import type { PTProgram, FTProgram } from "@prisma/client";
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import { prisma } from "@component/server/db";
+import { ProgramWithType } from "@component/components/MyPrograms/MyProgramsComponent";
 
 const Menu = dynamic(() => import("@component/components/Menu/Menu"), {
   ssr: true,
@@ -15,9 +15,19 @@ const FooterComponent = dynamic(
   }
 );
 
+const SingleProgramPageComponent = dynamic(
+  () =>
+    import(
+      "@component/components/SingleProgramPage/SingleProgramPageComponent"
+    ),
+  {
+    ssr: true,
+  }
+);
+
 export interface SingleProgramPageProps {
-  programid: string;
   programName: string;
+  programObject: null | ProgramWithType;
 }
 
 export type SingleProgramPaths = {
@@ -26,11 +36,9 @@ export type SingleProgramPaths = {
   };
 };
 
-import SingleProgramPageComponent from "@component/components/SingleProgramPage/SingleProgramPageComponent";
-
 const SingleProgramPage: NextPage<SingleProgramPageProps> = ({
-  programid,
   programName,
+  programObject,
 }) => {
   const pageTitle = `Act. Sing. Dance. Repeat. ~ ${programName}`;
 
@@ -57,7 +65,7 @@ const SingleProgramPage: NextPage<SingleProgramPageProps> = ({
         <div className="flex min-h-screen flex-col justify-between bg-cyan-50 bg-opacity-80">
           <div>
             <Menu />
-            <SingleProgramPageComponent programid={programid} />
+            <SingleProgramPageComponent programObject={programObject} />
           </div>
           <div className="mt-10">
             <FooterComponent bgColor="bg-cyan-900" />
@@ -68,27 +76,8 @@ const SingleProgramPage: NextPage<SingleProgramPageProps> = ({
   );
 };
 
-const createPaths = async (): Promise<SingleProgramPaths[]> => {
-  const allPTPrograms = await prisma.pTProgram.findMany();
-  const allFTPrograms = await prisma.fTProgram.findMany();
-
-  const allPrograms: (FTProgram | PTProgram)[] = [
-    ...allPTPrograms,
-    ...allFTPrograms,
-  ];
-
-  const allProgramPaths: SingleProgramPaths[] = allPrograms.map((program) => {
-    return { params: { programid: program.id.toString() } };
-  });
-
-  return allProgramPaths;
-};
-
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = await createPaths();
   return {
-    // paths,
-    // fallback: true,
     paths: [],
     fallback: "blocking",
   };
@@ -98,16 +87,21 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const { params } = context;
   const programid = params?.programid;
   let programName = "";
+  let programObject: null | ProgramWithType = null;
 
   if (typeof programid === "string") {
     try {
-      const programObject =
-        (await prisma.fTProgram.findFirst({
-          where: { id: programid },
-        })) ||
-        (await prisma.pTProgram.findFirst({
-          where: { id: programid },
-        }));
+      programObject =
+        (await prisma.fTProgram
+          .findFirst({
+            where: { id: programid },
+          })
+          .then((data) => (data ? { ...data, type: "ft" } : null))) ||
+        (await prisma.pTProgram
+          .findFirst({
+            where: { id: programid },
+          })
+          .then((data) => (data ? { ...data, type: "pt" } : null)));
 
       if (programObject) {
         const schoolLocationObject = await prisma.schoolLocation.findFirst({
@@ -131,8 +125,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   return {
     props: {
-      programid,
       programName,
+      programObject,
     },
   };
 };
