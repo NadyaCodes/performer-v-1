@@ -90,7 +90,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const paths = await createPaths();
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 };
 
