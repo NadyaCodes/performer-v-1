@@ -12,6 +12,7 @@ import type {
   PTProgram,
   FTProgram,
 } from "@prisma/client";
+import { prisma } from "@component/server/db";
 
 const Menu = dynamic(() => import("@component/components/Menu/Menu"), {
   ssr: true,
@@ -32,9 +33,6 @@ export interface ProgramInfo extends SchoolLocation {
 }
 
 export type ProgramInfoArray = ProgramInfo[];
-
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
 
 const ProgramDisplayComponent = dynamic(
   () =>
@@ -272,8 +270,6 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
   } else {
     titleString = `${styleFull} Programs in Canada`;
   }
-
-  const prisma = new PrismaClient();
 
   try {
     if (city && province) {

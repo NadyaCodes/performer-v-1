@@ -19,8 +19,7 @@ const FooterComponent = dynamic(
   }
 );
 
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { prisma } from "@component/server/db";
 
 const ProvincePage: NextPage<SelectNextProps> = ({
   style,

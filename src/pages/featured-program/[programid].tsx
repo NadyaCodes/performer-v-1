@@ -4,6 +4,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { backChevron } from "@component/data/svgs";
 import dynamic from "next/dynamic";
+import { prisma } from "@component/server/db";
 
 const Menu = dynamic(() => import("@component/components/Menu/Menu"), {
   ssr: true,
@@ -26,9 +27,6 @@ export type SingleProgramPaths = {
     programid: string;
   };
 };
-
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
 
 const FeaturedProgramComponent = dynamic(
   () =>
