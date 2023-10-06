@@ -10,6 +10,7 @@ import { styles } from "@component/data/constants";
 import SelectNext from "@component/components/ProgramDirectory/SelectNext";
 import Head from "next/head";
 import dynamic from "next/dynamic";
+import { prisma } from "@component/server/db";
 
 const FooterComponent = dynamic(
   () => import("@component/components/Footer/FooterComponent"),
@@ -17,9 +18,6 @@ const FooterComponent = dynamic(
     ssr: true,
   }
 );
-
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
 
 const DisciplinePage: NextPage<SelectNextProps> = ({
   style,

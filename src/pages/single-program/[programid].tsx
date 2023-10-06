@@ -2,6 +2,7 @@ import type { GetStaticProps, GetStaticPaths, NextPage } from "next";
 import type { PTProgram, FTProgram } from "@prisma/client";
 import Head from "next/head";
 import dynamic from "next/dynamic";
+import { prisma } from "@component/server/db";
 
 const Menu = dynamic(() => import("@component/components/Menu/Menu"), {
   ssr: true,
@@ -25,10 +26,7 @@ export type SingleProgramPaths = {
   };
 };
 
-import { PrismaClient } from "@prisma/client";
 import SingleProgramPageComponent from "@component/components/SingleProgramPage/SingleProgramPageComponent";
-
-const prisma = new PrismaClient();
 
 const SingleProgramPage: NextPage<SingleProgramPageProps> = ({
   programid,
@@ -90,7 +88,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const paths = await createPaths();
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 };
 

@@ -1,5 +1,5 @@
 import type { GetServerSideProps } from "next";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@component/server/db";
 import type { FTProgram, PTProgram } from "@prisma/client";
 import {
   styles,
@@ -7,8 +7,6 @@ import {
   provincesFullReverse,
 } from "@component/data/constants";
 import type { Location } from "@prisma/client";
-
-const prisma = new PrismaClient();
 
 const staticURLs = [
   "about",

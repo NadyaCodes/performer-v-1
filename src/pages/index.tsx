@@ -42,7 +42,7 @@ const Home: NextPage = () => {
             <div className="w-2/3 place-self-center mobileMenu:mt-7">
               <h1
                 className="mb-8 mt-5 text-center text-4xl font-extrabold md:max-mobileMenu:mt-0  mobileMenu:text-6xl 3xl:text-8xl 4xl:m-20"
-                style={{ animation: "pullDownTop 1s forwards 1s", opacity: 0 }}
+                style={{ animation: "pullDownTop 1.5s forwards", opacity: 0 }}
               >
                 Resources for Canadian Performers
               </h1>

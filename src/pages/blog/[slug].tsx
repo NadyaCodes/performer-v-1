@@ -1,11 +1,11 @@
 import type { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import type { Post } from "@prisma/client";
-import { PrismaClient } from "@prisma/client";
 import { useState, useEffect } from "react";
 import type { ObjectList } from "@component/data/types";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { prisma } from "@component/server/db";
 
 const Menu = dynamic(() => import("@component/components/Menu/Menu"), {
   ssr: true,
@@ -17,8 +17,6 @@ const FooterComponent = dynamic(
     ssr: true,
   }
 );
-
-const prisma = new PrismaClient();
 
 export type BlogPageProps = {
   postData: Post;
