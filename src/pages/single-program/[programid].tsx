@@ -2,7 +2,7 @@ import type { GetStaticProps, GetStaticPaths, NextPage } from "next";
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import { prisma } from "@component/server/db";
-import { ProgramWithType } from "@component/components/MyPrograms/MyProgramsComponent";
+import type { ProgramWithType } from "@component/components/MyPrograms/MyProgramsComponent";
 
 const Menu = dynamic(() => import("@component/components/Menu/Menu"), {
   ssr: true,
@@ -76,7 +76,7 @@ const SingleProgramPage: NextPage<SingleProgramPageProps> = ({
   );
 };
 
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = () => {
   return {
     paths: [],
     fallback: "blocking",

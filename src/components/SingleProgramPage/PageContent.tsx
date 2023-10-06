@@ -172,7 +172,7 @@ export default function PageContent({
           <div>Uh oh!</div>
           <ShockFace />
           <div className="text-2xl">
-            We can't find the program you're looking for...
+            We can&apos;t find the program you&apos;re looking for...
           </div>
           <Link
             href={"/program-finder"}
