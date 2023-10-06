@@ -1,16 +1,15 @@
 import React from "react";
-import type { ProgramWithInfo } from "../ProgramFinder/types";
-import PageContent from "./PageContent";
+import type { ProgramWithType } from "../MyPrograms/MyProgramsComponent";
+import dynamic from "next/dynamic";
 
-export type PageContent = {
-  textHeader: string;
-  allProgramInfo: ProgramWithInfo | null;
-};
+const PageContent = dynamic(() => import("./PageContent"), {
+  ssr: true,
+});
 
 export default function SingleProgramPageComponent({
-  programid,
+  programObject,
 }: {
-  programid: string;
+  programObject: ProgramWithType | null;
 }) {
   return (
     <div className="overflow-x-hidden">
@@ -24,7 +23,7 @@ export default function SingleProgramPageComponent({
         ></div>
         <div className="mb-10 h-10 bg-cyan-950"></div>
       </div>
-      <PageContent programId={programid} />
+      <PageContent programObject={programObject} />
     </div>
   );
 }
