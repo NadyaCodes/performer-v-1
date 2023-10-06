@@ -87,8 +87,10 @@ const createPaths = async (): Promise<SingleProgramPaths[]> => {
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths = await createPaths();
   return {
-    paths,
-    fallback: true,
+    // paths,
+    // fallback: true,
+    paths: [],
+    fallback: "blocking",
   };
 };
 
