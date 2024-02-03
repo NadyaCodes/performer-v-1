@@ -105,7 +105,7 @@ export default function Form({
                   <option value="prince edward island">
                     Prince Edward Island
                   </option>
-                  <option value="quebec">Québec</option>
+                  <option value="québec">Québec</option>
                   <option value="saskatchewan">Saskatchewan</option>
                   <option value="yukon">Yukon</option>
                 </select>
