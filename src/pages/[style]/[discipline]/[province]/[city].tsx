@@ -53,7 +53,7 @@ const DisplayPage: NextPage<SelectNextProps> = ({
   return (
     <>
       <Head>
-        <title>{titleString}</title>
+        <title>{`${titleString} | Act. Sing. Dance. Repeat.`}</title>
         <meta
           name="description"
           content={`Program Directory ~ Act. Sing. Dance. Repeat. ~ ${

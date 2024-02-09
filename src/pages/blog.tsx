@@ -64,7 +64,7 @@ const Blog: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Act. Sing. Dance. Blog.</title>
+        <title>Blog | Act. Sing. Dance. Reapeat.</title>
         <meta
           name="description"
           content="A blog for actors, singers, dancers and musical theatre performers"
