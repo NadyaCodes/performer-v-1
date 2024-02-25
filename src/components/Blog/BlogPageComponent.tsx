@@ -77,6 +77,17 @@ export default function BlogPageComponent({
           {text.slice(4)}
         </div>
       );
+    } else if (text.startsWith("#H2LINK#")) {
+      const splitLink = text.split("#HREF#");
+      <div key={index} className="my-8 text-xl font-bold">
+        <a
+          href={splitLink[1]?.slice(6) || "#"}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {splitLink[0]?.slice(8) || ""}{" "}
+        </a>
+      </div>;
     } else {
       return (
         <div key={index} className="my-3">

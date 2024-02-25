@@ -20,14 +20,15 @@ export type BlogObj = {
 //#UL#...#LI#: ul, then li (no \n in middle)
 //#IT#: italic, indented
 //####: divider
+//#H2LINK#...#HREF#: h2 link
 
-// const newBlogNumbered = {
-//   author: "Nadya Corscadden",
-//   slug: "numbered-blog-10",
-//   title: `Numbered Blog 10`,
-//   body: "This is blog number 10. \n Hopefully it's in the right order!",
-//   image: `<a data-flickr-embed="true" href="https://www.flickr.com/photos/199087648@N03/53171766840/in/dateposted-public/" title="Acting Mask"><img src="https://live.staticflickr.com/65535/53171766840_057427d0fe_c.jpg" width="600" height="800" alt="Acting Mask"/></a>`,
-// };
+const newBlog = {
+  author: "Nadya Corscadden",
+  slug: "black-owned-arts-organizations-2024",
+  title: `Incredible Black-Owned Arts Organizations to Support in 2024`,
+  body: "There are so many incredible Black-owned arts organizations in Canada. Here are just a few of the best!\n\n#H2LINK#Black Theatre Workshop#HREF#https://blacktheatreworkshop.ca/\nMontreal, Quebec\n#IT#Produces shows, workshops and school tours, and also runs an Artist Mentorship Program and Celebratory Gala\n\n#H2LINK#Obsidian Theatre Company#HREF#https://www.obsidiantheatre.com/\nToronto, Ontario\n#IT#Produces plays and provides training programs for up-and-coming playwrights and other theatre professionals.\n\n#H2LINK#Crossfield House Productions#HREF#https://www.crossfieldhouseproductions.com/\nToronto, Ontario\n#IT#Produces theatre, film and music\n\n#H2LINK#Nia Centre for the Arts#HREF#https://niacentre.org/\nToronto, Ontario\n#IT#A multidisciplinary artistic hub that provides opportunities for training and showcasing work.\n\n#H2LINK#The Black Arts Centre#HREF#https://theblackartscentre.ca/\nSurrey, BC\n#IT#A community space that supports and facilitates training opportunities and presentations for artists in many genres.\n\n#H2LINK#b current Performing Arts#HREF#https://www.bcurrent.ca/\nToronto, Ontario\n#IT#Produce new works and provide training opportunities to nurture emerging and highly celebrated talent.\n\n#H2LINK#Voices Black Theatre Ensemble#HREF#https://www.facebook.com/VoicesBlackTheatreNS/\nHalifax, NS\n#IT#Theatre and storytelling performance company\n\n#H2LINK#Advance  - Canada’s Black Music Business Collective#HREF#https://www.advancemusic.org/\nCanada Wide\n#IT#Provides programming, job opportunities and other resources for musicians.\n\n#H2LINK#Black Artists’ Networks in Dialogue (BAND)#HREF#https://www.bandgallery.com/\nToronto, On\n#IT#Fosters opportunities for artists of all kinds to showcase and develop their craft.\n\n#H2LINK#Building A Legacy in Acting, Cinema and Knowledge Canada (B.L.A.C.K.)#HREF#https://blackisnow.com/\nToronto, ON\n#IT#Provides support for emerging black artists through education, mentorship and networking opportunities.\n\n#H2LINK#Black Actors Film Guild Canada#HREF#https://www.bafgcanada.com/\nToronto, ON\n#IT#Promotes creatives such as actors, filmmakers and other artists.\n\n#H2LINK#Ballet Creole#HREF#https://balletcreole.org/\nToronto, ON\n#IT#Support traditional and contemporary dance artists through performances and training opportunities.\n\n#H2LINK#Dance Immersion#HREF#https://danceimmersion.ca/\nToronto, ON\n#IT#Cultivate opportunities for dancers in the form of presentations, education, mentorship and other opportunities.\n\n####\n#H3#A few other sites of note:\n#H2LINK#BlackCanadian Theatre#HREF#https://www.thecanadianencyclopedia.ca/en/article/black-canadian-theatre\n#IT#Details the history of Black theatre companies in Canada.\n\n#H2LINK#It’s About Time#HREF#https://www.dancingblackcanada.ca/\n#IT#An exhibition highlighting the lesser-known dance history in Canada.\n",
+  image: `<a data-flickr-embed="true" href="https://www.flickr.com/photos/199087648@N03/53552348385/in/dateposted-public/" title="Black Companies to Support"><img src="https://live.staticflickr.com/65535/53552348385_07282a8444_c.jpg" width="800" height="533" alt="Black Companies to Support"/></a>`,
+};
 
 type BlogUploadProps = {
   admin: boolean;
@@ -51,7 +52,7 @@ const BlogUpload: NextPage<BlogUploadProps> = ({ admin }) => {
   };
 
   useEffectOnce(() => {
-    addPost(mostImportantTheatreSchoolBlogObject);
+    addPost(newBlog);
   });
 
   return (
