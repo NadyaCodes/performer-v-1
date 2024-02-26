@@ -47,6 +47,15 @@ export default function BlogPageComponent({
           className="my-10 rounded border-t-4 border-cyan-700"
         ></div>
       );
+    } else if (text.startsWith("#H1#")) {
+      return (
+        <h2
+          key={index}
+          className="my-8 text-center text-3xl font-bold text-cyan-800"
+        >
+          {text.slice(4)}
+        </h2>
+      );
     } else if (text.startsWith("#H2#")) {
       return (
         <h2 key={index} className="my-8 text-xl font-bold">
@@ -79,15 +88,20 @@ export default function BlogPageComponent({
       );
     } else if (text.startsWith("#H2LINK#")) {
       const splitLink = text.split("#HREF#");
-      <div key={index} className="my-8 text-xl font-bold">
-        <a
-          href={splitLink[1]?.slice(6) || "#"}
-          target="_blank"
-          rel="noopener noreferrer"
+      return (
+        <div
+          key={index}
+          className="my-8 text-xl font-bold italic text-indigo-600 hover:underline"
         >
-          {splitLink[0]?.slice(8) || ""}{" "}
-        </a>
-      </div>;
+          <a
+            href={splitLink[1]?.slice(6) || "#"}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {splitLink[0]?.slice(8) || ""}{" "}
+          </a>
+        </div>
+      );
     } else {
       return (
         <div key={index} className="my-3">
@@ -136,6 +150,7 @@ export default function BlogPageComponent({
             style={{
               top: `${imageTop}rem`,
               right: `${imageRight}rem`,
+              pointerEvents: "none",
             }}
           />
         </div>
