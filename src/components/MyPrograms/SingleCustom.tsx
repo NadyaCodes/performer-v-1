@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Link from "next/link";
 import type { CustomProgram, Note } from "@prisma/client";
 import {
   cautionCircle,
@@ -170,9 +169,13 @@ const SingleCustom = React.forwardRef<HTMLDivElement, SingleCustomProps>(
             )}
             {program.website && (
               <div className="my-1 break-all italic text-indigo-700 underline md:w-3/4">
-                <Link href={program.website} target="blank">
+                <a
+                  href={program.website}
+                  target="blank"
+                  rel="noopener noreferrer"
+                >
                   {program.website}
-                </Link>
+                </a>
               </div>
             )}
             <div className=" mt-1 w-3/4">

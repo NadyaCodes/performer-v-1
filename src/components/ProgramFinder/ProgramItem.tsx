@@ -327,9 +327,9 @@ export default function ProgramItem({
         </div>
 
         <div className="break-all italic text-cyan-700 underline">
-          <Link href={element.website} target="blank">
+          <a href={element.website} target="blank" rel="noopener noreferrer">
             {element.website}
-          </Link>
+          </a>
         </div>
         <div>
           {element.type === "ft" ? "Full Time " : "Part Time "}{" "}
