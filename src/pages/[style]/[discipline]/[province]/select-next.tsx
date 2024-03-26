@@ -38,15 +38,20 @@ const ProvincePage: NextPage<SelectNextProps> = ({
   const backLink = `/${styleText}/${disciplineText}/select-next`;
 
   let titleString = "";
+  let metaTitleString = "";
 
   if (discipline && province) {
     titleString = `${styleFull} ${disciplineFull} Programs in ${provinceFull}`;
+    metaTitleString = `${disciplineFull} Programs ${provinceFull.toUpperCase()}`;
   } else if (discipline) {
     titleString = `${styleFull} ${disciplineFull} Programs in Canada`;
+    metaTitleString = `${disciplineFull} Programs Canada`;
   } else if (province) {
     titleString = `${styleFull} Programs in ${provinceText}`;
+    metaTitleString = `${styleFull} Programs ${provinceText}`;
   } else {
     titleString = `${styleFull} Programs in Canada`;
+    metaTitleString = `${styleFull} Programs Canada`;
   }
 
   const selectNextOptions = {
@@ -63,7 +68,7 @@ const ProvincePage: NextPage<SelectNextProps> = ({
   return (
     <>
       <Head>
-        <title>{`${titleString} | Act. Sing. Dance. Repeat.`}</title>
+        <title>{`${metaTitleString} | Act. Sing. Dance. Repeat.`}</title>
         <meta
           name="description"
           content={`Program Directory ~ Act. Sing. Dance. Repeat. ~ ${styleFull} ${disciplineFull} Programs in ${provinceFull}`}

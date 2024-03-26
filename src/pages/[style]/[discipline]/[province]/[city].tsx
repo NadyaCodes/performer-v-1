@@ -50,11 +50,28 @@ const DisplayPage: NextPage<SelectNextProps> = ({
   titleString,
   itemArray,
 }) => {
+  const provinceText = province || "ontario";
+  const cityText = city || "toronto";
+  const styleFull = stylesFull[style] || "Full Time";
+  const disciplineFull = disciplinesFull[discipline || ""] || "acting";
+
+  let metaTitleString = "";
+
+  if (discipline && province && city) {
+    metaTitleString = `${disciplineFull} Programs ${cityText.toUpperCase()}`;
+  } else if (discipline) {
+    metaTitleString = `${disciplineFull} Programs Canada`;
+  } else if (province) {
+    metaTitleString = `${styleFull} Programs ${provinceText.toUpperCase()}`;
+  } else {
+    metaTitleString = `${styleFull} Programs Canada`;
+  }
+
   return (
     <>
       <Head>
         <title>{`${
-          titleString || "Program Directory"
+          metaTitleString || "Program Directory"
         } | Act. Sing. Dance. Repeat.`}</title>
         <meta
           name="description"

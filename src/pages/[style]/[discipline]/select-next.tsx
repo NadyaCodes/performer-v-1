@@ -32,10 +32,13 @@ const DisciplinePage: NextPage<SelectNextProps> = ({
   const link = `/${styleText}/${disciplineText}/`;
   const backLink = `/${styleText}/select-next`;
   let titleString = "";
+  let metaTitleString = "";
   if (discipline) {
     titleString = `${styleFull} ${disciplineFull} Programs in Canada`;
+    metaTitleString = `${disciplineFull} Programs Canada`;
   } else {
     titleString = `${styleFull} programs in Canada`;
+    metaTitleString = `${styleFull} Programs Canada`;
   }
 
   const selectNextOptions = {
@@ -51,7 +54,7 @@ const DisciplinePage: NextPage<SelectNextProps> = ({
   return (
     <>
       <Head>
-        <title>{`${titleString} | Act. Sing. Dance. Repeat.`}</title>
+        <title>{`${metaTitleString} | Act. Sing. Dance. Repeat.`}</title>
         <meta
           name="description"
           content={`Program Directory ~ Act. Sing. Dance. Repeat. ~ ${styleFull} ${disciplineFull} Programs`}

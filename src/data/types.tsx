@@ -36,6 +36,7 @@ export type SelectNextProps = {
   allProgramsInType?: ProgramDataProp[];
   itemArray?: ProgramWithInfo[];
   titleString?: string;
+  metaTitleString?: string;
 };
 
 export type ProgramDataProp = {
