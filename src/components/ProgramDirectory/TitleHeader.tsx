@@ -10,7 +10,7 @@ export default function TitleHeader({ titleString }: { titleString: string }) {
       }}
     >
       <h1 className="flex  justify-center p-10 text-center text-5xl font-extrabold capitalize text-cyan-50 sm:text-[3rem]">
-        {titleString}
+        All {titleString}
       </h1>
     </div>
   );
