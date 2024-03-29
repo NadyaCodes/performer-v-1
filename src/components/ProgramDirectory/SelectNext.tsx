@@ -69,19 +69,27 @@ const SelectNext: React.FC<SelectNextProps> = ({ selectNextOptions }) => {
           </div>
         ) : (
           <>
-            <div className="grid w-11/12 md:grid-cols-[2fr,1fr] 2xl:w-8/12 2xl:pb-10">
-              <h2 className="m-2 justify-self-center text-center text-3xl font-extrabold capitalize tracking-tight text-cyan-800 md:w-128 md:text-4xl 2xl:w-160 2xl:text-5xl">
-                Which {nextValueText}?
+            {province && (
+              <button className="m-2 w-80 -translate-y-3 rounded border-2 border-yellow-500 bg-cyan-900 px-4 py-2 text-2xl font-semibold capitalize text-cyan-100 shadow-md shadow-indigo-900 transition-all hover:scale-110 hover:bg-cyan-900 hover:text-cyan-50 hover:shadow-cyan-200 lg:-translate-y-8">
+                <Link href="#all_programs">Go To All Programs in Province</Link>
+              </button>
+            )}
+            {discipline && !province && (
+              <>
+                <button className="m-2 w-80 -translate-y-3 rounded border-2 border-yellow-500 bg-cyan-900 px-4 py-2 text-2xl font-semibold capitalize text-cyan-100 shadow-md shadow-indigo-900 transition-all hover:scale-110 hover:bg-cyan-900 hover:text-cyan-50 hover:shadow-cyan-200 lg:-translate-y-8">
+                  <Link href="#all_programs">Go To All Programs in Canada</Link>
+                </button>
+              </>
+            )}
+            <div className="grid w-11/12 md:grid-cols-[2fr,1fr]">
+              <h2 className="justify-self-left m-2 text-center text-3xl font-extrabold capitalize tracking-tight text-cyan-800 md:text-4xl 2xl:text-5xl">
+                ...or Select By {nextValueText}
               </h2>
-              <div className="hidden h-0 -translate-x-12 -translate-y-3 scale-50 md:flex">
+              <div className="hidden h-0 -translate-x-12 scale-50 md:flex">
                 <Face eyesClass="eyesDown" />
               </div>
             </div>
-            {province && (
-              <button className="m-2 w-80 rounded border-2 border-yellow-500 bg-cyan-900 px-4 py-2 text-2xl font-semibold capitalize text-cyan-100 shadow-md shadow-indigo-900 transition-all hover:scale-110 hover:bg-cyan-900 hover:text-cyan-50 hover:shadow-cyan-200">
-                <Link href="#all_programs">All Cities in Province</Link>
-              </button>
-            )}
+
             <div className="mx-auto w-11/12 max-w-6xl rounded-lg bg-gradient-to-b from-cyan-600 to-cyan-900 p-5 text-cyan-50 shadow-xl shadow-cyan-700">
               <Picker
                 buttonOptions={buttonList}

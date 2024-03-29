@@ -19,7 +19,7 @@ const ProgramItem = dynamic(
   }
 );
 
-const ProvinceProgramDisplay: React.FC<ProvinceProgramDisplayProps> = ({
+const PartialProgramDisplay: React.FC<ProvinceProgramDisplayProps> = ({
   itemArray,
 }) => {
   const [loadingFavs, setLoadingFavs] = useState(true);
@@ -119,4 +119,4 @@ const ProvinceProgramDisplay: React.FC<ProvinceProgramDisplayProps> = ({
   );
 };
 
-export default ProvinceProgramDisplay;
+export default PartialProgramDisplay;

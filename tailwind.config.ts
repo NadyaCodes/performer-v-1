@@ -9,7 +9,8 @@ export default {
           '86': '22rem',
           '128': '32rem',
           '136': '34rem',
-          '160': '40rem'
+          '160': '40rem',
+          '200': '50rem'
         }
     },
     screens: {

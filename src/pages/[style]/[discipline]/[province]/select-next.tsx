@@ -22,7 +22,7 @@ const FooterComponent = dynamic(
 );
 
 import { prisma } from "@component/server/db";
-import ProvinceProgramDisplay from "@component/components/ProgramDirectory/ProvinceProgramDisplay";
+import ProvinceProgramDisplay from "@component/components/ProgramDirectory/PartialProgramDisplay";
 
 const ProvincePage: NextPage<SelectNextProps> = ({
   style,
