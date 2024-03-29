@@ -20,7 +20,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
       <PatreonProvider>
         <Component {...pageProps} />
         <CookieConsent
-          location="bottom"
+          location="top"
           buttonText="Sure - that's fine!"
           cookieName="cookie_accept"
           style={{ background: "#4338ca" }}
@@ -30,6 +30,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
             borderRadius: "5px",
           }}
           expires={150}
+          acceptOnScroll
         >
           This website uses cookies to enhance the user experience.
         </CookieConsent>

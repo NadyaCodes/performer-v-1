@@ -28,3 +28,10 @@ h1 {
   white-space: nowrap;
   padding-right: 1rem; 
 }
+
+@media screen and (max-width: 768px) {
+  .CookieConsent {
+    justify-content: flex-end !important;
+  }
+
+}
