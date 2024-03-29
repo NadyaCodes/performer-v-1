@@ -24,8 +24,16 @@ interface SelectNextProps {
 }
 
 const SelectNext: React.FC<SelectNextProps> = ({ selectNextOptions }) => {
-  const { buttonList, titleString, link, backLink, nextValue } =
-    selectNextOptions;
+  const {
+    buttonList,
+    titleString,
+    link,
+    backLink,
+    nextValue,
+    style,
+    discipline,
+    province,
+  } = selectNextOptions;
   const [loading, setLoading] = useState(false);
   const nextValueText =
     nextValue === "province" ? "Province/Territory" : nextValue;
@@ -69,6 +77,11 @@ const SelectNext: React.FC<SelectNextProps> = ({ selectNextOptions }) => {
                 <Face eyesClass="eyesDown" />
               </div>
             </div>
+            {province && (
+              <button className="m-2 w-80 rounded border-2 border-yellow-500 bg-cyan-900 px-4 py-2 text-2xl font-semibold capitalize text-cyan-100 shadow-md shadow-indigo-900 transition-all hover:scale-110 hover:bg-cyan-900 hover:text-cyan-50 hover:shadow-cyan-200">
+                <Link href="#all_programs">All Cities in Province</Link>
+              </button>
+            )}
             <div className="mx-auto w-11/12 max-w-6xl rounded-lg bg-gradient-to-b from-cyan-600 to-cyan-900 p-5 text-cyan-50 shadow-xl shadow-cyan-700">
               <Picker
                 buttonOptions={buttonList}
