@@ -309,7 +309,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
       const programInfoArrayPromises: Promise<ProgramInfoArray> = Promise.all(
         (citiesList || []).map(async (item) => {
-          let locationId = locationArray.find(
+          const locationId = locationArray.find(
             (element) => element.city === item
           )?.id;
           const result = await prisma.schoolLocation.findMany({
