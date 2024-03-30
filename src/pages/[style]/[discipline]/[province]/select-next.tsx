@@ -22,7 +22,7 @@ const FooterComponent = dynamic(
 );
 
 import { prisma } from "@component/server/db";
-import ProvinceProgramDisplay from "@component/components/ProgramDirectory/PartialProgramDisplay";
+import PartialProgramDisplay from "@component/components/ProgramDirectory/PartialProgramDisplay";
 
 const ProvincePage: NextPage<SelectNextProps> = ({
   style,
@@ -101,7 +101,7 @@ const ProvincePage: NextPage<SelectNextProps> = ({
             >
               All {titleString}
             </h2>
-            <ProvinceProgramDisplay itemArray={itemArray || null} />
+            <PartialProgramDisplay itemArray={itemArray || null} />
           </div>
           <div className="mt-20">
             <FooterComponent bgColor="bg-cyan-900" />
