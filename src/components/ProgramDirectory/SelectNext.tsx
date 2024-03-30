@@ -5,6 +5,8 @@ import LoadingLines from "../Loading/LoadingLines";
 import { backChevron } from "@component/data/svgs";
 import Face from "./Face";
 import dynamic from "next/dynamic";
+import { disciplinesFull } from "@component/data/constants";
+import { doubleChevronDown } from "@component/data/svgs";
 
 const Menu = dynamic(() => import("@component/components/Menu/Menu"), {
   ssr: true,
@@ -38,6 +40,24 @@ const SelectNext: React.FC<SelectNextProps> = ({ selectNextOptions }) => {
   const nextValueText =
     nextValue === "province" ? "Province/Territory" : nextValue;
 
+  let backTextMain = "Back";
+  let backTextSub = "";
+  let selectText = `Select ${nextValueText}`;
+
+  if (province) {
+    backTextMain = "Change Province";
+  } else if (discipline) {
+    backTextMain = "Change Discipline";
+    backTextSub = "  (Acting, Singing, Dance, Musical Theatre)";
+  } else if (style) {
+    backTextMain = "Change Type";
+    backTextSub = "  (Part Time, Full Time)";
+  }
+
+  if (discipline) {
+    selectText = `...or Select By ${nextValueText}`;
+  }
+
   return (
     <div className="flex flex-grow flex-col bg-cyan-50 bg-opacity-80 text-cyan-900">
       <div>
@@ -51,9 +71,12 @@ const SelectNext: React.FC<SelectNextProps> = ({ selectNextOptions }) => {
         ></div>
         <div className="hidden h-10 bg-cyan-950 mobileMenu:block "></div>
         <Link href={backLink} className="p-2">
-          <button className="-mt-16 flex px-10 font-semibold text-cyan-800 hover:scale-110 md:mt-0">
-            <span>{backChevron}</span>
-            <span>Back</span>
+          <button className="-mt-16 mb-3 flex w-60 items-center justify-center border-r-2 border-cyan-800 px-2 font-semibold text-cyan-800 transition-all hover:bg-indigo-50 hover:text-indigo-900 md:mt-0 md:w-fit">
+            <span className="m-1">{backChevron}</span>
+            <span className="m-1 flex flex-col items-center">
+              <span>{backTextMain}</span>
+              <span className="text-sm font-normal">{backTextSub}</span>
+            </span>
           </button>
         </Link>
       </div>
@@ -70,20 +93,42 @@ const SelectNext: React.FC<SelectNextProps> = ({ selectNextOptions }) => {
         ) : (
           <>
             {province && (
-              <button className="m-2 w-80 -translate-y-3 rounded border-2 border-yellow-500 bg-cyan-900 px-4 py-2 text-2xl font-semibold capitalize text-cyan-100 shadow-md shadow-indigo-900 transition-all hover:scale-110 hover:bg-cyan-900 hover:text-cyan-50 hover:shadow-cyan-200 lg:-translate-y-8">
-                <Link href="#all_programs">Go To All Programs in Province</Link>
-              </button>
+              <>
+                <button className="m-2 w-80 -translate-y-3 rounded-xl border-4 border-indigo-300 bg-gradient-to-b  from-cyan-900 to-cyan-600 px-5 py-3 text-2xl font-semibold capitalize text-cyan-100 shadow-lg shadow-indigo-900 transition-all hover:scale-110 hover:bg-cyan-900 hover:text-cyan-50 hover:shadow-cyan-200 lg:-translate-y-8">
+                  <Link href="#all_programs" className="flex flex-col text-xl">
+                    <span className=" flex items-center justify-center">
+                      <span className="mr-5">{doubleChevronDown}</span>Scroll To
+                      All
+                      <span className="ml-5">{doubleChevronDown}</span>
+                    </span>
+                    <span className="text-3xl text-indigo-300">
+                      {discipline ? disciplinesFull[discipline] : null}
+                    </span>
+                    <span className="">Programs</span>
+                  </Link>
+                </button>
+              </>
             )}
             {discipline && !province && (
               <>
-                <button className="m-2 w-80 -translate-y-3 rounded border-2 border-yellow-500 bg-cyan-900 px-4 py-2 text-2xl font-semibold capitalize text-cyan-100 shadow-md shadow-indigo-900 transition-all hover:scale-110 hover:bg-cyan-900 hover:text-cyan-50 hover:shadow-cyan-200 lg:-translate-y-8">
-                  <Link href="#all_programs">Go To All Programs in Canada</Link>
+                <button className="m-2 w-80 -translate-y-3 rounded-xl border-4 border-indigo-300 bg-gradient-to-b  from-cyan-900 to-cyan-600 px-5 py-3 text-2xl font-semibold capitalize text-cyan-100 shadow-lg shadow-indigo-900 transition-all hover:scale-110 hover:bg-cyan-900 hover:text-cyan-50 hover:shadow-cyan-200 lg:-translate-y-8">
+                  <Link href="#all_programs" className="flex flex-col text-xl">
+                    <span className=" flex items-center justify-center">
+                      <span className="mr-5">{doubleChevronDown}</span>Scroll To
+                      All
+                      <span className="ml-5">{doubleChevronDown}</span>
+                    </span>
+                    <span className="text-3xl text-indigo-300">
+                      {disciplinesFull[discipline]}
+                    </span>
+                    <span className="">Programs in Canada</span>
+                  </Link>
                 </button>
               </>
             )}
             <div className="grid w-11/12 md:grid-cols-[2fr,1fr]">
               <h2 className="justify-self-left m-2 text-center text-3xl font-extrabold capitalize tracking-tight text-cyan-800 md:text-4xl 2xl:text-5xl">
-                ...or Select By {nextValueText}
+                {selectText}
               </h2>
               <div className="hidden h-0 -translate-x-12 scale-50 md:flex">
                 <Face eyesClass="eyesDown" />
