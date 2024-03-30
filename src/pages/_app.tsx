@@ -10,6 +10,7 @@ import "@component/styles/face.css";
 import "@component/styles/animations.css";
 import "tailwindcss/tailwind.css";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -35,6 +36,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
           This website uses cookies to enhance the user experience.
         </CookieConsent>
         <Analytics />
+        <SpeedInsights />
       </PatreonProvider>
     </SessionProvider>
   );
