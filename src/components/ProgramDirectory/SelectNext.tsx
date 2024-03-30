@@ -49,7 +49,9 @@ const SelectNext: React.FC<SelectNextProps> = ({ selectNextOptions }) => {
 
   if (province) {
     backTextMain = "Change Province";
-    scrollTextSub = `Programs in ${province ? provincesFull[province] : ""}`;
+    scrollTextSub = `Programs in ${
+      provincesFull[province as keyof typeof provincesFull]
+    }`;
   } else if (discipline) {
     backTextMain = "Change Discipline";
     backTextSub = "  (Acting, Singing, Dance, Musical Theatre)";
