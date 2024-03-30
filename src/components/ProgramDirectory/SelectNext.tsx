@@ -5,7 +5,7 @@ import LoadingLines from "../Loading/LoadingLines";
 import { backChevron } from "@component/data/svgs";
 import Face from "./Face";
 import dynamic from "next/dynamic";
-import { disciplinesFull } from "@component/data/constants";
+import { disciplinesFull, provincesFull } from "@component/data/constants";
 import { doubleChevronDown } from "@component/data/svgs";
 
 const Menu = dynamic(() => import("@component/components/Menu/Menu"), {
@@ -44,8 +44,12 @@ const SelectNext: React.FC<SelectNextProps> = ({ selectNextOptions }) => {
   let backTextSub = "";
   let selectText = `Select ${nextValueText}`;
 
+  let scrollTextMain: string | null = "";
+  let scrollTextSub = "Programs in Canada";
+
   if (province) {
     backTextMain = "Change Province";
+    scrollTextSub = `Programs in ${provincesFull[province]}`;
   } else if (discipline) {
     backTextMain = "Change Discipline";
     backTextSub = "  (Acting, Singing, Dance, Musical Theatre)";
@@ -56,6 +60,10 @@ const SelectNext: React.FC<SelectNextProps> = ({ selectNextOptions }) => {
 
   if (discipline) {
     selectText = `...or Select By ${nextValueText}`;
+    scrollTextMain =
+      discipline !== undefined && disciplinesFull.hasOwnProperty(discipline)
+        ? (disciplinesFull[discipline] as string)
+        : null;
   }
 
   return (
@@ -92,36 +100,19 @@ const SelectNext: React.FC<SelectNextProps> = ({ selectNextOptions }) => {
           </div>
         ) : (
           <>
-            {province && (
+            {discipline && (
               <>
                 <button className="m-2 w-80 -translate-y-3 rounded-xl border-4 border-indigo-300 bg-gradient-to-b  from-cyan-900 to-cyan-600 px-5 py-3 text-2xl font-semibold capitalize text-cyan-100 shadow-lg shadow-indigo-900 transition-all hover:scale-110 hover:bg-cyan-900 hover:text-cyan-50 hover:shadow-cyan-200 lg:-translate-y-8">
                   <Link href="#all_programs" className="flex flex-col text-xl">
-                    <span className=" flex items-center justify-center">
+                    <span className="flex items-center justify-center">
                       <span className="mr-5">{doubleChevronDown}</span>Scroll To
                       All
                       <span className="ml-5">{doubleChevronDown}</span>
                     </span>
                     <span className="text-3xl text-indigo-300">
-                      {discipline ? disciplinesFull[discipline] : null}
+                      {scrollTextMain}
                     </span>
-                    <span className="">Programs</span>
-                  </Link>
-                </button>
-              </>
-            )}
-            {discipline && !province && (
-              <>
-                <button className="m-2 w-80 -translate-y-3 rounded-xl border-4 border-indigo-300 bg-gradient-to-b  from-cyan-900 to-cyan-600 px-5 py-3 text-2xl font-semibold capitalize text-cyan-100 shadow-lg shadow-indigo-900 transition-all hover:scale-110 hover:bg-cyan-900 hover:text-cyan-50 hover:shadow-cyan-200 lg:-translate-y-8">
-                  <Link href="#all_programs" className="flex flex-col text-xl">
-                    <span className=" flex items-center justify-center">
-                      <span className="mr-5">{doubleChevronDown}</span>Scroll To
-                      All
-                      <span className="ml-5">{doubleChevronDown}</span>
-                    </span>
-                    <span className="text-3xl text-indigo-300">
-                      {disciplinesFull[discipline]}
-                    </span>
-                    <span className="">Programs in Canada</span>
+                    <span className="">{scrollTextSub}</span>
                   </Link>
                 </button>
               </>
