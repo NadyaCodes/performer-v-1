@@ -157,7 +157,7 @@ async function generateSitemap(): Promise<string> {
           return `
           <url>
           <loc>https://www.actsingdancerepeat.com/featured-program/${program.id}</loc>
-          <lastmod>2023-10-01</lastmod>
+          <lastmod>2024-03-30</lastmod>
           </url>`;
         })
         .join("");
@@ -171,7 +171,7 @@ async function generateSitemap(): Promise<string> {
           return `
           <url>
           <loc>https://www.actsingdancerepeat.com/single-program/${program.id}</loc>
-          <lastmod>2023-10-01</lastmod>
+          <lastmod>2024-03-30</lastmod>
           </url>`;
         })
         .join("");
@@ -182,7 +182,7 @@ async function generateSitemap(): Promise<string> {
         .map((url) => {
           return `  <url>
     <loc>https://www.actsingdancerepeat.com/${url}</loc>
-    <lastmod>2023-10-01</lastmod>
+    <lastmod>2024-03-30</lastmod>
   </url>
     `;
         })
@@ -194,7 +194,7 @@ async function generateSitemap(): Promise<string> {
         .map((style) => {
           return `  <url>
 <loc>https://www.actsingdancerepeat.com/${style}/select-next</loc>
-<lastmod>2023-10-01</lastmod>
+<lastmod>2024-03-30</lastmod>
 </url>
 `;
         })
@@ -210,7 +210,7 @@ async function generateSitemap(): Promise<string> {
           .map((discipline) => {
             return `  <url>
         <loc>https://www.actsingdancerepeat.com/${style}/${discipline}/select-next</loc>
-        <lastmod>2023-10-01</lastmod>
+        <lastmod>2024-03-30</lastmod>
       </url>`;
           })
           .join("");
@@ -232,7 +232,7 @@ async function generateSitemap(): Promise<string> {
               const provinceShort = provincesFullReverse[province] || "on";
               return `<url>
               <loc>https://www.actsingdancerepeat.com/${style}/${discipline}/${provinceShort}/select-next</loc>
-              <lastmod>2023-10-01</lastmod>
+              <lastmod>2024-03-30</lastmod>
             </url>`;
             })
             .join("");
@@ -260,7 +260,7 @@ async function generateSitemap(): Promise<string> {
                 const province = provincesFullReverse[provinceString] || "on";
                 return `<url>
                   <loc>https://www.actsingdancerepeat.com/${style}/${discipline}/${province}/${city}</loc>
-                  <lastmod>2023-10-01</lastmod>
+                  <lastmod>2024-03-30</lastmod>
                 </url>`;
               }
             })
