@@ -70,8 +70,8 @@ const DisplayPage: NextPage<SelectNextProps> = ({
   return (
     <>
       <Head>
-        <title>{`${
-          metaTitleString || "Program Directory"
+        <title>{`${metaTitleString || "Program Directory"} ${
+          style.toUpperCase() || "FT"
         } | Act. Sing. Dance. Repeat.`}</title>
         <meta
           name="description"

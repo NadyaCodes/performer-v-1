@@ -72,7 +72,7 @@ const ProvincePage: NextPage<SelectNextProps> = ({
   return (
     <>
       <Head>
-        <title>{`${metaTitleString} | Act. Sing. Dance. Repeat.`}</title>
+        <title>{`${metaTitleString} ${styleText.toUpperCase()} | Act. Sing. Dance. Repeat.`}</title>
         <meta
           name="description"
           content={`Program Directory ~ Act. Sing. Dance. Repeat. ~ ${styleFull} ${disciplineFull} Programs in ${provinceFull}`}
