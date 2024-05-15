@@ -18,5 +18,25 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+  // Add redirects here
+  async redirects() {
+    return [
+      {
+        source: "/trauma-pride-and-theatre-school-a-dangerous-trio",
+        destination: "/blog/trauma-pride-theatre-school",
+        permanent: true, // 301 redirect
+      },
+      {
+        source: "/[style]/[discipline]/select-next",
+        destination: "/program-directory",
+        permanent: true, // 301 redirect
+      },
+      // {
+      //   source: '/about',
+      //   destination: '/about-us',
+      //   permanent: false, // 302 temporary redirect
+      // },
+    ];
+  },
 };
 export default config;
