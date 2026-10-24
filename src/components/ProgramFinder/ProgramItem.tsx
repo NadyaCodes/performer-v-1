@@ -94,8 +94,8 @@ export default function ProgramItem({
               setFavesObject(newUserFavs);
               const convertedArray = convertUserFavs(result);
               const filteredArray = convertedArray.filter(
-                (element) => element !== undefined
-              ) as string[];
+                (element): element is string => element !== undefined
+              );
               if (filteredArray.includes(element.id)) {
                 setFav(true);
               } else {
@@ -130,8 +130,8 @@ export default function ProgramItem({
               setFavesObject(newUserFavs);
               const convertedArray = convertUserFavs(result);
               const filteredArray = convertedArray.filter(
-                (element) => element !== undefined
-              ) as string[];
+                (element): element is string => element !== undefined
+              );
               if (filteredArray.includes(element.id)) {
                 setFav(true);
               } else {
@@ -166,8 +166,8 @@ export default function ProgramItem({
               setFavesObject(newUserFavs);
               const convertedArray = convertUserFavs(result);
               const filteredArray = convertedArray.filter(
-                (element) => element !== undefined
-              ) as string[];
+                (element): element is string => element !== undefined
+              );
               if (filteredArray.includes(element.id)) {
                 setFav(true);
               } else {
@@ -213,8 +213,8 @@ export default function ProgramItem({
             setFavesObject(result);
             const convertedArray = convertUserFavs(result);
             const filteredArray = convertedArray.filter(
-              (element) => element !== undefined
-            ) as string[];
+              (element): element is string => element !== undefined
+            );
             if (filteredArray.includes(element.id)) {
               setFav(true);
             } else {

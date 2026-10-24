@@ -17,7 +17,7 @@ export type ProgramWithType = {
 
 export type KeyValueListType = {
   type: string;
-  componentRef?: React.RefObject<HTMLDivElement> | undefined;
+  componentRef?: React.RefObject<HTMLDivElement | null> | undefined;
   id: string | null;
   text: string;
 };

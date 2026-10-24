@@ -1,8 +1,8 @@
 import type { NextPage, GetStaticPropsContext } from "next";
-import { styles, disciplines, provincesFullReverse } from "src/data/constants";
+import { styles, disciplines, provincesFullReverse } from "@component/data/constants";
 import type { SelectNextProps, PathsArray } from "@component/data/types";
 import Head from "next/head";
-import { stylesFull, disciplinesFull, provincesFull } from "src/data/constants";
+import { stylesFull, disciplinesFull, provincesFull } from "@component/data/constants";
 import type { ProgramWithInfo } from "@component/components/ProgramFinder/types";
 import dynamic from "next/dynamic";
 import type {

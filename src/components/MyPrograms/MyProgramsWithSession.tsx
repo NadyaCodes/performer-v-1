@@ -28,17 +28,17 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
   >(false);
   const [loadingDelete, setLoadingDelete] = useState<boolean | string>(false);
   const [favProgramRefs, setFavProgramRefs] = useState<
-    Record<string, React.RefObject<HTMLDivElement>>
+    Record<string, React.RefObject<HTMLDivElement | null>>
   >({});
   const [customProgramRefs, setCustomProgramRefs] = useState<
-    Record<string, React.RefObject<HTMLDivElement>>
+    Record<string, React.RefObject<HTMLDivElement | null>>
   >({});
   const [userFavs, setUserFavs] = useState<
-    (ProgramWithType | ProgramWithType | undefined)[] | [] | null
+    (ProgramWithType | undefined)[] | [] | null
   >(null);
 
   const [displayData, setDisplayData] = useState<ProgramWithInfo[] | null>(
-    null
+    null,
   );
   const [loading, setLoading] = useState<boolean>(true);
   const [displayCustom, setDisplayCustom] = useState<
@@ -67,7 +67,7 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
         return ptProgramObject;
       }
     },
-    [utils.ptProgram.getOneById, utils.ftProgram.getOneById]
+    [utils.ptProgram.getOneById, utils.ftProgram.getOneById],
   );
 
   const findUserFavs = useCallback(
@@ -75,33 +75,25 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
       const allUserFavs = utils.favs.getAllForUser.fetch({ userId });
       const userFavPrograms: (ProgramWithType | undefined)[] =
         await Promise.all(
-          (
-            await allUserFavs
-          ).map(async (element) => {
+          (await allUserFavs).map(async (element) => {
             if (element.ftProgramId) {
               const program = (await findProgramObject(
-                element.ftProgramId
+                element.ftProgramId,
               )) as FTProgram;
-              return (
-                { ...program, type: "ft", favProgramId: element.id } ||
-                undefined
-              );
+              return { ...program, type: "ft", favProgramId: element.id };
             }
             if (element.ptProgramId) {
               const program = (await findProgramObject(
-                element.ptProgramId
+                element.ptProgramId,
               )) as PTProgram;
-              return (
-                { ...program, type: "pt", favProgramId: element.id } ||
-                undefined
-              );
+              return { ...program, type: "pt", favProgramId: element.id };
             }
             return undefined;
-          })
+          }),
         );
       return userFavPrograms;
     },
-    [findProgramObject, utils.favs.getAllForUser]
+    [findProgramObject, utils.favs.getAllForUser],
   );
 
   const useFindUserFavs = () => {
@@ -109,29 +101,21 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
       const allUserFavs = utils.favs.getAllForUser.fetch({ userId });
       const userFavPrograms: (ProgramWithType | undefined)[] =
         await Promise.all(
-          (
-            await allUserFavs
-          ).map(async (element) => {
+          (await allUserFavs).map(async (element) => {
             if (element.ftProgramId) {
               const program = (await findProgramObject(
-                element.ftProgramId
+                element.ftProgramId,
               )) as FTProgram;
-              return (
-                { ...program, type: "ft", favProgramId: element.id } ||
-                undefined
-              );
+              return { ...program, type: "ft", favProgramId: element.id };
             }
             if (element.ptProgramId) {
               const program = (await findProgramObject(
-                element.ptProgramId
+                element.ptProgramId,
               )) as PTProgram;
-              return (
-                { ...program, type: "pt", favProgramId: element.id } ||
-                undefined
-              );
+              return { ...program, type: "pt", favProgramId: element.id };
             }
             return undefined;
-          })
+          }),
         );
       return userFavPrograms;
     }, []);
@@ -226,16 +210,16 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
               }
             }
             return undefined;
-          })
+          }),
         );
 
         return fullDataObject
           .filter((item) => item !== undefined)
           .sort((a, b) =>
-            (a?.schoolObj?.name || "").localeCompare(b?.schoolObj?.name || "")
-          ) as ProgramWithType[];
+            (a?.schoolObj?.name || "").localeCompare(b?.schoolObj?.name || ""),
+          );
       },
-      []
+      [],
     );
 
     return addAllDataToUserFav;
@@ -245,14 +229,14 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
 
   const useFetchData = (
     addDataToUserFavs: (
-      userFavs: [] | (ProgramWithType | undefined)[]
+      userFavs: [] | (ProgramWithType | undefined)[],
     ) => Promise<ProgramWithType[]>,
     findCustomPrograms: () => Promise<CustomProgram[] | undefined>,
     userFavs: [] | (ProgramWithType | undefined)[] | null,
     setDisplayCustom: React.Dispatch<
       React.SetStateAction<CustomProgram[] | undefined | null>
     >,
-    setLoading: React.Dispatch<React.SetStateAction<boolean>>
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>,
   ) => {
     const fetchData = useCallback(async () => {
       try {
@@ -262,9 +246,8 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
           setDisplayData([]);
         } else {
           console.log("starting to process data");
-          const allFavData: ProgramWithType[] = await addDataToUserFavs(
-            userFavs
-          );
+          const allFavData: ProgramWithType[] =
+            await addDataToUserFavs(userFavs);
           setDisplayData(allFavData);
         }
 
@@ -293,12 +276,12 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
         | undefined
         | null
         | ((
-            prevState: CustomProgram[] | undefined | null
-          ) => CustomProgram[] | undefined | null)
+            prevState: CustomProgram[] | undefined | null,
+          ) => CustomProgram[] | undefined | null),
     ) => {
       setDisplayCustom(newValue);
     },
-    []
+    [],
   );
 
   const memoizedSetLoading = useCallback<
@@ -312,12 +295,12 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
     findCustomPrograms,
     userFavs,
     memoizedSetDisplayCustom,
-    memoizedSetLoading
+    memoizedSetLoading,
   );
 
   useEffect(() => {
     fetchDataHook().catch((error) =>
-      console.error("Error fetching data: ", error)
+      console.error("Error fetching data: ", error),
     );
   }, [userFavs, fetchDataHook]);
 
@@ -335,7 +318,7 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
     if (displayData) {
       const newProgramRefs: Record<
         string,
-        React.RefObject<HTMLDivElement>
+        React.RefObject<HTMLDivElement | null>
       > = {};
       displayData.forEach((program) => {
         newProgramRefs[program.id] = React.createRef<HTMLDivElement>();
@@ -346,7 +329,7 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
     if (displayCustom && displayCustom.length > 0) {
       const newCustomProgramRefs: Record<
         string,
-        React.RefObject<HTMLDivElement>
+        React.RefObject<HTMLDivElement | null>
       > = {};
       displayCustom.forEach((program) => {
         newCustomProgramRefs[program.id] = React.createRef<HTMLDivElement>();
@@ -361,7 +344,10 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
 
   useEffect(() => {
     const newKeyValueList: KeyValueListType[] = [];
-    const newProgramRefs: Record<string, React.RefObject<HTMLDivElement>> = {};
+    const newProgramRefs: Record<
+      string,
+      React.RefObject<HTMLDivElement | null>
+    > = {};
 
     if (displayData) {
       displayData.forEach((program) => {
@@ -395,7 +381,7 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
     if (patreonInfo && patreonInfo.id) {
       const newCustomProgramRefs: Record<
         string,
-        React.RefObject<HTMLDivElement>
+        React.RefObject<HTMLDivElement | null>
       > = {};
 
       if (displayCustom && displayCustom.length > 0) {
@@ -448,7 +434,7 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
   }, [displayData, displayCustom, patreonInfo]);
 
   const [notes, setNotes] = useState<{ [key: string]: Note[] } | null | []>(
-    null
+    null,
   );
 
   const programDisplay = displayData?.map((element: ProgramWithInfo) => {
@@ -494,7 +480,7 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
           behavior: "smooth",
         });
       }}
-      className="-mt-3 flex w-56 place-items-center justify-between rounded  px-4  py-2 font-semibold text-indigo-800  opacity-0 hover:scale-110  hover:bg-indigo-900 hover:text-indigo-50"
+      className="-mt-3 flex w-56 place-items-center justify-between rounded px-4 py-2 font-semibold text-indigo-800 opacity-0 hover:scale-110 hover:bg-indigo-900 hover:text-indigo-50"
       style={{ animation: "pullDownTop 0.3s linear 3s forwards" }}
     >
       <span>Add Custom Program </span>

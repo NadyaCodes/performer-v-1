@@ -17,8 +17,8 @@ export default function ProgramDisplay({
   programDisplay: React.JSX.Element[] | undefined;
   addCustomButton: React.JSX.Element;
   customProgramDisplay: React.JSX.Element[];
-  favHeaderRef: React.RefObject<HTMLDivElement>;
-  customHeaderRef: React.RefObject<HTMLDivElement>;
+  favHeaderRef: React.RefObject<HTMLDivElement | null>;
+  customHeaderRef: React.RefObject<HTMLDivElement | null>;
   flyIn: boolean;
 }) {
   const delayStyle = {

@@ -1,4 +1,5 @@
 import type { School, Location } from "@prisma/client";
+import type { JSX } from "react";
 
 export type LocationObject = {
   city: string;

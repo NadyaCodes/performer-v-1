@@ -13,7 +13,7 @@ export const validateNote = (text: string, errorMessageSetter: Dispatch<SetState
     return null;
   }
 
-  if (text.includes("</" || "/>")) {
+  if (text.includes("</") || text.includes("/>")) {
     setTimeout(() => errorMessageSetter(""), 3000);
     errorMessageSetter("Notes cannot contain HTML");
     return null;
@@ -38,7 +38,7 @@ export const validateCustom = (text: string, errorMessageSetter: Dispatch<SetSta
     return null;
   }
 
-  if (text.includes("</" || "/>")) {
+  if (text.includes("</") || text.includes("/>")) {
     setTimeout(() => errorMessageSetter(""), 3000);
     errorMessageSetter("Entries cannot contain HTML");
     return null;

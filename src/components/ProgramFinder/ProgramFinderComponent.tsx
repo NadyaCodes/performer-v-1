@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState, useCallback } from "react";
+import { createContext, useEffect, useState, useCallback, type JSX } from "react";
 import type { NextPage } from "next";
 import { api } from "@component/utils/api";
 import ProgramItem from "./ProgramItem";

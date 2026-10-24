@@ -43,27 +43,21 @@ export default function DeleteCheck({
   const findUserFavs = async (userId: string) => {
     const allUserFavs = utils.favs.getAllForUser.fetch({ userId });
     const userFavPrograms: (ProgramWithType | undefined)[] = await Promise.all(
-      (
-        await allUserFavs
-      ).map(async (element) => {
+      (await allUserFavs).map(async (element) => {
         if (element.ftProgramId) {
           const program = (await findProgramObject(
-            element.ftProgramId
+            element.ftProgramId,
           )) as FTProgram;
-          return (
-            { ...program, type: "ft", favProgramId: element.id } || undefined
-          );
+          return { ...program, type: "ft", favProgramId: element.id };
         }
         if (element.ptProgramId) {
           const program = (await findProgramObject(
-            element.ptProgramId
+            element.ptProgramId,
           )) as PTProgram;
-          return (
-            { ...program, type: "pt", favProgramId: element.id } || undefined
-          );
+          return { ...program, type: "pt", favProgramId: element.id };
         }
         return undefined;
-      })
+      }),
     );
     return userFavPrograms;
   };
@@ -84,7 +78,7 @@ export default function DeleteCheck({
         findUserFavs(userId)
           .then(
             (favProgramData: (ProgramWithType | undefined)[]) =>
-              favProgramData && setUserFavs && setUserFavs([...favProgramData])
+              favProgramData && setUserFavs && setUserFavs([...favProgramData]),
           )
           .catch((error) => {
             console.error("Error fetching user favorites:", error);
@@ -105,7 +99,7 @@ export default function DeleteCheck({
           (customProgramData: CustomProgram[] | undefined) =>
             customProgramData &&
             setUserCustoms &&
-            setUserCustoms([...customProgramData])
+            setUserCustoms([...customProgramData]),
         )
         .catch((error) => {
           console.error("Error fetching custom programs:", error);

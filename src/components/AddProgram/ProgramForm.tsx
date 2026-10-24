@@ -13,7 +13,7 @@ export type UpdateFormFunction = (
   value: boolean | string,
   field: string,
   index: number,
-  subField?: string
+  subField?: string,
 ) => void;
 
 export type DeleteFormFunction = (index: number) => void;
@@ -39,14 +39,14 @@ export default function ProgramForm() {
   ]);
 
   const [formErrors, setFormErrors] = useState<FormErrorObject[] | []>(
-    initialFormErrors
+    initialFormErrors,
   );
 
   const updateForm: UpdateFormFunction = (
     value: boolean | string,
     field: string,
     index: number,
-    subField?: string
+    subField?: string,
   ) => {
     const newFormData: NewProgramSubmission[] = formData.map((dataObject) => ({
       ...dataObject,
@@ -166,7 +166,7 @@ export default function ProgramForm() {
         errorsArray.push(newFormErrors);
       }
     });
-    setFormErrors(errorsArray as FormErrorObject[] | []);
+    setFormErrors(errorsArray);
     if (safeToSubmit) {
       const newFormData: NewProgramSubmission[] = formData.map((dataObject) => {
         const newDataObject = {
@@ -180,7 +180,7 @@ export default function ProgramForm() {
         return newDataObject;
       });
       const linkToSubmissionResult = `/add-program-result?objectToPassToNextURL=${encodeURIComponent(
-        JSON.stringify(newFormData)
+        JSON.stringify(newFormData),
       )}`;
       window.location.href = linkToSubmissionResult;
     }
