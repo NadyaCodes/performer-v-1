@@ -190,11 +190,55 @@ const createPaths = async (): Promise<Array<PathsArray>> => {
   return finalArray;
 };
 
+/**
+ * How many cities to pre-render, ranked by how many programs they hold. 280 cities have
+ * programs between them, but in the 30 days to 2026-10-24 only 36 city pages were
+ * visited at all, and the busiest took 7 visitors. Pre-rendering all 561 combinations
+ * spent around eleven minutes of every build on pages nobody requested, and that cost
+ * grew with every program added.
+ *
+ * The rest are generated on the first request and cached from then on. They stay
+ * indexable: sitemap.xml is server rendered from the database and lists every city URL
+ * regardless of this, and fallback "blocking" serves a crawler fully rendered HTML
+ * rather than an empty shell.
+ */
+const PRERENDERED_CITY_COUNT = 25;
+
+const topCitiesByProgramCount = async (
+  limit: number
+): Promise<Set<string>> => {
+  const schoolLocations = await prisma.schoolLocation.findMany({
+    include: { location: true, PTProgram: true, FTProgram: true },
+  });
+
+  const counts = new Map<string, number>();
+  for (const schoolLocation of schoolLocations) {
+    const city = schoolLocation.location.city;
+    counts.set(
+      city,
+      (counts.get(city) ?? 0) +
+        schoolLocation.PTProgram.length +
+        schoolLocation.FTProgram.length
+    );
+  }
+
+  return new Set(
+    [...counts.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, limit)
+      .map(([city]) => city)
+  );
+};
+
 export async function getStaticPaths() {
-  const paths = await createPaths();
+  const [paths, topCities] = await Promise.all([
+    createPaths(),
+    topCitiesByProgramCount(PRERENDERED_CITY_COUNT),
+  ]);
+
   return {
-    paths,
-    fallback: false,
+    paths: paths.filter((path) => topCities.has(path.params.city ?? "")),
+    fallback: "blocking",
   };
 }
 
@@ -296,12 +340,12 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
    * than a broken build. The prisma client is a process-wide singleton, so this must not
    * disconnect it either -- doing so tore the pool down after every page in the build.
    */
-  if (city && province) {
+  if (city && province && discipline) {
     const location = await prisma.location.findFirst({
       where: { city, province: provincesFull[province] || "none" },
     });
 
-    if (location && discipline) {
+    if (location) {
       const programInfoArray = await prisma.schoolLocation.findMany({
         where: { locationId: location.id },
         include: {
@@ -312,29 +356,30 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
         },
       });
 
-      return {
-        props: {
-          style,
-          discipline,
-          city,
-          province,
-          itemArray: filterArray(programInfoArray, discipline, style),
-          titleString,
-        },
-      };
+      const itemArray = filterArray(programInfoArray, discipline, style);
+
+      /**
+       * Only combinations that have programs were ever in getStaticPaths, so anything
+       * else used to 404. Now that fallback is "blocking" every url reaches this, so
+       * say so explicitly -- otherwise any made up city would render as a thin, empty,
+       * indexable page.
+       */
+      if (itemArray.length > 0) {
+        return {
+          props: {
+            style,
+            discipline,
+            city,
+            province,
+            itemArray,
+            titleString,
+          },
+        };
+      }
     }
   }
 
-  return {
-    props: {
-      style,
-      discipline,
-      city,
-      province,
-      titleString,
-      itemArray: [],
-    },
-  };
+  return { notFound: true };
 };
 
 export default DisplayPage;
