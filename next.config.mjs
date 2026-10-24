@@ -9,6 +9,12 @@ const config = {
   reactStrictMode: true,
 
   /**
+   * Some directory pages run a lot of queries in getStaticProps, and the default 60s
+   * is not enough headroom when the database is a network hop away from the builder.
+   */
+  staticPageGenerationTimeout: 180,
+
+  /**
    * If you have `experimental: { appDir: true }` set, then you must comment the below `i18n` config
    * out.
    *
