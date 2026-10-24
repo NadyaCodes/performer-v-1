@@ -12,7 +12,7 @@ import Head from "next/head";
 import dynamic from "next/dynamic";
 import { prisma } from "@component/server/db";
 import PartialProgramDisplay from "@component/components/ProgramDirectory/PartialProgramDisplay";
-import type { ProgramInfo, ProgramInfoArray } from "./[province]/[city]";
+import type { ProgramInfoArray } from "./[province]/[city]";
 import type { ProgramWithInfo } from "@component/components/ProgramFinder/types";
 
 const FooterComponent = dynamic(
@@ -167,8 +167,20 @@ const createPaths = async (): Promise<Array<PathsArray>> => {
   return finalArray;
 };
 
+/**
+ * getStaticProps runs once per page and each build worker renders hundreds of them.
+ * Resolving the paths reads every location and program table, so cache the promise and
+ * let all the pages a worker renders share one lookup instead of repeating it.
+ */
+let cachedPaths: Promise<Array<PathsArray>> | undefined;
+
+const getPaths = (): Promise<Array<PathsArray>> => {
+  cachedPaths = cachedPaths ?? createPaths();
+  return cachedPaths;
+};
+
 export async function getStaticPaths() {
-  const paths = await createPaths();
+  const paths = await getPaths();
 
   return {
     paths,
@@ -252,76 +264,47 @@ export const getStaticProps: GetStaticProps = async (context) => {
     style: params?.style || "n/a",
   } as SelectNextProps;
 
-  const paths = await createPaths();
+  const paths = await getPaths();
   const targetPath = paths.find(
     (path) =>
       path.params.style === style && path.params.discipline === discipline
   );
   const provincesList = targetPath ? targetPath.params.provincesList : [];
 
-  try {
-    let initialProgramInfo;
-
-    if (style === "pt") {
-      initialProgramInfo = await prisma.pTProgram.findMany({
-        where: { discipline: discipline },
-      });
-    } else if (style === "ft") {
-      initialProgramInfo = await prisma.fTProgram.findMany({
-        where: { discipline: discipline },
-      });
-    }
-
-    const programInfoArrayPromises: Promise<ProgramInfoArray> = Promise.all(
-      initialProgramInfo?.map(async (item) => {
-        const schoolLocation = await prisma.schoolLocation.findFirst({
-          where: { id: item.schoolLocationId },
-        });
-        const school = await prisma.school.findFirst({
-          where: { id: schoolLocation?.schoolId },
-        });
-        const location = await prisma.location.findFirst({
-          where: { id: schoolLocation?.id },
-        });
-
-        const PTProgram = style === "pt" ? [item] : null;
-        const FTProgram = style === "ft" ? [item] : null;
-
-        return {
-          school,
-          location,
-          PTProgram,
-          FTProgram,
-        } as ProgramInfo;
-      }) || []
-    );
-
-    const programInfoArray: ProgramInfoArray = await programInfoArrayPromises;
-
-    if (discipline) {
-      const filteredArray = filterArray(programInfoArray, discipline, style);
-
-      return {
-        props: {
-          style,
-          discipline,
-          provincesList,
-          itemArray: filteredArray,
-        },
-      };
-    }
-  } catch (error) {
-    console.error("Error fetching data:", error);
-  } finally {
-    await prisma.$disconnect();
+  if (!discipline || (style !== "pt" && style !== "ft")) {
+    return { props: { style, discipline, provincesList, itemArray: [] } };
   }
+
+  /**
+   * One query per page: the school locations offering this discipline, with their
+   * school and location attached. This used to run three queries for every program,
+   * and looked the location up by the school location's own id rather than its
+   * locationId, so cityObj came back null for every entry.
+   *
+   * A failure here is deliberately left to propagate. It was previously logged and
+   * then served as an empty directory page, which looked like a discipline with no
+   * programs rather than a broken build.
+   */
+  const programInfoArray: ProgramInfoArray =
+    await prisma.schoolLocation.findMany({
+      where:
+        style === "pt"
+          ? { PTProgram: { some: { discipline } } }
+          : { FTProgram: { some: { discipline } } },
+      include: {
+        location: true,
+        school: true,
+        PTProgram: true,
+        FTProgram: true,
+      },
+    });
 
   return {
     props: {
       style,
       discipline,
       provincesList,
-      itemArray: [],
+      itemArray: filterArray(programInfoArray, discipline, style),
     },
   };
 };

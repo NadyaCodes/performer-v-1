@@ -290,18 +290,18 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
     titleString = `${styleFull} Programs in Canada`;
   }
 
-  try {
-    if (city && province) {
-      const provinceFull = provincesFull[province] || "none";
-      const location = await prisma.location.findFirst({
-        where: { city, province: provinceFull },
-      });
+  /**
+   * A failed query is deliberately left to propagate. It was previously logged and then
+   * served as an empty directory page, which looked like a city with no programs rather
+   * than a broken build. The prisma client is a process-wide singleton, so this must not
+   * disconnect it either -- doing so tore the pool down after every page in the build.
+   */
+  if (city && province) {
+    const location = await prisma.location.findFirst({
+      where: { city, province: provincesFull[province] || "none" },
+    });
 
-      if (!location) {
-        console.log("Location ID not found");
-        return { props: { style, discipline, city, province, itemArray: [] } };
-      }
-
+    if (location && discipline) {
       const programInfoArray = await prisma.schoolLocation.findMany({
         where: { locationId: location.id },
         include: {
@@ -312,24 +312,17 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext) => {
         },
       });
 
-      if (discipline) {
-        const filteredArray = filterArray(programInfoArray, discipline, style);
-        return {
-          props: {
-            style,
-            discipline,
-            city,
-            province,
-            itemArray: filteredArray,
-            titleString,
-          },
-        };
-      }
+      return {
+        props: {
+          style,
+          discipline,
+          city,
+          province,
+          itemArray: filterArray(programInfoArray, discipline, style),
+          titleString,
+        },
+      };
     }
-  } catch (error) {
-    console.error("Error fetching data:", error);
-  } finally {
-    await prisma.$disconnect();
   }
 
   return {

@@ -199,8 +199,20 @@ const createPaths = async (): Promise<Array<PathsArray>> => {
   return finalArray;
 };
 
+/**
+ * getStaticProps runs once per page and each build worker renders hundreds of them.
+ * Resolving the paths reads every location and program table, so cache the promise and
+ * let all the pages a worker renders share one lookup instead of repeating it.
+ */
+let cachedPaths: Promise<Array<PathsArray>> | undefined;
+
+const getPaths = (): Promise<Array<PathsArray>> => {
+  cachedPaths = cachedPaths ?? createPaths();
+  return cachedPaths;
+};
+
 export async function getStaticPaths() {
-  const paths = await createPaths();
+  const paths = await getPaths();
 
   return {
     paths,
@@ -284,7 +296,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     style: params?.style || "n/a",
   } as SelectNextProps;
 
-  const paths = await createPaths();
+  const paths = await getPaths();
   const targetPath = paths.find(
     (path) =>
       path.params.style === style &&
@@ -293,59 +305,40 @@ export const getStaticProps: GetStaticProps = async (context) => {
   );
   const citiesList = targetPath ? targetPath.params.citiesList : [];
 
-  try {
-    if (province) {
-      const provinceFull = provincesFull[province] || "none";
-      const locationArray = await prisma.location.findMany({
-        where: { province: provinceFull },
-      });
-
-      if (!locationArray) {
-        console.log("Location ID not found");
-        return {
-          props: { style, discipline, province, citiesList, itemArray: [] },
-        };
-      }
-
-      const programInfoArrayPromises: Promise<ProgramInfoArray> = Promise.all(
-        (citiesList || []).map(async (item) => {
-          const locationId = locationArray.find(
-            (element) => element.city === item
-          )?.id;
-          const result = await prisma.schoolLocation.findMany({
-            where: { locationId: locationId },
-            include: {
-              location: true,
-              school: true,
-              PTProgram: true,
-              FTProgram: true,
-            },
-          });
-          return result as ProgramInfoArray;
-        })
-      ).then((arrays) => arrays.flat());
-
-      const programInfoArray: ProgramInfoArray = await programInfoArrayPromises;
-
-      if (discipline) {
-        const filteredArray = filterArray(programInfoArray, discipline, style);
-
-        return {
-          props: {
-            style,
-            discipline,
-            province,
-            citiesList,
-            itemArray: filteredArray,
-          },
-        };
-      }
-    }
-  } catch (error) {
-    console.error("Error fetching data:", error);
-  } finally {
-    await prisma.$disconnect();
+  if (!province || !discipline) {
+    return {
+      props: { style, discipline, province, citiesList, itemArray: [] },
+    };
   }
+
+  const locationArray = await prisma.location.findMany({
+    where: { province: provincesFull[province] || "none" },
+  });
+
+  /**
+   * Resolve the cities to location ids up front and fetch their school locations in
+   * one query. This previously ran a query per city, and any city without a matching
+   * location row passed `locationId: undefined`, which Prisma treats as an absent
+   * filter and so returned every school location in the country for that entry.
+   *
+   * A failure here is deliberately left to propagate. It was previously logged and
+   * then served as an empty directory page, which looked like a province with no
+   * programs rather than a broken build.
+   */
+  const locationIds = locationArray
+    .filter((location) => (citiesList || []).includes(location.city))
+    .map((location) => location.id);
+
+  const programInfoArray: ProgramInfoArray =
+    await prisma.schoolLocation.findMany({
+      where: { locationId: { in: locationIds } },
+      include: {
+        location: true,
+        school: true,
+        PTProgram: true,
+        FTProgram: true,
+      },
+    });
 
   return {
     props: {
@@ -353,7 +346,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       discipline,
       province,
       citiesList,
-      itemArray: [],
+      itemArray: filterArray(programInfoArray, discipline, style),
     },
   };
 };
