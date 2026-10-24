@@ -257,7 +257,7 @@ const ProgramFinderComponent: NextPage = () => {
   ]);
 
   return (
-    <div className="min-h-screen min-w-full bg-cyan-50 bg-opacity-80">
+    <div className="min-h-screen min-w-full bg-cyan-50/80">
       <FilterContext.Provider
         value={{
           selectedOptions,
@@ -282,7 +282,7 @@ const ProgramFinderComponent: NextPage = () => {
           </div>
         )}
         <div
-          className="mt-5 flex grid-cols-[1fr,2fr] flex-col gap-5 opacity-0 lg:ml-5 lg:grid xl:ml-16 xl:mt-16"
+          className="mt-5 flex grid-cols-[1fr_2fr] flex-col gap-5 opacity-0 lg:ml-5 lg:grid xl:ml-16 xl:mt-16"
           style={{ animation: "fadeIn 1s linear 2s forwards" }}
         >
           {!loadingPageData && (

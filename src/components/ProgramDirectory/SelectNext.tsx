@@ -69,7 +69,7 @@ const SelectNext: React.FC<SelectNextProps> = ({ selectNextOptions }) => {
   }
 
   return (
-    <div className="flex flex-grow flex-col bg-cyan-50 bg-opacity-80 text-cyan-900">
+    <div className="flex grow flex-col bg-cyan-50/80 text-cyan-900">
       <div>
         <Menu />
         <div
@@ -91,11 +91,11 @@ const SelectNext: React.FC<SelectNextProps> = ({ selectNextOptions }) => {
         </Link>
       </div>
 
-      <div className="flex flex-grow flex-col items-center justify-start xl:mt-10 3xl:mt-20">
+      <div className="flex grow flex-col items-center justify-start xl:mt-10 3xl:mt-20">
         <h1 className="mx-10 mt-4 w-9/12 text-center text-5xl font-extrabold capitalize tracking-tight 2xl:text-6xl">
           {titleString}
         </h1>
-        <div className="m-8 h-2 w-10/12 rounded bg-indigo-900 bg-opacity-90 xl:m-16"></div>
+        <div className="m-8 h-2 w-10/12 rounded bg-indigo-900/90 xl:m-16"></div>
         {loading ? (
           <div className="h-32">
             <LoadingLines />
@@ -104,7 +104,7 @@ const SelectNext: React.FC<SelectNextProps> = ({ selectNextOptions }) => {
           <>
             {discipline && (
               <>
-                <button className="m-2 w-80 -translate-y-3 rounded-xl border-4 border-indigo-300 bg-gradient-to-b  from-cyan-900 to-cyan-600 px-5 py-3 text-2xl font-semibold capitalize text-cyan-100 shadow-lg shadow-indigo-900 transition-all hover:scale-110 hover:bg-cyan-900 hover:text-cyan-50 hover:shadow-cyan-200 lg:-translate-y-8">
+                <button className="m-2 w-80 -translate-y-3 rounded-xl border-4 border-indigo-300 bg-linear-to-b  from-cyan-900 to-cyan-600 px-5 py-3 text-2xl font-semibold capitalize text-cyan-100 shadow-lg shadow-indigo-900 transition-all hover:scale-110 hover:bg-cyan-900 hover:text-cyan-50 hover:shadow-cyan-200 lg:-translate-y-8">
                   <Link href="#all_programs" className="flex flex-col text-xl">
                     <span className="flex items-center justify-center">
                       <span className="mr-5">{doubleChevronDown}</span>Scroll To
@@ -119,7 +119,7 @@ const SelectNext: React.FC<SelectNextProps> = ({ selectNextOptions }) => {
                 </button>
               </>
             )}
-            <div className="grid w-11/12 md:grid-cols-[2fr,1fr]">
+            <div className="grid w-11/12 md:grid-cols-[2fr_1fr]">
               <h2 className="justify-self-left m-2 text-center text-3xl font-extrabold capitalize tracking-tight text-cyan-800 md:text-4xl 2xl:text-5xl">
                 {selectText}
               </h2>
@@ -128,7 +128,7 @@ const SelectNext: React.FC<SelectNextProps> = ({ selectNextOptions }) => {
               </div>
             </div>
 
-            <div className="mx-auto w-11/12 max-w-6xl rounded-lg bg-gradient-to-b from-cyan-600 to-cyan-900 p-5 text-cyan-50 shadow-xl shadow-cyan-700">
+            <div className="mx-auto w-11/12 max-w-6xl rounded-lg bg-linear-to-b from-cyan-600 to-cyan-900 p-5 text-cyan-50 shadow-xl shadow-cyan-700">
               <Picker
                 buttonOptions={buttonList}
                 currentLink={link}

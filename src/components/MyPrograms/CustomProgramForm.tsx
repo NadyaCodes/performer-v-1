@@ -207,7 +207,7 @@ export default function CustomProgramForm({
 
   return (
     <div className="w-11/12 md:w-9/12 mobileMenu:w-8/12 ">
-      <div className="flex w-full flex-col place-items-center justify-center rounded-lg bg-indigo-50 bg-opacity-20 p-1 pt-4 shadow-md shadow-indigo-900 mobileMenu:m-5 mobileMenu:p-10">
+      <div className="flex w-full flex-col place-items-center justify-center rounded-lg bg-indigo-50/20 p-1 pt-4 shadow-md shadow-indigo-900 mobileMenu:m-5 mobileMenu:p-10">
         <h2 className="text-center text-3xl font-extrabold capitalize tracking-tight text-indigo-900 sm:pt-2 mobileMenu:text-5xl">
           Add/Update Custom Program
         </h2>
@@ -236,7 +236,7 @@ export default function CustomProgramForm({
               Program Name
             </label>
             <input
-              className="block w-full appearance-none rounded border border-indigo-200 bg-indigo-50 bg-opacity-60 px-4 py-3 leading-tight text-indigo-950 shadow-md shadow-indigo-200 focus:border-indigo-500 focus:bg-cyan-50 focus:bg-opacity-40 focus:outline-indigo-500"
+              className="block w-full appearance-none rounded border border-indigo-200 bg-indigo-50/60 px-4 py-3 leading-tight text-indigo-950 shadow-md shadow-indigo-200 focus:border-indigo-500 focus:bg-cyan-50/40 focus:outline-indigo-500"
               value={userInput.name}
               type="text"
               onChange={(e) =>
@@ -254,7 +254,7 @@ export default function CustomProgramForm({
               School Name
             </label>
             <input
-              className="block w-full appearance-none rounded border border-indigo-200 bg-indigo-50 bg-opacity-60 px-4 py-3 leading-tight text-indigo-950 shadow-md shadow-indigo-200 focus:border-indigo-500 focus:bg-cyan-50 focus:bg-opacity-40 focus:outline-indigo-500"
+              className="block w-full appearance-none rounded border border-indigo-200 bg-indigo-50/60 px-4 py-3 leading-tight text-indigo-950 shadow-md shadow-indigo-200 focus:border-indigo-500 focus:bg-cyan-50/40 focus:outline-indigo-500"
               value={userInput.school}
               type="text"
               onChange={(e) =>
@@ -272,7 +272,7 @@ export default function CustomProgramForm({
               City
             </label>
             <input
-              className="block w-full appearance-none rounded border border-indigo-200 bg-indigo-50 bg-opacity-60 px-4 py-3 leading-tight text-indigo-950 shadow-md shadow-indigo-200 focus:border-indigo-500 focus:bg-cyan-50 focus:bg-opacity-40 focus:outline-indigo-500"
+              className="block w-full appearance-none rounded border border-indigo-200 bg-indigo-50/60 px-4 py-3 leading-tight text-indigo-950 shadow-md shadow-indigo-200 focus:border-indigo-500 focus:bg-cyan-50/40 focus:outline-indigo-500"
               value={userInput.city}
               type="text"
               onChange={(e) =>
@@ -290,7 +290,7 @@ export default function CustomProgramForm({
               Province/State
             </label>
             <input
-              className="block w-full appearance-none rounded border border-indigo-200 bg-indigo-50 bg-opacity-60 px-4 py-3 leading-tight text-indigo-950 shadow-md shadow-indigo-200 focus:border-indigo-500 focus:bg-cyan-50 focus:bg-opacity-40 focus:outline-indigo-500"
+              className="block w-full appearance-none rounded border border-indigo-200 bg-indigo-50/60 px-4 py-3 leading-tight text-indigo-950 shadow-md shadow-indigo-200 focus:border-indigo-500 focus:bg-cyan-50/40 focus:outline-indigo-500"
               value={userInput.province}
               type="text"
               onChange={(e) =>
@@ -308,7 +308,7 @@ export default function CustomProgramForm({
               Country
             </label>
             <input
-              className="block w-full appearance-none rounded border border-indigo-200 bg-indigo-50 bg-opacity-60 px-4 py-3 leading-tight text-indigo-950 shadow-md shadow-indigo-200 focus:border-indigo-500 focus:bg-cyan-50 focus:bg-opacity-40 focus:outline-indigo-500"
+              className="block w-full appearance-none rounded border border-indigo-200 bg-indigo-50/60 px-4 py-3 leading-tight text-indigo-950 shadow-md shadow-indigo-200 focus:border-indigo-500 focus:bg-cyan-50/40 focus:outline-indigo-500"
               value={userInput.country}
               type="text"
               onChange={(e) =>
@@ -326,7 +326,7 @@ export default function CustomProgramForm({
               Website
             </label>
             <input
-              className="block w-full appearance-none rounded border border-indigo-200 bg-indigo-50 bg-opacity-60 px-4 py-3 leading-tight text-indigo-950 shadow-md shadow-indigo-200 focus:border-indigo-500 focus:bg-cyan-50 focus:bg-opacity-40 focus:outline-indigo-500"
+              className="block w-full appearance-none rounded border border-indigo-200 bg-indigo-50/60 px-4 py-3 leading-tight text-indigo-950 shadow-md shadow-indigo-200 focus:border-indigo-500 focus:bg-cyan-50/40 focus:outline-indigo-500"
               value={userInput.website}
               type="text"
               onChange={(e) =>
@@ -336,7 +336,7 @@ export default function CustomProgramForm({
             />
           </div>
 
-          <div className="mx-2 mt-7 grid grid-cols-[3fr,4fr] justify-items-center mobileMenu:mx-6 mobileMenu:my-7">
+          <div className="mx-2 mt-7 grid grid-cols-[3fr_4fr] justify-items-center mobileMenu:mx-6 mobileMenu:my-7">
             <div className="p-1">
               <label className="mb-2 block text-sm font-bold uppercase tracking-wide">
                 Program Type

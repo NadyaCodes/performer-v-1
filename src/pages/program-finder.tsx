@@ -38,7 +38,7 @@ const ProgramFinder: NextPage = () => {
         />
       </Head>
       <main>
-        <div className="min-h-screen bg-cyan-50 bg-opacity-80">
+        <div className="min-h-screen bg-cyan-50/80">
           <Menu />
           <ProgramFinderComponent />
           <div className="mt-5">

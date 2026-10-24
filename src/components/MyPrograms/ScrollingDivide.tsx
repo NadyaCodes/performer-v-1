@@ -32,7 +32,7 @@ export default function ScrollingDivide() {
       style={{ animation: "flyInFadeIn 1s linear .5s forwards" }}
     >
       <div
-        className="my-12 hidden h-2 w-2/3 rounded-full bg-gradient-to-b  from-cyan-700 to-indigo-800 shadow-md shadow-indigo-900 mobileMenu:block"
+        className="my-12 hidden h-2 w-2/3 rounded-full bg-linear-to-b  from-cyan-700 to-indigo-800 shadow-md shadow-indigo-900 mobileMenu:block"
         style={{
           transition: "width 0.3s",
           transform: `translateX(${translateX}%)`,
@@ -40,7 +40,7 @@ export default function ScrollingDivide() {
         id="divide-line"
       ></div>
       <div
-        className="my-12 h-2 w-5/6 rounded-full bg-gradient-to-b  from-cyan-700 to-indigo-800 shadow-md shadow-indigo-900 mobileMenu:hidden"
+        className="my-12 h-2 w-5/6 rounded-full bg-linear-to-b  from-cyan-700 to-indigo-800 shadow-md shadow-indigo-900 mobileMenu:hidden"
         id="divide-line"
       ></div>
     </div>

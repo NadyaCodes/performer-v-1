@@ -5,11 +5,11 @@ import { basicStar } from "@component/data/svgs";
 export default function EmptyFavPrograms() {
   return (
     <div
-      className="relative flex w-full flex-col rounded-lg bg-cyan-100 bg-opacity-20 text-cyan-900 shadow-md shadow-cyan-800"
+      className="relative flex w-full flex-col rounded-lg bg-cyan-100/20 text-cyan-900 shadow-md shadow-cyan-800"
       style={{ animation: "fadeInGrow 1s linear" }}
     >
       <div
-        className="flex w-full justify-between rounded-t-lg bg-cyan-800 bg-opacity-100 text-cyan-50 opacity-0 shadow-sm shadow-cyan-900"
+        className="flex w-full justify-between rounded-t-lg bg-cyan-800 text-cyan-50 opacity-0 shadow-xs shadow-cyan-900"
         style={{ animation: "fadeIn 1.5s linear forwards" }}
       >
         <div className="mx-5 my-2">{basicStar}</div>

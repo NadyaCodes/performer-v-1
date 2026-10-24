@@ -4,7 +4,7 @@ export const FinderTipComponent = (
     <div
       id="tooltip-bottom"
       role="tooltip"
-      className="tooltip absolute z-10 inline-block max-w-xs rounded-lg rounded-t-none bg-gradient-to-b from-[#edfeff] to-[#6db6b9] px-3 py-7 text-center text-base font-medium text-cyan-950 shadow-sm"
+      className="tooltip absolute z-10 inline-block max-w-xs rounded-lg rounded-t-none bg-linear-to-b from-[#edfeff] to-[#6db6b9] px-3 py-7 text-center text-base font-medium text-cyan-950 shadow-xs"
       style={{
         animation: "pullDownTop 0.3s forwards",
       }}
@@ -27,7 +27,7 @@ export const MobileFinderTipComponent = (
     <div
       id="tooltip-bottom"
       role="tooltip"
-      className="tooltip inline-block rounded-lg rounded-t-none px-3 pb-3 text-center text-base font-medium shadow-sm"
+      className="tooltip inline-block rounded-lg rounded-t-none px-3 pb-3 text-center text-base font-medium shadow-xs"
     >
       Find your ideal program by searching and filtering our listings
       <div className="mb-2 mt-6 overflow-hidden rounded border-2 border-indigo-200">
@@ -47,7 +47,7 @@ export const DirectoryTipComponent = (
     <div
       id="tooltip-bottom"
       role="tooltip"
-      className="absolute z-10 inline-block max-w-xs rounded-lg rounded-t-none bg-gradient-to-b from-[#edfeff] to-[#6db6b9] px-3 py-7 text-center text-base font-medium text-cyan-950 shadow-sm"
+      className="absolute z-10 inline-block max-w-xs rounded-lg rounded-t-none bg-linear-to-b from-[#edfeff] to-[#6db6b9] px-3 py-7 text-center text-base font-medium text-cyan-950 shadow-xs"
       style={{
         animation: "pullDownTop 0.3s ease-in-out forwards",
       }}
@@ -70,7 +70,7 @@ export const MobileDirectoryTipComponent = (
     <div
       id="tooltip-bottom"
       role="tooltip"
-      className="tooltip inline-block rounded-lg rounded-t-none px-3 pb-3 text-center text-base font-medium shadow-sm"
+      className="tooltip inline-block rounded-lg rounded-t-none px-3 pb-3 text-center text-base font-medium shadow-xs"
     >
       Directory of performace programs in Canada
       <div className="mb-2 mt-6 overflow-hidden rounded border-2 border-indigo-200">
@@ -90,7 +90,7 @@ export const ProgramsTipComponent = (
     <div
       id="tooltip-bottom"
       role="tooltip"
-      className="absolute z-10 flex max-w-xs flex-col rounded-lg rounded-t-none bg-gradient-to-b from-[#edfeff] to-[#6db6b9] px-3 py-7 text-center text-base font-medium text-cyan-950 shadow-sm"
+      className="absolute z-10 flex max-w-xs flex-col rounded-lg rounded-t-none bg-linear-to-b from-[#edfeff] to-[#6db6b9] px-3 py-7 text-center text-base font-medium text-cyan-950 shadow-xs"
       style={{
         animation: "pullDownTop 0.3s ease-in-out forwards",
       }}
@@ -108,7 +108,7 @@ export const MobileProgramsTipComponent = (
     <div
       id="tooltip-bottom"
       role="tooltip"
-      className="tooltip inline-block w-full rounded-lg px-5 pb-3 text-center text-base font-medium shadow-sm"
+      className="tooltip inline-block w-full rounded-lg px-5 pb-3 text-center text-base font-medium shadow-xs"
     >
       <div className="flex flex-col">
         <span className="mb-2 font-semibold">Your saved list of programs</span>
@@ -125,7 +125,7 @@ export const PatreonTipComponent = (
     <div
       id="tooltip-bottom"
       role="tooltip"
-      className="absolute z-10 flex max-w-xs flex-col rounded-lg rounded-t-none bg-gradient-to-b from-[#edfeff] to-[#6db6b9] px-3 py-7 text-center text-base font-medium text-cyan-950 shadow-sm"
+      className="absolute z-10 flex max-w-xs flex-col rounded-lg rounded-t-none bg-linear-to-b from-[#edfeff] to-[#6db6b9] px-3 py-7 text-center text-base font-medium text-cyan-950 shadow-xs"
       style={{
         animation: "pullDownTop 0.3s ease-in-out forwards",
       }}
@@ -142,7 +142,7 @@ export const MobilePatreonTipComponent = (
     <div
       id="tooltip-bottom"
       role="tooltip"
-      className="tooltip inline-block w-full rounded-lg px-5 pb-3 text-center text-base font-medium shadow-sm"
+      className="tooltip inline-block w-full rounded-lg px-5 pb-3 text-center text-base font-medium shadow-xs"
     >
       <div className="flex flex-col">
         <span className="font-bold">Unlock more site features</span>{" "}

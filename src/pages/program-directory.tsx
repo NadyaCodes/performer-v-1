@@ -40,7 +40,7 @@ export default function ProgramDirectory() {
         />
       </Head>
       <main>
-        <div className="flex min-h-screen flex-col justify-between bg-cyan-50 bg-opacity-80 text-cyan-900">
+        <div className="flex min-h-screen flex-col justify-between bg-cyan-50/80 text-cyan-900">
           <div>
             <Menu />
             <div
@@ -60,11 +60,11 @@ export default function ProgramDirectory() {
               What Kind of Program are you Looking For?
             </h1>
             <div
-              className="m-8 h-2 w-10/12 rounded bg-indigo-900 bg-opacity-90 opacity-0"
+              className="m-8 h-2 w-10/12 rounded bg-indigo-900/90 opacity-0"
               style={{ animation: "flyInFadeIn .3s ease-in-out 1s forwards" }}
             ></div>
             <div
-              className="m-10 w-11/12 max-w-3xl place-self-center rounded-lg bg-gradient-to-b from-cyan-600 to-cyan-900 p-5 text-cyan-50 opacity-0 shadow-xl shadow-cyan-700 md:mb-16"
+              className="m-10 w-11/12 max-w-3xl place-self-center rounded-lg bg-linear-to-b from-cyan-600 to-cyan-900 p-5 text-cyan-50 opacity-0 shadow-xl shadow-cyan-700 md:mb-16"
               style={{
                 animation: "fadeInGrow .8s ease-in-out 1.3s forwards",
               }}

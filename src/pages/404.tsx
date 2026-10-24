@@ -40,9 +40,9 @@ const PageNotFound: NextPage = () => {
         />
       </Head>
       <main>
-        <div className="flex min-h-screen flex-col justify-between overflow-hidden bg-cyan-50 bg-opacity-80">
+        <div className="flex min-h-screen flex-col justify-between overflow-hidden bg-cyan-50/80">
           <div>
-            <div className="bg-cyan-900 pb-5 mobileMenu:bg-cyan-50 mobileMenu:bg-opacity-80 mobileMenu:pb-0">
+            <div className="bg-cyan-900 pb-5 mobileMenu:bg-cyan-50/80 mobileMenu:pb-0">
               <Menu />
             </div>
             <div

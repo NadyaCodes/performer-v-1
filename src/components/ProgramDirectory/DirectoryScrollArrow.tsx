@@ -34,7 +34,7 @@ export default function DirectoryScrollArrow() {
           className="flex flex-col items-center justify-center transition-all"
           style={{ animation: "fadeIn 1s linear" }}
         >
-          <div className="rounded-full border-2 border-indigo-800 bg-indigo-300 bg-opacity-70 p-4 text-indigo-950  transition-all hover:scale-125 hover:border-indigo-700 hover:text-indigo-700 hover:shadow-md hover:shadow-indigo-300">
+          <div className="rounded-full border-2 border-indigo-800 bg-indigo-300/70 p-4 text-indigo-950 transition-all hover:scale-125 hover:border-indigo-700 hover:text-indigo-700 hover:shadow-md hover:shadow-indigo-300">
             {arrowUp}
           </div>
         </div>

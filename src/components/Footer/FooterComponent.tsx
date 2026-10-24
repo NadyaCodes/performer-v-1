@@ -60,7 +60,7 @@ export default function FooterComponent({ bgColor }: { bgColor: string }) {
     }
 
     return (
-      <div className="mr-2 flex flex-grow justify-center" key={item}>
+      <div className="mr-2 flex grow justify-center" key={item}>
         <div className="mx-auto mb-6 flex flex-col p-2 text-sm 2xl:text-base">
           <div className="mb-2 w-fit border-b-2 border-cyan-700 pr-4 text-base xxs:pr-10 2xl:text-lg">
             {item}
@@ -77,7 +77,7 @@ export default function FooterComponent({ bgColor }: { bgColor: string }) {
     >
       <div className="flex flex-col justify-around md:flex-row ">
         {showSubscribe && (
-          <div className="fixed inset-0 z-40 flex flex-col items-center justify-center bg-black bg-opacity-50">
+          <div className="fixed inset-0 z-40 flex flex-col items-center justify-center bg-black/50">
             <div className="w-fill flex max-h-screen flex-col items-center overflow-y-scroll rounded-lg bg-cyan-900">
               <button
                 className="z-50 flex self-end rounded-bl-lg border border-cyan-500 bg-cyan-50 p-2 text-cyan-900 hover:scale-105 hover:text-cyan-200"
@@ -94,8 +94,8 @@ export default function FooterComponent({ bgColor }: { bgColor: string }) {
         )}
         <div className="my-3 flex w-full flex-wrap content-center justify-between px-3 md:w-11/12 2xl:w-10/12">
           {linkDisplay}
-          <div className="my-2 flex flex-grow ">
-            <div className="flex h-fit flex-grow items-center justify-around">
+          <div className="my-2 flex grow ">
+            <div className="flex h-fit grow items-center justify-around">
               <button
                 onClick={() => setShowSubscribe(!showSubscribe)}
                 className="h-16 rounded-full bg-indigo-600 px-5 py-2 shadow-md shadow-cyan-600 transition-all hover:scale-105 2xl:text-lg"

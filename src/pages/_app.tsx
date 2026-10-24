@@ -8,7 +8,6 @@ import "@component/styles/globals.css";
 import "@component/styles/loading.css";
 import "@component/styles/face.css";
 import "@component/styles/animations.css";
-import "tailwindcss/tailwind.css";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 

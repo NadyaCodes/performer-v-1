@@ -56,7 +56,7 @@ const StylePage: NextPage<SelectNextProps> = ({ style }) => {
         />
       </Head>
       <main>
-        <div className="flex min-h-screen flex-col justify-between bg-cyan-50 bg-opacity-80">
+        <div className="flex min-h-screen flex-col justify-between bg-cyan-50/80">
           <SelectNext selectNextOptions={selectNextOptions} />
           <div className="mt-20">
             <FooterComponent bgColor="bg-cyan-900" />

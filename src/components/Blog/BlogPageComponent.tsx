@@ -180,7 +180,7 @@ export default function BlogPageComponent({
             </button>
           </Link>
         )}
-        <div className="flex-grow"></div>
+        <div className="grow"></div>
         {prevPost && prevPost.slug && (
           <Link href={prevPost.slug} className="flex max-w-sm items-center">
             <button className="flex items-center text-right text-sm italic">

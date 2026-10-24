@@ -95,7 +95,7 @@ export default function TermsDisplay({
           <span className="flex h-9 w-28 items-center">Type</span>
           {filterContext?.selectedOptions.type && (
             <>
-              <span className="ml-2 w-7/12 break-words text-end">
+              <span className="ml-2 w-7/12 wrap-break-word text-end">
                 {stylesFull[filterContext.selectedOptions.type]}
               </span>
               <div
@@ -105,7 +105,7 @@ export default function TermsDisplay({
                     type: "",
                   });
                 }}
-                className="flex h-9 w-9 flex-shrink-0 scale-50 items-center justify-center rounded-full border border-pink-400 text-pink-500 hover:bg-pink-200"
+                className="flex h-9 w-9 shrink-0 scale-50 items-center justify-center rounded-full border border-pink-400 text-pink-500 hover:bg-pink-200"
               >
                 {xMark}
               </div>
@@ -117,7 +117,7 @@ export default function TermsDisplay({
           <span className="flex h-9 w-28  items-center">Discipline</span>
           {filterContext?.selectedOptions.discipline && (
             <>
-              <span className="ml-2 w-7/12 break-words text-end">
+              <span className="ml-2 w-7/12 wrap-break-word text-end">
                 {disciplinesFull[filterContext.selectedOptions.discipline]}
               </span>
               <div
@@ -127,7 +127,7 @@ export default function TermsDisplay({
                     discipline: "",
                   });
                 }}
-                className="flex h-9 w-9 flex-shrink-0 scale-50 items-center justify-center rounded-full border border-pink-400 text-pink-500 hover:bg-pink-200"
+                className="flex h-9 w-9 shrink-0 scale-50 items-center justify-center rounded-full border border-pink-400 text-pink-500 hover:bg-pink-200"
               >
                 {xMark}
               </div>
@@ -139,7 +139,7 @@ export default function TermsDisplay({
           <span className="flex h-9 w-28  items-center ">Province</span>
           {filterContext?.selectedOptions.location.province && (
             <>
-              <span className="ml-2 w-7/12 break-words text-end">
+              <span className="ml-2 w-7/12 wrap-break-word text-end">
                 {filterContext.selectedOptions.location.province}
               </span>
               <div
@@ -152,7 +152,7 @@ export default function TermsDisplay({
                     },
                   });
                 }}
-                className="flex h-9 w-9 flex-shrink-0 scale-50 items-center justify-center rounded-full border border-pink-400 text-pink-500 hover:bg-pink-200"
+                className="flex h-9 w-9 shrink-0 scale-50 items-center justify-center rounded-full border border-pink-400 text-pink-500 hover:bg-pink-200"
               >
                 {xMark}
               </div>
@@ -164,7 +164,7 @@ export default function TermsDisplay({
           <span className="flex h-9 w-28 items-center">City</span>
           {filterContext?.selectedOptions.location.city && (
             <>
-              <span className="ml-2 w-7/12 break-words text-end">
+              <span className="ml-2 w-7/12 wrap-break-word text-end">
                 {filterContext.selectedOptions.location.city}
               </span>
               <div
@@ -177,7 +177,7 @@ export default function TermsDisplay({
                     },
                   });
                 }}
-                className="flex h-9 w-9 flex-shrink-0 scale-50 items-center justify-center rounded-full border border-pink-400 text-pink-500 hover:bg-pink-200"
+                className="flex h-9 w-9 shrink-0 scale-50 items-center justify-center rounded-full border border-pink-400 text-pink-500 hover:bg-pink-200"
               >
                 {xMark}
               </div>
@@ -189,12 +189,12 @@ export default function TermsDisplay({
           <span className="flex h-9 w-28 items-center">Search Term</span>
           {filterContext?.activeSearchTerm && (
             <>
-              <span className="ml-2 w-7/12 break-words text-end">
+              <span className="ml-2 w-7/12 wrap-break-word text-end">
                 {filterContext.activeSearchTerm}
               </span>
               <div
                 onClick={() => undoSearch()}
-                className="flex h-9 w-9 flex-shrink-0 scale-50 items-center justify-center rounded-full border border-pink-400 text-pink-500 hover:bg-pink-200"
+                className="flex h-9 w-9 shrink-0 scale-50 items-center justify-center rounded-full border border-pink-400 text-pink-500 hover:bg-pink-200"
               >
                 {xMark}
               </div>

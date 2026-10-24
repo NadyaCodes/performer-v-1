@@ -74,7 +74,7 @@ const BlogPage: NextPage<BlogPageProps> = ({
         <meta name="author" content={`${postData.author}`} />
       </Head>
       <main>
-        <div className="flex min-h-screen flex-col justify-between bg-cyan-50 bg-opacity-80">
+        <div className="flex min-h-screen flex-col justify-between bg-cyan-50/80">
           <div>
             <Menu />
             {postData && postData.published && (

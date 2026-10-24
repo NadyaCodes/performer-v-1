@@ -92,13 +92,13 @@ const SingleCustom = React.forwardRef<HTMLDivElement, SingleCustomProps>(
 
     return (
       <div
-        className="relative my-12 flex w-full flex-col rounded-lg bg-indigo-100 bg-opacity-20 text-center shadow-md shadow-indigo-900"
+        className="relative my-12 flex w-full flex-col rounded-lg bg-indigo-100/20 text-center shadow-md shadow-indigo-900"
         style={{ animation: animate ? "pullDownTop 1s linear" : "" }}
         id={program.id}
         ref={ref}
       >
         <div
-          className="flex w-full justify-between rounded-t-lg bg-indigo-900 bg-opacity-100 text-indigo-50 shadow-sm shadow-indigo-900"
+          className="flex w-full justify-between rounded-t-lg bg-indigo-900 text-indigo-50 shadow-xs shadow-indigo-900"
           style={{
             animation: animate
               ? "fadeIn 0.5s linear forwards"

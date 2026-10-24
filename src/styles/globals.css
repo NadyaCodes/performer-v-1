@@ -1,6 +1,20 @@
-/* @tailwind base;
-@tailwind components;
-@tailwind utilities; */
+@import "tailwindcss";
+@config "../../tailwind.config.ts";
+
+/**
+ * Tailwind 4 changed the default border colour from gray-200 to currentColor, which
+ * would recolour every utility that sets a border width without a colour. This keeps
+ * the v3 behaviour so the existing design is unchanged.
+ */
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
 
 html, body {
   margin: 0;

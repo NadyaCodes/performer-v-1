@@ -36,9 +36,9 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-between overflow-hidden bg-slate-900 text-cyan-50">
-        <div className="flex flex-grow flex-col">
+        <div className="flex grow flex-col">
           <Menu />
-          <div className="flex flex-grow flex-col justify-center 3xl:justify-around">
+          <div className="flex grow flex-col justify-center 3xl:justify-around">
             <div className="w-2/3 place-self-center mobileMenu:mt-7">
               <h1
                 className="mb-8 mt-5 text-center text-4xl font-extrabold md:max-mobileMenu:mt-0  mobileMenu:text-6xl 3xl:text-8xl 4xl:m-20"

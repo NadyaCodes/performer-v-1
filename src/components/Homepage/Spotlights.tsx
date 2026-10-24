@@ -40,7 +40,7 @@ export default function Spotlights() {
         </div>
       </div>
       <div className="3xl:-translate-x-32 4xl:-translate-x-80">
-        <div className="-translate-x-0 xs:-translate-x-6 sm:-translate-x-20 md:-translate-x-32 xl:-translate-x-64 2xl:-translate-x-96">
+        <div className="translate-x-0 xs:-translate-x-6 sm:-translate-x-20 md:-translate-x-32 xl:-translate-x-64 2xl:-translate-x-96">
           <div className="-translate-x-80 xs:-translate-x-86 sm:-translate-x-96">
             <div
               className="absolute"

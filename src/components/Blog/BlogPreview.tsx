@@ -13,7 +13,7 @@ export default function BlogPreview({ postArray }: { postArray: Post[] }) {
               className="flex h-full w-full items-center justify-center"
             />
           </div>
-          <div className="overflow-ellipsis font-bold">{element.title}</div>
+          <div className="text-ellipsis font-bold">{element.title}</div>
         </div>
       </Link>
     );

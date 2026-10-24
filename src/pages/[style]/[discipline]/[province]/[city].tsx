@@ -91,7 +91,7 @@ const DisplayPage: NextPage<SelectNextProps> = ({
         />
       </Head>
       <main>
-        <div className="flex min-h-screen flex-col justify-between bg-cyan-50 bg-opacity-80">
+        <div className="flex min-h-screen flex-col justify-between bg-cyan-50/80">
           <div className="">
             <Menu />
 

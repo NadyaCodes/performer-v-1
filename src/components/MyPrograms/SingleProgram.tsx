@@ -51,13 +51,13 @@ const SingleProgram = React.forwardRef<HTMLDivElement, SingleProgramProps>(
 
     return (
       <div
-        className="relative my-12 flex w-full flex-col rounded-lg bg-cyan-100 bg-opacity-20 text-center shadow-md shadow-cyan-800"
+        className="relative my-12 flex w-full flex-col rounded-lg bg-cyan-100/20 text-center shadow-md shadow-cyan-800"
         style={{ animation: animate ? "pullDownTop 1s linear" : "" }}
         id={program.id}
         ref={ref}
       >
         <div
-          className="flex w-full justify-between rounded-t-lg bg-cyan-800 bg-opacity-100 text-cyan-50 opacity-0 shadow-sm shadow-cyan-900"
+          className="flex w-full justify-between rounded-t-lg bg-cyan-800 text-cyan-50 opacity-0 shadow-xs shadow-cyan-900"
           style={{
             animation: animate
               ? "fadeIn 0.5s linear forwards"

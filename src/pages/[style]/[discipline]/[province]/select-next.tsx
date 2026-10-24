@@ -89,12 +89,12 @@ const ProvincePage: NextPage<SelectNextProps> = ({
         />
       </Head>
       <main>
-        <div className="flex flex-col justify-between bg-cyan-50 bg-opacity-80">
+        <div className="flex flex-col justify-between bg-cyan-50/80">
           <div className="min-h-screen">
             <SelectNext selectNextOptions={selectNextOptions} />
           </div>
           <div className="flex flex-col items-center">
-            <div className="m-8 h-2 w-10/12 rounded bg-indigo-900 bg-opacity-90 xl:m-16"></div>
+            <div className="m-8 h-2 w-10/12 rounded bg-indigo-900/90 xl:m-16"></div>
             <h2
               className="mx-10 mt-4 w-9/12 text-center text-4xl font-extrabold capitalize tracking-tight text-indigo-900 2xl:text-6xl"
               id="all_programs"

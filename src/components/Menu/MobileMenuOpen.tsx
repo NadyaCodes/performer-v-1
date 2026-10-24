@@ -129,7 +129,7 @@ export default function MobileMenuOpen({
     >
       {menuDisplay}
       <button
-        className="flex w-2/3 justify-center bg-indigo-100 p-2 font-bold shadow-md shadow-indigo-900 hover:scale-105 hover:bg-indigo-600 hover:bg-opacity-60 hover:text-indigo-50"
+        className="flex w-2/3 justify-center bg-indigo-100 p-2 font-bold shadow-md shadow-indigo-900 hover:scale-105 hover:bg-indigo-600/60 hover:text-indigo-50"
         onClick={sessionData ? handleSignOut : handleSignIn}
       >
         {sessionData ? "Sign out" : "Sign in"}
