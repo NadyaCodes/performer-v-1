@@ -4,7 +4,7 @@ import Head from "next/head";
 import PatreonComponent from "@component/components/Patreon/PatreonComponent";
 import type { ObjectList } from "@component/data/types";
 import { handleTokenAndInfoRefresh, fetchPatreonUserInfo } from "./patreon-si";
-import cookie from "cookie";
+import * as cookie from "cookie";
 import { usePatreon } from "@component/contexts/PatreonContext";
 import dynamic from "next/dynamic";
 

@@ -1,7 +1,7 @@
 import type { NextPage, GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import cookie from "cookie";
+import * as cookie from "cookie";
 import { usePatreon } from "@component/contexts/PatreonContext";
 import type { ObjectList } from "@component/data/types";
 import type { ServerResponse, IncomingMessage } from "http";

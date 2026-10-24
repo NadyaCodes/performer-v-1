@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import Head from "next/head";
 import type { GetServerSideProps } from "next";
 import { handleTokenAndInfoRefresh, fetchPatreonUserInfo } from "./patreon-si";
-import cookie from "cookie";
+import * as cookie from "cookie";
 import type { ObjectList } from "@component/data/types";
 import { usePatreon } from "@component/contexts/PatreonContext";
 import dynamic from "next/dynamic";
