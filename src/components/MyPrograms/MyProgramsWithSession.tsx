@@ -146,40 +146,27 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
   const findCustomPrograms = useFindCustomPrograms();
 
   //////////////////FETCHING ALL THE EXTRA DATA NEEDED FOR FAV PROGRAM DISPLAY
-  const schoolLocationRef = useRef<string>("");
-  const schoolRef = useRef<string>("");
-  const locationRef = useRef<string>("");
+  /**
+   * These take the id they are fetching as an argument. Previously each one read it
+   * from a ref that the caller set just beforehand, which raced: the Promise.all below
+   * has every iteration in flight at once, and locationRef was written before one await
+   * and read after it, so another iteration could overwrite it in between and a saved
+   * program would show a different program's city.
+   */
+  const getSchoolLocation = useCallback(
+    async (id: string) => utils.schoolLocation.getOneById.fetch({ id }),
+    [utils],
+  );
 
-  const useSchoolLocation = () => {
-    return useCallback(async () => {
-      const schoolLocationObject = await utils.schoolLocation.getOneById.fetch({
-        id: schoolLocationRef.current,
-      });
-      return schoolLocationObject;
-    }, []);
-  };
+  const getSchool = useCallback(
+    async (id: string) => utils.school.getOneById.fetch({ id }),
+    [utils],
+  );
 
-  const useSchool = () => {
-    return useCallback(async () => {
-      const schoolObject = await utils.school.getOneById.fetch({
-        id: schoolRef.current,
-      });
-      return schoolObject;
-    }, []);
-  };
-
-  const useLocation = () => {
-    return useCallback(async () => {
-      const locationObject = await utils.location.getOneById.fetch({
-        id: locationRef.current,
-      });
-      return locationObject;
-    }, []);
-  };
-
-  const getSchoolLocation = useSchoolLocation();
-  const getSchool = useSchool();
-  const getLocation = useLocation();
+  const getLocation = useCallback(
+    async (id: string) => utils.location.getOneById.fetch({ id }),
+    [utils],
+  );
 
   const useAddAllDataToUserFav = () => {
     const addAllDataToUserFav = useCallback(
@@ -188,13 +175,15 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
           userFavs.map(async (element) => {
             if (element) {
               const schoolLocationId = element.schoolLocationId;
-              schoolLocationRef.current = schoolLocationId;
-              const schoolLocationObject = await getSchoolLocation();
+              const schoolLocationObject =
+                await getSchoolLocation(schoolLocationId);
               if (schoolLocationObject) {
-                schoolRef.current = schoolLocationObject.schoolId;
-                locationRef.current = schoolLocationObject.locationId;
-                const schoolObject = await getSchool();
-                const locationObject = await getLocation();
+                const schoolObject = await getSchool(
+                  schoolLocationObject.schoolId,
+                );
+                const locationObject = await getLocation(
+                  schoolLocationObject.locationId,
+                );
 
                 return {
                   id: element.id,
@@ -507,7 +496,7 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
       <div className="static flex -translate-y-3 flex-col items-center overflow-x-hidden">
         {!loading && (
           <div
-            className="absolute left-0 right-0 hidden h-10 bg-cyan-950 mobileMenu:block"
+            className="mobileMenu:block absolute right-0 left-0 hidden h-10 bg-cyan-950"
             style={{
               boxShadow:
                 "inset 0px -1px 2px rgba(0,255,255,0.5), inset 0px -2px 4px rgba(0,255,255,0.5), inset 0px -4px 8px rgba(0,255,255,0.5)",
@@ -522,10 +511,10 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
             }}
           ></div>
         )}
-        <div className="h-60 mobileMenu:h-12"></div>
+        <div className="mobileMenu:h-12 h-60"></div>
 
         {showUpdateCustom && (
-          <div className="flex w-11/12 pb-4 md:w-9/12 mobileMenu:w-2/3">
+          <div className="mobileMenu:w-2/3 flex w-11/12 pb-4 md:w-9/12">
             <button
               className="flex font-semibold text-indigo-900 hover:scale-110 hover:text-indigo-800"
               onClick={() => setShowUpdateCustom(!showUpdateCustom)}
@@ -537,7 +526,7 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
         )}
 
         <div
-          className="hidden w-full flex-col items-center mobileMenu:flex"
+          className="mobileMenu:flex hidden w-full flex-col items-center"
           style={{
             animation:
               keyValueList.length > 3 && !showUpdateCustom
@@ -579,7 +568,7 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
           )}
         </div>
 
-        <div className="flex w-full flex-col items-center mobileMenu:hidden">
+        <div className="mobileMenu:hidden flex w-full flex-col items-center">
           {!showUpdateCustom && !loading && (
             <div
               className="m-2 place-self-end opacity-0"
@@ -617,7 +606,7 @@ export default function MyProgramsWithSession({ userId }: { userId: string }) {
           </div>
         )}
         {showUpdateCustom && !loading && (
-          <div className="flex w-11/12 justify-end py-4 md:w-9/12 mobileMenu:w-2/3">
+          <div className="mobileMenu:w-2/3 flex w-11/12 justify-end py-4 md:w-9/12">
             <button
               className="flex font-semibold text-indigo-900 hover:scale-110 hover:text-indigo-800"
               onClick={() => setShowUpdateCustom(!showUpdateCustom)}
