@@ -57,5 +57,12 @@
   },
   "ct3aMetadata": {
     "initVersion": "7.13.1"
+  },
+  "allowScripts": {
+    "@prisma/client@5.2.0": true,
+    "@prisma/engines@5.2.0": true,
+    "@vercel/speed-insights@1.0.10": true,
+    "fsevents@2.3.2": true,
+    "prisma@5.2.0": true
   }
 }
