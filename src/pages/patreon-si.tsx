@@ -1,7 +1,6 @@
 import type { NextPage, GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { oauth as patreonOAuth } from "patreon";
 import cookie from "cookie";
 import { usePatreon } from "@component/contexts/PatreonContext";
 import type { ObjectList } from "@component/data/types";
@@ -101,6 +100,49 @@ export async function fetchPatreonUserInfo(accessToken: string) {
   }
 }
 
+/**
+ * Exchanges an authorization code for an access token. This is the same endpoint and
+ * body shape as the refresh call in handleTokenAndInfoRefresh below, differing only in
+ * grant_type, so it is done directly rather than through a client library.
+ */
+export const exchangeCodeForTokens = async (
+  code: string,
+  redirectUri: string,
+  clientId: string,
+  clientSecret: string
+): Promise<TokenAPIResponse> => {
+  const payload = new URLSearchParams();
+  payload.append("grant_type", "authorization_code");
+  payload.append("code", code);
+  payload.append("redirect_uri", redirectUri);
+  payload.append("client_id", clientId);
+  payload.append("client_secret", clientSecret);
+
+  const response = await fetch("https://www.patreon.com/api/oauth2/token", {
+    method: "POST",
+    body: payload,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(
+      `Patreon token exchange failed: ${response.status} ${response.statusText}`
+    );
+  }
+
+  const tokens = (await response.json()) as TokenAPIResponse & {
+    error?: string;
+  };
+
+  if (tokens.error) {
+    throw new Error(`Patreon token exchange failed: ${tokens.error}`);
+  }
+
+  return tokens;
+};
+
 export const handleTokenAndInfoRefresh = async (
   authToken: string,
   refreshToken: string,
@@ -197,22 +239,24 @@ export const getServerSideProps: GetServerSideProps<PatreonSIProps> = async (
   context
 ) => {
   const { req, res, query } = context;
-  const code = query?.code || "";
+  // Next gives repeated query params as an array; Patreon only ever sends one code.
+  const rawCode = query?.code;
+  const code = (Array.isArray(rawCode) ? rawCode[0] : rawCode) || "";
 
   const CLIENT_ID = process.env.PATREON_CLIENT_ID || "";
   const CLIENT_SECRET = process.env.PATREON_CLIENT_SECRET || "";
   const REDIRECT_URL = `${process.env.BASE_URL || ""}/patreon-si`;
-
-  const patreonOAuthClient = patreonOAuth(CLIENT_ID, CLIENT_SECRET);
 
   let authToken = cookie.parse(req.headers.cookie || "").patreonAccessToken;
   let refreshToken = cookie.parse(req.headers.cookie || "").patreonRefreshToken;
 
   if (!authToken) {
     try {
-      const tokensResponse = await patreonOAuthClient.getTokens(
+      const tokensResponse = await exchangeCodeForTokens(
         code,
-        REDIRECT_URL
+        REDIRECT_URL,
+        CLIENT_ID,
+        CLIENT_SECRET
       );
       refreshToken = tokensResponse.refresh_token;
       authToken = tokensResponse.access_token;
